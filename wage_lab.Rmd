@@ -15,7 +15,7 @@ $$
 
 - $x_2$: labor surplus
 
-- $x_1x_2$ is the interaction term. It captures the idea that the effect of one variable depends on the level of the others. So when wage gape and labor surplus are high simultaneously, the combine effect on crisis probability is greater than their individual effects added together. The interaction term formalizes Marx's argument that structural crisis emerges not from wage depression or labor surplus independently, but from their simultaneous occurrence — consistent with the threshold mechanism described in Wage Labour and Capital.
+- $x_1x_2$ is the interaction term. It captures the idea that the effect of one variable depends on the level of the others. So when wage gap and labor surplus are high simultaneously, the combine effect on crisis probability is greater than their individual effects added together. The interaction term formalizes Marx's argument that structural crisis emerges not from wage depression or labor surplus independently, but from their simultaneous occurrence — consistent with the threshold mechanism described in Wage Labour and Capital.
 
 #### Data Generating Process
 
@@ -164,7 +164,6 @@ head(CP_w)
 ```
 
 -   The identical wage gap at $t=2$ across all societies can be explain by the identical wage gap at $t=1$. At $t=2$, CP_w looks back one period, meaning it only uses data in $t=1$.
-The following plot will explain the decreasing value of the cumulative observations as $t$ increases.
 
 ```{r}
 plot(1:T_pilot, CP_l[,1], type = "l", 
@@ -205,7 +204,7 @@ legend("topleft",
        lty = c(1, 2, 1, 1), lwd = 2)
 ```
 
-The plot below represent the Phase 2 and Phase 3 of the labor surplus from decade 10 to decade 40. The dotted line is the **logistic trend**: Phase 2 is labor surplus is below the trend, and Phase 3 is labor surplus is above the trend. 
+The plot below represent the Phase 2 and Phase 3 of the labor surplus from decade 10 to decade 40. The dotted line is the **logistic trend**: Phase 2 is the labor surplus below the trend, and Phase 3 is the labor surplus above the trend. 
 
 Phase 2 and 3 are repeated over T, each cycle leaves more residual labor surplus than the previous, then the cumulative reserve army grows (logistic trend rises), the growing labor surplus feeds to the growth rate of the wage gap equation $r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})$, and the wage gap logistic curve steepens until it reaches its inflection point $t_{0,w}$
 

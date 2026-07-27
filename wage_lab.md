@@ -15,13 +15,13 @@ $$
 - $x_2$: labor surplus
 
 - $x_1x_2$ is the interaction term. It captures the idea that the effect
-  of one variable depends on the level of the others. So when wage gape
+  of one variable depends on the level of the others. So when wage gap
   and labor surplus are high simultaneously, the combine effect on
   crisis probability is greater than their individual effects added
   together. The interaction term formalizes Marx’s argument that
   structural crisis emerges not from wage depression or labor surplus
   independently, but from their simultaneous occurrence — consistent
-  with the threshold mechanism described in Wage labor and Capital.
+  with the threshold mechanism described in Wage Labour and Capital.
 
 #### Data Generating Process
 
@@ -67,8 +67,8 @@ CP_w <- matrix(NA, nrow = T_pilot , ncol = N_pilot)
 
 #### Generate wage gap and labor surplus
 
-Labor surplus has to be generated before wage gap because the growth
-rate of the logistic trend of the wage gap depends on labor surplus
+Labor surplus has to be generated before wage gap because the *growth
+rate* of the logistic trend of the wage gap depends on labor surplus
 
 1.  Labor surplus : it represents the excess of workers relative to
     available job
@@ -114,7 +114,9 @@ head(labor_surplus)
 
 $$
 wage\_gap(t) = \frac{K_w}{1+e^{-r_w(t-t_{0,w})}}
-$$ $$
+$$ *growth rate*:
+
+$$
 r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})
 $$
 
@@ -233,8 +235,7 @@ head(CP_w)
 
 - The identical wage gap at $t=2$ across all societies can be explain by
   the identical wage gap at $t=1$. At $t=2$, CP_w looks back one period,
-  meaning it only uses data in $t=1$. The following plot will explain
-  the decreasing value of the cumulative observations as $t$ increases.
+  meaning it only uses data in $t=1$.
 
 ``` r
 plot(1:T_pilot, CP_l[,1], type = "l", 
