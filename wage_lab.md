@@ -1,6 +1,28 @@
 Wage Labour and Capital
 ================
 
+A structural crisis occurrence at decade t can be translated in a
+logistic regression with the possible output : *crisis, no crisis.*
+
+$P(crisis[t]) = logistic(z)$, with :
+
+$$
+z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
+$$
+
+- $x_1$: wage gap
+
+- $x_2$: labor surplus
+
+- $x_1x_2$ is the interaction term. It captures the idea that the effect
+  of one variable depends on the level of the others. So when wage gape
+  and labor surplus are high simultaneously, the combine effect on
+  crisis probability is greater than their individual effects added
+  together. The interaction term formalizes Marx’s argument that
+  structural crisis emerges not from wage depression or labor surplus
+  independently, but from their simultaneous occurrence — consistent
+  with the threshold mechanism described in Wage labor and Capital.
+
 #### Data Generating Process
 
 ``` r
@@ -133,6 +155,9 @@ identical for all societies, meaning that all societies start with the
 same structural conditions but diverge as the market history evolves.
 
 #### Generate cumulative wage gap and cumulative labor surplus
+
+Weights are assigned inversely to chronological distance, prioritizing
+recent events over earlier ones via an exponential decay factor.
 
 $$
 CP\_L(t) = \sum^{t-1}_{k} L_{t-k}\cdot e^{-\delta_c\cdot k}
