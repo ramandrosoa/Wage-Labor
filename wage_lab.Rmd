@@ -61,7 +61,7 @@ CP_w <- matrix(NA, nrow = T_pilot , ncol = N_pilot)
 
 
 #### Generate wage gap and labor surplus
-Labor surplus has to be generated before wage gap because the growth rate of the logistic trend of the wage gap depends on labor surplus
+Labor surplus has to be generated before wage gap because the *growth rate* of the logistic trend of the wage gap depends on labor surplus
 
 1.    Labor surplus : it represents the excess of workers relative to available job
 
@@ -93,6 +93,8 @@ head(labor_surplus)
 $$
 wage\_gap(t) = \frac{K_w}{1+e^{-r_w(t-t_{0,w})}}
 $$
+*growth rate*: 
+
 $$
 r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})
 $$
