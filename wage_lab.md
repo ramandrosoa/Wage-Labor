@@ -1,0 +1,291 @@
+Wage Labour and Capital
+================
+
+#### Data Generating Process
+
+``` r
+set.seed(123)
+```
+
+``` r
+N_pilot <- 10
+T_pilot <- 200
+```
+
+``` r
+# labor_surplus parameters
+K_l <- 1
+r_l <- .05
+t0_l  <- 50
+A <- .2
+P <- 5
+delta_l <- .43
+```
+
+``` r
+# wage_gap parameters
+K_w <- 1
+r_base <- .03
+alpha <- .5
+t0_w <- 60
+```
+
+``` r
+# decay parameter
+delta_c <- 0.43
+```
+
+``` r
+# Initialize storage
+labor_surplus <- matrix(NA, nrow = T_pilot , ncol = N_pilot)
+wage_gap <- matrix(NA, nrow = T_pilot , ncol = N_pilot)
+CP_l <- matrix(NA, nrow = T_pilot , ncol = N_pilot)
+CP_w <- matrix(NA, nrow = T_pilot , ncol = N_pilot)
+```
+
+#### Generate wage gap and labor surplus
+
+Labor surplus has to be generated before wage gap because the growth
+rate of the logistic trend of the wage gap depends on labor surplus
+
+1.  Labor surplus : it represents the excess of workers relative to
+    available job
+
+$$
+labor\_surplus (t) = \frac{K_l}{1+e^{-r_l(t-t_{0,l})}} + A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P} + \epsilon
+$$
+
+``` r
+for (n in 1:N_pilot) {
+  for (t in 1:T_pilot) {
+    
+    logistic_trend <- K_l/(1+exp(-r_l*(t-t0_l)))
+    oscillation <- A * exp(-delta_l*t) * sin((2*t*pi)/P)
+    epsilon <- rnorm(1, mean = 0, sd = .02)
+    
+    labor_surplus[t, n] <- logistic_trend + oscillation + epsilon
+  }
+}
+```
+
+``` r
+head(labor_surplus)
+```
+
+    ##            [,1]       [,2]       [,3]       [,4]       [,5]       [,6]
+    ## [1,] 0.19196322 0.24714894 0.20170161 0.22465298 0.21029840 0.18325676
+    ## [2,] 0.12831483 0.15916664 0.10954535 0.13237144 0.11975818 0.11211928
+    ## [3,] 0.08587992 0.04940285 0.04201079 0.05403914 0.07180980 0.05434615
+    ## [4,] 0.05847272 0.06792644 0.05648572 0.02674120 0.08012128 0.05441905
+    ## [5,] 0.09793522 0.08706267 0.10876338 0.11115717 0.10087496 0.04436261
+    ## [6,] 0.14846486 0.10463862 0.08115263 0.10994888 0.11704565 0.13497503
+    ##            [,7]       [,8]       [,9]      [,10]
+    ## [1,] 0.21556973 0.18145037 0.19739227 0.17738545
+    ## [2,] 0.11776818 0.11961233 0.14604865 0.11982701
+    ## [3,] 0.07173624 0.06900272 0.04562580 0.05355927
+    ## [4,] 0.04210396 0.04842933 0.04518526 0.08219751
+    ## [5,] 0.10795426 0.09990176 0.06114187 0.12709855
+    ## [6,] 0.13609679 0.14006248 0.10997459 0.12055319
+
+2.  Wage gap : it measures the distance between the wage and the
+    subsistence cost.
+
+$$
+wage\_gap(t) = \frac{K_w}{1+e^{-r_w(t-t_{0,w})}}
+$$ $$
+r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})
+$$
+
+``` r
+for (n in 1:N_pilot) {
+  for (t in 1:T_pilot) {
+    
+    if (t == 1) {r_w <- r_base} else {r_w <- r_base + alpha*(labor_surplus[t-1, n])}
+    
+    wage_gap[t,n]<- K_w/(1+exp(-r_w*(t-t0_w)))
+  }
+}
+```
+
+``` r
+head(wage_gap)
+```
+
+    ##              [,1]        [,2]         [,3]         [,4]         [,5]
+    ## [1,] 0.1455423289 0.145542329 0.1455423289 0.1455423289 0.1455423289
+    ## [2,] 0.0006704215 0.000135376 0.0005055557 0.0002599045 0.0003940441
+    ## [3,] 0.0046465507 0.001933961 0.0079072025 0.0041413392 0.0059221964
+    ## [4,] 0.0165507000 0.044647597 0.0543564714 0.0394263593 0.0243475722
+    ## [5,] 0.0370404840 0.028805036 0.0390395722 0.0842941217 0.0207684077
+    ## [6,] 0.0138673882 0.018511248 0.0103885169 0.0097446576 0.0128228115
+    ##             [,6]         [,7]         [,8]         [,9]       [,10]
+    ## [1,] 0.145542329 0.1455423289 0.1455423289 0.1455423289 0.145542329
+    ## [2,] 0.000862816 0.0003382043 0.0009091775 0.0005728145 0.001022810
+    ## [3,] 0.007352031 0.0062656155 0.0059467181 0.0028082360 0.005910659
+    ## [4,] 0.039102096 0.0243965410 0.0262861289 0.0493821876 0.039938387
+    ## [5,] 0.041228463 0.0569009758 0.0482545875 0.0525208464 0.019638459
+    ## [6,] 0.056370350 0.0106155291 0.0131597191 0.0365855432 0.006358015
+
+The logistic formula of the wage gap is deterministic given the growth
+rate $r_w$ and the time $t$. At $t=1$, $r_w = r_{base}$ because there is
+no labor surplus before $t=1$. Therefore, the wage gap at $t=1$ is
+identical for all societies, meaning that all societies start with the
+same structural conditions but diverge as the market history evolves.
+
+#### Generate cumulative wage gap and cumulative labor surplus
+
+$$
+CP\_L(t) = \sum^{t-1}_{k} L_{t-k}\cdot e^{-\delta_c\cdot k}
+$$
+
+$$
+CP\_W(t) = \sum^{t-1}_{k} W_{t-k}\cdot e^{-\delta_c\cdot k}
+$$
+
+``` r
+for (n in 1:N_pilot){
+  for (t in 1:T_pilot){
+    
+    # cumulative pressure is only meaningful at t=2
+    if (t==1){
+      CP_l[t, n] <- 0
+      CP_w[t, n] <- 0
+    }
+    else {
+      
+      cpsum_l <- 0
+      cpsum_w <- 0
+      
+      for (k in 1:(t-1)){
+        cpsum_l <- cpsum_l + labor_surplus[t-k, n] * exp(-delta_c*k)
+        cpsum_w <- cpsum_w + wage_gap[t-k, n] * exp(-delta_c*k)
+      }
+      
+      CP_l[t, n] <- cpsum_l
+      CP_w[t, n] <- cpsum_w
+    }
+  }
+  }
+```
+
+``` r
+head(CP_l)
+```
+
+    ##           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]
+    ## [1,] 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
+    ## [2,] 0.1248738 0.1607726 0.1312087 0.1461388 0.1368010 0.1192102 0.1402301
+    ## [3,] 0.1647015 0.2081234 0.1566127 0.1811734 0.1668941 0.1504819 0.1678302
+    ## [4,] 0.1630055 0.1675232 0.1292064 0.1530079 0.1552791 0.1332425 0.1558402
+    ## [5,] 0.1440736 0.1531621 0.1207944 0.1169284 0.1531301 0.1220756 0.1287644
+    ## [6,] 0.1574289 0.1562684 0.1493294 0.1483718 0.1652326 0.1082695 0.1539877
+    ##           [,8]      [,9]     [,10]
+    ## [1,] 0.0000000 0.0000000 0.0000000
+    ## [2,] 0.1180351 0.1284055 0.1153908
+    ## [3,] 0.1545918 0.1785349 0.1530114
+    ## [4,] 0.1454503 0.1458186 0.1343761
+    ## [5,] 0.1261205 0.1242497 0.1408831
+    ## [6,] 0.1470295 0.1205989 0.1743245
+
+``` r
+head(CP_w)
+```
+
+    ##            [,1]       [,2]       [,3]       [,4]       [,5]       [,6]
+    ## [1,] 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
+    ## [2,] 0.09467661 0.09467661 0.09467661 0.09467661 0.09467661 0.09467661
+    ## [3,] 0.06202411 0.06167606 0.06191686 0.06175707 0.06184432 0.06214926
+    ## [4,] 0.04336987 0.04137890 0.04542119 0.04286751 0.04408274 0.04521122
+    ## [5,] 0.03897888 0.05596102 0.06490628 0.05353291 0.04451454 0.05484658
+    ## [6,] 0.04945129 0.05514109 0.06761772 0.08965774 0.04246715 0.06249769
+    ##            [,7]       [,8]       [,9]      [,10]
+    ## [1,] 0.00000000 0.00000000 0.00000000 0.00000000
+    ## [2,] 0.09467661 0.09467661 0.09467661 0.09467661
+    ## [3,] 0.06180800 0.06217942 0.06196062 0.06225334
+    ## [4,] 0.04428251 0.04431667 0.04213273 0.04434130
+    ## [5,] 0.04467634 0.04592777 0.05953128 0.05482470
+    ## [6,] 0.06607697 0.06126648 0.07289093 0.04843897
+
+- The identical wage gap at $t=2$ across all societies can be explain by
+  the identical wage gap at $t=1$. At $t=2$, CP_w looks back one period,
+  meaning it only uses data in $t=1$. The following plot will explain
+  the decreasing value of the cumulative observations as $t$ increases.
+
+``` r
+plot(1:T_pilot, CP_l[,1], type = "l", 
+     xlab = "decades", ylab = "Cumulative pressure",
+     main = "cumulative labor surplus and wage gap for society 1")
+lines(1:T_pilot, CP_w[,1],col ="red")
+legend("topleft", legend = c("CP_l", "CP_w"), col = c("black", "red"), lty = 1)
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+**Phases of the labor surplus:**
+
+“Wages will now rise, now fall,according to the relation of supply and
+demand, according as competition shapes itself between the buyers of
+labour-power, the capitalists, and the sellers of labour-power, the
+workers.”
+
+- *Phase 1: * Labor surplus is small and pre-inflection, driven by the
+  logistic trend near zero plus random noise $\epsilon$. This represents
+  the early **reserve army of labor** described by Marx — present but
+  not yet structurally significant.
+
+- *Phase 2: * New sectors emerge, temporarily increasing labor demand
+  and absorbing surplus workers, which keeps the wage gap low. This is
+  represented by the dampened oscillation:
+  $A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P}$ , when
+  $sin\frac{2t\pi}{P}$ is negative: the oscillation pulls labor surplus
+  below the trend.
+
+- *Phase 3: * Labor surplus increases during the accumulation phase.
+  During this phase, new technologies emerges and the capital grows.
+  This leads to overproduction: more products in the market, the price
+  falls, the profits collapse and profits collapse and workers are
+  displaced by new technologies, swelling the reserve army. This is
+  captured by $A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P}$ , when
+  $sin\frac{2t\pi}{P}$ is positive: the oscillation pushes above the
+  trend. With each peak higher than the last as the logistic trend rises
+  underneath.
+
+``` r
+n <- 40
+trend_l <- K_l / (1 + exp(-r_l * (10:n - t0_l)))
+
+# Main plot
+plot(10:n, labor_surplus[10:n, 1], type = "n",
+     xlab = "Decades", ylab = "Labor Surplus",
+     main = "Labour Surplus with Logistic Trend - Society 1")
+
+
+# Add lines on top of shading
+lines(10:n, labor_surplus[10:n, 1], col = "#00070d", lwd = 1.5)
+lines(10:n, trend_l, col = "#E24B4A", lty = 2, lwd = 2)
+
+# Legend
+legend("topleft",
+       legend = c("Labor surplus", "Logistic trend"),
+       col = c("#00070d", "#E24B4A"),
+       lty = c(1, 2, 1, 1), lwd = 2)
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+The plot below represent the Phase 2 and Phase 3 of the labor surplus
+from decade 10 to decade 40. The dotted line is the **logistic trend**:
+Phase 2 is labor surplus is below the trend, and Phase 3 is labor
+surplus is above the trend.
+
+Phase 2 and 3 are repeated over T, each cycle leaves more residual labor
+surplus than the previous, then the cumulative reserve army grows
+(logistic trend rises), the growing labor surplus feeds to the growth
+rate of the wage gap equation
+$r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})$, and the wage gap
+logistic curve steepens until it reaches its inflection point $t_{0,w}$
+
+From Phase 3 to Phase 2, there is a recovery, when new sectors appear
+(increase of the labor supply). But each cycle (Phase 2 + Phase 3 +
+Recovery ) shows in amplitude and period. These differences are
+explained by the **anarchic movement of the capital**:
