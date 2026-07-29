@@ -10,7 +10,7 @@ This simulation is structured around two independent variables : **wage gap** an
 
 To determine the sample size, we used the 10 Events Per Variable (EPV) rule of thumb for logistic regression and we observed N societies over T decades. But two methodological challenges must be addressed. First, the determination of N and T depends on the **crisis probability and the autocorrelation structure of the cumulative pressure variables.** Second, the cumulative pressure terms exhibit an **ARMA (1,q)** autocorrelation structure, making analytical derivation of the effective sample size (ESS) inappropriate. For these reasons, we proceed in two stages: **a pilot simulation** with provisional parameters to empirically estimate the autocorrelation structure, followed by the **full simulation** with final N and T derived from both the empirical autocorrelation estimate and the sensitivity analysis on crisis probability.
 
-##### The Variables : 
+#### The Variables : 
 
 A structural crisis occurrence at decade t can be translated in a logistic regression with the possible output : *crisis, no crisis.*
 

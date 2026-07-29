@@ -30,7 +30,7 @@ empirically estimate the autocorrelation structure, followed by the
 autocorrelation estimate and the sensitivity analysis on crisis
 probability.
 
-##### The dependent variable :
+#### The Variables :
 
 A structural crisis occurrence at decade t can be translated in a
 logistic regression with the possible output : *crisis, no crisis.*
