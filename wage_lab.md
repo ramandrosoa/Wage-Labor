@@ -1,19 +1,34 @@
 Wage Labour and Capital
 ================
 
-In this project, the theoretical frame work of Marx’s Wage Labour and
-Capital is translated into a mathematical model. To ensure that the
+In this project, we translated the theoretical framework of Marx’s Wage
+Labour and Capital into a mathematical model. To ensure that the
 variables behave according to the theoretical mechanisms describes in
 the literature, rather than being confounded by the complexity of real
 historical processes, we rely on synthetic data rather than empirical
 historical data. This allow us to control the data generating process
 precisely.
 
-This simulation is structured around two independent variables : wage
-gap and labor surplus whose dynamics are governed by theoretically
+This simulation is structured around two independent variables : **wage
+gap** and **labor surplus** whose dynamics are governed by theoretically
 motivated equations developed in the following sections. These variables
-feed into cumulative pressure terms, which in turn predict the
-probability of structural crisis through a logistic regression model.
+feed into **cumulative pressure terms** ($CP_w$, $CP_l$), which in turn
+predict the probability of **structural crisis** through a logistic
+regression model.
+
+To determine the sample size, we used the 10 Events Per Variable (EPV)
+rule of thumb for logistic regression and we observed N societies over T
+decades. But two methodological challenges must be addressed. First, the
+determination of N and T depends on the **crisis probability and the
+autocorrelation structure of the cumulative pressure variables.**
+Second, the cumulative pressure terms exhibit an **ARMA (1,q)**
+autocorrelation structure, making analytical derivation of the effective
+sample size (ESS) inappropriate. For these reasons, we proceed in two
+stages: **a pilot simulation** with provisional parameters to
+empirically estimate the autocorrelation structure, followed by the
+**full simulation** with final N and T derived from both the empirical
+autocorrelation estimate and the sensitivity analysis on crisis
+probability.
 
 ##### The dependent variable :
 
@@ -42,8 +57,6 @@ $$
   with the threshold mechanism described in Wage Labour and Capital.
 
 #### Data Generating Process
-
-We have N societies each observed over T decades.
 
 ``` r
 set.seed(123)
