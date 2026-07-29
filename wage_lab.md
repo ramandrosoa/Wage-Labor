@@ -1,6 +1,22 @@
 Wage Labour and Capital
 ================
 
+In this project, the theoretical frame work of Marx’s Wage Labour and
+Capital is translated into a mathematical model. To ensure that the
+variables behave according to the theoretical mechanisms describes in
+the literature, rather than being confounded by the complexity of real
+historical processes, we rely on synthetic data rather than empirical
+historical data. This allow us to control the data generating process
+precisely.
+
+This simulation is structured around two independent variables : wage
+gap and labor surplus whose dynamics are governed by theoretically
+motivated equations developed in the following sections. These variables
+feed into cumulative pressure terms, which in turn predict the
+probability of structural crisis through a logistic regression model.
+
+##### The dependent variable :
+
 A structural crisis occurrence at decade t can be translated in a
 logistic regression with the possible output : *crisis, no crisis.*
 
@@ -10,9 +26,11 @@ $$
 z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
 $$
 
-- $x_1$: wage gap
+- $x_1$: The wage gap measures the distance between the wage and the
+  subsistence cost.
 
-- $x_2$: labor surplus
+- $x_2$: The labor surplus is the excess of workers relative to
+  available job
 
 - $x_1x_2$ is the interaction term. It captures the idea that the effect
   of one variable depends on the level of the others. So when wage gap
@@ -24,6 +42,8 @@ $$
   with the threshold mechanism described in Wage Labour and Capital.
 
 #### Data Generating Process
+
+We have N societies each observed over T decades.
 
 ``` r
 set.seed(123)
