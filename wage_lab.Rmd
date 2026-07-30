@@ -8,7 +8,9 @@ To ensure that the variables behave according to the theoretical mechanisms desc
 
 This simulation is structured around two independent variables : **wage gap** and **labor surplus** whose dynamics are governed by theoretically motivated equations developed in the following sections. These variables feed into **cumulative pressure terms** ($CP_w$, $CP_l$), which in turn predict the probability of **structural crisis** through a logistic regression model.
 
-To determine the sample size, we used the 10 Events Per Variable (EPV) rule of thumb for logistic regression and we observed N societies over T decades. But two methodological challenges must be addressed. First, the determination of N and T depends on the **crisis probability and the autocorrelation structure of the cumulative pressure variables.** Second, the cumulative pressure terms exhibit an **ARMA (1,q)** autocorrelation structure, making analytical derivation of the effective sample size (ESS) inappropriate. For these reasons, we proceed in two stages: **a pilot simulation** with provisional parameters to empirically estimate the autocorrelation structure, followed by the **full simulation** with final N and T derived from both the empirical autocorrelation estimate and the sensitivity analysis on crisis probability.
+To determine the sample size, we used the 10 events per variable (EPV) rule of thumb for logistic regression and we observed N societies over T decades. But two methodological challenges must be addressed. First, the determination of N and T depends on the **crisis probability and the autocorrelation structure of the cumulative pressure variables.** Second, the cumulative pressure terms exhibit an **ARMA (1,q)** autocorrelation structure, making analytical derivation of the effective sample size (ESS) inappropriate. For these reasons, we proceed in two stages: a pilot simulation with provisional parameters to empirically **estimate the autocorrelation structure**, followed by the full simulation with final **N and T derived from both the empirical autocorrelation estimate and the sensitivity analysis on crisis probability.**
+
+Natural order : estimation of the empirical autocorrelation from the pilot, derive T with the effective sample size (ESS) and N with the events per variable (EPV).
 
 #### The Variables : 
 
@@ -26,7 +28,7 @@ $$
 
 - $x_1x_2$ is the interaction term. It captures the idea that the effect of one variable depends on the level of the others. So when wage gap and labor surplus are high simultaneously, the combine effect on crisis probability is greater than their individual effects added together. The interaction term formalizes Marx's argument that structural crisis emerges not from wage depression or labor surplus independently, but from their simultaneous occurrence — consistent with the threshold mechanism described in Wage Labour and Capital.
 
-#### Data Generating Process
+#### Data Generating Process 
 
 ```{r}
 set.seed(123)
@@ -217,4 +219,45 @@ The plot below represent the Phase 2 and Phase 3 of the labor surplus from decad
 
 Phase 2 and 3 are repeated over T, each cycle leaves more residual labor surplus than the previous, then the cumulative reserve army grows (logistic trend rises), the growing labor surplus feeds to the growth rate of the wage gap equation $r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})$, and the wage gap logistic curve steepens until it reaches its inflection point $t_{0,w}$
 
-From Phase 3 to Phase 2, there is a recovery, when new sectors appear (increase of the labor supply). But each cycle (Phase 2 + Phase 3 + Recovery ) shows in amplitude and period. These differences are explained by the **anarchic movement of the capital** 
+From Phase 3 to Phase 2, there is a recovery, when new sectors appear (increase of the labor supply). But each cycle (Phase 2 + Phase 3 + Recovery ) shows in amplitude and period. These differences are explained by the **anarchic movement of the capital**
+
+#### Estimation of the Autocorrelation Structure
+
+The cumulative pressure series $CP_l$ and $CP_w$ is stochastic. Each society has different $\epsilon$ draws, different oscillation realizations. The ACF from one society will reflect that society's specific noise realization, not the underlying process structure. We will average the ACF across multiple societies from the inflection point***.
+
+**Labor surplus**
+ 
+```{r}
+lag_max_l <- 20 
+acf_matrix_l <- matrix(NA, nrow = lag_max_l , ncol = N_pilot)
+
+for (s in 1:N_pilot) {
+  cps_l <- CP_l[t0_l:N_pilot, s]
+  acf_matrix_l [,s] <- acf(cps_l,
+                    lag.max = lag_max_l,
+                    plot = FALSE)$acf[-1]  
+}
+
+acf_avg_l <- rowMeans(acf_matrix_l)
+
+```
+
+**Wage gap**
+
+```{r}
+lag_max_w <- 20 
+acf_matrix_w <- matrix(NA, nrow = lag_max_w , ncol = N_pilot)
+
+for (s in 1:N_pilot) {
+  cps_w <- CP_w[t0_w:N_pilot, s]
+  acf_matrix_w [,s] <- acf(cps_w,
+                    lag.max = lag_max_w,
+                    plot = FALSE)$acf[-1]  
+}
+
+acf_avg_w <- rowMeans(acf_matrix_w)
+
+```
+
+
+

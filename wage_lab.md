@@ -16,7 +16,7 @@ feed into **cumulative pressure terms** ($CP_w$, $CP_l$), which in turn
 predict the probability of **structural crisis** through a logistic
 regression model.
 
-To determine the sample size, we used the 10 Events Per Variable (EPV)
+To determine the sample size, we used the 10 events per variable (EPV)
 rule of thumb for logistic regression and we observed N societies over T
 decades. But two methodological challenges must be addressed. First, the
 determination of N and T depends on the **crisis probability and the
@@ -24,11 +24,15 @@ autocorrelation structure of the cumulative pressure variables.**
 Second, the cumulative pressure terms exhibit an **ARMA (1,q)**
 autocorrelation structure, making analytical derivation of the effective
 sample size (ESS) inappropriate. For these reasons, we proceed in two
-stages: **a pilot simulation** with provisional parameters to
-empirically estimate the autocorrelation structure, followed by the
-**full simulation** with final N and T derived from both the empirical
+stages: a pilot simulation with provisional parameters to empirically
+**estimate the autocorrelation structure**, followed by the full
+simulation with final **N and T derived from both the empirical
 autocorrelation estimate and the sensitivity analysis on crisis
-probability.
+probability.**
+
+Natural order : estimation of the empirical autocorrelation from the
+pilot, derive T with the effective sample size (ESS) and N with the
+events per variable (EPV).
 
 #### The Variables :
 
@@ -348,4 +352,45 @@ logistic curve steepens until it reaches its inflection point $t_{0,w}$
 From Phase 3 to Phase 2, there is a recovery, when new sectors appear
 (increase of the labor supply). But each cycle (Phase 2 + Phase 3 +
 Recovery ) shows in amplitude and period. These differences are
-explained by the **anarchic movement of the capital**:
+explained by the **anarchic movement of the capital**
+
+#### Estimation of the Autocorrelation Structure
+
+The cumulative pressure series $CP_l$ and $CP_w$ is stochastic. Each
+society has different $\epsilon$ draws, different oscillation
+realizations. The ACF from one society will reflect that society’s
+specific noise realization, not the underlying process structure. We
+will average the ACF across multiple societies from the inflection
+point\*\*\*.
+
+**Labor surplus**
+
+``` r
+lag_max_l <- 20 
+acf_matrix_l <- matrix(NA, nrow = lag_max_l , ncol = N_pilot)
+
+for (s in 1:N_pilot) {
+  cps_l <- CP_l[t0_l:N_pilot, s]
+  acf_matrix_l [,s] <- acf(cps_l,
+                    lag.max = lag_max_l,
+                    plot = FALSE)$acf[-1]  
+}
+
+acf_avg_l <- rowMeans(acf_matrix_l)
+```
+
+**Wage gap**
+
+``` r
+lag_max_w <- 20 
+acf_matrix_w <- matrix(NA, nrow = lag_max_w , ncol = N_pilot)
+
+for (s in 1:N_pilot) {
+  cps_w <- CP_w[t0_w:N_pilot, s]
+  acf_matrix_w [,s] <- acf(cps_w,
+                    lag.max = lag_max_w,
+                    plot = FALSE)$acf[-1]  
+}
+
+acf_avg_w <- rowMeans(acf_matrix_w)
+```
