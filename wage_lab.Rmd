@@ -217,7 +217,7 @@ legend("topleft",
 
 The plot below represent the Phase 2 and Phase 3 of the labor surplus from decade 10 to decade 40. The dotted line is the **logistic trend**: Phase 2 is the labor surplus below the trend, and Phase 3 is the labor surplus above the trend. 
 
-Phase 2 and 3 are repeated over T, each cycle leaves more residual labor surplus than the previous, then the cumulative reserve army grows (logistic trend rises), the growing labor surplus feeds to the growth rate of the wage gap equation $r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})$, and the wage gap logistic curve steepens until it reaches its inflection point $t_{0,w}$
+Phase 2 and 3 are repeated over T, each cycle leaves more residual labor surplus than the previous, then the cumulative reserve army grows (logistic trend rises), the growing labor surplus feeds to the growth rate of the wage gap equation $r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})$, and the wage gap logistic curve steepens until it reaches its inflection point $t_{0,w}$.
 
 A recovery occurs during the transition from Phase 3 to Phase 2, prompted by the emergence of new sectors and a corresponding expansion of the labor supply. Nevertheless, successive cycles (Phase 2, Phase 3, and recovery) exhibit heterogeneity in their amplitude and periodicity. This variance stems fundamentally from the **anarchic movement of capital.**
 

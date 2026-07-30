@@ -349,10 +349,12 @@ rate of the wage gap equation
 $r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})$, and the wage gap
 logistic curve steepens until it reaches its inflection point $t_{0,w}$
 
-From Phase 3 to Phase 2, there is a recovery, when new sectors appear
-(increase of the labor supply). But each cycle (Phase 2 + Phase 3 +
-Recovery ) shows in amplitude and period. These differences are
-explained by the **anarchic movement of the capital**
+A recovery occurs during the transition from Phase 3 to Phase 2,
+prompted by the emergence of new sectors and a corresponding expansion
+of the labor supply. Nevertheless, successive cycles (Phase 2, Phase 3,
+and recovery) exhibit heterogeneity in their amplitude and periodicity.
+This variance stems fundamentally from the **anarchic movement of
+capital.**
 
 #### Estimation of the Autocorrelation Structure
 
