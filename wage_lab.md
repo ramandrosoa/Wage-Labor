@@ -360,8 +360,8 @@ The cumulative pressure series $CP_l$ and $CP_w$ is stochastic. Each
 society has different $\epsilon$ draws, different oscillation
 realizations. The ACF from one society will reflect that society’s
 specific noise realization, not the underlying process structure. We
-will average the ACF across multiple societies from the inflection
-point\*\*\*.
+will average the ACF across multiple societies from the inflection point
+$t_{0,w}$ and $t_{0,l}$.
 
 **Labor surplus**
 
