@@ -235,7 +235,7 @@ for (s in 1:N_pilot) {
   cps_l <- CP_l[t0_l:N_pilot, s]
   acf_matrix_l [,s] <- acf(cps_l,
                     lag.max = lag_max_l,
-                    plot = FALSE)$acf[-1]  
+                    plot = FALSE)$acf[-1]  # remove lag-0 (always 1)
 }
 
 acf_avg_l <- rowMeans(acf_matrix_l)
@@ -252,7 +252,7 @@ for (s in 1:N_pilot) {
   cps_w <- CP_w[t0_w:N_pilot, s]
   acf_matrix_w [,s] <- acf(cps_w,
                     lag.max = lag_max_w,
-                    plot = FALSE)$acf[-1]  
+                    plot = FALSE)$acf[-1]  # remove lag-0 (always 1)
 }
 
 acf_avg_w <- rowMeans(acf_matrix_w)

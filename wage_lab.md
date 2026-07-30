@@ -347,7 +347,7 @@ surplus than the previous, then the cumulative reserve army grows
 (logistic trend rises), the growing labor surplus feeds to the growth
 rate of the wage gap equation
 $r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})$, and the wage gap
-logistic curve steepens until it reaches its inflection point $t_{0,w}$
+logistic curve steepens until it reaches its inflection point $t_{0,w}$.
 
 A recovery occurs during the transition from Phase 3 to Phase 2,
 prompted by the emergence of new sectors and a corresponding expansion
@@ -375,7 +375,7 @@ for (s in 1:N_pilot) {
   cps_l <- CP_l[t0_l:N_pilot, s]
   acf_matrix_l [,s] <- acf(cps_l,
                     lag.max = lag_max_l,
-                    plot = FALSE)$acf[-1]  
+                    plot = FALSE)$acf[-1]  # remove lag-0 (always 1)
 }
 
 acf_avg_l <- rowMeans(acf_matrix_l)
@@ -391,7 +391,7 @@ for (s in 1:N_pilot) {
   cps_w <- CP_w[t0_w:N_pilot, s]
   acf_matrix_w [,s] <- acf(cps_w,
                     lag.max = lag_max_w,
-                    plot = FALSE)$acf[-1]  
+                    plot = FALSE)$acf[-1]  # remove lag-0 (always 1)
 }
 
 acf_avg_w <- rowMeans(acf_matrix_w)
