@@ -14,7 +14,6 @@ To determine the sample size, we used the 10 Events Per Variable (EPV) rule of t
 
 A structural crisis occurrence at decade t can be translated in a logistic regression with the possible output : *crisis, no crisis.*
 
-
 $P(crisis[t]) = logistic(z)$, with :
 
 $$
@@ -218,4 +217,4 @@ The plot below represent the Phase 2 and Phase 3 of the labor surplus from decad
 
 Phase 2 and 3 are repeated over T, each cycle leaves more residual labor surplus than the previous, then the cumulative reserve army grows (logistic trend rises), the growing labor surplus feeds to the growth rate of the wage gap equation $r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})$, and the wage gap logistic curve steepens until it reaches its inflection point $t_{0,w}$
 
-From Phase 3 to Phase 2, there is a recovery, when new sectors appear (increase of the labor supply). But each cycle (Phase 2 + Phase 3 + Recovery ) shows in amplitude and period. These differences are explained by the **anarchic movement of the capital**: 
+From Phase 3 to Phase 2, there is a recovery, when new sectors appear (increase of the labor supply). But each cycle (Phase 2 + Phase 3 + Recovery ) shows in amplitude and period. These differences are explained by the **anarchic movement of the capital** 
