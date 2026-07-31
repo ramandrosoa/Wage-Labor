@@ -423,3 +423,23 @@ $$
 - $\rho$ is the autocorrelation structure.
 
 **Labor surplus**
+
+``` r
+Tl_eff <- 1/(1+2*sum(acf_avg_l))
+Tl_obs <- T_pilot - t0_l
+cat("Average T_effective for labor surplus :",
+    round(Tl_eff * Tl_obs, 3), "\n")
+```
+
+    ## Average T_effective for labor surplus : 11.921
+
+**Wage gap**
+
+``` r
+Tw_eff <- 1/(1+2*sum(acf_avg_w))
+Tw_obs <- T_pilot - t0_w
+cat("Average T_effective for wage gap :",
+    round(Tw_eff * Tw_obs, 3), "\n")
+```
+
+    ## Average T_effective for wage gap : 20.559
