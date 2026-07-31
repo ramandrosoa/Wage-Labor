@@ -60,6 +60,12 @@ $$
   independently, but from their simultaneous occurrence — consistent
   with the threshold mechanism described in Wage Labour and Capital.
 
+Following the Events Per Variable rule, which recommends a minimum of 10
+observed events per predictor to ensure reliable parameter estimation in
+logistic regression, and given that our model contains 3 variables
+($x_1$, $x_2$, $x_1x_2$), the minimum number of expected crisis events
+is 3×10=30
+
 #### Data Generating Process
 
 ``` r
@@ -422,27 +428,58 @@ $$
   observations after accounting for autocorrelation
 - $\rho$ is the autocorrelation structure.
 
-**Labor surplus**
-
 ``` r
+# Labor surplus
 Tl_obs <- T_pilot - round(t0_l)
 Tl_eff <- Tl_obs/(1+2*sum(acf_avg_l))
-cat("Average T_effective for labor surplus :",
+
+# Wage gap
+Tw_obs <- T_pilot - round(t0_w)
+Tw_eff <- Tw_obs/(1+2*sum(acf_avg_w))
+
+ratio_w <- Tw_eff/Tw_obs
+ratio_l <- Tl_eff/Tl_obs
+
+cat("Effective sample size — labor surplus:",
     round(Tl_eff, 3), "\n")
 ```
 
-    ## Average T_effective for labor surplus : 11.921
-
-**Wage gap**
+    ## Effective sample size — labor surplus: 11.921
 
 ``` r
-Tw_obs <- T_pilot - round(t0_w)
-Tw_eff <- Tw_obs/(1+2*sum(acf_avg_w))
-cat("Average T_effective for wage gap :",
+cat("Effective sample size — wage gap:",
     round(Tw_eff, 3), "\n")
 ```
 
-    ## Average T_effective for wage gap : 20.559
+    ## Effective sample size — wage gap: 20.559
+
+``` r
+cat("Efficiency ratio (T_eff/T_usable) — wage gap:", 
+    round(ratio_w, 3), "\n")
+```
+
+    ## Efficiency ratio (T_eff/T_usable) — wage gap: 0.147
+
+``` r
+cat("Efficiency ratio (T_eff/T_usable) — labor surplus:", 
+    round(ratio_l, 3), "\n")
+```
+
+    ## Efficiency ratio (T_eff/T_usable) — labor surplus: 0.079
+
+``` r
+cat("Usable decades for labor surplus (T_usable):" ,
+    round(Tl_eff/ratio_l, 3), "\n")
+```
+
+    ## Usable decades for labor surplus (T_usable): 150
+
+``` r
+cat("Usable decades for wage gap (T_usable):" ,
+    round(Tw_eff/ratio_w, 3))
+```
+
+    ## Usable decades for wage gap (T_usable): 140
 
 The effective sample size represents the number of **independent,
 non-redundant and unique** observations contained in a correlated time
@@ -452,26 +489,3 @@ follows a smoother trajectory. Consequently, $Tl_{eff}$ \< $Tw_{eff}$ is
 theorically expected, as the oscillatory component introduces cyclical
 dependence that reduces the effetive information content of $CP\_L$
 relative to $CP\_W$.
-
-``` r
-ratio_w <- Tw_eff/Tw_obs
-ratio_l <- Tl_eff/Tl_obs
-
-cat("The ratio T_effective and T_observerd of wage gap :", 
-    round(ratio_w, 3), "\n")
-```
-
-    ## The ratio T_effective and T_observerd of wage gap : 0.147
-
-``` r
-cat("The ratio T_effective and T_observerd of labor surplus :", 
-    round(ratio_l, 3))
-```
-
-    ## The ratio T_effective and T_observerd of labor surplus : 0.079
-
-The ratio represents the fraction of raw observations that are truly
-independent. A low $T_eff$ signals high redundancy in the time series,
-meaning that $a larger number of societies N$ must compensate for the
-loss of independent information within each society’s observation
-window.
