@@ -16,10 +16,10 @@ feed into **cumulative pressure terms** ($CP_w$, $CP_l$), which in turn
 predict the probability of **structural crisis** through a logistic
 regression model.
 
-To determine the sample size, we used the 10 events per variable (EPV)
-rule of thumb for logistic regression and we observed N societies over T
-decades. But two methodological challenges must be addressed. First, the
-determination of N and T depends on the **crisis probability and the
+We observed N societies over T decades. To determine the sample size, we
+used the 10 events per variable (EPV) rule of thumb for logistic
+regression. But two methodological challenges must be addressed. First,
+the determination of N and T depends on the **crisis probability and the
 autocorrelation structure of the cumulative pressure variables.**
 Second, the cumulative pressure terms exhibit an **ARMA (1,q)**
 autocorrelation structure, making analytical derivation of the effective
@@ -362,8 +362,8 @@ The cumulative pressure series $CP_l$ and $CP_w$ is stochastic. Each
 society has different $\epsilon$ draws, different oscillation
 realizations. The ACF from one society will reflect that society’s
 specific noise realization, not the underlying process structure. We
-will average the ACF across multiple societies from the inflection point
-$t_{0,w}$ and $t_{0,l}$.
+will average the ACF of $CP_l$ and $CP_w$ across all societies from the
+inflection point $t_{0,w}$ and $t_{0,l}$.
 
 **Labor surplus**
 
@@ -396,3 +396,20 @@ for (s in 1:N_pilot) {
 
 acf_avg_w <- rowMeans(acf_matrix_w)
 ```
+
+#### Derive T from the effective sample size (ESS)
+
+In time series data, observations are not independent — each period
+carries information from previous ones. The effective sample size T_eff
+allows us to measure the **true amount of independent information** in
+the raw sample T when observations are correlated.
+
+$$
+T_{eff} = \frac{T}{1+2\sum^{\infty}_{k=1}\rho(k)}
+$$
+
+- $T$ is T_pilot, the raw sample size, the total number of observed
+  periods.
+- $T_{eff}$ is the ESS — the equivalent number of independent
+  observations after accounting for autocorrelation
+- $\rho$ is the autocorrelation structure.
