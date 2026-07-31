@@ -425,10 +425,10 @@ $$
 **Labor surplus**
 
 ``` r
-Tl_eff <- 1/(1+2*sum(acf_avg_l))
-Tl_obs <- T_pilot - t0_l
+Tl_obs <- T_pilot - round(t0_l)
+Tl_eff <- Tl_obs/(1+2*sum(acf_avg_l))
 cat("Average T_effective for labor surplus :",
-    round(Tl_eff * Tl_obs, 3), "\n")
+    round(Tl_eff, 3), "\n")
 ```
 
     ## Average T_effective for labor surplus : 11.921
@@ -436,10 +436,42 @@ cat("Average T_effective for labor surplus :",
 **Wage gap**
 
 ``` r
-Tw_eff <- 1/(1+2*sum(acf_avg_w))
-Tw_obs <- T_pilot - t0_w
+Tw_obs <- T_pilot - round(t0_w)
+Tw_eff <- Tw_obs/(1+2*sum(acf_avg_w))
 cat("Average T_effective for wage gap :",
-    round(Tw_eff * Tw_obs, 3), "\n")
+    round(Tw_eff, 3), "\n")
 ```
 
     ## Average T_effective for wage gap : 20.559
+
+The effective sample size represents the number of **independent,
+non-redundant and unique** observations contained in a correlated time
+series. Given the dampened oscillations in labor surplus, the cumulative
+pressure $CP\_L$ carries additional autocorrelation than $CP\_W$, which
+follows a smoother trajectory. Consequently, $Tl_{eff}$ \< $Tw_{eff}$ is
+theorically expected, as the oscillatory component introduces cyclical
+dependence that reduces the effetive information content of $CP\_L$
+relative to $CP\_W$.
+
+``` r
+ratio_w <- Tw_eff/Tw_obs
+ratio_l <- Tl_eff/Tl_obs
+
+cat("The ratio T_effective and T_observerd of wage gap :", 
+    round(ratio_w, 3), "\n")
+```
+
+    ## The ratio T_effective and T_observerd of wage gap : 0.147
+
+``` r
+cat("The ratio T_effective and T_observerd of labor surplus :", 
+    round(ratio_l, 3))
+```
+
+    ## The ratio T_effective and T_observerd of labor surplus : 0.079
+
+The ratio represents the fraction of raw observations that are truly
+independent. A low $T_eff$ signals high redundancy in the time series,
+meaning that $a larger number of societies N$ must compensate for the
+loss of independent information within each society’s observation
+window.
