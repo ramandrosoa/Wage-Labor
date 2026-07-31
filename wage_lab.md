@@ -489,3 +489,12 @@ follows a smoother trajectory. Consequently, $Tl_{eff}$ \< $Tw_{eff}$ is
 theorically expected, as the oscillatory component introduces cyclical
 dependence that reduces the effetive information content of $CP\_L$
 relative to $CP\_W$.
+
+The usable decades represent the number of observed periods required to
+accumulate a given number of truly independent observations. Due to the
+high autocorrelation structure of each variable, the raw sample is
+substantially larger than the effective one. For instance, each society
+must be observed for roughly **150 decades to yield only 11 independent
+observations from the labor surplus**.Similarly, roughly **140 decades
+of observation per society are needed to accumulate 20 independent
+observations from the wage gap.**
