@@ -358,12 +358,20 @@ capital.**
 
 #### Estimation of the Autocorrelation Structure
 
-The cumulative pressure series $CP_l$ and $CP_w$ is stochastic. Each
-society has different $\epsilon$ draws, different oscillation
-realizations. The ACF from one society will reflect that society’s
-specific noise realization, not the underlying process structure. We
-will average the ACF of $CP_l$ and $CP_w$ across all societies from the
-inflection point $t_{0,w}$ and $t_{0,l}$.
+The cumulative pressure series $CP_l$ and $CP_w$ are stochastic. Since
+each society draws its own sequence of random shocks $\epsilon$ and
+oscillation realizations, the autocorrelation function estimated from a
+single society reflects idiosyncratic noise rather than the underlying
+process structure shared by all societies. To obtain a more stable and
+representative estimate of the autocorrelation structure, we average
+across N societies. The estimation is further restricted to the
+post-inflection phase, starting from $t_{0,l}$ and $t_{0,w}$. In the
+pre-inflection phase, the logistic trend remains close to zero and the
+cumulative pressures have not yet fully developed, which would bias the
+autocorrelation estimate downward. The post-inflection phase, by
+contrast, captures the mature dynamics of the system where structural
+pressures have fully accumulated and the ARMA autocorrelation structure
+is most clearly expressed empirically.
 
 **Labor surplus**
 
@@ -413,3 +421,5 @@ $$
 - $T_{eff}$ is the ESS — the equivalent number of independent
   observations after accounting for autocorrelation
 - $\rho$ is the autocorrelation structure.
+
+**Labor surplus**
