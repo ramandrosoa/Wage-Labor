@@ -420,10 +420,13 @@ the raw sample T when observations are correlated.
 
 $$
 T_{eff} = \frac{T}{1+2\sum^{\infty}_{k=1}\rho(k)}
-$$ - $T$ is T_pilot, the raw sample size, the total number of observed
-periods. - $T_{eff}$ is the ESS — the equivalent number of independent
-observations after accounting for autocorrelation - $\rho$ is the
-autocorrelation structure.
+$$
+
+- $T$ is T_pilot, the raw sample size, the total number of observed
+  periods.
+- $T_{eff}$ is the ESS — the equivalent number of independent
+  observations after accounting for autocorrelation
+- $\rho$ is the autocorrelation structure.
 
 ``` r
 # Labor surplus
