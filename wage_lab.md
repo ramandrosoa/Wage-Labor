@@ -420,13 +420,10 @@ the raw sample T when observations are correlated.
 
 $$
 T_{eff} = \frac{T}{1+2\sum^{\infty}_{k=1}\rho(k)}
-$$
-
-- $T$ is T_pilot, the raw sample size, the total number of observed
-  periods.
-- $T_{eff}$ is the ESS — the equivalent number of independent
-  observations after accounting for autocorrelation
-- $\rho$ is the autocorrelation structure.
+$$ - $T$ is T_pilot, the raw sample size, the total number of observed
+periods. - $T_{eff}$ is the ESS — the equivalent number of independent
+observations after accounting for autocorrelation - $\rho$ is the
+autocorrelation structure.
 
 ``` r
 # Labor surplus
@@ -468,18 +465,18 @@ cat("Efficiency ratio (T_eff/T_usable) — labor surplus:",
     ## Efficiency ratio (T_eff/T_usable) — labor surplus: 0.079
 
 ``` r
-cat("Usable decades for labor surplus (T_usable):" ,
+cat("Usable decades for labor surplus (Tl_usable):" ,
     round(Tl_eff/ratio_l, 3), "\n")
 ```
 
-    ## Usable decades for labor surplus (T_usable): 150
+    ## Usable decades for labor surplus (Tl_usable): 150
 
 ``` r
-cat("Usable decades for wage gap (T_usable):" ,
+cat("Usable decades for wage gap (Tw_usable):" ,
     round(Tw_eff/ratio_w, 3))
 ```
 
-    ## Usable decades for wage gap (T_usable): 140
+    ## Usable decades for wage gap (Tw_usable): 140
 
 The effective sample size represents the number of **independent,
 non-redundant and unique** observations contained in a correlated time
@@ -487,7 +484,7 @@ series. Given the dampened oscillations in labor surplus, the cumulative
 pressure $CP\_L$ carries additional autocorrelation than $CP\_W$, which
 follows a smoother trajectory. Consequently, $Tl_{eff}$ \< $Tw_{eff}$ is
 theorically expected, as the oscillatory component introduces cyclical
-dependence that reduces the effetive information content of $CP\_L$
+dependence that reduces the effective information content of $CP\_L$
 relative to $CP\_W$.
 
 The usable decades represent the number of observed periods required to
@@ -495,6 +492,33 @@ accumulate a given number of truly independent observations. Due to the
 high autocorrelation structure of each variable, the raw sample is
 substantially larger than the effective one. For instance, each society
 must be observed for roughly **150 decades to yield only 11 independent
-observations from the labor surplus**.Similarly, roughly **140 decades
+observations from the labor surplus**. Similarly, roughly **140 decades
 of observation per society are needed to accumulate 20 independent
 observations from the wage gap.**
+
+#### Derive N from the events per variable (EPV)
+
+$$
+EPV = N\cdot T_{eff}\cdot p
+$$
+
+- $EPV$: expected crisis events
+- $N$: number of societies
+- $T_{eff}$: effective sample size
+- $p$: crisis probability
+
+Every predictor requires a sufficient number of independent observations
+to ensure reliable parameter estimates. By setting $T_{eff}$ based on
+$CP\_L$, we guarantee at least 11 independent observations for the most
+autocorrelated variable. Meanwhile, $CP\_W$ automatically yields an
+excess of observations given its lower autocorrelation, making $CP\_L$
+the binding constraint.
+
+Both $N$ and $p$ are unknown. We will start by estimating p with the
+parameters $\beta$.
+
+Recall $P(crisis[t]) = logistic(z)$, with
+
+$$
+z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
+$$
