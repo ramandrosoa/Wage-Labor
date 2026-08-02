@@ -357,11 +357,6 @@ print(sensitivity_analysis)
  
 According to the EPV rule, a minimum of 30 crisis events is required across the entire dataset to reliably estimate the three parameters of the logistic model. Since the effective sample size is fixed at $T_{eff}$, the number of societies N required to accumulate 30 effective crisis observations is inversely proportional to the baseline crisis probability p. Consequently, lower values of p demand substantially larger N to compensate the rarity of crisis events. 
 
-```{r}
-# Verify the effective crisis for each N 
-sensitivity_analysis$effective_crisis <- round(sensitivity_analysis$N_needed * T_eff_binding * p, 1)
-print(sensitivity_analysis)
-```
 
 
 

@@ -574,16 +574,3 @@ $T_{eff}$, the number of societies N required to accumulate 30 effective
 crisis observations is inversely proportional to the baseline crisis
 probability p. Consequently, lower values of p demand substantially
 larger N to compensate the rarity of crisis events.
-
-``` r
-# Verify the effective crisis for each N 
-sensitivity_analysis$effective_crisis <- round(sensitivity_analysis$N_needed * T_eff_binding * p, 1)
-print(sensitivity_analysis)
-```
-
-    ##   crisis_prob   beta0 N_needed effective_crisis
-    ## 1       0.001 -6.9068     2517             30.0
-    ## 2       0.005 -5.2933      504             30.0
-    ## 3       0.010 -4.5951      252             30.0
-    ## 4       0.020 -3.8918      126             30.0
-    ## 5       0.050 -2.9444       51             30.4
