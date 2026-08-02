@@ -60,11 +60,11 @@ $$
   independently, but from their simultaneous occurrence — consistent
   with the threshold mechanism described in Wage Labour and Capital.
 
-Following the Events Per Variable rule, which recommends a minimum of 10
-observed events per predictor to ensure reliable parameter estimation in
-logistic regression, and given that our model contains 3 variables
-($x_1$, $x_2$, $x_1x_2$), the minimum number of expected crisis events
-is 3×10=30
+Following the **Events Per Variable rule**, which recommends a minimum
+of 10 observed events per predictor to ensure reliable parameter
+estimation in logistic regression, and given that our model contains 3
+variables ($x_1$, $x_2$, $x_1x_2$), the minimum number of **expected
+crisis events is 3×10=30**
 
 #### Data Generating Process
 
@@ -574,3 +574,17 @@ $T_{eff}$, the number of societies N required to accumulate 30 effective
 crisis observations is inversely proportional to the baseline crisis
 probability p. Consequently, lower values of p demand substantially
 larger N to compensate the rarity of crisis events.
+
+#### Generate the structural crisis
+
+We need to pick one combination ($p$, $\beta_0$, $N$) to generate the
+synthetic dataset and $Y$ outcomes. The baseline crisis probability p is
+calibrated from Turchin and Nefedov’s (2009) observation that recurrent
+waves of state breakdown occured approximately **three times over five
+centuries** of European history — the calamitous fourteenth century, the
+iron century of 1550-1660, and the age of revolutions of 1789-1849. This
+implies a **per-decade crisis probability of approximately p = 0.006**.
+This motivates the lower end of our sensitivity analysis, consistent
+with Marx’s argument in Wage Labour and Capital that structural crisis
+require prolonged accumulation of contradictions before becoming
+probable.
