@@ -589,7 +589,7 @@ require prolonged accumulation of contradictions before becoming
 probable. The combination that mostly fits with this argument is
 ($p = 0.005$, $\beta_0 = -5.2933$, $N = 504$).
 
-Then, we need to fix the parameters $\beta_1$,$\beta_2$,$\beta_3$.
+Then, we need to fix the parameters $\beta_1$ , $\beta_2$ , $\beta_3$.
 
 ``` r
 beta0 <- -5.2933    
@@ -598,10 +598,14 @@ beta2 <- 0.5   # labor surplus effect — smaller alone
 beta3 <- 2.0   # interaction — largest, captures Marx's threshold
 ```
 
-The ratio $\beta_3$\>$\beta_1$\>$\beta_2$ reflects the domination of the
-interaction term (Marx’s conjunction), the significance of the wage gap
-compared to the labor surplus and the significance of the labor surplus
-when it interacts with wage gap.
+The ordering $\beta_3$ \> $\beta_1$ \> $\beta_2$ reflects three
+theoretical priorities. The dominance of beta3 formalizes Marx’s
+conjunctural argument that structural crisis emerges primarly from the
+simultaneous occurrence of wage depression and labor surplus. The
+ordering beta1 \> beta2 reflects the relatively stronger direct effect
+of wage gap compared to labor surplus in isolation, consistent with
+Marx’s emphasis on wage depression as the most visible manifestation of
+capitalist contradiction in Wage Labour and Capital.
 
 $$
 z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
