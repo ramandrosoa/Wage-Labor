@@ -577,14 +577,52 @@ larger N to compensate the rarity of crisis events.
 
 #### Generate the structural crisis
 
-We need to pick one combination ($p$, $\beta_0$, $N$) to generate the
-synthetic dataset and $Y$ outcomes. The baseline crisis probability p is
-calibrated from Turchin and Nefedov’s (2009) observation that recurrent
-waves of state breakdown occured approximately **three times over five
-centuries** of European history — the calamitous fourteenth century, the
-iron century of 1550-1660, and the age of revolutions of 1789-1849. This
-implies a **per-decade crisis probability of approximately p = 0.006**.
-This motivates the lower end of our sensitivity analysis, consistent
-with Marx’s argument in Wage Labour and Capital that structural crisis
+The baseline crisis probability p is calibrated from Turchin and
+Nefedov’s (2009) observation that recurrent waves of state breakdown
+occured approximately **three times over five centuries** of European
+history — the calamitous fourteenth century, the iron century of
+1550-1660, and the age of revolutions of 1789-1849. This implies a
+**per-decade crisis probability of approximately p = 0.006**. This
+motivates the lower end of our sensitivity analysis, consistent with
+Marx’s argument in Wage Labour and Capital that structural crisis
 require prolonged accumulation of contradictions before becoming
-probable.
+probable. The combination that mostly fits with this argument is
+($p = 0.005$, $\beta_0 = -5.2933$, $N = 504$).
+
+Then, we need to fix the parameters $\beta_1$,$\beta_2$,$\beta_3$.
+
+``` r
+beta0 <- -5.2933    
+beta1 <- 1.0   # wage gap effect — moderate
+beta2 <- 0.5   # labor surplus effect — smaller alone
+beta3 <- 2.0   # interaction — largest, captures Marx's threshold
+```
+
+The ratio $\beta_3$\>$\beta_1$\>$\beta_2$ reflects the domination of the
+interaction term (Marx’s conjunction), the significance of the wage gap
+compared to the labor surplus and the significance of the labor surplus
+when it interacts with wage gap.
+
+$$
+z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
+$$
+
+``` r
+z <- beta0 + beta1*CP_w + beta2*CP_l + beta3*CP_l*CP_w
+p_crisis <- 1/(1+exp(-z))
+
+y <- matrix(rbinom(T_pilot*N_pilot, size = 1, prob = p_crisis), 
+            ncol = N_pilot, nrow = T_pilot)
+```
+
+``` r
+head(y)
+```
+
+    ##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+    ## [1,]    0    0    0    0    0    0    0    0    0     0
+    ## [2,]    0    0    1    0    0    0    0    0    0     0
+    ## [3,]    0    0    0    0    0    0    0    0    0     0
+    ## [4,]    0    0    0    0    0    0    0    0    0     0
+    ## [5,]    0    0    0    0    0    0    0    0    0     0
+    ## [6,]    0    0    0    0    0    0    0    0    0     0
