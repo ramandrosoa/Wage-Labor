@@ -517,11 +517,73 @@ autocorrelated variable. Meanwhile, $CP\_W$ automatically yields an
 excess of observations given its lower autocorrelation, making $CP\_L$
 the binding constraint.
 
-Both $N$ and $p$ are unknown. We will start by estimating p with the
-parameters $\beta$.
-
 Recall $P(crisis[t]) = logistic(z)$, with
 
 $$
 z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
 $$
+
+To estimate N, we vary the crisis probability p across a theoretically
+motivated range. p represents the baseline crisis probability when
+$CP\_W = CP\_L = 0$, interpreted as the **minimum crisis probability**
+at the onset of capitalism before structural contradictions accumulate.
+Setting $CP_W = CP_L = 0$ isolates beta_0 as the sole determinant of the
+baseline probability, ensuring that the sensitivity analysis varies only
+the intercept while holding the pressure dynamics fixed.
+
+$$
+p (crisis|CP\_W = 0, CP\_L = 0) = \frac{1}{1+e^{-\beta_0}}
+$$
+
+A sensitivity analysis is performed on p, deriving the corresponding
+$\beta_0$ for each value through. It is performed across the range p
+$\in$ {0.001, 0.005, 0.01, 0.02, 0.05}, reflecting theoretically
+plausible baseline rates from near-impossible to rare.
+
+$$
+\beta_0 = log(\frac{p}{1-p})
+$$
+
+``` r
+p <- c(0.001, 0.005, 0.01, 0.02, 0.05)
+beta0_values <- qlogis(p)
+epv <- 30
+T_eff_binding <- Tl_eff
+
+# N calculation for each p
+sensitivity_analysis <- data.frame(
+  crisis_prob = p ,
+  beta0 = round(beta0_values, 4), 
+  N_needed = ceiling(epv/(T_eff_binding*p))
+)
+
+print(sensitivity_analysis)
+```
+
+    ##   crisis_prob   beta0 N_needed
+    ## 1       0.001 -6.9068     2517
+    ## 2       0.005 -5.2933      504
+    ## 3       0.010 -4.5951      252
+    ## 4       0.020 -3.8918      126
+    ## 5       0.050 -2.9444       51
+
+According to the EPV rule, a minimum of 30 crisis events is required
+across the entire dataset to reliably estimate the three parameters of
+the logistic model. Since the effective sample size is fixed at
+$T_{eff}$, the number of societies N required to accumulate 30 effective
+crisis observations is inversely proportional to the baseline crisis
+probability p. Consequently, lower values of p demand substantially
+larger N to compensate the rarity of crisis events.
+
+``` r
+# Verify the effective crisis for each N 
+sensitivity_analysis$effective_crisis <- round(sensitivity_analysis$N_needed * T_eff_binding * p, 1)
+print(sensitivity_analysis)
+```
+
+    ##   crisis_prob   beta0 N_needed effective_crisis
+    ## 1       0.001 -6.9068     2517             30.0
+    ## 2       0.005 -5.2933      504             30.0
+    ## 3       0.010 -4.5951      252             30.0
+    ## 4       0.020 -3.8918      126             30.0
+    ## 5       0.050 -2.9444       51             30.4
