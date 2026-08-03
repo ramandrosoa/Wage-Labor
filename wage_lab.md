@@ -122,19 +122,24 @@ labor\_surplus (t) = \frac{K_l}{1+e^{-r_l(t-t_{0,l})}} + A e^{{-\delta_l}t}\cdot
 $$
 
 ``` r
-for (n in 1:N_pilot) {
-  for (t in 1:T_pilot) {
+func_labor_surplus <- function(N,T) {
+  
+  for (n in 1:N) {
+    for (t in 1:T) {
     
-    logistic_trend <- K_l/(1+exp(-r_l*(t-t0_l)))
-    oscillation <- A * exp(-delta_l*t) * sin((2*t*pi)/P)
-    epsilon <- rnorm(1, mean = 0, sd = .02)
+      logistic_trend <- K_l/(1+exp(-r_l*(t-t0_l)))
+      oscillation <- A * exp(-delta_l*t) * sin((2*t*pi)/P)
+      epsilon <- rnorm(1, mean = 0, sd = .02)
     
-    labor_surplus[t, n] <- logistic_trend + oscillation + epsilon
+      labor_surplus[t, n] <- logistic_trend + oscillation + epsilon
+    }
   }
+  return(labor_surplus)
 }
 ```
 
 ``` r
+labor_surplus <- func_labor_surplus(N_pilot, T_pilot)
 head(labor_surplus)
 ```
 
@@ -165,17 +170,21 @@ r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})
 $$
 
 ``` r
-for (n in 1:N_pilot) {
-  for (t in 1:T_pilot) {
+func_wage_gap <- function(N, T){
+  for (n in 1:N) {
+    for (t in 1:T) {
     
-    if (t == 1) {r_w <- r_base} else {r_w <- r_base + alpha*(labor_surplus[t-1, n])}
+      if (t == 1) {r_w <- r_base} else {r_w <- r_base + alpha*(labor_surplus[t-1, n])}
     
-    wage_gap[t,n]<- K_w/(1+exp(-r_w*(t-t0_w)))
+     wage_gap[t,n]<- K_w/(1+exp(-r_w*(t-t0_w)))
+    }
   }
+  return(wage_gap)
 }
 ```
 
 ``` r
+wage_gap <- func_wage_gap(N_pilot, T_pilot)
 head(wage_gap)
 ```
 
@@ -214,29 +223,38 @@ CP\_W(t) = \sum^{t-1}_{k} W_{t-k}\cdot e^{-\delta_c\cdot k}
 $$
 
 ``` r
-for (n in 1:N_pilot){
-  for (t in 1:T_pilot){
+cp <- function(N, T) {
+  for (n in 1:N){
+    for (t in 1:T){
     
     # cumulative pressure is only meaningful at t=2
-    if (t==1){
-      CP_l[t, n] <- 0
-      CP_w[t, n] <- 0
-    }
-    else {
+      if (t==1){
+        CP_l[t, n] <- 0
+        CP_w[t, n] <- 0
+      }
+      else {
       
-      cpsum_l <- 0
-      cpsum_w <- 0
+        cpsum_l <- 0
+        cpsum_w <- 0
       
-      for (k in 1:(t-1)){
-        cpsum_l <- cpsum_l + labor_surplus[t-k, n] * exp(-delta_c*k)
-        cpsum_w <- cpsum_w + wage_gap[t-k, n] * exp(-delta_c*k)
+        for (k in 1:(t-1)){
+          cpsum_l <- cpsum_l + labor_surplus[t-k, n] * exp(-delta_c*k)
+          cpsum_w <- cpsum_w + wage_gap[t-k, n] * exp(-delta_c*k)
       }
       
-      CP_l[t, n] <- cpsum_l
-      CP_w[t, n] <- cpsum_w
+        CP_l[t, n] <- cpsum_l
+        CP_w[t, n] <- cpsum_w
+      }
     }
   }
-  }
+  return( list(CP_l = CP_l, CP_w = CP_w) )
+}
+```
+
+``` r
+result <- cp(N_pilot, T_pilot)
+CP_w <- result$CP_w
+CP_l <- result$CP_l
 ```
 
 ``` r
@@ -289,7 +307,7 @@ lines(1:T_pilot, CP_w[,1],col ="red")
 legend("topleft", legend = c("CP_l", "CP_w"), col = c("black", "red"), lty = 1)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 **Phases of the labor surplus:**
 
@@ -341,7 +359,7 @@ legend("topleft",
        lty = c(1, 2, 1, 1), lwd = 2)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 The plot below represent the Phase 2 and Phase 3 of the labor surplus
 from decade 10 to decade 40. The dotted line is the **logistic trend**:
