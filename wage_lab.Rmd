@@ -61,17 +61,10 @@ t0_w <- 60
 ```
 
 ```{r}
-# decay parameter
+# decay parameter (cumulative pressure)
 delta_c <- 0.43
 ```
 
-```{r}
-# Initialize storage
-labor_surplus <- matrix(NA, nrow = T_pilot , ncol = N_pilot)
-wage_gap <- matrix(NA, nrow = T_pilot , ncol = N_pilot)
-CP_l <- matrix(NA, nrow = T_pilot , ncol = N_pilot)
-CP_w <- matrix(NA, nrow = T_pilot , ncol = N_pilot)
-```
 
 
 #### Generate wage gap and labor surplus
@@ -87,6 +80,7 @@ $$
 ```{r}
 func_labor_surplus <- function(N,T) {
   
+  labor_surplus <- matrix(NA, nrow = T , ncol = N)
   for (n in 1:N) {
     for (t in 1:T) {
     
@@ -120,11 +114,13 @@ $$
 
 
 ```{r}
-func_wage_gap <- function(N, T){
+func_wage_gap <- function(N, T, lab){
+  
+  wage_gap <- matrix(NA, nrow = T , ncol = N)
   for (n in 1:N) {
     for (t in 1:T) {
     
-      if (t == 1) {r_w <- r_base} else {r_w <- r_base + alpha*(labor_surplus[t-1, n])}
+      if (t == 1) {r_w <- r_base} else {r_w <- r_base + alpha*(lab[t-1, n])}
     
      wage_gap[t,n]<- K_w/(1+exp(-r_w*(t-t0_w)))
     }
@@ -134,7 +130,7 @@ func_wage_gap <- function(N, T){
 ```
 
 ```{r}
-wage_gap <- func_wage_gap(N_pilot, T_pilot)
+wage_gap <- func_wage_gap(N_pilot, T_pilot, labor_surplus)
 head(wage_gap)
 ```
 
@@ -154,7 +150,11 @@ $$
 
 
 ```{r}
-cp <- function(N, T) {
+cp <- function(N, T, lab, wag) {
+  
+  CP_l <- matrix(NA, nrow = T , ncol = N)
+  CP_w <- matrix(NA, nrow = T , ncol = N)
+
   for (n in 1:N){
     for (t in 1:T){
     
@@ -169,8 +169,8 @@ cp <- function(N, T) {
         cpsum_w <- 0
       
         for (k in 1:(t-1)){
-          cpsum_l <- cpsum_l + labor_surplus[t-k, n] * exp(-delta_c*k)
-          cpsum_w <- cpsum_w + wage_gap[t-k, n] * exp(-delta_c*k)
+          cpsum_l <- cpsum_l + lab[t-k, n] * exp(-delta_c*k)
+          cpsum_w <- cpsum_w + wag[t-k, n] * exp(-delta_c*k)
       }
       
         CP_l[t, n] <- cpsum_l
@@ -184,7 +184,7 @@ cp <- function(N, T) {
 ```
 
 ```{r}
-result <- cp(N_pilot, T_pilot)
+result <- cp(N_pilot, T_pilot, labor_surplus, wage_gap)
 CP_w <- result$CP_w
 CP_l <- result$CP_l
 ```
@@ -416,9 +416,16 @@ For the final simulation, we set **N = 504 societies and T = 200**, correspondin
 
 
 ```{r}
-
+N_final = 504
+T_final = 200
 ```
 
+```{r}
+labor_surplus_fin <- func_labor_surplus(N_final, T_final)
+wage_gap_fin <- func_wage_gap(N_final, T_final, labor_surplus_fin)
+cp_fin <- cp(N_final, T_final, labor_surplus_fin, wage_gap_fin)
+
+```
 
 
 

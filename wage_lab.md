@@ -96,16 +96,8 @@ t0_w <- 60
 ```
 
 ``` r
-# decay parameter
+# decay parameter (cumulative pressure)
 delta_c <- 0.43
-```
-
-``` r
-# Initialize storage
-labor_surplus <- matrix(NA, nrow = T_pilot , ncol = N_pilot)
-wage_gap <- matrix(NA, nrow = T_pilot , ncol = N_pilot)
-CP_l <- matrix(NA, nrow = T_pilot , ncol = N_pilot)
-CP_w <- matrix(NA, nrow = T_pilot , ncol = N_pilot)
 ```
 
 #### Generate wage gap and labor surplus
@@ -124,6 +116,7 @@ $$
 ``` r
 func_labor_surplus <- function(N,T) {
   
+  labor_surplus <- matrix(NA, nrow = T , ncol = N)
   for (n in 1:N) {
     for (t in 1:T) {
     
@@ -170,11 +163,13 @@ r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})
 $$
 
 ``` r
-func_wage_gap <- function(N, T){
+func_wage_gap <- function(N, T, lab){
+  
+  wage_gap <- matrix(NA, nrow = T , ncol = N)
   for (n in 1:N) {
     for (t in 1:T) {
     
-      if (t == 1) {r_w <- r_base} else {r_w <- r_base + alpha*(labor_surplus[t-1, n])}
+      if (t == 1) {r_w <- r_base} else {r_w <- r_base + alpha*(lab[t-1, n])}
     
      wage_gap[t,n]<- K_w/(1+exp(-r_w*(t-t0_w)))
     }
@@ -184,7 +179,7 @@ func_wage_gap <- function(N, T){
 ```
 
 ``` r
-wage_gap <- func_wage_gap(N_pilot, T_pilot)
+wage_gap <- func_wage_gap(N_pilot, T_pilot, labor_surplus)
 head(wage_gap)
 ```
 
@@ -223,7 +218,11 @@ CP\_W(t) = \sum^{t-1}_{k} W_{t-k}\cdot e^{-\delta_c\cdot k}
 $$
 
 ``` r
-cp <- function(N, T) {
+cp <- function(N, T, lab, wag) {
+  
+  CP_l <- matrix(NA, nrow = T , ncol = N)
+  CP_w <- matrix(NA, nrow = T , ncol = N)
+
   for (n in 1:N){
     for (t in 1:T){
     
@@ -238,8 +237,8 @@ cp <- function(N, T) {
         cpsum_w <- 0
       
         for (k in 1:(t-1)){
-          cpsum_l <- cpsum_l + labor_surplus[t-k, n] * exp(-delta_c*k)
-          cpsum_w <- cpsum_w + wage_gap[t-k, n] * exp(-delta_c*k)
+          cpsum_l <- cpsum_l + lab[t-k, n] * exp(-delta_c*k)
+          cpsum_w <- cpsum_w + wag[t-k, n] * exp(-delta_c*k)
       }
       
         CP_l[t, n] <- cpsum_l
@@ -252,7 +251,7 @@ cp <- function(N, T) {
 ```
 
 ``` r
-result <- cp(N_pilot, T_pilot)
+result <- cp(N_pilot, T_pilot, labor_surplus, wage_gap)
 CP_w <- result$CP_w
 CP_l <- result$CP_l
 ```
@@ -307,7 +306,7 @@ lines(1:T_pilot, CP_w[,1],col ="red")
 legend("topleft", legend = c("CP_l", "CP_w"), col = c("black", "red"), lty = 1)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 **Phases of the labor surplus:**
 
@@ -359,7 +358,7 @@ legend("topleft",
        lty = c(1, 2, 1, 1), lwd = 2)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 The plot below represent the Phase 2 and Phase 3 of the labor surplus
 from decade 10 to decade 40. The dotted line is the **logistic trend**:
@@ -660,3 +659,14 @@ autocorrelation, substantially reducing the effective independent
 information per society. To compensate for this loss of independence and
 to satisfy the EPV rule of a minimum of 30 effective crisis, N = 504
 societies are required.
+
+``` r
+N_final = 504
+T_final = 200
+```
+
+``` r
+labor_surplus_fin <- func_labor_surplus(N_final, T_final)
+wage_gap_fin <- func_wage_gap(N_final, T_final, labor_surplus_fin)
+cp_fin <- cp(N_final, T_final, labor_surplus_fin, wage_gap_fin)
+```
