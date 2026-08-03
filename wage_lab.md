@@ -599,7 +599,7 @@ beta3 <- 2.0   # interaction — largest, captures Marx's threshold
 ```
 
 The ordering $\beta_3$ \> $\beta_1$ \> $\beta_2$ reflects three
-theoretical priorities. The dominance of beta3 formalizes Marx’s
+theoretical priorities. The dominance of $\beta_3$ formalizes Marx’s
 conjunctural argument that structural crisis emerges primarly from the
 simultaneous occurrence of wage depression and labor surplus. The
 ordering beta1 \> beta2 reflects the relatively stronger direct effect
@@ -630,3 +630,15 @@ head(y)
     ## [4,]    0    0    0    0    0    0    0    0    0     0
     ## [5,]    0    0    0    0    0    0    0    0    0     0
     ## [6,]    0    0    0    0    0    0    0    0    0     0
+
+#### Final simulation
+
+For the final simulation, we set **N = 504 societies and T = 200**,
+corresponding to the inflection point of labor surplus $t_{0,l}$ plus
+the post-inflection usable window 150 decades. The pre-inflection phase
+is retained to preserve the theoretical warmup consistent with Marx’s
+early capitalism argument. However, the labor surplus exhibits high
+autocorrelation, substantially reducing the effective independent
+information per society. To compensate for this loss of independence and
+to satisfy the EPV rule of a minimum of 30 effective crisis, N = 504
+societies are required.
