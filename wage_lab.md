@@ -683,5 +683,5 @@ cp_fin <- cp(N_final, T_final, labor_surplus_fin, wage_gap_fin)
 CPfin_l <- cp_fin$CP_l
 CPfin_w <- cp_fin$CP_w
 
-y_final <- y_func(beta0, beta1, beta2, beta3, CP_l, CP_w, T_final, N_final)
+y_final <- y_func(beta0, beta1, beta2, beta3, CPfin_l, CPfin_w, T_final, N_final)
 ```
