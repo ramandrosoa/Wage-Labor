@@ -449,13 +449,9 @@ data.frame (
   Simulation = c("Pilot","Final"),
   N = c(N_pilot, N_final),
   T = c(T_pilot, T_final),
-  Total_crisis = c(sum(y_pilot), sum(y_final)),
-  Effective_crisis = c(
-    round(sum(y_pilot) * Tl_eff / T_pilot), 
-    round(sum(y_final) * Tl_eff / T_final)
-    ))
+  Total_crisis = c(sum(y_pilot), sum(y_final))
+    )
 ```
-
 
 
 
