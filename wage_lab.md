@@ -110,7 +110,7 @@ surplus
     available job
 
 $$
-labor\_surplus (t) = \frac{K_l}{1+e^{-r_l(t-t_{0,l})}} + A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P} + \epsilon
+LaborSurplus(t) = \frac{K_l}{1+e^{-r_l(t-t_{0,l})}} + A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P} + \epsilon
 $$
 
 ``` r
@@ -155,11 +155,11 @@ head(labor_surplus)
     subsistence cost.
 
 $$
-wage\_gap(t) = \frac{K_w}{1+e^{-r_w(t-t_{0,w})}}
+WageGap(t) = \frac{K_w}{1+e^{-r_w(t-t_{0,w})}}
 $$
 
 $$
-r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})
+r_w = r_{base,w} + \alpha(LaborSurplus_{t-1})
 $$
 
 ``` r
