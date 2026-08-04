@@ -378,7 +378,7 @@ print(sensitivity_analysis)
  
 According to the EPV rule, a minimum of 30 crisis events is required across the entire dataset to reliably estimate the three parameters of the logistic model. Since the effective sample size is fixed at $T_{eff}$, the number of societies N required to accumulate 30 effective crisis observations is inversely proportional to the baseline crisis probability p. Consequently, lower values of p demand substantially larger N to compensate the rarity of crisis events. 
 
-#### Generate the structural crisis
+#### Generate the structural crisis (y_pilot)
 
 The baseline crisis probability p is calibrated from Turchin and Nefedov's (2009) observation that recurrent waves of state breakdown occured approximately **three times over five centuries** of European history — the calamitous fourteenth century, the iron century of 1550-1660, and the age of revolutions of 1789-1849. This implies a **per-decade crisis probability of approximately p = 0.006**. This motivates the lower end of our sensitivity analysis, consistent with Marx's argument in Wage Labour and Capital that structural crisis require prolonged accumulation of contradictions before becoming probable. 
 The combination that mostly fits with this argument is ($p = 0.005$, $\beta_0 = -5.2933$, $N = 504$). 
@@ -398,16 +398,26 @@ $$
 z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
 $$
 
-```{r}
-z <- beta0 + beta1*CP_w + beta2*CP_l + beta3*CP_l*CP_w
-p_crisis <- 1/(1+exp(-z))
 
-y <- matrix(rbinom(T_pilot*N_pilot, size = 1, prob = p_crisis), 
-            ncol = N_pilot, nrow = T_pilot)
+```{r}
+y_func <- function(beta0, beta1, beta2, beta3, CP_l, CP_w, T, N) {
+  
+  z <- beta0 + (beta1*CP_w) + (beta2*CP_l) + (beta3*CP_l*CP_w)
+  p_crisis <- 1/(1+exp(-z))
+  
+  y <- matrix(rbinom(T*N, size = 1, prob = p_crisis), 
+              ncol = N, nrow = T)
+  
+  return(y)
+}
 ```
 
 ```{r}
-head(y)
+y_pilot <- y_func(beta0, beta1, beta2, beta3, CP_l, CP_w, T_pilot, N_pilot)
+```
+
+```{r}
+head(y_pilot)
 ```
 
 #### Final simulation
@@ -421,27 +431,16 @@ T_final <- 200
 ```
 
 ```{r}
+# Generate labor surplus , wage gap, CP_l, CP_w, y with N_final, T_final 
 labor_surplus_fin <- func_labor_surplus(N_final, T_final)
 wage_gap_fin <- func_wage_gap(N_final, T_final, labor_surplus_fin)
 cp_fin <- cp(N_final, T_final, labor_surplus_fin, wage_gap_fin)
-```
-
-```{r}
 CPfin_l <- cp_fin$CP_l
 CPfin_w <- cp_fin$CP_w
+y_final <- y_func(beta0, beta1, beta2, beta3, CP_l, CP_w, T_final, N_final)
 ```
 
-```{r}
-# Compare mean across all societies at each decade
 
-df_mean <- data.frame(
-  decade = 1:T_final, 
-  mean_lab_pilot = rowMeans(labor_surplus),
-  mean_lab_final = rowMeans(labor_surplus_fin), 
-  sd_lab_pilot = apply(labor_surplus, 1, sd),
-  sd_lab_final = apply(labor_surplus_fin, 1, sd)
-)
-```
 
 
 
