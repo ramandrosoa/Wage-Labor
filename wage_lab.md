@@ -685,3 +685,20 @@ CPfin_w <- cp_fin$CP_w
 
 y_final <- y_func(beta0, beta1, beta2, beta3, CPfin_l, CPfin_w, T_final, N_final)
 ```
+
+``` r
+# crisis event count comparison
+data.frame (
+  Simulation = c("Pilot","Final"),
+  N = c(N_pilot, N_final),
+  T = c(T_pilot, T_final),
+  Total_crisis = c(sum(y_pilot), sum(y_final)),
+  Effective_crisis = c(
+    round(sum(y_pilot) * Tl_eff / T_pilot), 
+    round(sum(y_final) * Tl_eff / T_final)
+    ))
+```
+
+    ##   Simulation   N   T Total_crisis Effective_crisis
+    ## 1      Pilot  10 200         1328               79
+    ## 2      Final 504 200        66569             3968
