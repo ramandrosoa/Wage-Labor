@@ -73,7 +73,7 @@ Labor surplus has to be generated before wage gap because the growth rate $r_w$ 
 1.    Labor surplus : it represents the excess of workers relative to available job
 
 $$
-labor\_surplus (t) = \frac{K_l}{1+e^{-r_l(t-t_{0,l})}} + A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P} + \epsilon
+labor \_surplus (t) = \frac{K_l}{1+e^{-r_l(t-t_{0,l})}} + A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P} + \epsilon
 $$
 
 
