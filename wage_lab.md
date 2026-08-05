@@ -703,3 +703,19 @@ data.frame (
 The substantial jump from 1328 to 66569 crises is an expected outcome
 rather than a anomaly; it directly reflects the roughly 50-fold scaling
 of the number of societies from $N_{pilot} = 10$ to $N_{final} = 504$
+
+#### Parameter recovery analysis
+
+The true parameters are known by construction. By fitting the logistic
+regression, we can validate whether the sample size N derived from the
+EPV rule is sufficient to recover the true parameters, assess if a
+standard logistic regression remains reliable under the ARMA(1,q)
+autocorrelation structure of $CP_L$ and $CP_W$ and test whether the
+parameter $\beta_3$ is detectable. Here, $\beta_3$ represents the
+mathematical formalization of Marx’s argument that the interaction of
+wage depression and labor surplus amplifies crisis emergence. This
+approach allows us to determine whether the statistical model can
+recover known parameters from synthetic data generated under controlled
+conditions. If the estimated parameters diverge substantially from the
+true parameters, the model certainly cannot be trusted to estimate
+unknown parameters from real historical data.
