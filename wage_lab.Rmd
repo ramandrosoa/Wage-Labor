@@ -452,7 +452,7 @@ data.frame (
   Total_crisis = c(sum(y_pilot), sum(y_final))
     )
 ```
-The substantial jump from 1328 to 66569 crises is an expected outcome rather than a anomaly; it directly reflects the roughly 50-fold scaling of the number of societies from $N_{pilot} = 1328 $ to $N_{final} = 66569$.
+The substantial jump from 1328 to 66569 crises is an expected outcome rather than a anomaly; it directly reflects the roughly 50-fold scaling of the number of societies from $N_{pilot} = 10$ to $N_{final} = 504$
 
 
 

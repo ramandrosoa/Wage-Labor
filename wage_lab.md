@@ -14,7 +14,7 @@ gap** and **labor surplus** whose dynamics are governed by theoretically
 motivated equations developed in the following sections. These variables
 feed into **cumulative pressure terms** ($CP_w$, $CP_l$), which in turn
 predict the probability of **structural crisis** through a logistic
-regression model.
+regression model.(+DAG)
 
 We observed N societies over T decades. To determine the sample size, we
 used the 10 events per variable (EPV) rule of thumb for logistic
@@ -699,3 +699,7 @@ data.frame (
     ##   Simulation   N   T Total_crisis
     ## 1      Pilot  10 200         1328
     ## 2      Final 504 200        66569
+
+The substantial jump from 1328 to 66569 crises is an expected outcome
+rather than a anomaly; it directly reflects the roughly 50-fold scaling
+of the number of societies from $N_{pilot} = 10$ to $N_{final} = 504$
