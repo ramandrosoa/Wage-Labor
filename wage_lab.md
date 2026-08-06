@@ -719,3 +719,53 @@ recover known parameters from synthetic data generated under controlled
 conditions. If the estimated parameters diverge substantially from the
 true parameters, the model certainly cannot be trusted to estimate
 unknown parameters from real historical data.
+
+To fit the logistic regression, we will utilize two estimation
+approaches and evaluate the differences in the resulting coefficients.
+
+**1. Reshaping the matrices N x T to long format dataframe and fitting
+to standard logistic regression**
+
+``` r
+df_long <- data.frame(
+  society = rep(1:N_final, each = T_final), 
+  decade = rep(1:T_final, times = N_final), 
+  CP_w = as.vector(CPfin_w), 
+  CP_l = as.vector(CPfin_l), 
+  y = as.vector(y_final)
+)
+```
+
+``` r
+model <- glm(y~CP_w+CP_l+CP_w:CP_l, 
+             data = df_long, 
+             family = binomial(link = "logit"))
+
+summary(model)
+```
+
+    ## 
+    ## Call:
+    ## glm(formula = y ~ CP_w + CP_l + CP_w:CP_l, family = binomial(link = "logit"), 
+    ##     data = df_long)
+    ## 
+    ## Deviance Residuals: 
+    ##     Min       1Q   Median       3Q      Max  
+    ## -3.0178  -0.1067   0.1576   0.1805   3.2829  
+    ## 
+    ## Coefficients:
+    ##             Estimate Std. Error z value Pr(>|z|)    
+    ## (Intercept) -5.38424    0.13691 -39.326  < 2e-16 ***
+    ## CP_w         1.06436    0.10665   9.980  < 2e-16 ***
+    ## CP_l         0.63839    0.17273   3.696 0.000219 ***
+    ## CP_w:CP_l    1.91428    0.08685  22.042  < 2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## (Dispersion parameter for binomial family taken to be 1)
+    ## 
+    ##     Null deviance: 129178  on 100799  degrees of freedom
+    ## Residual deviance:  21807  on 100796  degrees of freedom
+    ## AIC: 21815
+    ## 
+    ## Number of Fisher Scoring iterations: 7
