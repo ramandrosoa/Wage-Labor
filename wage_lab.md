@@ -723,8 +723,8 @@ unknown parameters from real historical data.
 To fit the logistic regression, we will utilize two estimation
 approaches and evaluate the differences in the resulting coefficients.
 
-**1. Reshaping the matrices N x T to long format dataframe and fitting
-to standard logistic regression**
+**1. Reshape the matrices N x T to long format dataframe and fit to
+standard logistic regression**
 
 ``` r
 df_long <- data.frame(
@@ -769,3 +769,12 @@ summary(model)
     ## AIC: 21815
     ## 
     ## Number of Fisher Scoring iterations: 7
+
+**Interpretation of the result**
+
+True parameters : beta_1 \<- 1, beta_2 \<- 0.5, beta_3 \<- 2
+
+Predicted parameters : beta_1 \<- 1.06436, beta_2 \<- 0.63839, beta_3
+\<- 1.91428
+
+**2. Custom logistic regression function**
