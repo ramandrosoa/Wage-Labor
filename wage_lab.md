@@ -772,11 +772,6 @@ summary(model)
     ## 
     ## Number of Fisher Scoring iterations: 7
 
-True parameters : beta_1 \<- 1, beta_2 \<- 0.5, beta_3 \<- 2
-
-Predicted parameters : beta_1 \<- 1.06436, beta_2 \<- 0.63839, beta_3
-\<- 1.91428
-
 **2. Custom Maximum Likelihood Estimation function**
 
 This method shows what glm() is doing internally.
@@ -837,7 +832,10 @@ optim(
     ## [3,] 3659.184  5901.355 5457.023  9175.497
     ## [4,] 5901.358 10180.029 9175.497 16110.364
 
-True parameters : beta_1 \<- 1, beta_2 \<- 0.5, beta_3 \<- 2
+True parameters : $\beta_1$ \<- 1, $\beta_2$ \<- 0.5, $\beta_3$ \<- 2
 
-Predicted parameters : beta_1 \<- 1.0670258, beta_2 \<- 0.6469933,
-beta_3 \<- 1.9104993
+Predicted parameters from the first method : $\hat{\beta_1}$ \<-
+1.06436, $\hat{\beta_2}$ \<- 0.63839, $\hat{\beta_3}$ \<- 1.91428
+
+Predicted parameters from the second method : $\hat{\beta_1}$ \<-
+1.0670258, $\hat{\beta_2}$ \<- 0.6469933, $\hat{\beta_3}$ \<- 1.9104993
