@@ -839,3 +839,7 @@ Predicted parameters from the first method : $\hat{\beta_1}$ \<-
 
 Predicted parameters from the second method : $\hat{\beta_1}$ \<-
 1.0670258, $\hat{\beta_2}$ \<- 0.6469933, $\hat{\beta_3}$ \<- 1.9104993
+
+The fact that the estimated parameters in both models are close the true
+parameters means that the the model successfully recovers parameters
+that are theoretically grounded in Marx and Turchin.
