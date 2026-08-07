@@ -480,8 +480,6 @@ model <- glm(y~CP_w+CP_l+CP_w:CP_l,
 summary(model)
 ```
 
-**Interpretation of the result**
-
 True parameters : beta_1 <- 1, beta_2 <- 0.5, beta_3 <- 2 
 
 Predicted parameters : beta_1 <- 1.06436, beta_2 <- 0.63839, beta_3 <- 1.91428
@@ -489,14 +487,42 @@ Predicted parameters : beta_1 <- 1.06436, beta_2 <- 0.63839, beta_3 <- 1.91428
 **2. Custom logistic regression function**
 
 ```{r}
+X <- cbind(
+  intercept = 1, 
+  CP_w = as.vector(CPfin_w), 
+  CP_l = as.vector(CPfin_l), 
+  interaction = as.vector(CPfin_w)*as.vector(CPfin_l)
+)
 
+y_vec <- as.vector(y_final)
 ```
 
 
+```{r}
+log_likelihood <- function(beta, X, y) {
+  
+  z <- X %*% beta
+  p <- 1/(1+exp(-z))
+  ll <- sum(y*log(p + 1e-10) + (1-y)*log(1-p  + 1e-10))
+  
+  return(-ll)
+}
+```
 
+```{r}
+optim(
+  par = c(0,0,0,0),
+  fn = log_likelihood,
+  X = X, 
+  y = y_vec, 
+  method = "BFGS", 
+  hessian = TRUE
+)
+```
 
+True parameters : beta_1 <- 1, beta_2 <- 0.5, beta_3 <- 2 
 
-
+Predicted parameters : beta_1 <- 1.0670258, beta_2 <- 0.6469933, beta_3 <- 1.9104993
 
 
 

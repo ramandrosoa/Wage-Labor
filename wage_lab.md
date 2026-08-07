@@ -770,11 +770,70 @@ summary(model)
     ## 
     ## Number of Fisher Scoring iterations: 7
 
-**Interpretation of the result**
-
 True parameters : beta_1 \<- 1, beta_2 \<- 0.5, beta_3 \<- 2
 
 Predicted parameters : beta_1 \<- 1.06436, beta_2 \<- 0.63839, beta_3
 \<- 1.91428
 
 **2. Custom logistic regression function**
+
+``` r
+X <- cbind(
+  intercept = 1, 
+  CP_w = as.vector(CPfin_w), 
+  CP_l = as.vector(CPfin_l), 
+  interaction = as.vector(CPfin_w)*as.vector(CPfin_l)
+)
+
+y_vec <- as.vector(y_final)
+```
+
+``` r
+log_likelihood <- function(beta, X, y) {
+  
+  z <- X %*% beta
+  p <- 1/(1+exp(-z))
+  ll <- sum(y*log(p + 1e-10) + (1-y)*log(1-p  + 1e-10))
+  
+  return(-ll)
+}
+```
+
+``` r
+optim(
+  par = c(0,0,0,0),
+  fn = log_likelihood,
+  X = X, 
+  y = y_vec, 
+  method = "BFGS", 
+  hessian = TRUE
+)
+```
+
+    ## $par
+    ## [1] -5.3917332  1.0670258  0.6469933  1.9104993
+    ## 
+    ## $value
+    ## [1] 10903.53
+    ## 
+    ## $counts
+    ## function gradient 
+    ##       84       28 
+    ## 
+    ## $convergence
+    ## [1] 0
+    ## 
+    ## $message
+    ## NULL
+    ## 
+    ## $hessian
+    ##          [,1]      [,2]     [,3]      [,4]
+    ## [1,] 2614.518  3904.032 3659.184  5901.358
+    ## [2,] 3904.032  6592.072 5901.355 10180.029
+    ## [3,] 3659.184  5901.355 5457.023  9175.497
+    ## [4,] 5901.358 10180.029 9175.497 16110.364
+
+True parameters : beta_1 \<- 1, beta_2 \<- 0.5, beta_3 \<- 2
+
+Predicted parameters : beta_1 \<- 1.0670258, beta_2 \<- 0.6469933,
+beta_3 \<- 1.9104993
