@@ -742,7 +742,6 @@ df_long <- data.frame(
 model <- glm(y~CP_w+CP_l+CP_w:CP_l, 
              data = df_long, 
              family = binomial(link = "logit"))
-
 summary(model)
 ```
 
@@ -799,46 +798,29 @@ log_likelihood <- function(beta, X, y) {
 ```
 
 ``` r
-optim(
-  par = c(0,0,0,0),
-  fn = log_likelihood,
-  X = X, 
-  y = y_vec, 
-  method = "BFGS", 
-  hessian = TRUE
+results <- optim(
+    par = c(0,0,0,0),
+    fn = log_likelihood,
+    X = X, 
+    y = y_vec, 
+    method = "BFGS", 
+    hessian = TRUE
+  )
+```
+
+``` r
+data.frame(
+  true = c(beta0, beta1, beta2, beta3), 
+  estimated_1 = c(coef(model)), 
+  estimated_2 = c(results$par)
 )
 ```
 
-    ## $par
-    ## [1] -5.3917332  1.0670258  0.6469933  1.9104993
-    ## 
-    ## $value
-    ## [1] 10903.53
-    ## 
-    ## $counts
-    ## function gradient 
-    ##       84       28 
-    ## 
-    ## $convergence
-    ## [1] 0
-    ## 
-    ## $message
-    ## NULL
-    ## 
-    ## $hessian
-    ##          [,1]      [,2]     [,3]      [,4]
-    ## [1,] 2614.518  3904.032 3659.184  5901.358
-    ## [2,] 3904.032  6592.072 5901.355 10180.029
-    ## [3,] 3659.184  5901.355 5457.023  9175.497
-    ## [4,] 5901.358 10180.029 9175.497 16110.364
-
-True parameters : $\beta_1$ \<- 1, $\beta_2$ \<- 0.5, $\beta_3$ \<- 2
-
-Predicted parameters from the first method : $\hat{\beta_1}$ \<-
-1.06436, $\hat{\beta_2}$ \<- 0.63839, $\hat{\beta_3}$ \<- 1.91428
-
-Predicted parameters from the second method : $\hat{\beta_1}$ \<-
-1.0670258, $\hat{\beta_2}$ \<- 0.6469933, $\hat{\beta_3}$ \<- 1.9104993
+    ##                true estimated_1 estimated_2
+    ## (Intercept) -5.2933  -5.3842391  -5.3917332
+    ## CP_w         1.0000   1.0643561   1.0670258
+    ## CP_l         0.5000   0.6383928   0.6469933
+    ## CP_w:CP_l    2.0000   1.9142762   1.9104993
 
 The close alignment between the estimated and true parameters
 demonstrates that both models successfully recover the parameters

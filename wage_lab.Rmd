@@ -478,7 +478,6 @@ df_long <- data.frame(
 model <- glm(y~CP_w+CP_l+CP_w:CP_l, 
              data = df_long, 
              family = binomial(link = "logit"))
-
 summary(model)
 ```
 
@@ -510,21 +509,23 @@ log_likelihood <- function(beta, X, y) {
 ```
 
 ```{r}
-optim(
-  par = c(0,0,0,0),
-  fn = log_likelihood,
-  X = X, 
-  y = y_vec, 
-  method = "BFGS", 
-  hessian = TRUE
-)
+results <- optim(
+    par = c(0,0,0,0),
+    fn = log_likelihood,
+    X = X, 
+    y = y_vec, 
+    method = "BFGS", 
+    hessian = TRUE
+  )
 ```
 
-True parameters : $\beta_1$ <- 1, $\beta_2$ <- 0.5, $\beta_3$ <- 2 
-
-Predicted parameters from the first method : $\hat{\beta_1}$ <- 1.06436, $\hat{\beta_2}$ <- 0.63839, $\hat{\beta_3}$ <- 1.91428
-
-Predicted parameters from the second method : $\hat{\beta_1}$ <- 1.0670258, $\hat{\beta_2}$ <- 0.6469933, $\hat{\beta_3}$ <- 1.9104993
+```{r}
+data.frame(
+  true = c(beta0, beta1, beta2, beta3), 
+  estimated_1 = c(coef(model)), 
+  estimated_2 = c(results$par)
+)
+```
 
 The close alignment between the estimated and true parameters demonstrates that both models successfully recover the parameters derived from Marxian theory. This also validates our use of the EPV rule, confirming that the sample size was sufficient for reliable estimation. Furthermore, the estimated parameters maintain the expected ordering ($\beta_3$ > $\beta_2$ > $\beta_1$), providing empirical support for the theoretical argument regarding the dominance of the interaction term. Finally, despite the autocorrelated structure of the CP variables, standard logistic regression via glm() performs comparably to the custom MLE. This suggests that, under this specific simulation design, the autocorrelation does not introduce severe bias into the estimates.
 
