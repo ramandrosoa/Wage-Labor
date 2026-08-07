@@ -526,8 +526,7 @@ Predicted parameters from the first method : $\hat{\beta_1}$ <- 1.06436, $\hat{\
 
 Predicted parameters from the second method : $\hat{\beta_1}$ <- 1.0670258, $\hat{\beta_2}$ <- 0.6469933, $\hat{\beta_3}$ <- 1.9104993
 
-The fact that the estimated parameters in both models are close the true parameters means that the the model successfully recovers parameters that are theoretically grounded in Marx and Turchin.
-
+The close alignment between the estimated and true parameters demonstrates that both models successfully recover the parameters derived from Marxian theory. This also validates our use of the EPV rule, confirming that the sample size was sufficient for reliable estimation. Furthermore, the estimated parameters maintain the expected ordering ($\beta_3$ > $\beta_2$ > $\beta_1$), providing empirical support for the theoretical argument regarding the dominance of the interaction term. Finally, despite the autocorrelated structure of the CP variables, standard logistic regression via glm() performs comparably to the custom MLE. This suggests that, under this specific simulation design, the autocorrelation does not introduce severe bias into the estimates.
 
 
 
