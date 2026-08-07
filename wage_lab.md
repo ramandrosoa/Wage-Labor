@@ -721,10 +721,12 @@ true parameters, the model certainly cannot be trusted to estimate
 unknown parameters from real historical data.
 
 To fit the logistic regression, we will utilize two estimation
-approaches and evaluate the differences in the resulting coefficients.
+approaches and evaluate the differences in the resulting coefficients :
 
-**1. Reshape the matrices N x T to long format dataframe and fit to
-standard logistic regression**
+**1. Long format + glm()**
+
+This is the cleanest approach for logistic regression in R: the NxT
+matrices to a long format dataframe and fit the data straightforwardly.
 
 ``` r
 df_long <- data.frame(
@@ -775,7 +777,9 @@ True parameters : beta_1 \<- 1, beta_2 \<- 0.5, beta_3 \<- 2
 Predicted parameters : beta_1 \<- 1.06436, beta_2 \<- 0.63839, beta_3
 \<- 1.91428
 
-**2. Custom logistic regression function**
+**2. Custom Maximum Likelihood Estimation function**
+
+This method shows what glm() is doing internally.
 
 ``` r
 X <- cbind(

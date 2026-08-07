@@ -458,9 +458,11 @@ The substantial jump from 1328 to 66569 crises is an expected outcome rather tha
 
 The true parameters are known by construction. By fitting the logistic regression, we can validate whether the sample size N derived from the EPV rule is sufficient to recover the true parameters, assess if a standard logistic regression remains reliable under the ARMA(1,q) autocorrelation structure of $CP_L$ and $CP_W$ and test whether the parameter $\beta_3$ is detectable. Here, $\beta_3$ represents the mathematical formalization of Marx's argument that the interaction of wage depression and labor surplus amplifies crisis emergence. This approach allows us to determine whether the statistical model can recover known parameters from synthetic data generated under controlled conditions. If the estimated parameters diverge substantially from the true parameters, the model certainly cannot be trusted to estimate unknown parameters from real historical data.
 
-To fit the logistic regression, we will utilize two estimation approaches and evaluate the differences in the resulting coefficients.
+To fit the logistic regression, we will utilize two estimation approaches and evaluate the differences in the resulting coefficients :
 
-**1. Reshape the matrices N x T to long format dataframe and fit to standard logistic regression**
+**1. Long format + glm()**
+
+This is the cleanest approach for logistic regression in R: the NxT matrices to a long format dataframe and fit the data straightforwardly. 
 
 ```{r}
 df_long <- data.frame(
@@ -484,7 +486,9 @@ True parameters : beta_1 <- 1, beta_2 <- 0.5, beta_3 <- 2
 
 Predicted parameters : beta_1 <- 1.06436, beta_2 <- 0.63839, beta_3 <- 1.91428
 
-**2. Custom logistic regression function**
+**2. Custom Maximum Likelihood Estimation function**
+
+This method shows what glm() is doing internally.
 
 ```{r}
 X <- cbind(
