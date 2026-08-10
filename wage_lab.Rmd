@@ -2,10 +2,14 @@
 title: "Wage Labour and Capital"
 output: github_document
 ---
-```{r}
-library(dplyr)
-```
 
+```{r setup, include=FALSE}
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(sandwich)
+library(lmtest)
+```
 In this project, we translated the theoretical framework of Marx's Wage Labour and Capital into a mathematical model.
 To ensure that the variables behave according to the theoretical mechanisms describes in the literature, rather than being confounded by the complexity of real historical processes, we rely on synthetic data rather than empirical historical data. This allow us to control the data generating process precisely. 
 

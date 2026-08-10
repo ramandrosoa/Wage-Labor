@@ -1,21 +1,6 @@
 Wage Labour and Capital
 ================
 
-``` r
-library(dplyr)
-```
-
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
-
 In this project, we translated the theoretical framework of Marx’s Wage
 Labour and Capital into a mathematical model. To ensure that the
 variables behave according to the theoretical mechanisms describes in
@@ -321,7 +306,7 @@ lines(1:T_pilot, CP_w[,1],col ="red")
 legend("topleft", legend = c("CP_l", "CP_w"), col = c("black", "red"), lty = 1)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 **Phases of the labor surplus:**
 
@@ -373,7 +358,7 @@ legend("topleft",
        lty = c(1, 2, 1, 1), lwd = 2)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 The plot below represent the Phase 2 and Phase 3 of the labor surplus
 from decade 10 to decade 40. The dotted line is the **logistic trend**:
@@ -917,4 +902,4 @@ res_s1 <- residuals_pearson[df_long_ord$society == 1]
 acf(res_s1, main = "ACF of Pearson Residuals")
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-37-1.png)<!-- -->
