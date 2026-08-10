@@ -517,7 +517,7 @@ $T_{eff}$: effective sample size - $p$: crisis probability
 
 Every predictor requires a sufficient number of independent observations
 to ensure reliable parameter estimates. By setting $T_{eff}$ based on
-$CP\_L$, we guarantee at least 11 independent observations for the most
+$CP\_L$, we guarantee at least 5 independent observations for the most
 autocorrelated variable. Meanwhile, $CP\_W$ automatically yields an
 excess of observations given its lower autocorrelation, making $CP\_L$
 the binding constraint.
@@ -826,7 +826,7 @@ estimates.
 
 #### Time Series Diagnosis
 
-1.  Comparison of the ACF of the pilot and final simulation : Why?
+1.  Comparison of the ACF of the pilot and final simulation :
 
 ``` r
 acfin_matrix_l <- matrix(NA, nrow = lag_max , ncol = N_final)
@@ -848,14 +848,55 @@ acf_comp_w <- data.frame(lag = 1:lag_max,
                          acf_pilot = acf_avg_w)
 ```
 
-If the final simulation and the pilot simulation has the same
-autocorrelation structure :
+``` r
+acf_comparison <- function(acf_comp, title = "ACF Comparison: Final vs Pilot"){
+  
+  # convert to long format 
+  acf_long <- pivot_longer(acf_comp, 
+                           cols = c(acf_final, acf_pilot), 
+                           names_to = "Type", 
+                           values_to = "ACF_Values")
+  
+  # clot with dodged points and lines
+  p <- ggplot(acf_long, aes(x = lag, y = ACF_Values, color = Type, group = Type)) +
+    geom_line(position = position_dodge(width = 0.2), linewidth = 1) + 
+    geom_point(position = position_dodge(width = 0.2), size = 3) + 
+    geom_hline(yintercept = 0, linetype = "dashed", color = "gray") +
+    theme_minimal() +
+    # FIXED: Use the `title` argument here instead of hard-coding it
+    labs(title = title,        
+         x = "Lag", 
+         y = "ACF Value") +
+    scale_color_manual(values = c("acf_final" = "steelblue", "acf_pilot" = "firebrick"))
+  
+  # 3. Return the plot
+  return(p) 
+}
+```
 
-- The Data Generating Process is stable which implies that the same
-  parameters produce the same autocorrelation structure regardless of N.
-- The effective sample size (ESS) we derive from the pilot is valid for
-  the final simulation because the autocorrelation structure it was
-  based on has not changed.
+``` r
+plot_wage <- acf_comparison(acf_comp_w, title = "ACF Comparison (wage gap)" )
+plot_labor <-acf_comparison(acf_comp_l, title = "ACF Comparison (labor surplus)" )
+```
+
+``` r
+combined_plot <- plot_wage + plot_labor
+combined_plot
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
+
+As confirmed by the plots, the final and pilot simulations exhibit the
+**same autocorrelation structure.** This alignment indicate two key
+points:
+
+- **Stability of the Data Generating Process (DGP):** The DGP is stable,
+  meaning the underlying parameters consistently produce the same
+  autocorrelation structure regardless of the sample size (N)
+
+- **Validity of the Effective Sample Size (ESS):** The ESS derived from
+  the pilot simulation remains valid for the final simulation, as the
+  underlying autocorrelation structure has remained unchanged.
 
 2.  Residual autocorrelation from logistic regression
 
