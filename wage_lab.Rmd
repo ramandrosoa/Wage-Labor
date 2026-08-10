@@ -73,6 +73,7 @@ delta_c <- 0.43
 ```
 
 #### Generate wage gap and labor surplus
+
 Labor surplus has to be generated before wage gap because the growth rate $r_w$ of the logistic trend of the wage gap depends on labor surplus
 
 1.    Labor surplus : it represents the excess of workers relative to available job
@@ -446,7 +447,7 @@ data.frame (
   Total_crisis = c(sum(y_pilot), sum(y_final))
     )
 ```
-The substantial jump from 1328 to 66569 crises is an expected outcome rather than a anomaly; it directly reflects the roughly 50-fold scaling of the number of societies from $N_{pilot} = 10$ to $N_{final} = 504$
+The substantial jump from 1328 to 150424 crises is an expected outcome rather than a anomaly; it directly reflects the roughly 50-fold scaling of the number of societies from $N_{pilot} = 10$ to $N_{final} = 1139$
 
 #### Parameter recovery analysis
 
@@ -554,18 +555,10 @@ If the final simulation and the pilot simulation has the same autocorrelation st
 
 2.   Residual autocorrelation from logistic regression
 
-The ARMA(1,q) structure of $CP_W$ and $CP_L$ violated the assumption of logistic regression : the independence of the observations. The consequence is not that the $\beta$ estimated are necessarily biased. The real damage is to the standard errors. $CP_W$ and $CP_L$ should carry all the temporal structure so the residuals should not be correlated and this will introduced to **biased standard error.**
+The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic regression assumption of independent observations. However, this does not necessarily bias the estimated $\beta$ coefficients; rather, the primary consequence is **inaccurate standard errors**. Because $CP_w$ and $CP_l$ are expected to capture the temporal structure, the residuals should be uncorrelated. The presence of correlated residuals will lead to biased standard errors.
 
 ```{r}
-# extract residuals ordered by decade within society
-df_long_ord <- df_long %>%
-  arrange(society, decade)
 
-residuals_pearson <- residuals(model, type = "pearson")
-
-# ACF residual for society 1 , use average acf function? 
-res_s1 <- residuals_pearson[df_long_ord$society == 1]
-acf(res_s1, main = "ACF of Pearson Residuals")
 
 ```
 
