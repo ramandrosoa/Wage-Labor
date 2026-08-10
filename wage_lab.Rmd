@@ -3,13 +3,14 @@ title: "Wage Labour and Capital"
 output: github_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE }
 library(dplyr)
 library(ggplot2)
 library(tidyr)
 library(sandwich)
 library(lmtest)
 ```
+
 In this project, we translated the theoretical framework of Marx's Wage Labour and Capital into a mathematical model.
 To ensure that the variables behave according to the theoretical mechanisms describes in the literature, rather than being confounded by the complexity of real historical processes, we rely on synthetic data rather than empirical historical data. This allow us to control the data generating process precisely. 
 
@@ -537,16 +538,16 @@ acfin_avg_w <- acf_func(lag_max, acfin_matrix_w, N_final, T_final, t0_w, CPfin_w
 ```
 
 ```{r}
-acfin_avg_l
-acf_avg_l
-```
+# compare acf pilot and acf final for labor surplus
+acf_comp_l<- data.frame(lag = 1:lag_max, 
+                        acf_final = acfin_avg_l, 
+                        acf_pilot = acf_avg_l)
 
-```{r}
-acfin_avg_w
-acf_avg_w
+# compare acf pilot and acf final for wage gap
+acf_comp_w <- data.frame(lag = 1:lag_max, 
+                         acf_final = acfin_avg_w, 
+                         acf_pilot = acf_avg_w)
 ```
-
-**add plot**
 
 If the final simulation and the pilot simulation has the same autocorrelation structure : 
 
@@ -558,8 +559,21 @@ If the final simulation and the pilot simulation has the same autocorrelation st
 The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic regression assumption of independent observations. However, this does not necessarily bias the estimated $\beta$ coefficients; rather, the primary consequence is **inaccurate standard errors**. Because $CP_w$ and $CP_l$ are expected to capture the temporal structure, the residuals should be uncorrelated. The presence of correlated residuals will lead to biased standard errors.
 
 ```{r}
+residuals_pearson <- residuals(model, type = "pearson")
+lag_max <- min(Tl_obs/4, 20)
+df_long_ord <- df_long %>% arrange(society, decade)
+acf_resid_matrix <- matrix (NA, nrow = lag_max, ncol = N_final)
 
 
+for (s in 1:N_final){
+  # Extract the residuals for society s
+  res_s <- residuals_pearson[df_long$society == s]
+  acf_resid_matrix[,s]<-acf(res_s, lag_max, plot = FALSE)$acf[-1]
+}
+
+avg_resid_matrix <- rowMeans(acf_resid_matrix)
 ```
+
+
 
 

@@ -689,9 +689,9 @@ data.frame (
     ## 1      Pilot   10 200         1328
     ## 2      Final 1139 200       150424
 
-The substantial jump from 1328 to 66569 crises is an expected outcome
+The substantial jump from 1328 to 150424 crises is an expected outcome
 rather than a anomaly; it directly reflects the roughly 50-fold scaling
-of the number of societies from $N_{pilot} = 10$ to $N_{final} = 504$
+of the number of societies from $N_{pilot} = 10$ to $N_{final} = 1139$
 
 #### Parameter recovery analysis
 
@@ -837,40 +837,16 @@ acfin_avg_w <- acf_func(lag_max, acfin_matrix_w, N_final, T_final, t0_w, CPfin_w
 ```
 
 ``` r
-acfin_avg_l
+# compare acf pilot and acf final for labor surplus
+acf_comp_l<- data.frame(lag = 1:lag_max, 
+                        acf_final = acfin_avg_l, 
+                        acf_pilot = acf_avg_l)
+
+# compare acf pilot and acf final for wage gap
+acf_comp_w <- data.frame(lag = 1:lag_max, 
+                         acf_final = acfin_avg_w, 
+                         acf_pilot = acf_avg_w)
 ```
-
-    ##  [1] 0.9668216 0.9344125 0.9026425 0.8714684 0.8406880 0.8103540 0.7805536
-    ##  [8] 0.7512374 0.7223951 0.6939653 0.6659934 0.6385105 0.6115404 0.5851136
-    ## [15] 0.5592080 0.5338965 0.5090767 0.4847836 0.4609914 0.4377870
-
-``` r
-acf_avg_l
-```
-
-    ##  [1] 0.9663918 0.9333654 0.9009239 0.8693598 0.8389406 0.8087315 0.7793410
-    ##  [8] 0.7499192 0.7208600 0.6923915 0.6645762 0.6368644 0.6102958 0.5840382
-    ## [15] 0.5582158 0.5326550 0.5072599 0.4830230 0.4590831 0.4361048
-
-``` r
-acfin_avg_w
-```
-
-    ##  [1]  0.859981172  0.723686113  0.595572882  0.479340779  0.377489634
-    ##  [6]  0.291125986  0.220112377  0.163207688  0.118683323  0.084539844
-    ## [11]  0.058822692  0.039726023  0.025700392  0.015490154  0.008094981
-    ## [16]  0.002744669 -0.001136588 -0.003979043 -0.006088423 -0.007687929
-
-``` r
-acf_avg_w
-```
-
-    ##  [1]  0.859723715  0.723199150  0.594786421  0.478683015  0.376922169
-    ##  [6]  0.290673652  0.219499425  0.162219888  0.117775038  0.083584991
-    ## [11]  0.057945239  0.038952240  0.025193978  0.015189792  0.007924564
-    ## [16]  0.002649513 -0.001201109 -0.004017696 -0.006109842 -0.007690791
-
-**add plot**
 
 If the final simulation and the pilot simulation has the same
 autocorrelation structure :
@@ -883,23 +859,26 @@ autocorrelation structure :
 
 2.  Residual autocorrelation from logistic regression
 
-The ARMA(1,q) structure of $CP_W$ and $CP_L$ violated the assumption of
-logistic regression : the independence of the observations. The
-consequence is not that the $\beta$ estimated are necessarily biased.
-The real damage is to the standard errors. $CP_W$ and $CP_L$ should
-carry all the temporal structure so the residuals should not be
-correlated and this will introduced to **biased standard error.**
+The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic
+regression assumption of independent observations. However, this does
+not necessarily bias the estimated $\beta$ coefficients; rather, the
+primary consequence is **inaccurate standard errors**. Because $CP_w$
+and $CP_l$ are expected to capture the temporal structure, the residuals
+should be uncorrelated. The presence of correlated residuals will lead
+to biased standard errors.
 
 ``` r
-# extract residuals ordered by decade within society
-df_long_ord <- df_long %>%
-  arrange(society, decade)
-
 residuals_pearson <- residuals(model, type = "pearson")
+lag_max <- min(Tl_obs/4, 20)
+df_long_ord <- df_long %>% arrange(society, decade)
+acf_resid_matrix <- matrix (NA, nrow = lag_max, ncol = N_final)
 
-# ACF residual for society 1 , use average acf function? 
-res_s1 <- residuals_pearson[df_long_ord$society == 1]
-acf(res_s1, main = "ACF of Pearson Residuals")
+
+for (s in 1:N_final){
+  # Extract the residuals for society s
+  res_s <- residuals_pearson[df_long$society == s]
+  acf_resid_matrix[,s]<-acf(res_s, lag_max, plot = FALSE)$acf[-1]
+}
+
+avg_resid_matrix <- rowMeans(acf_resid_matrix)
 ```
-
-![](wage_lab_files/figure-gfm/unnamed-chunk-37-1.png)<!-- -->
