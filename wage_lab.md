@@ -1,6 +1,21 @@
 Wage Labour and Capital
 ================
 
+``` r
+library(dplyr)
+```
+
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
 In this project, we translated the theoretical framework of Marx’s Wage
 Labour and Capital into a mathematical model. To ensure that the
 variables behave according to the theoretical mechanisms describes in
@@ -306,7 +321,7 @@ lines(1:T_pilot, CP_w[,1],col ="red")
 legend("topleft", legend = c("CP_l", "CP_w"), col = c("black", "red"), lty = 1)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 **Phases of the labor surplus:**
 
@@ -358,7 +373,7 @@ legend("topleft",
        lty = c(1, 2, 1, 1), lwd = 2)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 The plot below represent the Phase 2 and Phase 3 of the labor surplus
 from decade 10 to decade 40. The dotted line is the **logistic trend**:
@@ -399,33 +414,27 @@ is most clearly expressed empirically.
 **Labor surplus**
 
 ``` r
-lag_max_l <- 20 
-acf_matrix_l <- matrix(NA, nrow = lag_max_l , ncol = N_pilot)
-
-for (s in 1:N_pilot) {
-  cps_l <- CP_l[t0_l:N_pilot, s]
-  acf_matrix_l [,s] <- acf(cps_l,
-                    lag.max = lag_max_l,
-                    plot = FALSE)$acf[-1]  # remove lag-0 (always 1)
-}
-
-acf_avg_l <- rowMeans(acf_matrix_l)
+lag_max <- 20 
+acf_matrix_l <- matrix(NA, nrow = lag_max , ncol = N_pilot)
+acf_matrix_w <- matrix(NA, nrow = lag_max , ncol = N_pilot)
 ```
 
-**Wage gap**
+``` r
+acf_func <- function(lag_max, acf_matrix, N, T, t0, CP) {
+  for (s in 1:N){
+    cps <- CP[t0:T, s]
+    acf_matrix[,s] <- acf(cps, 
+                          lag.max = lag_max,
+                          plot = FALSE)$acf[-1]
+  }
+  acf_avg <- rowMeans(acf_matrix)
+  return(acf_avg)
+}
+```
 
 ``` r
-lag_max_w <- 20 
-acf_matrix_w <- matrix(NA, nrow = lag_max_w , ncol = N_pilot)
-
-for (s in 1:N_pilot) {
-  cps_w <- CP_w[t0_w:N_pilot, s]
-  acf_matrix_w [,s] <- acf(cps_w,
-                    lag.max = lag_max_w,
-                    plot = FALSE)$acf[-1]  # remove lag-0 (always 1)
-}
-
-acf_avg_w <- rowMeans(acf_matrix_w)
+acf_avg_l <- acf_func(lag_max, acf_matrix_l, N_pilot, T_pilot, t0_l, CP_l)
+acf_avg_w <- acf_func(lag_max, acf_matrix_w, N_pilot, T_pilot, t0_w, CP_w)
 ```
 
 #### Derive T from the effective sample size (ESS)
@@ -461,42 +470,40 @@ cat("Effective sample size — labor surplus:",
     round(Tl_eff, 3), "\n")
 ```
 
-    ## Effective sample size — labor surplus: 11.921
+    ## Effective sample size — labor surplus: 5.27
 
 ``` r
 cat("Effective sample size — wage gap:",
     round(Tw_eff, 3), "\n")
 ```
 
-    ## Effective sample size — wage gap: 20.559
+    ## Effective sample size — wage gap: 15.432
 
 ``` r
-cat("Efficiency ratio (T_eff/T_usable) — wage gap:", 
+cat("Efficiency ratio — wage gap:", 
     round(ratio_w, 3), "\n")
 ```
 
-    ## Efficiency ratio (T_eff/T_usable) — wage gap: 0.147
+    ## Efficiency ratio — wage gap: 0.11
 
 ``` r
-cat("Efficiency ratio (T_eff/T_usable) — labor surplus:", 
+cat("Efficiency ratio — labor surplus:", 
     round(ratio_l, 3), "\n")
 ```
 
-    ## Efficiency ratio (T_eff/T_usable) — labor surplus: 0.079
+    ## Efficiency ratio — labor surplus: 0.035
 
 ``` r
-cat("Usable decades for labor surplus (Tl_usable):" ,
-    round(Tl_eff/ratio_l, 3), "\n")
+cat("Usable decades — labor surplus:", Tl_obs, "\n")
 ```
 
-    ## Usable decades for labor surplus (Tl_usable): 150
+    ## Usable decades — labor surplus: 150
 
 ``` r
-cat("Usable decades for wage gap (Tw_usable):" ,
-    round(Tw_eff/ratio_w, 3))
+cat("Usable decades — wage gap:", Tw_obs)
 ```
 
-    ## Usable decades for wage gap (Tw_usable): 140
+    ## Usable decades — wage gap: 140
 
 The effective sample size represents the number of **independent,
 non-redundant and unique** observations contained in a correlated time
@@ -511,21 +518,17 @@ The usable decades represent the number of observed periods required to
 accumulate a given number of truly independent observations. Due to the
 high autocorrelation structure of each variable, the raw sample is
 substantially larger than the effective one. For instance, each society
-must be observed for roughly **150 decades to yield only 11 independent
+must be observed for roughly **150 decades to yield only 5 independent
 observations from the labor surplus**. Similarly, roughly **140 decades
-of observation per society are needed to accumulate 20 independent
+of observation per society are needed to accumulate 15 independent
 observations from the wage gap.**
 
 #### Derive N from the events per variable (EPV)
 
 $$
 EPV = N\cdot T_{eff}\cdot p
-$$
-
-- $EPV$: expected crisis events
-- $N$: number of societies
-- $T_{eff}$: effective sample size
-- $p$: crisis probability
+$$ - $EPV$: expected crisis events - $N$: number of societies -
+$T_{eff}$: effective sample size - $p$: crisis probability
 
 Every predictor requires a sufficient number of independent observations
 to ensure reliable parameter estimates. By setting $T_{eff}$ based on
@@ -544,9 +547,9 @@ To estimate N, we vary the crisis probability p across a theoretically
 motivated range. p represents the baseline crisis probability when
 $CP\_W = CP\_L = 0$, interpreted as the **minimum crisis probability**
 at the onset of capitalism before structural contradictions accumulate.
-Setting $CP_W = CP_L = 0$ isolates beta_0 as the sole determinant of the
-baseline probability, ensuring that the sensitivity analysis varies only
-the intercept while holding the pressure dynamics fixed.
+Setting $CP_W = CP_L = 0$ isolates $\beta_0$ as the sole determinant of
+the baseline probability, ensuring that the sensitivity analysis varies
+only the intercept while holding the pressure dynamics fixed.
 
 $$
 p (crisis|CP\_W = 0, CP\_L = 0) = \frac{1}{1+e^{-\beta_0}}
@@ -578,11 +581,11 @@ print(sensitivity_analysis)
 ```
 
     ##   crisis_prob   beta0 N_needed
-    ## 1       0.001 -6.9068     2517
-    ## 2       0.005 -5.2933      504
-    ## 3       0.010 -4.5951      252
-    ## 4       0.020 -3.8918      126
-    ## 5       0.050 -2.9444       51
+    ## 1       0.001 -6.9068     5693
+    ## 2       0.005 -5.2933     1139
+    ## 3       0.010 -4.5951      570
+    ## 4       0.020 -3.8918      285
+    ## 5       0.050 -2.9444      114
 
 According to the EPV rule, a minimum of 30 crisis events is required
 across the entire dataset to reliably estimate the three parameters of
@@ -594,8 +597,8 @@ larger N to compensate the rarity of crisis events.
 
 #### Generate the structural crisis (y_pilot)
 
-The baseline crisis probability p is calibrated from Turchin and
-Nefedov’s (2009) observation that recurrent waves of state breakdown
+The baseline crisis probability p is calibrated from **Turchin and
+Nefedov’s (2009)** observation that recurrent waves of state breakdown
 occured approximately **three times over five centuries** of European
 history — the calamitous fourteenth century, the iron century of
 1550-1660, and the age of revolutions of 1789-1849. This implies a
@@ -604,9 +607,10 @@ motivates the lower end of our sensitivity analysis, consistent with
 Marx’s argument in Wage Labour and Capital that structural crisis
 require prolonged accumulation of contradictions before becoming
 probable. The combination that mostly fits with this argument is
-($p = 0.005$, $\beta_0 = -5.2933$, $N = 504$).
+($p = 0.005$, $\beta_0 = -5.2933$, $N = 1139$).
 
-Then, we need to fix the parameters $\beta_1$ , $\beta_2$ , $\beta_3$.
+Then, we need to determine the parameters $\beta_1$ , $\beta_2$ ,
+$\beta_3$.
 
 ``` r
 beta0 <- -5.2933    
@@ -617,8 +621,8 @@ beta3 <- 2.0   # interaction — largest, captures Marx's threshold
 
 The ordering $\beta_3$ \> $\beta_1$ \> $\beta_2$ reflects three
 theoretical priorities. The dominance of $\beta_3$ formalizes Marx’s
-conjunctural argument that structural crisis emerges primarly from the
-simultaneous occurrence of wage depression and labor surplus. The
+conjunctural argument that **structural crisis emerges primarly from the
+simultaneous occurrence of wage depression and labor surplus.** The
 ordering beta1 \> beta2 reflects the relatively stronger direct effect
 of wage gap compared to labor surplus in isolation, consistent with
 Marx’s emphasis on wage depression as the most visible manifestation of
@@ -659,18 +663,18 @@ head(y_pilot)
 
 #### Final simulation
 
-For the final simulation, we set **N = 504 societies and T = 200**,
+For the final simulation, we set **N = 1139 societies and T = 200**,
 corresponding to the inflection point of labor surplus $t_{0,l}$ plus
 the post-inflection usable window 150 decades. The pre-inflection phase
 is retained to preserve the theoretical warmup consistent with Marx’s
 early capitalism argument. However, the labor surplus exhibits high
 autocorrelation, substantially reducing the effective independent
 information per society. To compensate for this loss of independence and
-to satisfy the EPV rule of a minimum of 30 effective crisis, N = 504
+to satisfy the EPV rule of a minimum of 30 effective crisis, N = 1139
 societies are required.
 
 ``` r
-N_final <- 504
+N_final <- 1139
 T_final <- 200
 ```
 
@@ -696,9 +700,9 @@ data.frame (
     )
 ```
 
-    ##   Simulation   N   T Total_crisis
-    ## 1      Pilot  10 200         1328
-    ## 2      Final 504 200        66569
+    ##   Simulation    N   T Total_crisis
+    ## 1      Pilot   10 200         1328
+    ## 2      Final 1139 200       150424
 
 The substantial jump from 1328 to 66569 crises is an expected outcome
 rather than a anomaly; it directly reflects the roughly 50-fold scaling
@@ -752,22 +756,22 @@ summary(model)
     ## 
     ## Deviance Residuals: 
     ##     Min       1Q   Median       3Q      Max  
-    ## -3.0178  -0.1067   0.1576   0.1805   3.2829  
+    ## -3.0381  -0.1099   0.1566   0.1797   3.2517  
     ## 
     ## Coefficients:
     ##             Estimate Std. Error z value Pr(>|z|)    
-    ## (Intercept) -5.38424    0.13691 -39.326  < 2e-16 ***
-    ## CP_w         1.06436    0.10665   9.980  < 2e-16 ***
-    ## CP_l         0.63839    0.17273   3.696 0.000219 ***
-    ## CP_w:CP_l    1.91428    0.08685  22.042  < 2e-16 ***
+    ## (Intercept) -5.28175    0.08890 -59.415   <2e-16 ***
+    ## CP_w         1.00715    0.07063  14.259   <2e-16 ***
+    ## CP_l         0.47439    0.11366   4.174    3e-05 ***
+    ## CP_w:CP_l    2.00674    0.05718  35.094   <2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## (Dispersion parameter for binomial family taken to be 1)
     ## 
-    ##     Null deviance: 129178  on 100799  degrees of freedom
-    ## Residual deviance:  21807  on 100796  degrees of freedom
-    ## AIC: 21815
+    ##     Null deviance: 291955  on 227799  degrees of freedom
+    ## Residual deviance:  49028  on 227796  degrees of freedom
+    ## AIC: 49036
     ## 
     ## Number of Fisher Scoring iterations: 7
 
@@ -817,10 +821,10 @@ data.frame(
 ```
 
     ##                true estimated_1 estimated_2
-    ## (Intercept) -5.2933  -5.3842391  -5.3917332
-    ## CP_w         1.0000   1.0643561   1.0670258
-    ## CP_l         0.5000   0.6383928   0.6469933
-    ## CP_w:CP_l    2.0000   1.9142762   1.9104993
+    ## (Intercept) -5.2933  -5.2817530  -5.2834035
+    ## CP_w         1.0000   1.0071479   1.0077347
+    ## CP_l         0.5000   0.4743895   0.4769171
+    ## CP_w:CP_l    2.0000   2.0067423   2.0055421
 
 The close alignment between the estimated and true parameters
 demonstrates that both models successfully recover the parameters
@@ -834,3 +838,83 @@ CP variables, standard logistic regression via glm() performs comparably
 to the custom MLE. This suggests that, under this specific simulation
 design, the autocorrelation does not introduce severe bias into the
 estimates.
+
+#### Time Series Diagnosis
+
+1.  Comparison of the ACF of the pilot and final simulation : Why?
+
+``` r
+acfin_matrix_l <- matrix(NA, nrow = lag_max , ncol = N_final)
+acfin_matrix_w <- matrix(NA, nrow = lag_max , ncol = N_final)
+
+acfin_avg_l <- acf_func(lag_max, acfin_matrix_l, N_final, T_final, t0_l, CPfin_l)
+acfin_avg_w <- acf_func(lag_max, acfin_matrix_w, N_final, T_final, t0_w, CPfin_w)
+```
+
+``` r
+acfin_avg_l
+```
+
+    ##  [1] 0.9668216 0.9344125 0.9026425 0.8714684 0.8406880 0.8103540 0.7805536
+    ##  [8] 0.7512374 0.7223951 0.6939653 0.6659934 0.6385105 0.6115404 0.5851136
+    ## [15] 0.5592080 0.5338965 0.5090767 0.4847836 0.4609914 0.4377870
+
+``` r
+acf_avg_l
+```
+
+    ##  [1] 0.9663918 0.9333654 0.9009239 0.8693598 0.8389406 0.8087315 0.7793410
+    ##  [8] 0.7499192 0.7208600 0.6923915 0.6645762 0.6368644 0.6102958 0.5840382
+    ## [15] 0.5582158 0.5326550 0.5072599 0.4830230 0.4590831 0.4361048
+
+``` r
+acfin_avg_w
+```
+
+    ##  [1]  0.859981172  0.723686113  0.595572882  0.479340779  0.377489634
+    ##  [6]  0.291125986  0.220112377  0.163207688  0.118683323  0.084539844
+    ## [11]  0.058822692  0.039726023  0.025700392  0.015490154  0.008094981
+    ## [16]  0.002744669 -0.001136588 -0.003979043 -0.006088423 -0.007687929
+
+``` r
+acf_avg_w
+```
+
+    ##  [1]  0.859723715  0.723199150  0.594786421  0.478683015  0.376922169
+    ##  [6]  0.290673652  0.219499425  0.162219888  0.117775038  0.083584991
+    ## [11]  0.057945239  0.038952240  0.025193978  0.015189792  0.007924564
+    ## [16]  0.002649513 -0.001201109 -0.004017696 -0.006109842 -0.007690791
+
+**add plot**
+
+If the final simulation and the pilot simulation has the same
+autocorrelation structure :
+
+- The Data Generating Process is stable which implies that the same
+  parameters produce the same autocorrelation structure regardless of N.
+- The effective sample size (ESS) we derive from the pilot is valid for
+  the final simulation because the autocorrelation structure it was
+  based on has not changed.
+
+2.  Residual autocorrelation from logistic regression
+
+The ARMA(1,q) structure of $CP_W$ and $CP_L$ violated the assumption of
+logistic regression : the independence of the observations. The
+consequence is not that the $\beta$ estimated are necessarily biased.
+The real damage is to the standard errors. $CP_W$ and $CP_L$ should
+carry all the temporal structure so the residuals should not be
+correlated and this will introduced to **biased standard error.**
+
+``` r
+# extract residuals ordered by decade within society
+df_long_ord <- df_long %>%
+  arrange(society, decade)
+
+residuals_pearson <- residuals(model, type = "pearson")
+
+# ACF residual for society 1 , use average acf function? 
+res_s1 <- residuals_pearson[df_long_ord$society == 1]
+acf(res_s1, main = "ACF of Pearson Residuals")
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
