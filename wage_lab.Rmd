@@ -215,16 +215,6 @@ lines(1:T_pilot, CP_w[,1],col ="red")
 legend("topleft", legend = c("CP_l", "CP_w"), col = c("black", "red"), lty = 1)
 ```
 
-**Phases of the labor surplus:**
-
-"Wages will now rise, now fall,according to the relation of supply and demand, according as competition shapes itself between the buyers of labour-power, the capitalists, and the sellers of labour-power, the workers. "
-
--   *Phase 1: * Labor surplus is small and pre-inflection, driven by the logistic trend near zero plus random noise $\epsilon$. This represents the early **reserve army of labor** described by Marx — present but not yet structurally significant. 
-
--   *Phase 2: * New sectors emerge, temporarily increasing labor demand and absorbing surplus workers, which keeps the wage gap low. This is represented by the dampened oscillation: $A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P}$ , when $sin\frac{2t\pi}{P}$ is negative: the oscillation pulls labor surplus below the trend.
-
--   *Phase 3: * Labor surplus increases during the accumulation phase. During this phase, new technologies emerges and the capital grows. This leads to overproduction: more products in the market, the price falls, the profits collapse and profits collapse and workers are displaced by new technologies, swelling the reserve army. This is captured by $A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P}$ , when $sin\frac{2t\pi}{P}$ is positive: the oscillation pushes above the trend. With each peak higher than the last as the logistic trend rises underneath.
-
 ```{r}
 n <- 40
 trend_l <- K_l / (1 + exp(-r_l * (10:n - t0_l)))
@@ -245,6 +235,15 @@ legend("topleft",
        col = c("#00070d", "#E24B4A"),
        lty = c(1, 2, 1, 1), lwd = 2)
 ```
+**Phases of the labor surplus:**
+
+"Wages will now rise, now fall,according to the relation of supply and demand, according as competition shapes itself between the buyers of labour-power, the capitalists, and the sellers of labour-power, the workers. "
+
+-   *Phase 1: * Labor surplus is small and pre-inflection, driven by the logistic trend near zero plus random noise $\epsilon$. This represents the early **reserve army of labor** described by Marx — present but not yet structurally significant. 
+
+-   *Phase 2: * New sectors emerge, temporarily increasing labor demand and absorbing surplus workers, which keeps the wage gap low. This is represented by the dampened oscillation: $A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P}$ , when $sin\frac{2t\pi}{P}$ is negative: the oscillation pulls labor surplus below the trend.
+
+-   *Phase 3: * Labor surplus increases during the accumulation phase. During this phase, new technologies emerges and the capital grows. This leads to overproduction: more products in the market, the price falls, the profits collapse and profits collapse and workers are displaced by new technologies, swelling the reserve army. This is captured by $A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P}$ , when $sin\frac{2t\pi}{P}$ is positive: the oscillation pushes above the trend. With each peak higher than the last as the logistic trend rises underneath.
 
 The plot below represent the Phase 2 and Phase 3 of the labor surplus from decade 10 to decade 40. The dotted line is the **logistic trend**: Phase 2 is the labor surplus below the trend, and Phase 3 is the labor surplus above the trend. 
 
