@@ -329,12 +329,13 @@ The usable decades represent the number of observed periods required to accumula
 $$
 EPV = N\cdot T_{eff}\cdot p
 $$
+
 -   $EPV$: expected crisis events
 -   $N$: number of societies
 -   $T_{eff}$: effective sample size
 -   $p$: crisis probability 
 
-Every predictor requires a sufficient number of independent observations to ensure reliable parameter estimates. By setting $T_{eff}$ based on $CP\_L$, we guarantee at least 5 independent observations for the most autocorrelated variable. Meanwhile, $CP\_W$ automatically yields an excess of observations given its lower autocorrelation, making $CP\_L$ the binding constraint.
+Every predictor requires a sufficient number of independent observations to ensure reliable parameter estimates. By setting $T_{eff}$ based on $CP\_W$, we guarantee at least 5 independent observations for  $CP\_L$. 
 
 Recall $P(crisis[t]) = logistic(z)$, with
 
@@ -361,7 +362,7 @@ $$
 p <- c(0.001, 0.005, 0.01, 0.02, 0.05)
 beta0_values <- qlogis(p)
 epv <- 30
-T_eff_binding <- Tl_eff
+T_eff_binding <- Tw_eff
 
 # N calculation for each p
 sensitivity_analysis <- data.frame(
@@ -373,12 +374,12 @@ sensitivity_analysis <- data.frame(
 print(sensitivity_analysis)
 ```
  
-According to the EPV rule, a minimum of 30 crisis events is required across the entire dataset to reliably estimate the three parameters of the logistic model. Since the effective sample size is fixed at $T_{eff}$, the number of societies N required to accumulate 30 effective crisis observations is inversely proportional to the baseline crisis probability p. Consequently, lower values of p demand substantially larger N to compensate the rarity of crisis events. 
+According to the EPV rule, a minimum of 30 crisis events is required across the entire dataset to reliably estimate the three parameters of the logistic model. Since the effective sample size is fixed at $Tw_{eff}$, the number of societies N required to accumulate 30 effective crisis observations is inversely proportional to the baseline crisis probability p. Consequently, lower values of p demand substantially larger N to compensate the rarity of crisis events. 
 
 #### Generate the structural crisis (y_pilot)
 
 The baseline crisis probability p is calibrated from **Turchin and Nefedov's (2009)** observation that recurrent waves of state breakdown occured approximately **three times over five centuries** of European history — the calamitous fourteenth century, the iron century of 1550-1660, and the age of revolutions of 1789-1849. This implies a **per-decade crisis probability of approximately p = 0.006**. This motivates the lower end of our sensitivity analysis, consistent with Marx's argument in Wage Labour and Capital that structural crisis require prolonged accumulation of contradictions before becoming probable. 
-The combination that mostly fits with this argument is ($p = 0.005$, $\beta_0 = -5.2933$, $N = 1139$). 
+The combination that mostly fits with this argument is ($p = 0.005$, $\beta_0 = -5.2933$, $N = 389$). 
 
 Then, we need to determine the parameters $\beta_1$ , $\beta_2$ , $\beta_3$. 
 
@@ -419,11 +420,11 @@ head(y_pilot)
 
 #### Final simulation
 
-For the final simulation, we set **N = 1139 societies and T = 200**, corresponding to the inflection point of labor surplus $t_{0,l}$ plus the post-inflection usable window 150 decades. The pre-inflection phase is retained to preserve the theoretical warmup consistent with Marx's early capitalism argument. However, the labor surplus exhibits high autocorrelation, substantially reducing the effective independent information per society. To compensate for this loss of independence and to satisfy the EPV rule of a minimum of 30 effective crisis, N = 1139 societies are required. 
+For the final simulation, we set **N = 389 societies and T = 200**, corresponding to the inflection point of labor surplus $t_{0,l}$ plus the post-inflection usable window 150 decades. The pre-inflection phase is retained to preserve the theoretical warmup consistent with Marx's early capitalism argument. However, the labor surplus exhibits high autocorrelation, substantially reducing the effective independent information per society. To compensate for this loss of independence and to satisfy the EPV rule of a minimum of 30 effective crisis, N = 1139 societies are required. 
 
 
 ```{r}
-N_final <- 1139
+N_final <- 389
 T_final <- 200
 ```
 
@@ -449,7 +450,7 @@ data.frame (
   Total_crisis = c(sum(y_pilot), sum(y_final))
     )
 ```
-The substantial jump from 1328 to 150424 crises is an expected outcome rather than a anomaly; it directly reflects the roughly 50-fold scaling of the number of societies from $N_{pilot} = 10$ to $N_{final} = 1139$
+The substantial jump from 1328 to 51356 crises is an expected outcome rather than a anomaly; it directly reflects the roughly 50-fold scaling of the number of societies from $N_{pilot} = 10$ to $N_{final} = 1139$
 
 #### Parameter recovery analysis
 

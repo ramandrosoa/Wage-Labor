@@ -512,15 +512,16 @@ observations from the wage gap.**
 
 $$
 EPV = N\cdot T_{eff}\cdot p
-$$ - $EPV$: expected crisis events - $N$: number of societies -
-$T_{eff}$: effective sample size - $p$: crisis probability
+$$
+
+- $EPV$: expected crisis events
+- $N$: number of societies
+- $T_{eff}$: effective sample size
+- $p$: crisis probability
 
 Every predictor requires a sufficient number of independent observations
 to ensure reliable parameter estimates. By setting $T_{eff}$ based on
-$CP\_L$, we guarantee at least 5 independent observations for the most
-autocorrelated variable. Meanwhile, $CP\_W$ automatically yields an
-excess of observations given its lower autocorrelation, making $CP\_L$
-the binding constraint.
+$CP\_W$, we guarantee at least 5 independent observations for $CP\_L$.
 
 Recall $P(crisis[t]) = logistic(z)$, with
 
@@ -553,7 +554,7 @@ $$
 p <- c(0.001, 0.005, 0.01, 0.02, 0.05)
 beta0_values <- qlogis(p)
 epv <- 30
-T_eff_binding <- Tl_eff
+T_eff_binding <- Tw_eff
 
 # N calculation for each p
 sensitivity_analysis <- data.frame(
@@ -566,19 +567,19 @@ print(sensitivity_analysis)
 ```
 
     ##   crisis_prob   beta0 N_needed
-    ## 1       0.001 -6.9068     5693
-    ## 2       0.005 -5.2933     1139
-    ## 3       0.010 -4.5951      570
-    ## 4       0.020 -3.8918      285
-    ## 5       0.050 -2.9444      114
+    ## 1       0.001 -6.9068     1944
+    ## 2       0.005 -5.2933      389
+    ## 3       0.010 -4.5951      195
+    ## 4       0.020 -3.8918       98
+    ## 5       0.050 -2.9444       39
 
 According to the EPV rule, a minimum of 30 crisis events is required
 across the entire dataset to reliably estimate the three parameters of
 the logistic model. Since the effective sample size is fixed at
-$T_{eff}$, the number of societies N required to accumulate 30 effective
-crisis observations is inversely proportional to the baseline crisis
-probability p. Consequently, lower values of p demand substantially
-larger N to compensate the rarity of crisis events.
+$Tw_{eff}$, the number of societies N required to accumulate 30
+effective crisis observations is inversely proportional to the baseline
+crisis probability p. Consequently, lower values of p demand
+substantially larger N to compensate the rarity of crisis events.
 
 #### Generate the structural crisis (y_pilot)
 
@@ -592,7 +593,7 @@ motivates the lower end of our sensitivity analysis, consistent with
 Marx’s argument in Wage Labour and Capital that structural crisis
 require prolonged accumulation of contradictions before becoming
 probable. The combination that mostly fits with this argument is
-($p = 0.005$, $\beta_0 = -5.2933$, $N = 1139$).
+($p = 0.005$, $\beta_0 = -5.2933$, $N = 389$).
 
 Then, we need to determine the parameters $\beta_1$ , $\beta_2$ ,
 $\beta_3$.
@@ -648,7 +649,7 @@ head(y_pilot)
 
 #### Final simulation
 
-For the final simulation, we set **N = 1139 societies and T = 200**,
+For the final simulation, we set **N = 389 societies and T = 200**,
 corresponding to the inflection point of labor surplus $t_{0,l}$ plus
 the post-inflection usable window 150 decades. The pre-inflection phase
 is retained to preserve the theoretical warmup consistent with Marx’s
@@ -659,7 +660,7 @@ to satisfy the EPV rule of a minimum of 30 effective crisis, N = 1139
 societies are required.
 
 ``` r
-N_final <- 1139
+N_final <- 389
 T_final <- 200
 ```
 
@@ -685,11 +686,11 @@ data.frame (
     )
 ```
 
-    ##   Simulation    N   T Total_crisis
-    ## 1      Pilot   10 200         1328
-    ## 2      Final 1139 200       150424
+    ##   Simulation   N   T Total_crisis
+    ## 1      Pilot  10 200         1328
+    ## 2      Final 389 200        51356
 
-The substantial jump from 1328 to 150424 crises is an expected outcome
+The substantial jump from 1328 to 51356 crises is an expected outcome
 rather than a anomaly; it directly reflects the roughly 50-fold scaling
 of the number of societies from $N_{pilot} = 10$ to $N_{final} = 1139$
 
@@ -741,22 +742,22 @@ summary(model)
     ## 
     ## Deviance Residuals: 
     ##     Min       1Q   Median       3Q      Max  
-    ## -3.0381  -0.1099   0.1566   0.1797   3.2517  
+    ## -3.0406  -0.1091   0.1552   0.1779   3.2501  
     ## 
     ## Coefficients:
     ##             Estimate Std. Error z value Pr(>|z|)    
-    ## (Intercept) -5.28175    0.08890 -59.415   <2e-16 ***
-    ## CP_w         1.00715    0.07063  14.259   <2e-16 ***
-    ## CP_l         0.47439    0.11366   4.174    3e-05 ***
-    ## CP_w:CP_l    2.00674    0.05718  35.094   <2e-16 ***
+    ## (Intercept) -5.27659    0.15340 -34.397  < 2e-16 ***
+    ## CP_w         0.97390    0.12166   8.005  1.2e-15 ***
+    ## CP_l         0.40172    0.19683   2.041   0.0413 *  
+    ## CP_w:CP_l    2.06788    0.09875  20.940  < 2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## (Dispersion parameter for binomial family taken to be 1)
     ## 
-    ##     Null deviance: 291955  on 227799  degrees of freedom
-    ## Residual deviance:  49028  on 227796  degrees of freedom
-    ## AIC: 49036
+    ##     Null deviance: 99735  on 77799  degrees of freedom
+    ## Residual deviance: 16558  on 77796  degrees of freedom
+    ## AIC: 16566
     ## 
     ## Number of Fisher Scoring iterations: 7
 
@@ -806,10 +807,10 @@ data.frame(
 ```
 
     ##                true estimated_1 estimated_2
-    ## (Intercept) -5.2933  -5.2817530  -5.2834035
-    ## CP_w         1.0000   1.0071479   1.0077347
-    ## CP_l         0.5000   0.4743895   0.4769171
-    ## CP_w:CP_l    2.0000   2.0067423   2.0055421
+    ## (Intercept) -5.2933  -5.2765871  -5.2756803
+    ## CP_w         1.0000   0.9738972   0.9737307
+    ## CP_l         0.5000   0.4017216   0.4007913
+    ## CP_w:CP_l    2.0000   2.0678817   2.0681868
 
 The close alignment between the estimated and true parameters
 demonstrates that both models successfully recover the parameters
