@@ -282,6 +282,39 @@ acf_avg_l <- acf_func(lag_max, acf_matrix_l, N_pilot, T_pilot, t0_l, CP_l)
 acf_avg_w <- acf_func(lag_max, acf_matrix_w, N_pilot, T_pilot, t0_w, CP_w)
 ```
 
+
+```{r}
+acf_plot <- function(acf, T, title = "Average ACF"){
+  
+   plot(1:lag_max, acf,
+         type = "h",
+         xlab = "Lag",
+         ylab = "Average ACF",
+         main = title,
+         ylim = c(-0.2, 1))
+    abline(h = 0)
+          # Significance bounds
+    abline(h =  1.96 / sqrt(T), lty = 2, col = "#E24B4A")
+    abline(h = -1.96 / sqrt(T), lty = 2, col = "#E24B4A")
+        
+    legend("topright",
+            legend = c("Average ACF", "95% significance bounds"),
+            col    = c("black", "#E24B4A"),
+            lty    = c(1, 2))
+  
+}
+```
+
+```{r}
+par(mfrow = c(1,2))
+acf_plot(acf_avg_l, T_pilot, title = "ACF labor surplus")
+acf_plot(acf_avg_w, T_pilot, title = "ACF wage gap" )
+# Reset the plotting window
+par(mfrow = c(1,1))
+```
+
+The high autocorrelation is explained by the ARMA(1,q) structure of the variables. Given the dampened oscillations in labor surplus, the cumulative pressure $CP\_L$ carries additional autocorrelation than $CP\_W$, which follows a smoother trajectory.
+
 #### Derive T from the effective sample size (ESS)
 
 In time series data, observations are not independent — each period carries information from previous ones. The effective sample size T_eff allows us to measure the **true amount of independent information** in the raw sample T when observations are correlated.
@@ -319,7 +352,7 @@ cat("Usable decades — labor surplus:", Tl_obs, "\n")
 cat("Usable decades — wage gap:", Tw_obs)
 ```
 
-The effective sample size represents the number of **independent, non-redundant and unique** observations contained in a correlated time series. Given the dampened oscillations in labor surplus, the cumulative pressure $CP\_L$ carries additional autocorrelation than $CP\_W$, which follows a smoother trajectory. Consequently, $Tl_{eff}$ < $Tw_{eff}$ is theorically expected, as the oscillatory component introduces cyclical dependence that reduces the effective information content of $CP\_L$ relative to $CP\_W$. 
+The effective sample size represents the number of **independent, non-redundant and unique** observations contained in a correlated time series. $Tl_{eff}$ < $Tw_{eff}$ is theorically expected, as the oscillatory component introduces cyclical dependence that reduces the effective information content of $CP\_L$ relative to $CP\_W$. 
 
 The usable decades represent the number of observed periods required to accumulate a given number of truly independent observations. Due to the high autocorrelation structure of each variable, the raw sample is substantially larger than the effective one. For instance, each society must be observed for roughly **150 decades to yield only 5 independent observations from the labor surplus**. Similarly, roughly **140 decades of observation per society are needed to accumulate 15 independent observations from the wage gap.** 
 
@@ -453,7 +486,7 @@ The substantial jump from 1328 to 51356 crises is an expected outcome rather tha
 
 #### Parameter recovery analysis
 
-The true parameters are known by construction. By fitting the logistic regression, we can validate whether the sample size N derived from the EPV rule is sufficient to recover the true parameters, assess if a standard logistic regression remains reliable under the ARMA(1,q) autocorrelation structure of $CP_L$ and $CP_W$ and test whether the parameter $\beta_3$ is detectable. Here, $\beta_3$ represents the mathematical formalization of Marx's argument that the interaction of wage depression and labor surplus amplifies crisis emergence. This approach allows us to determine whether the statistical model can recover known parameters from synthetic data generated under controlled conditions. If the estimated parameters diverge substantially from the true parameters, the model certainly cannot be trusted to estimate unknown parameters from real historical data.
+The true parameters are known by construction. By fitting the logistic regression, we can validate whether the sample size N derived from the EPV rule is sufficient to recover the true parameters, assess if a standard logistic regression remains reliable under the ARMA(1,q) autocorrelation structure of $CP_L$ and $CP_W$ and test whether the parameter $\beta_3$ is detectable. Here, $\beta_3$ represents the mathematical formalization of Marx's argument that the interaction of wage depression and labor surplus amplifies crisis emergence. This approach allows us to determine whether the statistical model can recover known parameters from synthetic data generated under controlled conditions. **If the estimated parameters diverge substantially from the true parameters, the model certainly cannot be trusted to estimate unknown parameters from real historical data**
 
 To fit the logistic regression, we will utilize two estimation approaches and evaluate the differences in the resulting coefficients :
 
@@ -526,7 +559,8 @@ data.frame(
 
 The close alignment between the estimated and true parameters demonstrates that both models successfully recover the parameters derived from Marxian theory. This also validates our use of the EPV rule, confirming that the sample size was sufficient for reliable estimation. Furthermore, the estimated parameters maintain the expected ordering ($\beta_3$ > $\beta_2$ > $\beta_1$), providing empirical support for the theoretical argument regarding the dominance of the interaction term. Finally, despite the autocorrelated structure of the CP variables, standard logistic regression via glm() performs comparably to the custom MLE. This suggests that, under this specific simulation design, the autocorrelation does not introduce severe bias into the estimates.
 
-#### Time Series Diagnosis
+#### Time Series Diagnosis :
+Assumption violation > Coefficient biased > overconfident model > inaccurate standard errors
 
 1.    Comparison of the ACF of the pilot and final simulation :
 
@@ -559,7 +593,6 @@ acf_comparison <- function(acf_comp, title = "ACF Comparison: Final vs Pilot"){
                            names_to = "Type", 
                            values_to = "ACF_Values")
   
-  # clot with dodged points and lines
   p <- ggplot(acf_long, aes(x = lag, y = ACF_Values, color = Type, group = Type)) +
     geom_line(position = position_dodge(width = 0.2), linewidth = 1) + 
     geom_point(position = position_dodge(width = 0.2), size = 3) + 
@@ -571,7 +604,7 @@ acf_comparison <- function(acf_comp, title = "ACF Comparison: Final vs Pilot"){
          y = "ACF Value") +
     scale_color_manual(values = c("acf_final" = "steelblue", "acf_pilot" = "firebrick"))
   
-  # 3. Return the plot
+  # Return the plot
   return(p) 
 }
 ```
@@ -594,7 +627,9 @@ As confirmed by the plots, the final and pilot simulations exhibit the **same au
 
 2.   Residual autocorrelation from logistic regression
 
-The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic regression assumption of independent observations. However, this does not necessarily bias the estimated $\beta$ coefficients; rather, the primary consequence is **inaccurate standard errors**. Because $CP_w$ and $CP_l$ are expected to capture the temporal structure, the residuals should be uncorrelated. The presence of correlated residuals will lead to biased standard errors.
+The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic regression assumption of independent observations. However, this does not necessarily bias the estimated $\beta$ coefficients; rather, the primary consequence is **inaccurate standard errors**. Because $CP_w$ and $CP_l$ are expected to capture the temporal structure, the residuals should be uncorrelated. **The presence of correlated residuals will lead to biased standard errors.**
+
+acf resid : lag x N_final matrix > average the lag
 
 ```{r}
 residuals_pearson <- residuals(model, type = "pearson")
@@ -610,6 +645,10 @@ for (s in 1:N_final){
 }
 
 avg_resid_matrix <- rowMeans(acf_resid_matrix)
+```
+
+```{r}
+acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 ```
 
 
