@@ -299,84 +299,83 @@ head(CP_w)
   meaning it only uses data in $t=1$.
 
 ``` r
+n <- 70
+s <- 30
+trend_l <- K_l / (1 + exp(-r_l * (s:n - t0_l)))
+ 
+par(mfrow = c(1,2))
+
+plot(s:n, labor_surplus[s:n, 1], type = "n",
+     xlab = "Decades", ylab = "Labor Surplus",
+     main = "Labor Surplus with Trend")
+lines(s:n, labor_surplus[s:n, 1], col = "#00070d", lwd = 1.5)
+lines(s:n, trend_l, col = "#E24B4A", lty = 2, lwd = 2)
+legend("topleft",
+       legend = c("Labor surplus", "Logistic trend"),
+       col = c("#00070d", "#E24B4A"),
+       lty = c(1, 2, 1, 1), lwd = 2)
+
 plot(1:T_pilot, CP_l[,1], type = "l", 
-     xlab = "decades", ylab = "Cumulative pressure",
-     main = "cumulative labor surplus and wage gap for society 1")
+     xlab = "Decades", ylab = "Cumulative Pressure",
+     main = "Cumulative Pressure")
 lines(1:T_pilot, CP_w[,1],col ="red")
-legend("topleft", legend = c("CP_l", "CP_w"), col = c("black", "red"), lty = 1)
+legend("bottomright", legend = c("CP_l", "CP_w"), col = c("black", "red"), lty = 1)
 ```
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 ``` r
-n <- 40
-trend_l <- K_l / (1 + exp(-r_l * (10:n - t0_l)))
-
-# Main plot
-plot(10:n, labor_surplus[10:n, 1], type = "n",
-     xlab = "Decades", ylab = "Labor Surplus",
-     main = "Labour Surplus with Logistic Trend - Society 1")
-
-
-# Add lines on top of shading
-lines(10:n, labor_surplus[10:n, 1], col = "#00070d", lwd = 1.5)
-lines(10:n, trend_l, col = "#E24B4A", lty = 2, lwd = 2)
-
-# Legend
-legend("topleft",
-       legend = c("Labor surplus", "Logistic trend"),
-       col = c("#00070d", "#E24B4A"),
-       lty = c(1, 2, 1, 1), lwd = 2)
+par(mfrow = c(2,1))
 ```
-
-![](wage_lab_files/figure-gfm/unnamed-chunk-15-1.png)<!-- --> **Phases
-of the labor surplus:**
 
 “Wages will now rise, now fall,according to the relation of supply and
 demand, according as competition shapes itself between the buyers of
 labour-power, the capitalists, and the sellers of labour-power, the
 workers.”
 
-- *Phase 1: * Labor surplus is small and pre-inflection, driven by the
-  logistic trend near zero plus random noise $\epsilon$. This represents
-  the early **reserve army of labor** described by Marx — present but
-  not yet structurally significant.
+The first plot illustrates the labor surplus of Society 1 from decade 30
+(pre-inflection) to decade 70 (post-inflection), with the dotted line
+representing the logistic trend. The second plot displays the cumulative
+wage gap and labor surplus across the $T_{pilot}$
 
-- *Phase 2: * New sectors emerge, temporarily increasing labor demand
-  and absorbing surplus workers, which keeps the wage gap low. This is
+**Phases of labor surplus : **
+
+- Phase 1: Labor surplus is small, driven by the logistic trend near
+  zero plus random noise $\epsilon$. This represents the early **reserve
+  army of labor** described by Marx — present but not yet structurally
+  significant.
+
+- Phase 2: New sectors emerge, temporarily increasing labor demand and
+  absorbing surplus workers, which keeps the wage gap low. This is
   represented by the dampened oscillation:
   $A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P}$ , when
   $sin\frac{2t\pi}{P}$ is negative: the oscillation pulls labor surplus
   below the trend.
 
-- *Phase 3: * Labor surplus increases during the accumulation phase.
-  During this phase, new technologies emerges and the capital grows.
-  This leads to overproduction: more products in the market, the price
-  falls, the profits collapse and profits collapse and workers are
-  displaced by new technologies, swelling the reserve army. This is
-  captured by $A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P}$ , when
+- Phase 3: Labor surplus increases during the accumulation phase. During
+  this phase, new technologies emerges and the capital grows. This leads
+  to overproduction: more products in the market, the price falls, the
+  profits collapse and workers are displaced by new technologies,
+  swelling the reserve army. This is captured by
+  $A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P}$ , when
   $sin\frac{2t\pi}{P}$ is positive: the oscillation pushes above the
   trend. With each peak higher than the last as the logistic trend rises
   underneath.
 
-The plot below represent the Phase 2 and Phase 3 of the labor surplus
-from decade 10 to decade 40. The dotted line is the **logistic trend**:
-Phase 2 is the labor surplus below the trend, and Phase 3 is the labor
-surplus above the trend.
-
-Phase 2 and 3 are repeated over T, each cycle leaves more residual labor
-surplus than the previous, then the cumulative reserve army grows
-(logistic trend rises), the growing labor surplus feeds to the growth
-rate of the wage gap equation
-$r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})$, and the wage gap
-logistic curve steepens until it reaches its inflection point $t_{0,w}$.
+**Phase 2 and 3 are repeated over T**, each cycle leaves more residual
+labor surplus than the previous, then **the cumulative reserve army
+grows (logistic trend rises)**, the growing labor surplus feeds to the
+growth rate of the wage gap equation
+$r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})$, and the **wage gap
+logistic curve steepens until it reaches its inflection point**
+$t_{0,w}$.
 
 A recovery occurs during the transition from Phase 3 to Phase 2,
 prompted by the emergence of new sectors and a corresponding expansion
 of the labor supply. Nevertheless, successive cycles (Phase 2, Phase 3,
-and recovery) exhibit heterogeneity in their amplitude and periodicity.
-This variance stems fundamentally from the **anarchic movement of
-capital.**
+and recovery) exhibit **heterogeneity in their amplitude and
+periodicity**. This variance stems fundamentally from the **anarchic
+movement of the capital.**
 
 #### Estimation of the Autocorrelation Structure
 
@@ -449,17 +448,18 @@ acf_plot(acf_avg_l, T_pilot, title = "ACF labor surplus")
 acf_plot(acf_avg_w, T_pilot, title = "ACF wage gap" )
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 ``` r
 # Reset the plotting window
 par(mfrow = c(1,1))
 ```
 
-The high autocorrelation is explained by the ARMA(1,q) structure of the
-variables. Given the dampened oscillations in labor surplus, the
-cumulative pressure $CP\_L$ carries additional autocorrelation than
-$CP\_W$, which follows a smoother trajectory.
+The high autocorrelation observed in both variables is drives by their
+underlying ARMA(1,q) structure. However, because the labor surplus
+exhibits dampened oscillations, its cumulative pressure $CP\_L$ displays
+greater autocorrelation than that of the wage gap $CP\_W$, which follows
+a comparatively smoother trajectory.
 
 #### Derive T from the effective sample size (ESS)
 
@@ -728,7 +728,7 @@ data.frame (
 
 The substantial jump from 1328 to 51356 crises is an expected outcome
 rather than a anomaly; it directly reflects the roughly 50-fold scaling
-of the number of societies from $N_{pilot} = 10$ to $N_{final} = 1139$
+of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
 
 #### Parameter recovery analysis
 
@@ -923,7 +923,7 @@ combined_plot <- plot_wage + plot_labor
 combined_plot
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
 
 As confirmed by the plots, the final and pilot simulations exhibit the
 **same autocorrelation structure.** This alignment indicate two key
@@ -969,4 +969,6 @@ avg_resid_matrix <- rowMeans(acf_resid_matrix)
 acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-42-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
+
+3.  Corrected Standard Errors
