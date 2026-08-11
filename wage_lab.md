@@ -308,7 +308,29 @@ legend("topleft", legend = c("CP_l", "CP_w"), col = c("black", "red"), lty = 1)
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
-**Phases of the labor surplus:**
+``` r
+n <- 40
+trend_l <- K_l / (1 + exp(-r_l * (10:n - t0_l)))
+
+# Main plot
+plot(10:n, labor_surplus[10:n, 1], type = "n",
+     xlab = "Decades", ylab = "Labor Surplus",
+     main = "Labour Surplus with Logistic Trend - Society 1")
+
+
+# Add lines on top of shading
+lines(10:n, labor_surplus[10:n, 1], col = "#00070d", lwd = 1.5)
+lines(10:n, trend_l, col = "#E24B4A", lty = 2, lwd = 2)
+
+# Legend
+legend("topleft",
+       legend = c("Labor surplus", "Logistic trend"),
+       col = c("#00070d", "#E24B4A"),
+       lty = c(1, 2, 1, 1), lwd = 2)
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-15-1.png)<!-- --> **Phases
+of the labor surplus:**
 
 “Wages will now rise, now fall,according to the relation of supply and
 demand, according as competition shapes itself between the buyers of
@@ -336,29 +358,6 @@ workers.”
   $sin\frac{2t\pi}{P}$ is positive: the oscillation pushes above the
   trend. With each peak higher than the last as the logistic trend rises
   underneath.
-
-``` r
-n <- 40
-trend_l <- K_l / (1 + exp(-r_l * (10:n - t0_l)))
-
-# Main plot
-plot(10:n, labor_surplus[10:n, 1], type = "n",
-     xlab = "Decades", ylab = "Labor Surplus",
-     main = "Labour Surplus with Logistic Trend - Society 1")
-
-
-# Add lines on top of shading
-lines(10:n, labor_surplus[10:n, 1], col = "#00070d", lwd = 1.5)
-lines(10:n, trend_l, col = "#E24B4A", lty = 2, lwd = 2)
-
-# Legend
-legend("topleft",
-       legend = c("Labor surplus", "Logistic trend"),
-       col = c("#00070d", "#E24B4A"),
-       lty = c(1, 2, 1, 1), lwd = 2)
-```
-
-![](wage_lab_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 The plot below represent the Phase 2 and Phase 3 of the labor surplus
 from decade 10 to decade 40. The dotted line is the **logistic trend**:
@@ -421,6 +420,46 @@ acf_func <- function(lag_max, acf_matrix, N, T, t0, CP) {
 acf_avg_l <- acf_func(lag_max, acf_matrix_l, N_pilot, T_pilot, t0_l, CP_l)
 acf_avg_w <- acf_func(lag_max, acf_matrix_w, N_pilot, T_pilot, t0_w, CP_w)
 ```
+
+``` r
+acf_plot <- function(acf, T, title = "Average ACF"){
+  
+   plot(1:lag_max, acf,
+         type = "h",
+         xlab = "Lag",
+         ylab = "Average ACF",
+         main = title,
+         ylim = c(-0.2, 1))
+    abline(h = 0)
+          # Significance bounds
+    abline(h =  1.96 / sqrt(T), lty = 2, col = "#E24B4A")
+    abline(h = -1.96 / sqrt(T), lty = 2, col = "#E24B4A")
+        
+    legend("topright",
+            legend = c("Average ACF", "95% significance bounds"),
+            col    = c("black", "#E24B4A"),
+            lty    = c(1, 2))
+  
+}
+```
+
+``` r
+par(mfrow = c(1,2))
+acf_plot(acf_avg_l, T_pilot, title = "ACF labor surplus")
+acf_plot(acf_avg_w, T_pilot, title = "ACF wage gap" )
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+
+``` r
+# Reset the plotting window
+par(mfrow = c(1,1))
+```
+
+The high autocorrelation is explained by the ARMA(1,q) structure of the
+variables. Given the dampened oscillations in labor surplus, the
+cumulative pressure $CP\_L$ carries additional autocorrelation than
+$CP\_W$, which follows a smoother trajectory.
 
 #### Derive T from the effective sample size (ESS)
 
@@ -492,12 +531,9 @@ cat("Usable decades — wage gap:", Tw_obs)
 
 The effective sample size represents the number of **independent,
 non-redundant and unique** observations contained in a correlated time
-series. Given the dampened oscillations in labor surplus, the cumulative
-pressure $CP\_L$ carries additional autocorrelation than $CP\_W$, which
-follows a smoother trajectory. Consequently, $Tl_{eff}$ \< $Tw_{eff}$ is
-theorically expected, as the oscillatory component introduces cyclical
-dependence that reduces the effective information content of $CP\_L$
-relative to $CP\_W$.
+series. $Tl_{eff}$ \< $Tw_{eff}$ is theorically expected, as the
+oscillatory component introduces cyclical dependence that reduces the
+effective information content of $CP\_L$ relative to $CP\_W$.
 
 The usable decades represent the number of observed periods required to
 accumulate a given number of truly independent observations. Due to the
@@ -706,9 +742,9 @@ mathematical formalization of Marx’s argument that the interaction of
 wage depression and labor surplus amplifies crisis emergence. This
 approach allows us to determine whether the statistical model can
 recover known parameters from synthetic data generated under controlled
-conditions. If the estimated parameters diverge substantially from the
+conditions. **If the estimated parameters diverge substantially from the
 true parameters, the model certainly cannot be trusted to estimate
-unknown parameters from real historical data.
+unknown parameters from real historical data**
 
 To fit the logistic regression, we will utilize two estimation
 approaches and evaluate the differences in the resulting coefficients :
@@ -825,7 +861,10 @@ to the custom MLE. This suggests that, under this specific simulation
 design, the autocorrelation does not introduce severe bias into the
 estimates.
 
-#### Time Series Diagnosis
+#### Time Series Diagnosis :
+
+Assumption violation \> Coefficient biased \> overconfident model \>
+inaccurate standard errors
 
 1.  Comparison of the ACF of the pilot and final simulation :
 
@@ -858,7 +897,6 @@ acf_comparison <- function(acf_comp, title = "ACF Comparison: Final vs Pilot"){
                            names_to = "Type", 
                            values_to = "ACF_Values")
   
-  # clot with dodged points and lines
   p <- ggplot(acf_long, aes(x = lag, y = ACF_Values, color = Type, group = Type)) +
     geom_line(position = position_dodge(width = 0.2), linewidth = 1) + 
     geom_point(position = position_dodge(width = 0.2), size = 3) + 
@@ -870,7 +908,7 @@ acf_comparison <- function(acf_comp, title = "ACF Comparison: Final vs Pilot"){
          y = "ACF Value") +
     scale_color_manual(values = c("acf_final" = "steelblue", "acf_pilot" = "firebrick"))
   
-  # 3. Return the plot
+  # Return the plot
   return(p) 
 }
 ```
@@ -885,7 +923,7 @@ combined_plot <- plot_wage + plot_labor
 combined_plot
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
 
 As confirmed by the plots, the final and pilot simulations exhibit the
 **same autocorrelation structure.** This alignment indicate two key
@@ -906,8 +944,10 @@ regression assumption of independent observations. However, this does
 not necessarily bias the estimated $\beta$ coefficients; rather, the
 primary consequence is **inaccurate standard errors**. Because $CP_w$
 and $CP_l$ are expected to capture the temporal structure, the residuals
-should be uncorrelated. The presence of correlated residuals will lead
-to biased standard errors.
+should be uncorrelated. **The presence of correlated residuals will lead
+to biased standard errors.**
+
+acf resid : lag x N_final matrix \> average the lag
 
 ``` r
 residuals_pearson <- residuals(model, type = "pearson")
@@ -924,3 +964,9 @@ for (s in 1:N_final){
 
 avg_resid_matrix <- rowMeans(acf_resid_matrix)
 ```
+
+``` r
+acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-42-1.png)<!-- -->
