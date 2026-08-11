@@ -455,11 +455,10 @@ acf_plot(acf_avg_w, T_pilot, title = "ACF wage gap" )
 par(mfrow = c(1,1))
 ```
 
-The high autocorrelation observed in both variables is drives by their
-underlying ARMA(1,q) structure. However, because the labor surplus
-exhibits dampened oscillations, its cumulative pressure $CP\_L$ displays
-greater autocorrelation than that of the wage gap $CP\_W$, which follows
-a comparatively smoother trajectory.
+Both variables exhibit **high autocorrelation as a consequence of their
+ARMA(1,q) structure**. Yet, unlike the wage gap, which follows a
+smoother trajectory, the labor surplus features dampened oscillations
+that cause $CP\_L$ to retain more autocorrelation than $CP\_W$.
 
 #### Derive T from the effective sample size (ESS)
 
