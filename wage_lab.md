@@ -66,7 +66,7 @@ estimation in logistic regression, and given that our model contains 3
 variables ($x_1$, $x_2$, $x_1x_2$), the minimum number of **expected
 crisis events is 3×10=30**
 
-#### Data Generating Process
+#### Data Generating Process : Pilot Simulation
 
 ``` r
 set.seed(123)
@@ -338,7 +338,7 @@ The first plot illustrates the labor surplus of Society 1 from decade 50
 representing the logistic trend. The second plot displays the cumulative
 wage gap and labor surplus across the $T_{pilot}$
 
-**Phases of labor surplus : **
+**Phases of labor surplus:**
 
 - Phase 1: Labor surplus is small, driven by the logistic trend near
   zero plus random noise $\epsilon$. This represents the early **reserve
@@ -682,17 +682,20 @@ head(y_pilot)
     ## [5,]    0    0    0    0    0    0    0    0    0     0
     ## [6,]    0    0    0    0    0    0    0    0    0     0
 
-#### Final simulation
+#### Data Generating Process : Final Simulation
 
-For the final simulation, we set **N = 389 societies and T = 200**,
-corresponding to the inflection point of labor surplus $t_{0,l}$ plus
-the post-inflection usable window 150 decades. The pre-inflection phase
-is retained to preserve the theoretical warmup consistent with Marx’s
-early capitalism argument. However, the labor surplus exhibits high
-autocorrelation, substantially reducing the effective independent
-information per society. To compensate for this loss of independence and
-to satisfy the EPV rule of a minimum of 30 effective crisis, N = 1139
-societies are required.
+For the final simulation, we set **N_final = 389 societies and T_final =
+200**. This timeline spans the necessary pre- and post-inflection
+decades. The choice to include exactly 150 post-inflection decades is
+driven by the differing autocorrelation structures of our variables:
+while these 150 decades translate to merely 5 effective independent
+informations for labor surplus, they yield 15 independent observations
+for the wage gap. The pre-inflection phase is retained to preserve the
+theoretical warmup consistent with Marx’s early capitalism argument.
+However, the labor surplus exhibits high autocorrelation, substantially
+reducing the effective independent information per society. **To
+compensate for this loss of independence and to satisfy the EPV rule of
+a minimum of 30 effective crisis, N = 389 societies are required.**
 
 ``` r
 N_final <- 389
@@ -867,7 +870,7 @@ estimates.
 Assumption violation \> Coefficient biased \> overconfident model \>
 inaccurate standard errors
 
-1.  Comparison of the ACF of the pilot and final simulation :
+**1. Comparison of the ACF of the pilot and final simulation :**
 
 ``` r
 acfin_matrix_l <- matrix(NA, nrow = lag_max , ncol = N_final)
@@ -938,7 +941,7 @@ points:
   the pilot simulation remains valid for the final simulation, as the
   underlying autocorrelation structure has remained unchanged.
 
-2.  Residual autocorrelation from logistic regression
+**2. Residual autocorrelation from logistic regression**
 
 The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic
 regression assumption of independent observations. However, this does
@@ -974,7 +977,7 @@ Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit
 negligible autocorrelation, as demonstrated in the plots below.
 
-3.  Corrected Standard Errors
+**3. Corrected Standard Errors**
 
 ``` r
 # naive standard errors
