@@ -83,8 +83,7 @@ Labor surplus has to be generated before wage gap because the growth
 rate $r_w$ of the logistic trend of the wage gap depends on labor
 surplus
 
-1.  Labor surplus : it represents the excess of workers relative to
-    available job
+1.  Labor surplus :
 
 $$
 LaborSurplus(t) = \frac{K_l}{1+e^{-r_l(t-t_{0,l})}} + A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P} + \epsilon
@@ -138,8 +137,7 @@ head(labor_surplus)
     ## [5,] 0.10795426 0.09990176 0.06114187 0.12709855
     ## [6,] 0.13609679 0.14006248 0.10997459 0.12055319
 
-2.  Wage gap : it measures the distance between the wage and the
-    subsistence cost.
+2.  Wage gap :
 
 $$
 WageGap(t) = \frac{K_w}{1+e^{-r_w(t-t_{0,w})}}
