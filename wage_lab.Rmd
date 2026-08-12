@@ -379,7 +379,6 @@ $$
 
 A sensitivity analysis is performed on p, deriving the corresponding $\beta_0$ for each value through. It is performed across the range p $\in$ {0.001, 0.005, 0.01, 0.02, 0.05}, reflecting theoretically plausible baseline rates from near-impossible to rare.
 
-
 $$
 \beta_0 = log(\frac{p}{1-p})
 $$
