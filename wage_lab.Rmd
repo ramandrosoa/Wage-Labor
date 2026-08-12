@@ -45,33 +45,9 @@ Following the **Events Per Variable rule**, which recommends a minimum of 10 obs
 set.seed(123)
 ```
 
-
 ```{r}
 N_pilot <- 10
 T_pilot <- 200
-```
-
-```{r}
-# labor_surplus parameters
-K_l <- 1
-r_l <- .05
-t0_l  <- 50
-A <- .2
-P <- 5
-delta_l <- .43
-```
-
-```{r}
-# wage_gap parameters
-K_w <- 1
-r_base <- .03
-alpha <- .5
-t0_w <- 60
-```
-
-```{r}
-# decay parameter (cumulative pressure)
-delta_c <- 0.43
 ```
 
 #### Generate wage gap and labor surplus
@@ -84,6 +60,15 @@ $$
 LaborSurplus(t) = \frac{K_l}{1+e^{-r_l(t-t_{0,l})}} + A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P} + \epsilon
 $$
 
+```{r}
+# labor_surplus parameters
+K_l <- 1
+r_l <- .05
+t0_l  <- 50
+A <- .2
+P <- 5
+delta_l <- .43
+```
 
 ```{r}
 func_labor_surplus <- function(N,T) {
@@ -120,6 +105,13 @@ $$
 r_w = r_{base,w} + \alpha(LaborSurplus_{t-1})
 $$
 
+```{r}
+# wage_gap parameters
+K_w <- 1
+r_base <- .03
+alpha <- .5
+t0_w <- 60
+```
 
 ```{r}
 func_wage_gap <- function(N, T, lab){
@@ -156,6 +148,10 @@ $$
 CP\_W(t) = \sum^{t-1}_{k} W_{t-k}\cdot e^{-\delta_c\cdot k}
 $$
 
+```{r}
+# decay parameter (cumulative pressure)
+delta_c <- 0.43
+```
 
 ```{r}
 cp <- function(N, T, lab, wag) {
@@ -209,7 +205,7 @@ head(CP_w)
 
 ```{r}
 n <- 70
-s <- 30
+s <- 50
 trend_l <- K_l / (1 + exp(-r_l * (s:n - t0_l)))
  
 par(mfrow = c(1,2))
@@ -236,7 +232,7 @@ par(mfrow = c(2,1))
 
 "Wages will now rise, now fall,according to the relation of supply and demand, according as competition shapes itself between the buyers of labour-power, the capitalists, and the sellers of labour-power, the workers. "
 
-The first plot illustrates the labor surplus of Society 1 from decade 30 (pre-inflection) to decade 70 (post-inflection), with the dotted line representing the logistic trend. The second plot displays the cumulative wage gap and labor surplus across the $T_{pilot}$
+The first plot illustrates the labor surplus of Society 1 from decade 50 (pre-inflection) to decade 70 (post-inflection), with the dotted line representing the logistic trend. The second plot displays the cumulative wage gap and labor surplus across the $T_{pilot}$
 
 **Phases of labor surplus : **
 
@@ -482,7 +478,7 @@ data.frame (
     )
 ```
 
-The substantial jump from 1328 to 51356 crises is an expected outcome rather than a anomaly; it directly reflects the roughly 50-fold scaling of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
+The substantial jump from 1328 to 51356 crises is an expected outcome rather than a anomaly; it directly reflects the roughly 39-fold scaling of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
 
 #### Parameter recovery analysis
 
@@ -510,6 +506,7 @@ model <- glm(y~CP_w+CP_l+CP_w:CP_l,
              family = binomial(link = "logit"))
 summary(model)
 ```
+pvalue interpretations
 
 **2. Custom Maximum Likelihood Estimation function**
 
@@ -548,6 +545,7 @@ results <- optim(
     hessian = TRUE
   )
 ```
+
 
 ```{r}
 data.frame(
@@ -598,7 +596,7 @@ acf_comparison <- function(acf_comp, title = "ACF Comparison: Final vs Pilot"){
     geom_point(position = position_dodge(width = 0.2), size = 3) + 
     geom_hline(yintercept = 0, linetype = "dashed", color = "gray") +
     theme_minimal() +
-    # FIXED: Use the `title` argument here instead of hard-coding it
+   
     labs(title = title,        
          x = "Lag", 
          y = "ACF Value") +
@@ -629,8 +627,6 @@ As confirmed by the plots, the final and pilot simulations exhibit the **same au
 
 The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic regression assumption of independent observations. However, this does not necessarily bias the estimated $\beta$ coefficients; rather, the primary consequence is **inaccurate standard errors**. Because $CP_w$ and $CP_l$ are expected to capture the temporal structure, the residuals should be uncorrelated. **The presence of correlated residuals will lead to biased standard errors.**
 
-acf resid : lag x N_final matrix > average the lag
-
 ```{r}
 residuals_pearson <- residuals(model, type = "pearson")
 lag_max <- min(Tl_obs/4, 20)
@@ -651,8 +647,29 @@ avg_resid_matrix <- rowMeans(acf_resid_matrix)
 acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 ```
 
+Because the predictors $CP_W$ and $CP_L$  effectively explain the autoregressive nature of the data, the model residuals exhibit negligible autocorrelation, as demonstrated in the plots below.
 
 3.    Corrected Standard Errors
+
+```{r}
+# naive standard errors
+naive_se <- sqrt(diag(vcov(model)))
+
+# corrected standard errors
+corrected_se <- sqrt(diag(vcovCL(model, cluster = ~society+decade, order.by = ~decade)))
+
+comparison_se <- data.frame(
+  true = c(beta0, beta1, beta2, beta3), 
+  estimated = coef(model), 
+  naive = round(naive_se, 4),
+  corrected = round(corrected_se, 4), 
+  ratio = round(corrected_se/naive_se, 3)
+)
+
+print(comparison_se)
+```
+
+**Since the residuals are independent, the naive standard errors are theoretically correct, and the corrected standard errors match them almost perfectly.** 
 
 
 

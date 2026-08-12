@@ -77,29 +77,6 @@ N_pilot <- 10
 T_pilot <- 200
 ```
 
-``` r
-# labor_surplus parameters
-K_l <- 1
-r_l <- .05
-t0_l  <- 50
-A <- .2
-P <- 5
-delta_l <- .43
-```
-
-``` r
-# wage_gap parameters
-K_w <- 1
-r_base <- .03
-alpha <- .5
-t0_w <- 60
-```
-
-``` r
-# decay parameter (cumulative pressure)
-delta_c <- 0.43
-```
-
 #### Generate wage gap and labor surplus
 
 Labor surplus has to be generated before wage gap because the growth
@@ -112,6 +89,16 @@ surplus
 $$
 LaborSurplus(t) = \frac{K_l}{1+e^{-r_l(t-t_{0,l})}} + A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P} + \epsilon
 $$
+
+``` r
+# labor_surplus parameters
+K_l <- 1
+r_l <- .05
+t0_l  <- 50
+A <- .2
+P <- 5
+delta_l <- .43
+```
 
 ``` r
 func_labor_surplus <- function(N,T) {
@@ -161,6 +148,14 @@ $$
 $$
 r_w = r_{base,w} + \alpha(LaborSurplus_{t-1})
 $$
+
+``` r
+# wage_gap parameters
+K_w <- 1
+r_base <- .03
+alpha <- .5
+t0_w <- 60
+```
 
 ``` r
 func_wage_gap <- function(N, T, lab){
@@ -216,6 +211,11 @@ $$
 $$
 CP\_W(t) = \sum^{t-1}_{k} W_{t-k}\cdot e^{-\delta_c\cdot k}
 $$
+
+``` r
+# decay parameter (cumulative pressure)
+delta_c <- 0.43
+```
 
 ``` r
 cp <- function(N, T, lab, wag) {
@@ -300,7 +300,7 @@ head(CP_w)
 
 ``` r
 n <- 70
-s <- 30
+s <- 50
 trend_l <- K_l / (1 + exp(-r_l * (s:n - t0_l)))
  
 par(mfrow = c(1,2))
@@ -333,7 +333,7 @@ demand, according as competition shapes itself between the buyers of
 labour-power, the capitalists, and the sellers of labour-power, the
 workers.”
 
-The first plot illustrates the labor surplus of Society 1 from decade 30
+The first plot illustrates the labor surplus of Society 1 from decade 50
 (pre-inflection) to decade 70 (post-inflection), with the dotted line
 representing the logistic trend. The second plot displays the cumulative
 wage gap and labor surplus across the $T_{pilot}$
@@ -726,7 +726,7 @@ data.frame (
     ## 2      Final 389 200        51356
 
 The substantial jump from 1328 to 51356 crises is an expected outcome
-rather than a anomaly; it directly reflects the roughly 50-fold scaling
+rather than a anomaly; it directly reflects the roughly 39-fold scaling
 of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
 
 #### Parameter recovery analysis
@@ -795,6 +795,8 @@ summary(model)
     ## AIC: 16566
     ## 
     ## Number of Fisher Scoring iterations: 7
+
+pvalue interpretations
 
 **2. Custom Maximum Likelihood Estimation function**
 
@@ -901,7 +903,7 @@ acf_comparison <- function(acf_comp, title = "ACF Comparison: Final vs Pilot"){
     geom_point(position = position_dodge(width = 0.2), size = 3) + 
     geom_hline(yintercept = 0, linetype = "dashed", color = "gray") +
     theme_minimal() +
-    # FIXED: Use the `title` argument here instead of hard-coding it
+   
     labs(title = title,        
          x = "Lag", 
          y = "ACF Value") +
@@ -946,8 +948,6 @@ and $CP_l$ are expected to capture the temporal structure, the residuals
 should be uncorrelated. **The presence of correlated residuals will lead
 to biased standard errors.**
 
-acf resid : lag x N_final matrix \> average the lag
-
 ``` r
 residuals_pearson <- residuals(model, type = "pearson")
 lag_max <- min(Tl_obs/4, 20)
@@ -970,4 +970,36 @@ acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
 
+Because the predictors $CP_W$ and $CP_L$ effectively explain the
+autoregressive nature of the data, the model residuals exhibit
+negligible autocorrelation, as demonstrated in the plots below.
+
 3.  Corrected Standard Errors
+
+``` r
+# naive standard errors
+naive_se <- sqrt(diag(vcov(model)))
+
+# corrected standard errors
+corrected_se <- sqrt(diag(vcovCL(model, cluster = ~society+decade, order.by = ~decade)))
+
+comparison_se <- data.frame(
+  true = c(beta0, beta1, beta2, beta3), 
+  estimated = coef(model), 
+  naive = round(naive_se, 4),
+  corrected = round(corrected_se, 4), 
+  ratio = round(corrected_se/naive_se, 3)
+)
+
+print(comparison_se)
+```
+
+    ##                true  estimated  naive corrected ratio
+    ## (Intercept) -5.2933 -5.2765871 0.1534    0.1312 0.855
+    ## CP_w         1.0000  0.9738972 0.1217    0.1116 0.917
+    ## CP_l         0.5000  0.4017216 0.1968    0.1935 0.983
+    ## CP_w:CP_l    2.0000  2.0678817 0.0988    0.1010 1.022
+
+**Since the residuals are independent, the naive standard errors are
+theoretically correct, and the corrected standard errors match them
+almost perfectly.**
