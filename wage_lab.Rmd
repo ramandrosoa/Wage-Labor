@@ -650,25 +650,6 @@ Because the predictors $CP_W$ and $CP_L$  effectively explain the autoregressive
 
 **3.    Corrected Standard Errors**
 
-```{r}
-# naive standard errors
-naive_se <- sqrt(diag(vcov(model)))
-
-# corrected standard errors
-corrected_se <- sqrt(diag(vcovCL(model, cluster = ~society+decade, order.by = ~decade)))
-
-comparison_se <- data.frame(
-  true = c(beta0, beta1, beta2, beta3), 
-  estimated = coef(model), 
-  naive = round(naive_se, 4),
-  corrected = round(corrected_se, 4), 
-  ratio = round(corrected_se/naive_se, 3)
-)
-
-print(comparison_se)
-```
-
-**Since the residuals are independent, the naive standard errors are theoretically correct, and the corrected standard errors match them almost perfectly.** 
 
 
 
