@@ -975,4 +975,25 @@ Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit
 negligible autocorrelation, as demonstrated in the plots below.
 
-**3. Corrected Standard Errors**
+**3. Corrected Standard Errors** xxx
+
+#### Bayesian Version :
+
+**Manual Metropolis Hasting** :
+
+For our manual Metropolis-Hastings implementation, we assign Normal
+priors to the model parameters. Specifically, we center the priors for
+the parameters $\beta_0$, $\beta_1$, $\beta_2$ and $\beta_3$ at zero to
+reflect a neutral initial assumption.
+
+``` r
+# log prior function 
+log_prior <- function(beta){
+  # beta0~Normal(0, 10)
+  # beta1, beta2, beta3~Normal(0, 5)
+  dnorm(beta[1], 0, 10, log = TRUE)+ 
+  dnorm(beta[2], 0, 5, log = TRUE)+ 
+  dnorm(beta[3], 0, 5, log = TRUE)+ 
+  dnorm(beta[4], 0, 5, log = TRUE)
+}
+```
