@@ -646,7 +646,7 @@ avg_resid_matrix <- rowMeans(acf_resid_matrix)
 acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 ```
 
-Because the predictors $CP_W$ and $CP_L$  effectively explain the autoregressive nature of the data, the model residuals exhibit negligible autocorrelation, as demonstrated in the plots below.
+Because the predictors $CP_W$ and $CP_L$ effectively explain the autoregressive nature of the data, the model residuals exhibit negligible autocorrelation, as demonstrated in the plots below.
 
 **3.    Corrected Standard Errors**
 

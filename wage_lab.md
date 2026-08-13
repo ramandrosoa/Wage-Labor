@@ -976,31 +976,3 @@ autoregressive nature of the data, the model residuals exhibit
 negligible autocorrelation, as demonstrated in the plots below.
 
 **3. Corrected Standard Errors**
-
-``` r
-# naive standard errors
-naive_se <- sqrt(diag(vcov(model)))
-
-# corrected standard errors
-corrected_se <- sqrt(diag(vcovCL(model, cluster = ~society+decade, order.by = ~decade)))
-
-comparison_se <- data.frame(
-  true = c(beta0, beta1, beta2, beta3), 
-  estimated = coef(model), 
-  naive = round(naive_se, 4),
-  corrected = round(corrected_se, 4), 
-  ratio = round(corrected_se/naive_se, 3)
-)
-
-print(comparison_se)
-```
-
-    ##                true  estimated  naive corrected ratio
-    ## (Intercept) -5.2933 -5.2765871 0.1534    0.1312 0.855
-    ## CP_w         1.0000  0.9738972 0.1217    0.1116 0.917
-    ## CP_l         0.5000  0.4017216 0.1968    0.1935 0.983
-    ## CP_w:CP_l    2.0000  2.0678817 0.0988    0.1010 1.022
-
-**Since the residuals are independent, the naive standard errors are
-theoretically correct, and the corrected standard errors match them
-almost perfectly.**
