@@ -229,9 +229,9 @@ plot(1:T_pilot, CP_l[,1], type = "l",
 lines(1:T_pilot, CP_w[,1],col ="red")
 legend("bottomright", legend = c("CP_l", "CP_w"), col = c("black", "red"), lty = 1)
 
-par(mfrow = c(2,1))
-
+par(mfrow = c(1, 1))
 ```
+
 
 "Wages will now rise, now fall,according to the relation of supply and demand, according as competition shapes itself between the buyers of labour-power, the capitalists, and the sellers of labour-power, the workers. "
 

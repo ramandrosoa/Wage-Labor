@@ -323,7 +323,7 @@ legend("bottomright", legend = c("CP_l", "CP_w"), col = c("black", "red"), lty =
 ![](wage_lab_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 ``` r
-par(mfrow = c(2,1))
+par(mfrow = c(1, 1))
 ```
 
 “Wages will now rise, now fall,according to the relation of supply and
