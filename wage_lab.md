@@ -5,9 +5,9 @@ In this project, we translated the theoretical framework of Marx’s Wage
 Labour and Capital into a mathematical model. To ensure that the
 variables behave according to the theoretical mechanisms describes in
 the literature, rather than being confounded by the complexity of real
-historical processes, we rely on synthetic data rather than empirical
+historical processes, **we rely on synthetic data rather than empirical
 historical data. This allow us to control the data generating process
-precisely.
+precisely.**
 
 This simulation is structured around two independent variables : **wage
 gap** and **labor surplus** whose dynamics are governed by theoretically
@@ -975,9 +975,23 @@ Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit
 negligible autocorrelation, as demonstrated in the plots below.
 
-**3. Corrected Standard Errors** xxx
-
 #### Bayesian Version :
+
+The previous simulations used a frequentist framework that assumes
+parameters are fixed values. However, because the goal of this project
+is to model the challenges of historical data — inspired by Marx’s Wage
+Labour and Capital, we use synthetic data that mimics the
+non-independence of historical data with the ARMA(1,q) structure of the
+observations. Because the data points are not truly independent, the
+Bayesian approach provides a more honest and accurate quantification of
+uncertainty.
+
+**Note on Limitations:** While this simulation successfully replicates
+the temporal autocorrelation typical of historical data, it assumes the
+dataset is fully complete. **Real historical archives are often
+fragmented and incomplete.** Future iterations of this model should
+introduce missingness mechanisms to fully mimic the challenges of
+empirical historical research.
 
 **Manual Metropolis Hasting** :
 
