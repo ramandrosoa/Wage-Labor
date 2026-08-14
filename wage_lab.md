@@ -449,7 +449,6 @@ acf_plot(acf_avg_w, T_pilot, title = "ACF wage gap" )
 ![](wage_lab_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 ``` r
-# Reset the plotting window
 par(mfrow = c(1,1))
 ```
 
@@ -946,7 +945,7 @@ regression assumption of independent observations. However, this does
 not necessarily bias the estimated $\beta$ coefficients; rather, the
 primary consequence is **inaccurate standard errors**. Because $CP_w$
 and $CP_l$ are expected to capture the temporal structure, the residuals
-should be uncorrelated. **The presence of correlated residuals will lead
+should be uncorrelated. **The presence of correlated residuals can lead
 to biased standard errors.**
 
 ``` r
@@ -986,14 +985,14 @@ observations. Because the data points are not truly independent, the
 Bayesian approach provides a more honest and accurate quantification of
 uncertainty.
 
-**Note on Limitations:** While this simulation successfully replicates
-the temporal autocorrelation typical of historical data, it assumes the
+*Note on Limitations:* While this simulation successfully replicates the
+temporal autocorrelation typical of historical data, it assumes the
 dataset is fully complete. **Real historical archives are often
 fragmented and incomplete.** Future iterations of this model should
 introduce missingness mechanisms to fully mimic the challenges of
 empirical historical research.
 
-**Manual Metropolis Hasting** :
+**1.Manual Metropolis Hasting** :
 
 For our manual Metropolis-Hastings implementation, we assign Normal
 priors to the model parameters. Specifically, we center the priors for
@@ -1009,5 +1008,10 @@ log_prior <- function(beta){
   dnorm(beta[2], 0, 5, log = TRUE)+ 
   dnorm(beta[3], 0, 5, log = TRUE)+ 
   dnorm(beta[4], 0, 5, log = TRUE)
+}
+
+# Same log_likehood as we use in the manual implementation of the logistic regression.
+log_posterior <- function(beta, X, y){
+  log_prior(beta) + log_likelihood(beta, X, y)
 }
 ```

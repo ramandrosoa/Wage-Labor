@@ -232,7 +232,6 @@ legend("bottomright", legend = c("CP_l", "CP_w"), col = c("black", "red"), lty =
 par(mfrow = c(1, 1))
 ```
 
-
 "Wages will now rise, now fall,according to the relation of supply and demand, according as competition shapes itself between the buyers of labour-power, the capitalists, and the sellers of labour-power, the workers. "
 
 The first plot illustrates the labor surplus of Society 1 from decade 50 (pre-inflection) to decade 70 (post-inflection), with the dotted line representing the logistic trend. The second plot displays the cumulative wage gap and labor surplus across the $T_{pilot}$
@@ -307,7 +306,7 @@ acf_plot <- function(acf, T, title = "Average ACF"){
 par(mfrow = c(1,2))
 acf_plot(acf_avg_l, T_pilot, title = "ACF labor surplus")
 acf_plot(acf_avg_w, T_pilot, title = "ACF wage gap" )
-# Reset the plotting window
+
 par(mfrow = c(1,1))
 ```
 
@@ -627,7 +626,7 @@ As confirmed by the plots, the final and pilot simulations exhibit the **same au
 
 **2.   Residual autocorrelation from logistic regression**
 
-The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic regression assumption of independent observations. However, this does not necessarily bias the estimated $\beta$ coefficients; rather, the primary consequence is **inaccurate standard errors**. Because $CP_w$ and $CP_l$ are expected to capture the temporal structure, the residuals should be uncorrelated. **The presence of correlated residuals will lead to biased standard errors.**
+The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic regression assumption of independent observations. However, this does not necessarily bias the estimated $\beta$ coefficients; rather, the primary consequence is **inaccurate standard errors**. Because $CP_w$ and $CP_l$ are expected to capture the temporal structure, the residuals should be uncorrelated. **The presence of correlated residuals can lead to biased standard errors.**
 
 ```{r}
 residuals_pearson <- residuals(model, type = "pearson")
@@ -655,9 +654,9 @@ Because the predictors $CP_W$ and $CP_L$ effectively explain the autoregressive 
 
 The previous simulations used a frequentist framework that assumes parameters are fixed values. However, because the goal of this project is to model the challenges of historical data — inspired by Marx's Wage Labour and Capital, we use synthetic data that mimics the non-independence of historical data with the ARMA(1,q) structure of the observations. Because the data points are not truly independent, the Bayesian approach provides a more honest and accurate quantification of uncertainty.
 
-**Note on Limitations:** While this simulation successfully replicates the temporal autocorrelation typical of historical data, it assumes the dataset is fully complete. **Real historical archives are often fragmented and incomplete.** Future iterations of this model should introduce missingness mechanisms to fully mimic the challenges of empirical historical research.
+*Note on Limitations:* While this simulation successfully replicates the temporal autocorrelation typical of historical data, it assumes the dataset is fully complete. **Real historical archives are often fragmented and incomplete.** Future iterations of this model should introduce missingness mechanisms to fully mimic the challenges of empirical historical research.
 
-**Manual Metropolis Hasting** :
+**1.Manual Metropolis Hasting** :
 
 For our manual Metropolis-Hastings implementation, we assign Normal priors to the model parameters. Specifically, we center the priors for the parameters $\beta_0$, $\beta_1$, $\beta_2$ and $\beta_3$ at zero to reflect a neutral initial assumption.
 
@@ -671,6 +670,13 @@ log_prior <- function(beta){
   dnorm(beta[3], 0, 5, log = TRUE)+ 
   dnorm(beta[4], 0, 5, log = TRUE)
 }
+
+# Same log_likehood as we use in the manual implementation of the logistic regression.
+log_posterior <- function(beta, X, y){
+  log_prior(beta) + log_likelihood(beta, X, y)
+}
+
+
 ```
 
 
