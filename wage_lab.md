@@ -1015,3 +1015,41 @@ log_posterior <- function(beta, X, y){
   log_prior(beta) + log_likelihood(beta, X, y)
 }
 ```
+
+``` r
+manual_metropolis_hasting <- function(X, y, n_iter = 5000, proposal_sd = .05){
+  
+  # initialize the storage
+  samples <- matrix(NA, nrow = n_iter, ncol = 4)
+  colnames(samples) <- c("beta0","beta1","beta2", "beta3")
+  
+  # starting point 
+  beta_current <- coef(model)
+  
+  # initialize the acceptance
+  acceptance <- 0
+  
+  for (i in 1:n_iter){
+    # add random noise to beta_current to get the beta_proposed
+    beta_proposed <- beta_current + rnorm(4, 0, sd = proposal_sd)
+    # compute the log posterior ratio
+    log_ratio <- log_posterior(beta_proposed, X, y) - log_posterior(beta_current, X, y)
+    # accept or reject 
+    if (log(runif(1)) < log_ratio) {
+      beta_current <- beta_proposed # update beta_current
+      acceptance <- acceptance + 1
+    }
+    samples[i,] <- beta_current
+  }
+  cat("Acceptance rate: ", round(acceptance/n_iter, 3), "\n")
+  
+  return(samples)
+}
+```
+
+``` r
+set.seed(42)
+mcmc_samples <- manual_metropolis_hasting(X, y_vec, n_iter = 5000, proposal_sd = .05)
+```
+
+    ## Acceptance rate:  0.812
