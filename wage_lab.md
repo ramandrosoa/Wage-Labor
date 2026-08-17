@@ -1053,3 +1053,41 @@ mcmc_samples <- manual_metropolis_hasting(X, y_vec, n_iter = 5000, proposal_sd =
 ```
 
     ## Acceptance rate:  0.812
+
+``` r
+# discard warm up 
+warm_up <- 1000 
+post_samples <- mcmc_samples[(warm_up+1):(nrow(mcmc_samples)), ]
+
+par(mfrow = c(2,2))
+for(j in 1:4){
+  param_name <- colnames(post_samples)[j]
+  true_value <- c(beta0, beta1, beta2, beta3)
+  
+  hist(post_samples[,j], 
+       breaks = 50, 
+       main   = paste("Posterior of", param_name),
+       xlab   = param_name,
+       col    = "#378ADD",
+       border = "white",
+       freq   = FALSE)
+  
+    # True value
+  abline(v = true_value, col = "#E24B4A", lwd = 2, lty = 2)
+  
+  # Posterior mean
+  abline(v = mean(post_samples[, j]), 
+         col = "#1D9E75", lwd = 2)
+  
+  legend("topright",
+         legend = c("True value", "Posterior mean"),
+         col    = c("#E24B4A", "#1D9E75"),
+         lty    = c(2, 1), lwd = 2, cex = 0.7)
+}
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
+
+``` r
+par(mfrow = c(1, 1))
+```
