@@ -1055,6 +1055,31 @@ mcmc_samples <- manual_metropolis_hasting(X, y_vec, n_iter = 5000, proposal_sd =
     ## Acceptance rate:  0.812
 
 ``` r
+par(mfrow = c(2, 2))
+
+for(j in 1:4){
+  param_name <- colnames(mcmc_samples)[j]
+  true_value <- c(beta0, beta1, beta2, beta3)[j]
+  
+  # Plot the chain over time
+  plot(mcmc_samples[, j], type = "l", 
+       main = paste("Trace plot for", param_name),
+       xlab = "Iteration", 
+       ylab = param_name,
+       col = "#378ADD")
+  
+  # Add the true value as a horizontal red dashed line
+  abline(h = true_value, col = "#E24B4A", lwd = 2, lty = 2)
+}
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
+
+``` r
+par(mfrow = c(1, 1))
+```
+
+``` r
 # discard warm up 
 warm_up <- 1000 
 post_samples <- mcmc_samples[(warm_up+1):(nrow(mcmc_samples)), ]
@@ -1086,7 +1111,7 @@ for(j in 1:4){
 }
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
