@@ -770,13 +770,8 @@ post_plot <- function(samples){
 
 ```{r}
 trace_plot(mcmc_samples)
-```
-
-
-```{r}
 post_plot(mcmc_samples)
 ```
-
 **With Standardized observations:** To optimize the Metropolis-Hastings algorithm, the predictor matrix was standardized. Putting all variables on the same scale prevents numerical instability and symmetrizes the likelihood surface, making it much easier for the algorithm's random walk to navigate the parameters efficiently.
 
 ```{r}
@@ -800,15 +795,12 @@ mcmc_std <- manual_metropolis_hasting(X_std, y_vec, n_iter = 5000, proposal_sd =
 
 ```{r}
 trace_plot(mcmc_std)
-```
-
-
-```{r}
 post_plot(mcmc_std)
 ```
 
 The correlation between $CP_W$ and $CP_L$ , exacerbated by their interaction term, results in **extreme multicollinearity.** The observations do not contain enough independent variation to precisely estimate all four parameters.
 Consequently, a standard Metropolis-Hastings algorithm may struggle to converge to the true parameter values. By implementing a **multivariate Normal proposal**, the algorithm can learn and navigate this underlying covariance structure.
+
 
 ```{r}
 multivariate_normal_proposal <- function(X, y, n_iter = 5000, proposal_sd = .05, model){
@@ -823,12 +815,11 @@ multivariate_normal_proposal <- function(X, y, n_iter = 5000, proposal_sd = .05,
   # initialize the acceptance
   acceptance <- 0
   
-  # covariance matrix of the X
-  step_cov <- cov(X) * .01
+  step_cov <- vcov(model)*proposal_sd^2
   
   for (i in 1:n_iter){
-
-    beta_proposed <- mvrnorm(1, mu = beta_current, Sigma = step_cov)
+    # add random noise to beta_current to get the beta_proposed
+    beta_proposed <- mvrnorm(n = 1, mu = beta_current, Sigma = step_cov)
     # compute the log posterior ratio
     log_ratio <- log_posterior(beta_proposed, X, y) - log_posterior(beta_current, X, y)
     # accept or reject 
@@ -844,7 +835,6 @@ multivariate_normal_proposal <- function(X, y, n_iter = 5000, proposal_sd = .05,
 }
 ```
 
-
 ```{r}
 set.seed(42)
 mnp_samples <- multivariate_normal_proposal(X, y_vec, n_iter = 5000, proposal_sd = .05, model)
@@ -852,13 +842,8 @@ mnp_samples <- multivariate_normal_proposal(X, y_vec, n_iter = 5000, proposal_sd
 
 ```{r}
 trace_plot(mnp_samples)
-```
-
-
-```{r}
 post_plot(mnp_samples)
 ```
-
 
 ```{r}
 mnp_std <- multivariate_normal_proposal(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
@@ -866,9 +851,5 @@ mnp_std <- multivariate_normal_proposal(X_std, y_vec, n_iter = 5000, proposal_sd
 
 ```{r}
 trace_plot(mnp_std)
-```
-
-
-```{r}
 post_plot(mnp_std)
 ```

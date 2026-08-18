@@ -1114,7 +1114,7 @@ trace_plot(mcmc_samples)
 post_plot(mcmc_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-48-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-47-2.png)<!-- -->
 
 **With Standardized observations:** To optimize the Metropolis-Hastings
 algorithm, the predictor matrix was standardized. Putting all variables
