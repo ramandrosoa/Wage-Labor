@@ -755,7 +755,7 @@ post_plot <- function(samples){
 post_plot(mcmc_samples)
 ```
 
-**With Standardized observations**
+**With Standardized observations : ** To optimize the Metropolis-Hastings algorithm, the predictor matrix was standardized. Putting all variables on the same scale prevents numerical instability and symmetrizes the likelihood surface, making it much easier for the algorithm's random walk to navigate the parameters efficiently.
 
 ```{r}
 # standardize X

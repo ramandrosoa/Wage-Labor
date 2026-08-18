@@ -1053,46 +1053,118 @@ mcmc_samples <- manual_metropolis_hasting(X, y_vec, n_iter = 5000, proposal_sd =
     ## Acceptance rate:  0.812
 
 ``` r
-# discard warm up 
-warm_up <- 1000 
-post_samples <- mcmc_samples[(warm_up+1):(nrow(mcmc_samples)), ]
-
-par(mfrow = c(2,2))
-for(j in 1:4){
-  param_name <- colnames(post_samples)[j]
-  true_value <- c(beta0, beta1, beta2, beta3)
+post_plot <- function(samples){
+    # discard warm up 
+  warm_up <- 1000 
+  post_samples <- samples[(warm_up+1):(nrow(samples)), ]
   
-  hist(post_samples[,j], 
-       breaks = 50, 
-       main   = paste("Posterior of", param_name),
-       xlab   = param_name,
-       col    = "#378ADD",
-       border = "white",
-       freq   = FALSE)
-  
-    # True value
-  abline(v = true_value, col = "#E24B4A", lwd = 2, lty = 2)
-  
-  # Posterior mean
-  abline(v = mean(post_samples[, j]), 
-         col = "#1D9E75", lwd = 2)
-  
-  legend("topright",
-         legend = c("True value", "Posterior mean"),
-         col    = c("#E24B4A", "#1D9E75"),
-         lty    = c(2, 1), lwd = 2, cex = 0.7)
+  par(mfrow = c(2,2))
+  for(j in 1:4){
+    param_name <- colnames(post_samples)[j]
+    true_value <- c(beta0, beta1, beta2, beta3)
+    
+    hist(post_samples[,j], 
+         breaks = 50, 
+         main   = paste("Posterior of", param_name),
+         xlab   = param_name,
+         col    = "#378ADD",
+         border = "white",
+         freq   = FALSE)
+    
+      # True value
+    abline(v = true_value, col = "#E24B4A", lwd = 2, lty = 2)
+    
+    # Posterior mean
+    abline(v = mean(post_samples[, j]), 
+           col = "#1D9E75", lwd = 2)
+    
+    legend("topright",
+           legend = c("True value", "Posterior mean"),
+           col    = c("#E24B4A", "#1D9E75"),
+           lty    = c(2, 1), lwd = 2, cex = 0.7)
+  }
+  par(mfrow = c(1, 1))
 }
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
-
 ``` r
-par(mfrow = c(1, 1))
+post_plot(mcmc_samples)
 ```
 
+![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
+
+**With Standardized observations : ** To optimize the
+Metropolis-Hastings algorithm, the predictor matrix was standardized.
+Putting all variables on the same scale prevents numerical instability
+and symmetrizes the likelihood surface, making it much easier for the
+algorithm’s random walk to navigate the parameters efficiently.
+
+``` r
+# standardize X
+X_std <- cbind(
+  intercept = 1, 
+  CP_w = scale(as.vector(CPfin_w))[,1], 
+  CP_l = scale(as.vector(CPfin_l))[,1], 
+  interaction = scale(as.vector(CPfin_w)*as.vector(CPfin_l))[,1]
+)
+```
+
+``` r
+model_std <- glm(y_vec~X_std-1, family = binomial)
+```
+
+``` r
+set.seed(42)
+mcmc_std <- manual_metropolis_hasting(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
+```
+
+    ## Acceptance rate:  0.523
+
+``` r
+post_plot(mcmc_std)
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-50-1.png)<!-- -->
+
 The correlation between $CP_W$ and $CP_L$ , exacerbated by their
-interaction term, results in **extreme multicollinearity.**
-Consequently, a standard Metropolis-Hastings algorithm may struggle to
-converge to the true parameter values. By implementing a **multivariate
-Normal proposal**, the algorithm can learn and navigate this underlying
-covariance structure.
+interaction term, results in **extreme multicollinearity.** The
+observations do not contain enough independent variation to precisely
+estimate all four parameters. Consequently, a standard
+Metropolis-Hastings algorithm may struggle to converge to the true
+parameter values. By implementing a **multivariate Normal proposal**,
+the algorithm can learn and navigate this underlying covariance
+structure.
+
+``` r
+multivariate_normal_proposal <- function(X, y, n_iter = 5000, proposal_sd = .05, model){
+  
+  # initialize the storage
+  samples <- matrix(NA, nrow = n_iter, ncol = 4)
+  colnames(samples) <- c("beta0","beta1","beta2", "beta3")
+  
+  # starting point 
+  beta_current <- coef(model)
+  
+  # initialize the acceptance
+  acceptance <- 0
+  
+  # covariance matrix of the X
+  step_cov <- cov(X) * .01
+  
+  for (i in 1:n_iter){
+
+    beta_proposed <- mvrnorm(1, mu = beta_current, Sigma = step_cov)
+    # compute the log posterior ratio
+    log_ratio <- log_posterior(beta_proposed, X, y) - log_posterior(beta_current, X, y)
+    # accept or reject 
+    if (log(runif(1)) < log_ratio) {
+      beta_current <- beta_proposed # update beta_current
+      acceptance <- acceptance + 1
+    }
+    samples[i,] <- beta_current
+  }
+  cat("Acceptance rate: ", round(acceptance/n_iter, 3), "\n")
+  
+  return(samples)
+}
+```
