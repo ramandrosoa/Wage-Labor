@@ -679,7 +679,6 @@ log_posterior <- function(beta, X, y){
 }
 ```
 
-
 ```{r}
 manual_metropolis_hasting <- function(X, y, n_iter = 5000, proposal_sd = .05, model){
   
@@ -717,6 +716,24 @@ mcmc_samples <- manual_metropolis_hasting(X, y_vec, n_iter = 5000, proposal_sd =
 ```
 
 ```{r}
+trace_plot <- function(sample){
+    par(mfrow = c(2, 2))
+    for (j in 1:4) {
+      plot(sample[, j],
+           type = "l",
+           main = paste("Trace —", colnames(sample)[j]),
+           xlab = "Iteration",
+           ylab = "Value",
+           col  = "#378ADD")
+      abline(h = c(beta0, beta1, beta2, beta3)[j],
+             col = "#E24B4A", lwd = 2, lty = 2)
+    }
+    par(mfrow = c(1, 1))
+}
+```
+
+
+```{r}
 post_plot <- function(samples){
     # discard warm up 
   warm_up <- 1000 
@@ -752,6 +769,11 @@ post_plot <- function(samples){
 ```
 
 ```{r}
+trace_plot(mcmc_samples)
+```
+
+
+```{r}
 post_plot(mcmc_samples)
 ```
 
@@ -775,6 +797,11 @@ model_std <- glm(y_vec~X_std-1, family = binomial)
 set.seed(42)
 mcmc_std <- manual_metropolis_hasting(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
 ```
+
+```{r}
+trace_plot(mcmc_std)
+```
+
 
 ```{r}
 post_plot(mcmc_std)
@@ -824,6 +851,11 @@ mnp_samples <- multivariate_normal_proposal(X, y_vec, n_iter = 5000, proposal_sd
 ```
 
 ```{r}
+trace_plot(mnp_samples)
+```
+
+
+```{r}
 post_plot(mnp_samples)
 ```
 
@@ -831,6 +863,11 @@ post_plot(mnp_samples)
 ```{r}
 mnp_std <- multivariate_normal_proposal(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
 ```
+
+```{r}
+trace_plot(mnp_std)
+```
+
 
 ```{r}
 post_plot(mnp_std)

@@ -1053,6 +1053,23 @@ mcmc_samples <- manual_metropolis_hasting(X, y_vec, n_iter = 5000, proposal_sd =
     ## Acceptance rate:  0.812
 
 ``` r
+trace_plot <- function(sample){
+    par(mfrow = c(2, 2))
+    for (j in 1:4) {
+      plot(sample[, j],
+           type = "l",
+           main = paste("Trace —", colnames(sample)[j]),
+           xlab = "Iteration",
+           ylab = "Value",
+           col  = "#378ADD")
+      abline(h = c(beta0, beta1, beta2, beta3)[j],
+             col = "#E24B4A", lwd = 2, lty = 2)
+    }
+    par(mfrow = c(1, 1))
+}
+```
+
+``` r
 post_plot <- function(samples){
     # discard warm up 
   warm_up <- 1000 
@@ -1088,10 +1105,16 @@ post_plot <- function(samples){
 ```
 
 ``` r
+trace_plot(mcmc_samples)
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-47-1.png)<!-- -->
+
+``` r
 post_plot(mcmc_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-48-1.png)<!-- -->
 
 **With Standardized observations:** To optimize the Metropolis-Hastings
 algorithm, the predictor matrix was standardized. Putting all variables
@@ -1121,10 +1144,16 @@ mcmc_std <- manual_metropolis_hasting(X_std, y_vec, n_iter = 5000, proposal_sd =
     ## Acceptance rate:  0.523
 
 ``` r
+trace_plot(mcmc_std)
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-52-1.png)<!-- -->
+
+``` r
 post_plot(mcmc_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-50-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-53-1.png)<!-- -->
 
 The correlation between $CP_W$ and $CP_L$ , exacerbated by their
 interaction term, results in **extreme multicollinearity.** The
@@ -1177,10 +1206,16 @@ mnp_samples <- multivariate_normal_proposal(X, y_vec, n_iter = 5000, proposal_sd
     ## Acceptance rate:  0.518
 
 ``` r
+trace_plot(mnp_samples)
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-56-1.png)<!-- -->
+
+``` r
 post_plot(mnp_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-53-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
 
 ``` r
 mnp_std <- multivariate_normal_proposal(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
@@ -1189,7 +1224,13 @@ mnp_std <- multivariate_normal_proposal(X_std, y_vec, n_iter = 5000, proposal_sd
     ## Acceptance rate:  0.673
 
 ``` r
+trace_plot(mnp_std)
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
+
+``` r
 post_plot(mnp_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-55-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-60-1.png)<!-- -->
