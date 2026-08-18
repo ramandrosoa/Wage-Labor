@@ -305,7 +305,7 @@ par(mfrow = c(1,2))
 
 plot(s:n, labor_surplus[s:n, 1], type = "n",
      xlab = "Decades", ylab = "Labor Surplus",
-     main = "Labor Surplus with Trend")
+     main = "Labor Surplus-Society 1")
 lines(s:n, labor_surplus[s:n, 1], col = "#00070d", lwd = 1.5)
 lines(s:n, trend_l, col = "#E24B4A", lty = 2, lwd = 2)
 legend("topleft",
@@ -315,7 +315,7 @@ legend("topleft",
 
 plot(1:T_pilot, CP_l[,1], type = "l", 
      xlab = "Decades", ylab = "Cumulative Pressure",
-     main = "Cumulative Pressure")
+     main = "Cumulative Pressure-Society 1")
 lines(1:T_pilot, CP_w[,1],col ="red")
 legend("bottomright", legend = c("CP_l", "CP_w"), col = c("black", "red"), lty = 1)
 ```
@@ -1093,11 +1093,11 @@ post_plot(mcmc_samples)
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
 
-**With Standardized observations : ** To optimize the
-Metropolis-Hastings algorithm, the predictor matrix was standardized.
-Putting all variables on the same scale prevents numerical instability
-and symmetrizes the likelihood surface, making it much easier for the
-algorithm’s random walk to navigate the parameters efficiently.
+**With Standardized observations:** To optimize the Metropolis-Hastings
+algorithm, the predictor matrix was standardized. Putting all variables
+on the same scale prevents numerical instability and symmetrizes the
+likelihood surface, making it much easier for the algorithm’s random
+walk to navigate the parameters efficiently.
 
 ``` r
 # standardize X
