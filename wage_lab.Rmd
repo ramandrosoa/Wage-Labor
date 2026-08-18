@@ -717,7 +717,7 @@ mcmc_samples <- manual_metropolis_hasting(X, y_vec, n_iter = 5000, proposal_sd =
 
 ```{r}
 trace_plot <- function(sample){
-    par(mfrow = c(2, 2))
+
     for (j in 1:4) {
       plot(sample[, j],
            type = "l",
@@ -728,18 +728,14 @@ trace_plot <- function(sample){
       abline(h = c(beta0, beta1, beta2, beta3)[j],
              col = "#E24B4A", lwd = 2, lty = 2)
     }
-    par(mfrow = c(1, 1))
 }
-```
 
-
-```{r}
 post_plot <- function(samples){
     # discard warm up 
   warm_up <- 1000 
   post_samples <- samples[(warm_up+1):(nrow(samples)), ]
   
-  par(mfrow = c(2,2))
+
   for(j in 1:4){
     param_name <- colnames(post_samples)[j]
     true_value <- c(beta0, beta1, beta2, beta3)
@@ -752,10 +748,10 @@ post_plot <- function(samples){
          border = "white",
          freq   = FALSE)
     
-      # True value
+      # true value
     abline(v = true_value, col = "#E24B4A", lwd = 2, lty = 2)
     
-    # Posterior mean
+    # posterior mean
     abline(v = mean(post_samples[, j]), 
            col = "#1D9E75", lwd = 2)
     
@@ -764,13 +760,15 @@ post_plot <- function(samples){
            col    = c("#E24B4A", "#1D9E75"),
            lty    = c(2, 1), lwd = 2, cex = 0.7)
   }
-  par(mfrow = c(1, 1))
 }
 ```
 
+
 ```{r}
+par(mfcol = c(2, 4), mar = c(4, 4, 2, 1))
 trace_plot(mcmc_samples)
 post_plot(mcmc_samples)
+par(mfrow = c(1, 1))
 ```
 **With Standardized observations:** To optimize the Metropolis-Hastings algorithm, the predictor matrix was standardized. Putting all variables on the same scale prevents numerical instability and symmetrizes the likelihood surface, making it much easier for the algorithm's random walk to navigate the parameters efficiently.
 
@@ -794,8 +792,10 @@ mcmc_std <- manual_metropolis_hasting(X_std, y_vec, n_iter = 5000, proposal_sd =
 ```
 
 ```{r}
+par(mfcol = c(2, 4), mar = c(4, 4, 2, 1))
 trace_plot(mcmc_std)
 post_plot(mcmc_std)
+par(mfrow = c(1, 1))
 ```
 
 The correlation between $CP_W$ and $CP_L$ , exacerbated by their interaction term, results in **extreme multicollinearity.** The observations do not contain enough independent variation to precisely estimate all four parameters.
@@ -841,8 +841,10 @@ mnp_samples <- multivariate_normal_proposal(X, y_vec, n_iter = 5000, proposal_sd
 ```
 
 ```{r}
+par(mfcol = c(2, 4), mar = c(4, 4, 2, 1))
 trace_plot(mnp_samples)
 post_plot(mnp_samples)
+par(mfrow = c(1, 1))
 ```
 
 ```{r}
@@ -850,6 +852,8 @@ mnp_std <- multivariate_normal_proposal(X_std, y_vec, n_iter = 5000, proposal_sd
 ```
 
 ```{r}
+par(mfcol = c(2, 4), mar = c(4, 4, 2, 1))
 trace_plot(mnp_std)
 post_plot(mnp_std)
+par(mfrow = c(1, 1))
 ```

@@ -1054,7 +1054,7 @@ mcmc_samples <- manual_metropolis_hasting(X, y_vec, n_iter = 5000, proposal_sd =
 
 ``` r
 trace_plot <- function(sample){
-    par(mfrow = c(2, 2))
+
     for (j in 1:4) {
       plot(sample[, j],
            type = "l",
@@ -1065,17 +1065,14 @@ trace_plot <- function(sample){
       abline(h = c(beta0, beta1, beta2, beta3)[j],
              col = "#E24B4A", lwd = 2, lty = 2)
     }
-    par(mfrow = c(1, 1))
 }
-```
 
-``` r
 post_plot <- function(samples){
     # discard warm up 
   warm_up <- 1000 
   post_samples <- samples[(warm_up+1):(nrow(samples)), ]
   
-  par(mfrow = c(2,2))
+
   for(j in 1:4){
     param_name <- colnames(post_samples)[j]
     true_value <- c(beta0, beta1, beta2, beta3)
@@ -1088,10 +1085,10 @@ post_plot <- function(samples){
          border = "white",
          freq   = FALSE)
     
-      # True value
+      # true value
     abline(v = true_value, col = "#E24B4A", lwd = 2, lty = 2)
     
-    # Posterior mean
+    # posterior mean
     abline(v = mean(post_samples[, j]), 
            col = "#1D9E75", lwd = 2)
     
@@ -1100,21 +1097,20 @@ post_plot <- function(samples){
            col    = c("#E24B4A", "#1D9E75"),
            lty    = c(2, 1), lwd = 2, cex = 0.7)
   }
-  par(mfrow = c(1, 1))
 }
 ```
 
 ``` r
+par(mfcol = c(2, 4), mar = c(4, 4, 2, 1))
 trace_plot(mcmc_samples)
-```
-
-![](wage_lab_files/figure-gfm/unnamed-chunk-47-1.png)<!-- -->
-
-``` r
 post_plot(mcmc_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-47-2.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
+
+``` r
+par(mfrow = c(1, 1))
+```
 
 **With Standardized observations:** To optimize the Metropolis-Hastings
 algorithm, the predictor matrix was standardized. Putting all variables
@@ -1144,16 +1140,16 @@ mcmc_std <- manual_metropolis_hasting(X_std, y_vec, n_iter = 5000, proposal_sd =
     ## Acceptance rate:  0.523
 
 ``` r
+par(mfcol = c(2, 4), mar = c(4, 4, 2, 1))
 trace_plot(mcmc_std)
-```
-
-![](wage_lab_files/figure-gfm/unnamed-chunk-52-1.png)<!-- -->
-
-``` r
 post_plot(mcmc_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-53-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-50-1.png)<!-- -->
+
+``` r
+par(mfrow = c(1, 1))
+```
 
 The correlation between $CP_W$ and $CP_L$ , exacerbated by their
 interaction term, results in **extreme multicollinearity.** The
@@ -1177,12 +1173,11 @@ multivariate_normal_proposal <- function(X, y, n_iter = 5000, proposal_sd = .05,
   # initialize the acceptance
   acceptance <- 0
   
-  # covariance matrix of the X
-  step_cov <- cov(X) * .01
+  step_cov <- vcov(model)*proposal_sd^2
   
   for (i in 1:n_iter){
-
-    beta_proposed <- mvrnorm(1, mu = beta_current, Sigma = step_cov)
+    # add random noise to beta_current to get the beta_proposed
+    beta_proposed <- mvrnorm(n = 1, mu = beta_current, Sigma = step_cov)
     # compute the log posterior ratio
     log_ratio <- log_posterior(beta_proposed, X, y) - log_posterior(beta_current, X, y)
     # accept or reject 
@@ -1203,34 +1198,34 @@ set.seed(42)
 mnp_samples <- multivariate_normal_proposal(X, y_vec, n_iter = 5000, proposal_sd = .05, model)
 ```
 
-    ## Acceptance rate:  0.518
+    ## Acceptance rate:  0.689
 
 ``` r
+par(mfcol = c(2, 4), mar = c(4, 4, 2, 1))
 trace_plot(mnp_samples)
-```
-
-![](wage_lab_files/figure-gfm/unnamed-chunk-56-1.png)<!-- -->
-
-``` r
 post_plot(mnp_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-53-1.png)<!-- -->
+
+``` r
+par(mfrow = c(1, 1))
+```
 
 ``` r
 mnp_std <- multivariate_normal_proposal(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
 ```
 
-    ## Acceptance rate:  0.673
+    ## Acceptance rate:  0.777
 
 ``` r
+par(mfcol = c(2, 4), mar = c(4, 4, 2, 1))
 trace_plot(mnp_std)
-```
-
-![](wage_lab_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
-
-``` r
 post_plot(mnp_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-60-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-55-1.png)<!-- -->
+
+``` r
+par(mfrow = c(1, 1))
+```
