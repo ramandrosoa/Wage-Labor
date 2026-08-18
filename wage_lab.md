@@ -1168,3 +1168,28 @@ multivariate_normal_proposal <- function(X, y, n_iter = 5000, proposal_sd = .05,
   return(samples)
 }
 ```
+
+``` r
+set.seed(42)
+mnp_samples <- multivariate_normal_proposal(X, y_vec, n_iter = 5000, proposal_sd = .05, model)
+```
+
+    ## Acceptance rate:  0.518
+
+``` r
+post_plot(mnp_samples)
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-53-1.png)<!-- -->
+
+``` r
+mnp_std <- multivariate_normal_proposal(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
+```
+
+    ## Acceptance rate:  0.673
+
+``` r
+post_plot(mnp_std)
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-55-1.png)<!-- -->

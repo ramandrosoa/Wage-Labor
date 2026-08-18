@@ -819,7 +819,19 @@ multivariate_normal_proposal <- function(X, y, n_iter = 5000, proposal_sd = .05,
 
 
 ```{r}
+set.seed(42)
+mnp_samples <- multivariate_normal_proposal(X, y_vec, n_iter = 5000, proposal_sd = .05, model)
+```
 
+```{r}
+post_plot(mnp_samples)
 ```
 
 
+```{r}
+mnp_std <- multivariate_normal_proposal(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
+```
+
+```{r}
+post_plot(mnp_std)
+```
