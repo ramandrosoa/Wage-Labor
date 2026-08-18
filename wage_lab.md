@@ -796,8 +796,6 @@ summary(model)
     ## 
     ## Number of Fisher Scoring iterations: 7
 
-pvalue interpretations
-
 **2. Custom Maximum Likelihood Estimation function**
 
 This method shows what glm() is doing internally.
@@ -1017,7 +1015,7 @@ log_posterior <- function(beta, X, y){
 ```
 
 ``` r
-manual_metropolis_hasting <- function(X, y, n_iter = 5000, proposal_sd = .05){
+manual_metropolis_hasting <- function(X, y, n_iter = 5000, proposal_sd = .05, model){
   
   # initialize the storage
   samples <- matrix(NA, nrow = n_iter, ncol = 4)
@@ -1031,7 +1029,7 @@ manual_metropolis_hasting <- function(X, y, n_iter = 5000, proposal_sd = .05){
   
   for (i in 1:n_iter){
     # add random noise to beta_current to get the beta_proposed
-    beta_proposed <- beta_current + rnorm(4, 0, sd = proposal_sd)
+    beta_proposed <- beta_current + rnorm(4, mean = 0, sd = proposal_sd)
     # compute the log posterior ratio
     log_ratio <- log_posterior(beta_proposed, X, y) - log_posterior(beta_current, X, y)
     # accept or reject 
@@ -1049,35 +1047,10 @@ manual_metropolis_hasting <- function(X, y, n_iter = 5000, proposal_sd = .05){
 
 ``` r
 set.seed(42)
-mcmc_samples <- manual_metropolis_hasting(X, y_vec, n_iter = 5000, proposal_sd = .05)
+mcmc_samples <- manual_metropolis_hasting(X, y_vec, n_iter = 5000, proposal_sd = .05, model)
 ```
 
     ## Acceptance rate:  0.812
-
-``` r
-par(mfrow = c(2, 2))
-
-for(j in 1:4){
-  param_name <- colnames(mcmc_samples)[j]
-  true_value <- c(beta0, beta1, beta2, beta3)[j]
-  
-  # Plot the chain over time
-  plot(mcmc_samples[, j], type = "l", 
-       main = paste("Trace plot for", param_name),
-       xlab = "Iteration", 
-       ylab = param_name,
-       col = "#378ADD")
-  
-  # Add the true value as a horizontal red dashed line
-  abline(h = true_value, col = "#E24B4A", lwd = 2, lty = 2)
-}
-```
-
-![](wage_lab_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
-
-``` r
-par(mfrow = c(1, 1))
-```
 
 ``` r
 # discard warm up 
@@ -1111,8 +1084,15 @@ for(j in 1:4){
 }
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
 ```
+
+The correlation between $CP_W$ and $CP_L$ , exacerbated by their
+interaction term, results in **extreme multicollinearity.**
+Consequently, a standard Metropolis-Hastings algorithm may struggle to
+converge to the true parameter values. By implementing a **multivariate
+Normal proposal**, the algorithm can learn and navigate this underlying
+covariance structure.

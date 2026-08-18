@@ -13,6 +13,7 @@ library(tidyr)
 library(sandwich)
 library(lmtest)
 library(patchwork)
+library(MASS)
 ```
 
 In this project, we translated the theoretical framework of Marx's Wage Labour and Capital into a mathematical model.
@@ -507,7 +508,6 @@ model <- glm(y~CP_w+CP_l+CP_w:CP_l,
              family = binomial(link = "logit"))
 summary(model)
 ```
-pvalue interpretations
 
 **2. Custom Maximum Likelihood Estimation function**
 
@@ -523,6 +523,7 @@ X <- cbind(
 
 y_vec <- as.vector(y_final)
 ```
+
 
 
 ```{r}
@@ -559,6 +560,7 @@ data.frame(
 The close alignment between the estimated and true parameters demonstrates that both models successfully recover the parameters derived from Marxian theory. This also validates our use of the EPV rule, confirming that the sample size was sufficient for reliable estimation. Furthermore, the estimated parameters maintain the expected ordering ($\beta_3$ > $\beta_2$ > $\beta_1$), providing empirical support for the theoretical argument regarding the dominance of the interaction term. Finally, despite the autocorrelated structure of the CP variables, standard logistic regression via glm() performs comparably to the custom MLE. This suggests that, under this specific simulation design, the autocorrelation does not introduce severe bias into the estimates.
 
 #### Time Series Diagnosis :
+
 Assumption violation > Coefficient biased > overconfident model > inaccurate standard errors
 
 **1.    Comparison of the ACF of the pilot and final simulation :**
@@ -677,8 +679,9 @@ log_posterior <- function(beta, X, y){
 }
 ```
 
+
 ```{r}
-manual_metropolis_hasting <- function(X, y, n_iter = 5000, proposal_sd = .05){
+manual_metropolis_hasting <- function(X, y, n_iter = 5000, proposal_sd = .05, model){
   
   # initialize the storage
   samples <- matrix(NA, nrow = n_iter, ncol = 4)
@@ -692,7 +695,7 @@ manual_metropolis_hasting <- function(X, y, n_iter = 5000, proposal_sd = .05){
   
   for (i in 1:n_iter){
     # add random noise to beta_current to get the beta_proposed
-    beta_proposed <- beta_current + rnorm(4, 0, sd = proposal_sd)
+    beta_proposed <- beta_current + rnorm(4, mean = 0, sd = proposal_sd)
     # compute the log posterior ratio
     log_ratio <- log_posterior(beta_proposed, X, y) - log_posterior(beta_current, X, y)
     # accept or reject 
@@ -710,28 +713,7 @@ manual_metropolis_hasting <- function(X, y, n_iter = 5000, proposal_sd = .05){
 
 ```{r}
 set.seed(42)
-mcmc_samples <- manual_metropolis_hasting(X, y_vec, n_iter = 5000, proposal_sd = .05)
-```
-
-
-```{r}
-par(mfrow = c(2, 2))
-
-for(j in 1:4){
-  param_name <- colnames(mcmc_samples)[j]
-  true_value <- c(beta0, beta1, beta2, beta3)[j]
-  
-  # Plot the chain over time
-  plot(mcmc_samples[, j], type = "l", 
-       main = paste("Trace plot for", param_name),
-       xlab = "Iteration", 
-       ylab = param_name,
-       col = "#378ADD")
-  
-  # Add the true value as a horizontal red dashed line
-  abline(h = true_value, col = "#E24B4A", lwd = 2, lty = 2)
-}
-par(mfrow = c(1, 1))
+mcmc_samples <- manual_metropolis_hasting(X, y_vec, n_iter = 5000, proposal_sd = .05, model)
 ```
 
 ```{r}
@@ -768,6 +750,6 @@ par(mfrow = c(1, 1))
 
 ```
 
-
+The correlation between $CP_W$ and $CP_L$ , exacerbated by their interaction term, results in **extreme multicollinearity.** Consequently, a standard Metropolis-Hastings algorithm may struggle to converge to the true parameter values. By implementing a **multivariate Normal proposal**, the algorithm can learn and navigate this underlying covariance structure.
 
 
