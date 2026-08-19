@@ -859,7 +859,7 @@ post_plot(mnp_std)
 par(mfrow = c(1, 1))
 ```
 
-```{r}
+```{r, results='hide'}
 bayesian_model <- brm(
   formula = y~CP_w+CP_l+CP_w:CP_l, 
   data = df_long, 
@@ -876,7 +876,7 @@ bayesian_model <- brm(
   control = list(
     adapt_delta = .95, 
     max_treedepth = 12
-  ) 
+  )
 )
 ```
 
