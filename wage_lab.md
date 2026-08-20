@@ -1256,3 +1256,9 @@ bayesian_model <- brm(
     ## Trying to compile a simple C file
 
     ## Start sampling
+
+``` r
+plot(bayesian_model)
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
