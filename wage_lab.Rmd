@@ -884,6 +884,12 @@ bayesian_model <- brm(
 plot(bayesian_model)
 ```
 
+```{r}
+summary_bayesian <- summary(bayesian_model)
+rhat <- summary_bayesian$fixed[, "Rhat"]
+cat("R-hat values for HMC:, \n")
+print(round(rhat, 4))
+```
 
 
 
