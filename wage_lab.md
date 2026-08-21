@@ -1230,6 +1230,71 @@ post_plot(mnp_std)
 par(mfrow = c(1, 1))
 ```
 
+R-hat computation for the Manual Metropolis Hasting
+
+``` r
+compute_rhat <- function(samples) {
+  
+  n_params <- ncol(samples) 
+  rhat <- numeric(n_params) # create an empty vector of Rhat
+  
+  for (j in 1:n_params) {
+    chain <- samples[,j]
+    N_total <- length(chain)
+    
+    # split the chain
+    half <- floor(N_total/2)
+    chain1 <- chain[1:half]
+    chain2 <- chain[(half+1):(half*2)] # to make sure chain1 and chain2 have the same length
+    
+    # set N and M
+    N <- half # length of each split chain
+    M <- 2 # number of chains
+    
+    # chains mean
+    psi_bar_1 <- mean(chain1)
+    psi_bar_2 <- mean(chain2)
+    psi <- mean(psi_bar_1, psi_bar_2)
+    
+    # between-chain variance
+    B <- (N/(M-1)) * sum( (psi_bar_1 - psi)^2, (psi_bar_2 - psi)^2)
+    
+    # within chain variance 
+    W <- (var(chain1)+var(chain2))/M
+    
+    # estimated marginal posterior variance 
+    var_hat <- ((N-1)/N)* W + (1/N)*B
+    
+    # R-hat 
+    rhat[j] <- sqrt(var_hat/W)
+  }
+  return(rhat)
+}
+```
+
+``` r
+rhat_mcmc_samples <- compute_rhat(mcmc_samples)
+rhat_mcmc_std <- compute_rhat(mcmc_std)
+rhat_mnp_samples <- compute_rhat(mnp_samples)
+rhat_mnp_std <- compute_rhat(mnp_std)
+```
+
+``` r
+data.frame(
+  parameters = c("beta0", "beta1", "beta2", "beta3"), 
+  rhat1 = c(rhat_mcmc_samples), 
+  rhat2 = c(rhat_mcmc_std), 
+  rhat3 = c(rhat_mnp_samples), 
+  rhat4 = c(rhat_mnp_std)
+)
+```
+
+    ##   parameters    rhat1    rhat2    rhat3    rhat4
+    ## 1      beta0 2.179487 3.811691 3.593542 3.185626
+    ## 2      beta1 1.236316 3.534859 3.651831 3.876447
+    ## 3      beta2 1.029766 2.398305 3.631189 3.151607
+    ## 4      beta3 2.173697 3.669222 3.669219 2.846875
+
 ``` r
 bayesian_model <- brm(
   formula = y~CP_w+CP_l+CP_w:CP_l, 
@@ -1253,12 +1318,24 @@ bayesian_model <- brm(
 
     ## Compiling Stan program...
 
-    ## Trying to compile a simple C file
-
     ## Start sampling
 
 ``` r
 plot(bayesian_model)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-60-1.png)<!-- -->
+
+``` r
+summary_bayesian <- summary(bayesian_model)
+rhat <- summary_bayesian$fixed[, "Rhat"]
+cat("R-hat values for HMC:, \n")
+```
+
+    ## R-hat values for HMC:,
+
+``` r
+print(round(rhat, 4))
+```
+
+    ## [1] 1.0008 1.0023 1.0003 1.0005
