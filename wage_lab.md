@@ -1232,6 +1232,22 @@ par(mfrow = c(1, 1))
 
 R-hat computation for the Manual Metropolis Hasting
 
+**Between-chain variance** $$
+B = \frac{N}{M-1} \sum^M_{m=1} (\hat{\psi}_m - \hat{\psi})^2
+$$ **Within-chain variance**
+
+$$
+W = \frac{1}{M} \sum^M_{m=1} s^2_m
+$$ **Estimated marginal posterior variance**
+
+$$
+\hat{var} = \frac{N-1}{N}W + \frac{1}{N}B
+$$ **R-hat**
+
+$$
+R = \sqrt \frac{\hat{var}}{W}
+$$
+
 ``` r
 compute_rhat <- function(samples) {
   
@@ -1317,6 +1333,8 @@ bayesian_model <- brm(
 ```
 
     ## Compiling Stan program...
+
+    ## Trying to compile a simple C file
 
     ## Start sampling
 
