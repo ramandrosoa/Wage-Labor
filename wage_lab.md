@@ -1230,19 +1230,33 @@ post_plot(mnp_std)
 par(mfrow = c(1, 1))
 ```
 
-R-hat computation for the Manual Metropolis Hasting
+##### R-hat computation for the Manual Metropolis Hasting :
 
-**Between-chain variance** $$
+$\hat{R}$ is a convergence diagnostic. It tells whether the MCMC chains
+have converged to the same posterior distribution.
+
+**Between-chain variance** : This measures how different the two chain
+means are from each other.
+
+$$
 B = \frac{N}{M-1} \sum^M_{m=1} (\hat{\psi}_m - \hat{\psi})^2
-$$ **Within-chain variance**
+$$
+
+**Within-chain variance** : This measures how much each chain varies
+internally around its own mean.
 
 $$
 W = \frac{1}{M} \sum^M_{m=1} s^2_m
-$$ **Estimated marginal posterior variance**
+$$
+
+**Estimated marginal posterior variance** : This combines B and W into
+an estimate of the true posterior variance.
 
 $$
 \hat{var} = \frac{N-1}{N}W + \frac{1}{N}B
-$$ **R-hat**
+$$
+
+**R-hat** :
 
 $$
 R = \sqrt \frac{\hat{var}}{W}
