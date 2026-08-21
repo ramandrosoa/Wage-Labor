@@ -1240,7 +1240,9 @@ means are from each other.
 
 $$
 B = \frac{N}{M-1} \sum^M_{m=1} (\hat{\psi}_m - \hat{\psi})^2
-$$
+$$ - $M$ : number of chains. - $N$ : number of post-warmup samples per
+chain. - $\hat{\psi}_m$ : The mean of chain m. - $\hat{\psi}$: The
+overall mean across all chain m.
 
 **Within-chain variance** : This measures how much each chain varies
 internally around its own mean.
@@ -1248,6 +1250,8 @@ internally around its own mean.
 $$
 W = \frac{1}{M} \sum^M_{m=1} s^2_m
 $$
+
+\$s^2_m: \$ The variance of the chain m.
 
 **Estimated marginal posterior variance** : This combines B and W into
 an estimate of the true posterior variance.
@@ -1259,8 +1263,18 @@ $$
 **R-hat** :
 
 $$
-R = \sqrt \frac{\hat{var}}{W}
-$$
+\hat{R} = \sqrt \frac{\hat{var}}{W}
+$$ - $\hat{R}$ ≤ 1 : **Ideal convergence.** The chains have mixed well
+and accurately represent the target posterior distribution. - $\hat{R}$
+= 1.01 to 1.05 : **Minor concern.** The chains have largely converged,
+but there may be slight imperfections in mixing. Results are generally
+reliable, but inspecting trace plots or increasing iterations is
+recommended. - $\hat{R}$ = 1.05 to 1.10 : **Serious concern.** The
+chains have not fully explored the parameter space; posterior summaries
+may be unstable or biased. - $\hat{R}$ \> 1.10 : **Convergence
+failure.** The sampler failed to explore the posterior distribution.
+Results should not be trusted, and the model specification, priors, or
+sampler settings require revision.
 
 ``` r
 compute_rhat <- function(samples) {
@@ -1361,13 +1375,26 @@ plot(bayesian_model)
 ``` r
 summary_bayesian <- summary(bayesian_model)
 rhat <- summary_bayesian$fixed[, "Rhat"]
-cat("R-hat values for HMC:, \n")
+
+data.frame(
+  data.frame(
+  parameters = c("beta0", "beta1", "beta2", "beta3"), 
+  rhat_mh_1 = c(rhat_mcmc_samples), 
+  rhat_mh_2 = c(rhat_mcmc_std), 
+  rhat_mh_3 = c(rhat_mnp_samples), 
+  rhat_mh_4 = c(rhat_mnp_std), 
+  rhat_hmc =  (rhat)
+)
+)
 ```
 
-    ## R-hat values for HMC:,
+    ##   parameters rhat_mh_1 rhat_mh_2 rhat_mh_3 rhat_mh_4 rhat_hmc
+    ## 1      beta0  2.179487  3.811691  3.593542  3.185626 1.000804
+    ## 2      beta1  1.236316  3.534859  3.651831  3.876447 1.002303
+    ## 3      beta2  1.029766  2.398305  3.631189  3.151607 1.000326
+    ## 4      beta3  2.173697  3.669222  3.669219  2.846875 1.000534
 
-``` r
-print(round(rhat, 4))
-```
-
-    ## [1] 1.0008 1.0023 1.0003 1.0005
+All parameters achieved $\hat{R} \approx 1$ with the Hamiltonian Monte
+Carlo algorithm, confirming convergence across the four chains. In
+contrast, the manual Metropolis-Hastings sampler failed to achieve
+simultaneous convergence for all parameters.
