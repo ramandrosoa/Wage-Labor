@@ -1,13 +1,31 @@
 Wage Labour and Capital
 ================
 
-In this project, we translated the theoretical framework of Marx’s Wage
-Labour and Capital into a mathematical model. To ensure that the
-variables behave according to the theoretical mechanisms describes in
-the literature, rather than being confounded by the complexity of real
-historical processes, **we rely on synthetic data rather than empirical
-historical data. This allow us to control the data generating process
-precisely.**
+#### Introduction
+
+Reading Marx’s Wage Labour and Capital, I was intrigued by the
+worker-capitalist relationship — specifically the tension between wages
+determined by the law of supply and demand yet bounded below by the cost
+of subsistence. Marx claimed that wages tend toward subsistence over
+time, that labor surplus grows as capital accumulates, and that
+structural crisis becomes inevitable past a certain threshold. Yet
+despite the theoretical richness of these mechanisms, Marx reasoned
+entirely in words and logical argument, never formalizing his claims as
+quantitative, testable hypotheses — leaving open a fundamental question:
+do these mechanisms, when expressed mathematically, actually produce the
+dynamics he described?
+
+In this project, the causal mechanisms of Wage Labour and Capital are
+translated into a mathematical data generating process grounded in the
+cliodynamics literature. To ensure that variables behave according to
+theoretical mechanisms rather than being confounded by the complexity of
+real historical processes, we rely on synthetic rather than empirical
+historical data — allowing precise control over the data generating
+process. The synthetic data is designed to replicate one fundamental
+challenge of historical time series: the temporal dependence between
+observations. A second challenge — the fragmentary and incomplete nature
+of real historical archives — is acknowledged as a limitation and avenue
+for future work.
 
 This simulation is structured around two independent variables : **wage
 gap** and **labor surplus** whose dynamics are governed by theoretically
@@ -1230,7 +1248,7 @@ post_plot(mnp_std)
 par(mfrow = c(1, 1))
 ```
 
-##### R-hat computation for the Manual Metropolis Hasting :
+#### R-hat computation for the Manual Metropolis Hasting :
 
 $\hat{R}$ is a convergence diagnostic. It tells whether the MCMC chains
 have converged to the same posterior distribution.
@@ -1240,9 +1258,12 @@ means are from each other.
 
 $$
 B = \frac{N}{M-1} \sum^M_{m=1} (\hat{\psi}_m - \hat{\psi})^2
-$$ - $M$ : number of chains. - $N$ : number of post-warmup samples per
-chain. - $\hat{\psi}_m$ : The mean of chain m. - $\hat{\psi}$: The
-overall mean across all chain m.
+$$
+
+- $M$ : number of chains.
+- $N$ : number of post-warmup samples per chain.
+- $\hat{\psi}_m$ : The mean of chain m.
+- $\hat{\psi}$: The overall mean across all chain m.
 
 **Within-chain variance** : This measures how much each chain varies
 internally around its own mean.
@@ -1251,7 +1272,7 @@ $$
 W = \frac{1}{M} \sum^M_{m=1} s^2_m
 $$
 
-\$s^2_m: \$ The variance of the chain m.
+- \$s^2_m: \$ The variance of the chain m.
 
 **Estimated marginal posterior variance** : This combines B and W into
 an estimate of the true posterior variance.
@@ -1361,8 +1382,6 @@ bayesian_model <- brm(
 ```
 
     ## Compiling Stan program...
-
-    ## Trying to compile a simple C file
 
     ## Start sampling
 
