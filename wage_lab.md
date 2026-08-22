@@ -48,9 +48,10 @@ simulation with final **N and T derived from both the empirical
 autocorrelation estimate and the sensitivity analysis on crisis
 probability.**
 
-Natural order : estimation of the empirical autocorrelation from the
-pilot, derive T with the effective sample size (ESS) and N with the
-events per variable (EPV).
+We compare **frequentist and Bayesian approaches to parameter
+recovery**, testing whether Marx’s structural parameters — including the
+interaction between wage depression and labor surplus — are
+statistically detectable from synthetic historical data.
 
 #### The Variables :
 
