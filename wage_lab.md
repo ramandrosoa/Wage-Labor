@@ -27,30 +27,31 @@ observations. A second challenge — the fragmentary and incomplete nature
 of real historical archives — is acknowledged as a limitation and avenue
 for future work.
 
-This simulation is structured around two independent variables : **wage
-gap** and **labor surplus** whose dynamics are governed by theoretically
-motivated equations developed in the following sections. These variables
-feed into **cumulative pressure terms** ($CP_w$, $CP_l$), which in turn
-predict the probability of **structural crisis** through a logistic
-regression model.(+DAG)
+The simulation is structured around two independent variables — wage gap
+and labor surplus — whose dynamics are governed by theoretically
+motivated structural equations developed in the following sections.
+These variables feed into cumulative pressure terms ($CP_L$, $CP_W$),
+which capture the accumulated effect of structural pressures over time
+and predict the probability of structural crisis through a logistic
+regression model with an interaction term formalizing Marx’s conjunction
+hypothesis.
 
 We observed N societies over T decades. To determine the sample size, we
 used the 10 events per variable (EPV) rule of thumb for logistic
 regression. But two methodological challenges must be addressed. First,
-the determination of N and T depends on the **crisis probability and the
-autocorrelation structure of the cumulative pressure variables.**
-Second, the cumulative pressure terms exhibit an **ARMA (1,q)**
-autocorrelation structure, making analytical derivation of the effective
-sample size (ESS) inappropriate. For these reasons, we proceed in two
-stages: a pilot simulation with provisional parameters to empirically
-**estimate the autocorrelation structure**, followed by the full
-simulation with final **N and T derived from both the empirical
-autocorrelation estimate and the sensitivity analysis on crisis
-probability.**
+the determination of N and T depends on the crisis probability and the
+autocorrelation structure of the cumulative pressure variables. Second,
+the cumulative pressure terms exhibit an ARMA (1,q) autocorrelation
+structure, making analytical derivation of the effective sample size
+(ESS) inappropriate. For these reasons, we proceed in two stages: a
+pilot simulation with provisional parameters to empirically estimate the
+autocorrelation structure, followed by the full simulation with final N
+and T derived from both the empirical autocorrelation estimate and the
+sensitivity analysis on crisis probability.
 
-We compare **frequentist and Bayesian approaches to parameter
-recovery**, testing whether Marx’s structural parameters — including the
-interaction between wage depression and labor surplus — are
+Finally, we compare frequentist and Bayesian approaches to parameter
+recovery, testing whether Marx’s structural parameters — including the
+interaction term between wage depression and labor surplus — are
 statistically detectable from synthetic historical data.
 
 #### The Variables :
@@ -1286,17 +1287,20 @@ $$
 
 $$
 \hat{R} = \sqrt \frac{\hat{var}}{W}
-$$ - $\hat{R}$ ≤ 1 : **Ideal convergence.** The chains have mixed well
-and accurately represent the target posterior distribution. - $\hat{R}$
-= 1.01 to 1.05 : **Minor concern.** The chains have largely converged,
-but there may be slight imperfections in mixing. Results are generally
-reliable, but inspecting trace plots or increasing iterations is
-recommended. - $\hat{R}$ = 1.05 to 1.10 : **Serious concern.** The
-chains have not fully explored the parameter space; posterior summaries
-may be unstable or biased. - $\hat{R}$ \> 1.10 : **Convergence
-failure.** The sampler failed to explore the posterior distribution.
-Results should not be trusted, and the model specification, priors, or
-sampler settings require revision.
+$$
+
+- $\hat{R}$ ≤ 1 : **Ideal convergence.** The chains have mixed well and
+  accurately represent the target posterior distribution.
+- $\hat{R}$ = 1.01 to 1.05 : **Minor concern.** The chains have largely
+  converged, but there may be slight imperfections in mixing. Results
+  are generally reliable, but inspecting trace plots or increasing
+  iterations is recommended.
+- $\hat{R}$ = 1.05 to 1.10 : **Serious concern.** The chains have not
+  fully explored the parameter space; posterior summaries may be
+  unstable or biased.
+- $\hat{R}$ \> 1.10 : **Convergence failure.** The sampler failed to
+  explore the posterior distribution. Results should not be trusted, and
+  the model specification, priors, or sampler settings require revision.
 
 ``` r
 compute_rhat <- function(samples) {
