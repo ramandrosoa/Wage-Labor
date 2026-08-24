@@ -150,6 +150,27 @@ intensifies, before stabilizing as the system approaches its structural
 limits. The ceiling $K_l$ represents the maximum sustainable labor
 surplus — the point beyond which the system faces structural breakdown
 
+- $A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P} + \epsilon$ : This term
+  captures the cyclical dynamics of labor surplus around the logistic
+  trend. The sinusoidal component reflects the anarchic movement of
+  capital described by Marx in Wage Labour and Capital: capital
+  perpetually emigrates from sectors where prices fall below cost of
+  production and immigrates into more profitable ones — “the high price
+  produces an excessive immigration, and the low price an excessive
+  emigration” (Marx, 1849). When $sin\frac{2t\pi}{P}$ \> 0, capital
+  flight displaces workers, pushing labor surplus above the trend (Phase
+  3 — overproduction). When $sin\frac{2t\pi}{P}$ \< 0, capital
+  immigration into new sectors temporarily absorbs workers, pulling
+  labor surplus below the trend (Phase 2 — recovery).The exponential
+  term $A e^{{-\delta_l}t}$ introduces amplitude modulation over time.
+  Rather than producing strictly shrinking cycles, the visualization
+  reveals heterogeneous cycle amplitudes — consistent with Marx’s
+  characterization of capital movement as anarchic rather than regular.
+  No two cycles are identical, reflecting the unpredictable timing and
+  magnitude of capital reallocation across sectors. The noise term
+  $\epsilon$ \~ $N(0, \sigma^2)$ captures additional stochastic
+  variation around the deterministic cycle structure.
+
 ``` r
 # labor_surplus parameters
 K_l <- 1
@@ -392,55 +413,6 @@ legend("bottomright", legend = c("CP_l", "CP_w"), col = c("black", "red"), lty =
 ``` r
 par(mfrow = c(1, 1))
 ```
-
-“Wages will now rise, now fall,according to the relation of supply and
-demand, according as competition shapes itself between the buyers of
-labour-power, the capitalists, and the sellers of labour-power, the
-workers.”
-
-The first plot illustrates the labor surplus of Society 1 from decade 50
-(pre-inflection) to decade 70 (post-inflection), with the dotted line
-representing the logistic trend. The second plot displays the cumulative
-wage gap and labor surplus across the $T_{pilot}$
-
-**Phases of labor surplus:**
-
-- Phase 1: Labor surplus is small, driven by the logistic trend near
-  zero plus random noise $\epsilon$. This represents the early **reserve
-  army of labor** described by Marx — present but not yet structurally
-  significant.
-
-- Phase 2: New sectors emerge, temporarily increasing labor demand and
-  absorbing surplus workers, which keeps the wage gap low. This is
-  represented by the dampened oscillation:
-  $A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P}$ , when
-  $sin\frac{2t\pi}{P}$ is negative: the oscillation pulls labor surplus
-  below the trend.
-
-- Phase 3: Labor surplus increases during the accumulation phase. During
-  this phase, new technologies emerges and the capital grows. This leads
-  to overproduction: more products in the market, the price falls, the
-  profits collapse and workers are displaced by new technologies,
-  swelling the reserve army. This is captured by
-  $A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P}$ , when
-  $sin\frac{2t\pi}{P}$ is positive: the oscillation pushes above the
-  trend. With each peak higher than the last as the logistic trend rises
-  underneath.
-
-**Phase 2 and 3 are repeated over T**, each cycle leaves more residual
-labor surplus than the previous, then **the cumulative reserve army
-grows (logistic trend rises)**, the growing labor surplus feeds to the
-growth rate of the wage gap equation
-$r_w = r_{base,w} + \alpha(labor\_surplus_{t-1})$, and the **wage gap
-logistic curve steepens until it reaches its inflection point**
-$t_{0,w}$.
-
-A recovery occurs during the transition from Phase 3 to Phase 2,
-prompted by the emergence of new sectors and a corresponding expansion
-of the labor supply. Nevertheless, successive cycles (Phase 2, Phase 3,
-and recovery) exhibit **heterogeneity in their amplitude and
-periodicity**. This variance stems fundamentally from the **anarchic
-movement of the capital.**
 
 #### Estimation of the Autocorrelation Structure
 
