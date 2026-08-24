@@ -15,7 +15,6 @@ library(lmtest)
 library(patchwork)
 library(MASS)
 library(brms)
-library(DiagrammeR)
 ```
 
 ### 1. Introduction 
@@ -32,58 +31,10 @@ Finally, we compare frequentist and Bayesian approaches to parameter recovery, t
 
 ### 2. Theoretical Framework
 
-``` {r dag, fig.cap="Causal structure of the structural crisis model", out.width="100%"}
-
-grViz("
-digraph DAG {
-
-  # Graph settings
-  graph [rankdir = LR, fontname = 'Helvetica', bgcolor = 'transparent']
-  
-  # Node settings
-  node [shape = rectangle, fontname = 'Helvetica', fontsize = 12,
-        style = filled, fillcolor = '#F8F9FA', color = '#495057']
-
-  # Exogenous node
-  K [label = 'Capital\nAccumulation', fillcolor = '#D0E8FF', color = '#378ADD']
-
-  # Independent variables
-  WG [label = 'Wage Gap\n(X₁)', fillcolor = '#D4EDDA', color = '#1D9E75']
-  LS [label = 'Labor Surplus\n(X₂)', fillcolor = '#D4EDDA', color = '#1D9E75']
-
-  # Cumulative pressure terms
-  CPW [label = 'CP_W\n(Cumulative Wage\nPressure)', fillcolor = '#FFF3CD', color = '#D97706']
-  CPL [label = 'CP_L\n(Cumulative Labor\nPressure)', fillcolor = '#FFF3CD', color = '#D97706']
-
-  # Interaction
-  INT [label = 'CP_W × CP_L\n(Interaction)', fillcolor = '#E8D5F5', color = '#7C3AED']
-
-  # Outcome
-  SC [label = 'Structural Crisis\n(Y)', fillcolor = '#F8D7DA', color = '#E24B4A']
-
-  # Edges — causal relationships
-  K  -> WG  [label = 'accumulation\ndepresses wages', fontsize = 9]
-  K  -> LS  [label = 'accumulation\nexpands surplus', fontsize = 9]
-  WG -> LS  [label = 'lag (t-2)', fontsize = 9, style = dashed]
-  LS -> WG  [label = 'feedback\n(t-1)', fontsize = 9, style = dashed]
-  WG -> CPW [label = 'exponential\ndecay weights', fontsize = 9]
-  LS -> CPL [label = 'exponential\ndecay weights', fontsize = 9]
-  CPW -> INT [fontsize = 9]
-  CPL -> INT [fontsize = 9]
-  CPW -> SC  [label = 'β₁', fontsize = 10, color = '#E24B4A']
-  CPL -> SC  [label = 'β₂', fontsize = 10, color = '#E24B4A']
-  INT -> SC  [label = 'β₃', fontsize = 10, color = '#7C3AED',
-              penwidth = 2]
-
-  # Layout ranks
-  {rank = source; K}
-  {rank = same; WG; LS}
-  {rank = same; CPW; CPL}
-  {rank = same; INT}
-  {rank = sink; SC}
-}
-")
+```{r dag, fig.cap="Causal structure of the structural crisis model", out.width="100%"}
+knitr::include_graphics("wage_lab_files/figure-gfm/dag.png")
 ```
+
 
 
 #### The Variables : 
@@ -169,6 +120,9 @@ $$
 $$
 r_w = r_{base,w} + \alpha(LaborSurplus_{t-1})
 $$
+
+The growth rate is modeled as a function of lagged labor surplus, reflecting Turchin and Nefedov's (2009) empirical observation that oversupply of labor leads to depressed wages — a mechanism Marx identifies as the primary driver of wage depression in Wage Labour and Capital.
+
 
 ```{r}
 # wage_gap parameters

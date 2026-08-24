@@ -1,7 +1,7 @@
 Wage Labour and Capital
 ================
 
-#### Introduction
+### 1. Introduction
 
 Reading Marx’s Wage Labour and Capital, I was intrigued by the
 worker-capitalist relationship — specifically the tension between wages
@@ -53,6 +53,21 @@ Finally, we compare frequentist and Bayesian approaches to parameter
 recovery, testing whether Marx’s structural parameters — including the
 interaction term between wage depression and labor surplus — are
 statistically detectable from synthetic historical data.
+
+### 2. Theoretical Framework
+
+``` r
+knitr::include_graphics("wage_lab_files/figure-gfm/dag.png")
+```
+
+<div class="figure">
+
+<img src="wage_lab_files/figure-gfm/dag.png" alt="Causal structure of the structural crisis model" width="100%" />
+<p class="caption">
+Causal structure of the structural crisis model
+</p>
+
+</div>
 
 #### The Variables :
 
@@ -166,6 +181,12 @@ $$
 $$
 r_w = r_{base,w} + \alpha(LaborSurplus_{t-1})
 $$
+
+The growth rate is modeled as a function of lagged labor surplus,
+reflecting Turchin and Nefedov’s (2009) empirical observation that
+oversupply of labor leads to depressed wages — a mechanism Marx
+identifies as the primary driver of wage depression in Wage Labour and
+Capital.
 
 ``` r
 # wage_gap parameters
