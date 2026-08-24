@@ -131,7 +131,15 @@ surplus
 
 $$
 LaborSurplus(t) = \frac{K_l}{1+e^{-r_l(t-t_{0,l})}} + A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P} + \epsilon
-$$
+$$ - $\frac{K_l}{1+e^{-r_l(t-t_{0,l})}}$ : This represents a logistic
+trend. Its growth is explained by residual surplus: each recovery
+absorbs fewer workers than the previous crisis displaced. Furthermore,
+the trend never returns to its previous level because technology
+progressively replaces labor, meaning each new sector requires fewer
+workers than the one it displaced. Together, these forces capture the
+secular accumulation of the reserve army of labor across multiple
+cycles, with a ceiling K representing the maximum sustainable surplus
+before the system breaks down.
 
 ``` r
 # labor_surplus parameters
