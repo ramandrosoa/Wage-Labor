@@ -56,18 +56,27 @@ statistically detectable from synthetic historical data.
 
 ### 2. Theoretical Framework
 
+#### The Directed Acyclic Graph (DAG)
+
 ``` r
 knitr::include_graphics("wage_lab_files/figure-gfm/dag.png")
 ```
 
-<div class="figure">
+<img src="wage_lab_files/figure-gfm/dag.png" width="100%" />
 
-<img src="wage_lab_files/figure-gfm/dag.png" alt="Causal structure of the structural crisis model" width="100%" />
-<p class="caption">
-Causal structure of the structural crisis model
-</p>
+**Capital accumulation** is the extra value created by workers and
+reinvested to grow power and profit. Thus, it expands the **labor
+surplus**, as workers must work more to generate higher profits for the
+capitalist. At the same time, the **wage gap** widens: while the real
+wage remains stagnant, the relative wage decreases because the cost of
+subsistence tends to increase over time.
 
-</div>
+Since all past periods contribute to the current crisis, yet recent
+events exert a disproportionate influence, we implemented a **cumulative
+pressure structure** for both labor surplus and the wage gap. By
+applying an exponential decay function, the model retains the influence
+of all past periods while assigning greater weight to more recent
+dynamics.
 
 #### The Variables :
 
@@ -182,7 +191,7 @@ $$
 r_w = r_{base,w} + \alpha(LaborSurplus_{t-1})
 $$
 
-The growth rate is modeled as a function of lagged labor surplus,
+The growth rate $r_w$ is modeled as a function of lagged labor surplus,
 reflecting Turchin and Nefedov’s (2009) empirical observation that
 oversupply of labor leads to depressed wages — a mechanism Marx
 identifies as the primary driver of wage depression in Wage Labour and
