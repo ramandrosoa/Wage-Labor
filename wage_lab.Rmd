@@ -15,9 +15,10 @@ library(lmtest)
 library(patchwork)
 library(MASS)
 library(brms)
+library(DiagrammeR)
 ```
 
-#### Introduction 
+### 1. Introduction 
 
 Reading Marx's Wage Labour and Capital, I was intrigued by the worker-capitalist relationship — specifically the tension between wages determined by the law of supply and demand yet bounded below by the cost of subsistence. Marx claimed that wages tend toward subsistence over time, that labor surplus grows as capital accumulates, and that structural crisis becomes inevitable past a certain threshold. Yet despite the theoretical richness of these mechanisms, Marx reasoned entirely in words and logical argument, never formalizing his claims as quantitative, testable hypotheses — leaving open a fundamental question: do these mechanisms, when expressed mathematically, actually produce the dynamics he described?
 
@@ -28,6 +29,62 @@ The simulation is structured around two independent variables — wage gap and l
 We observed N societies over T decades. To determine the sample size, we used the 10 events per variable (EPV) rule of thumb for logistic regression. But two methodological challenges must be addressed. First, the determination of N and T depends on the crisis probability and the autocorrelation structure of the cumulative pressure variables. Second, the cumulative pressure terms exhibit an ARMA (1,q) autocorrelation structure, making analytical derivation of the effective sample size (ESS) inappropriate. For these reasons, we proceed in two stages: a pilot simulation with provisional parameters to empirically estimate the autocorrelation structure, followed by the full simulation with final N and T derived from both the empirical autocorrelation estimate and the sensitivity analysis on crisis probability.
 
 Finally, we compare frequentist and Bayesian approaches to parameter recovery, testing whether Marx's structural parameters — including the interaction term between wage depression and labor surplus — are statistically detectable from synthetic historical data.
+
+### 2. Theoretical Framework
+
+``` {r dag, fig.cap="Causal structure of the structural crisis model", out.width="100%"}
+
+grViz("
+digraph DAG {
+
+  # Graph settings
+  graph [rankdir = LR, fontname = 'Helvetica', bgcolor = 'transparent']
+  
+  # Node settings
+  node [shape = rectangle, fontname = 'Helvetica', fontsize = 12,
+        style = filled, fillcolor = '#F8F9FA', color = '#495057']
+
+  # Exogenous node
+  K [label = 'Capital\nAccumulation', fillcolor = '#D0E8FF', color = '#378ADD']
+
+  # Independent variables
+  WG [label = 'Wage Gap\n(X₁)', fillcolor = '#D4EDDA', color = '#1D9E75']
+  LS [label = 'Labor Surplus\n(X₂)', fillcolor = '#D4EDDA', color = '#1D9E75']
+
+  # Cumulative pressure terms
+  CPW [label = 'CP_W\n(Cumulative Wage\nPressure)', fillcolor = '#FFF3CD', color = '#D97706']
+  CPL [label = 'CP_L\n(Cumulative Labor\nPressure)', fillcolor = '#FFF3CD', color = '#D97706']
+
+  # Interaction
+  INT [label = 'CP_W × CP_L\n(Interaction)', fillcolor = '#E8D5F5', color = '#7C3AED']
+
+  # Outcome
+  SC [label = 'Structural Crisis\n(Y)', fillcolor = '#F8D7DA', color = '#E24B4A']
+
+  # Edges — causal relationships
+  K  -> WG  [label = 'accumulation\ndepresses wages', fontsize = 9]
+  K  -> LS  [label = 'accumulation\nexpands surplus', fontsize = 9]
+  WG -> LS  [label = 'lag (t-2)', fontsize = 9, style = dashed]
+  LS -> WG  [label = 'feedback\n(t-1)', fontsize = 9, style = dashed]
+  WG -> CPW [label = 'exponential\ndecay weights', fontsize = 9]
+  LS -> CPL [label = 'exponential\ndecay weights', fontsize = 9]
+  CPW -> INT [fontsize = 9]
+  CPL -> INT [fontsize = 9]
+  CPW -> SC  [label = 'β₁', fontsize = 10, color = '#E24B4A']
+  CPL -> SC  [label = 'β₂', fontsize = 10, color = '#E24B4A']
+  INT -> SC  [label = 'β₃', fontsize = 10, color = '#7C3AED',
+              penwidth = 2]
+
+  # Layout ranks
+  {rank = source; K}
+  {rank = same; WG; LS}
+  {rank = same; CPW; CPL}
+  {rank = same; INT}
+  {rank = sink; SC}
+}
+")
+```
+
 
 #### The Variables : 
 
