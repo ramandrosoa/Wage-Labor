@@ -37,13 +37,13 @@ regression model with an interaction term formalizing Marx’s conjunction
 hypothesis.
 
 We observed N societies over T decades. To determine the sample size, we
-used the 10 events per variable (EPV) rule of thumb for logistic
+used the **10 events per variable (EPV)** rule of thumb for logistic
 regression. But two methodological challenges must be addressed. First,
 the determination of N and T depends on the crisis probability and the
 autocorrelation structure of the cumulative pressure variables. Second,
 the cumulative pressure terms exhibit an ARMA (1,q) autocorrelation
-structure, making analytical derivation of the effective sample size
-(ESS) inappropriate. For these reasons, we proceed in two stages: a
+structure, making analytical derivation of the **effective sample size
+(ESS)** inappropriate. For these reasons, we proceed in two stages: a
 pilot simulation with provisional parameters to empirically estimate the
 autocorrelation structure, followed by the full simulation with final N
 and T derived from both the empirical autocorrelation estimate and the
@@ -80,6 +80,8 @@ dynamics.
 
 #### The Variables :
 
+1.  The dependent variable : structural crisis
+
 A structural crisis occurrence at decade t can be translated in a
 logistic regression with the possible output : *crisis, no crisis.*
 
@@ -89,11 +91,9 @@ $$
 z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
 $$
 
-- $x_1$: The wage gap measures the distance between the wage and the
-  subsistence cost.
+- $x_1$: wage gap
 
-- $x_2$: The labor surplus is the excess of workers relative to
-  available job
+- $x_2$: labor surplus
 
 - $x_1x_2$ is the interaction term. It captures the idea that the effect
   of one variable depends on the level of the others. So when wage gap
@@ -110,24 +110,9 @@ estimation in logistic regression, and given that our model contains 3
 variables ($x_1$, $x_2$, $x_1x_2$), the minimum number of **expected
 crisis events is 3×10=30**
 
-#### Data Generating Process : Pilot Simulation
+2.  The independent variables :
 
-``` r
-set.seed(123)
-```
-
-``` r
-N_pilot <- 10
-T_pilot <- 200
-```
-
-#### Generate wage gap and labor surplus
-
-Labor surplus has to be generated before wage gap because the growth
-rate $r_w$ of the logistic trend of the wage gap depends on labor
-surplus
-
-1.  Labor surplus :
+    - Labour surplus
 
 $$
 LaborSurplus(t) = \frac{K_l}{1+e^{-r_l(t-t_{0,l})}} + A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P} + \epsilon
@@ -173,6 +158,59 @@ $$
   magnitude of capital reallocation across sectors. The noise term
   $\epsilon$ \~ $N(0, \sigma^2)$ captures additional stochastic
   variation around the deterministic cycle structure.
+
+  - Wage gap
+
+$$
+WageGap(t) = \frac{K_w}{1+e^{-r_w(t-t_{0,w})}}
+$$
+
+The wage gap measures the distance between the nominal wage and the cost
+of subsistence — the minimum expenditure required to reproduce the
+worker’s labor power. As Marx illustrates in Wage Labour and Capital,
+wages can fall in real terms even when nominal wages remain unchanged,
+simply because the cost of subsistence rises: “the same money they
+received in exchange less bread, meat, etc. Their wages fell, not
+because the value of silver was less, but because the value of the means
+of subsistence had increased” (Marx, 1849). This distinction between
+nominal and real wages motivates modeling the wage gap directly — rather
+than wages alone — as the relevant variable for structural crisis
+prediction. The wage gap follows a logistic growth trajectory,
+reflecting the gradual but self-reinforcing nature of wage depression
+under capitalism. In the early phase — before the inflection point
+$t_{0,w}$ — the gap remains small, as wages still cover subsistence
+costs. Past the inflection point, the gap widens rapidly as labor
+surplus accumulates and competitive pressure intensifies. The ceiling
+$K_w$ represents the maximum sustainable wage gap — the point at which
+wages can no longer cover subsistence costs and structural crisis
+becomes inevitable.
+
+$$
+r_w = r_{base,w} + \alpha(LaborSurplus_{t-1})
+$$
+
+The growth rate $r_w$ is modeled as a function of lagged labor surplus,
+reflecting Turchin and Nefedov’s (2009) empirical observation that
+oversupply of labor leads to depressed wages — a mechanism Marx
+identifies as the primary driver of wage depression in Wage Labour and
+Capital.
+
+#### Data Generating Process : Pilot Simulation
+
+``` r
+set.seed(123)
+```
+
+``` r
+N_pilot <- 10
+T_pilot <- 200
+```
+
+#### Generate wage gap and labor surplus
+
+Labor surplus has to be generated before wage gap because the growth
+rate $r_w$ of the logistic trend of the wage gap depends on labor
+surplus
 
 ``` r
 # labor_surplus parameters
@@ -221,42 +259,6 @@ head(labor_surplus)
     ## [4,] 0.04210396 0.04842933 0.04518526 0.08219751
     ## [5,] 0.10795426 0.09990176 0.06114187 0.12709855
     ## [6,] 0.13609679 0.14006248 0.10997459 0.12055319
-
-2.  Wage gap :
-
-$$
-WageGap(t) = \frac{K_w}{1+e^{-r_w(t-t_{0,w})}}
-$$
-
-The wage gap measures the distance between the nominal wage and the cost
-of subsistence — the minimum expenditure required to reproduce the
-worker’s labor power. As Marx illustrates in Wage Labour and Capital,
-wages can fall in real terms even when nominal wages remain unchanged,
-simply because the cost of subsistence rises: “the same money they
-received in exchange less bread, meat, etc. Their wages fell, not
-because the value of silver was less, but because the value of the means
-of subsistence had increased” (Marx, 1849). This distinction between
-nominal and real wages motivates modeling the wage gap directly — rather
-than wages alone — as the relevant variable for structural crisis
-prediction. The wage gap follows a logistic growth trajectory,
-reflecting the gradual but self-reinforcing nature of wage depression
-under capitalism. In the early phase — before the inflection point
-$t_{0,w}$ — the gap remains small, as wages still cover subsistence
-costs. Past the inflection point, the gap widens rapidly as labor
-surplus accumulates and competitive pressure intensifies. The ceiling
-$K_w$ represents the maximum sustainable wage gap — the point at which
-wages can no longer cover subsistence costs and structural crisis
-becomes inevitable.
-
-$$
-r_w = r_{base,w} + \alpha(LaborSurplus_{t-1})
-$$
-
-The growth rate $r_w$ is modeled as a function of lagged labor surplus,
-reflecting Turchin and Nefedov’s (2009) empirical observation that
-oversupply of labor leads to depressed wages — a mechanism Marx
-identifies as the primary driver of wage depression in Wage Labour and
-Capital.
 
 ``` r
 # wage_gap parameters
