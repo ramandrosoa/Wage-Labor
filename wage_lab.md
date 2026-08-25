@@ -131,24 +131,27 @@ surplus
 
 $$
 LaborSurplus(t) = \frac{K_l}{1+e^{-r_l(t-t_{0,l})}} + A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P} + \epsilon
-$$ - $\frac{K_l}{1+e^{-r_l(t-t_{0,l})}}$ : This term represents the
-logistic trend of labor surplus — the secular accumulation of the
-reserve army of labor across multiple boom-bust cycles. Its upward
-trajectory is driven by two compounding forces. First, each recovery
-absorbs fewer workers than the previous crisis displaced, leaving a
-residual surplus that accumulates over time. Second, technology
-progressively replaces labor — each new sector requires fewer workers
-than the one it displaced, meaning the trend never returns to its
-previous low. As Marx argues in Wage Labour and Capital, competition
-among capitalists drives the continuous introduction of machinery and
-greater division of labor, permanently swelling the reserve army: “the
-larger the army of workers among whom the labour is subdivided, the more
-gigantic the scale upon which machinery is introduced” (Marx, 1849). The
-logistic shape reflects the self-reinforcing nature of this accumulation
-— slow growth in early capitalism accelerates as mechanization
-intensifies, before stabilizing as the system approaches its structural
-limits. The ceiling $K_l$ represents the maximum sustainable labor
-surplus — the point beyond which the system faces structural breakdown
+$$
+
+- $\frac{K_l}{1+e^{-r_l(t-t_{0,l})}}$ : This term represents the
+  logistic trend of labor surplus — the secular accumulation of the
+  reserve army of labor across multiple boom-bust cycles. Its upward
+  trajectory is driven by two compounding forces. First, each recovery
+  absorbs fewer workers than the previous crisis displaced, leaving a
+  residual surplus that accumulates over time. Second, technology
+  progressively replaces labor — each new sector requires fewer workers
+  than the one it displaced, meaning the trend never returns to its
+  previous low. As Marx argues in Wage Labour and Capital, competition
+  among capitalists drives the continuous introduction of machinery and
+  greater division of labor, permanently swelling the reserve army: “the
+  larger the army of workers among whom the labour is subdivided, the
+  more gigantic the scale upon which machinery is introduced” (Marx,
+  1849). The logistic shape reflects the self-reinforcing nature of this
+  accumulation — slow growth in early capitalism accelerates as
+  mechanization intensifies, before stabilizing as the system approaches
+  its structural limits. The ceiling $K_l$ represents the maximum
+  sustainable labor surplus — the point beyond which the system faces
+  structural breakdown
 
 - $A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P} + \epsilon$ : This term
   captures the cyclical dynamics of labor surplus around the logistic
@@ -224,6 +227,26 @@ head(labor_surplus)
 $$
 WageGap(t) = \frac{K_w}{1+e^{-r_w(t-t_{0,w})}}
 $$
+
+The wage gap measures the distance between the nominal wage and the cost
+of subsistence — the minimum expenditure required to reproduce the
+worker’s labor power. As Marx illustrates in Wage Labour and Capital,
+wages can fall in real terms even when nominal wages remain unchanged,
+simply because the cost of subsistence rises: “the same money they
+received in exchange less bread, meat, etc. Their wages fell, not
+because the value of silver was less, but because the value of the means
+of subsistence had increased” (Marx, 1849). This distinction between
+nominal and real wages motivates modeling the wage gap directly — rather
+than wages alone — as the relevant variable for structural crisis
+prediction. The wage gap follows a logistic growth trajectory,
+reflecting the gradual but self-reinforcing nature of wage depression
+under capitalism. In the early phase — before the inflection point
+$t_{0,w}$ — the gap remains small, as wages still cover subsistence
+costs. Past the inflection point, the gap widens rapidly as labor
+surplus accumulates and competitive pressure intensifies. The ceiling
+$K_w$ represents the maximum sustainable wage gap — the point at which
+wages can no longer cover subsistence costs and structural crisis
+becomes inevitable.
 
 $$
 r_w = r_{base,w} + \alpha(LaborSurplus_{t-1})
