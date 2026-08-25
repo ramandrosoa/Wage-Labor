@@ -82,33 +82,36 @@ dynamics.
 
 1.  The dependent variable : structural crisis
 
-A structural crisis occurrence at decade t can be translated in a
-logistic regression with the possible output : *crisis, no crisis.*
-
 $P(crisis[t]) = logistic(z)$, with :
 
 $$
 z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
 $$
 
-- $x_1$: wage gap
+- $x_1$: cumulative wage gap
 
-- $x_2$: labor surplus
+- $x_2$: cumulative labor surplus
 
-- $x_1x_2$ is the interaction term. It captures the idea that the effect
-  of one variable depends on the level of the others. So when wage gap
-  and labor surplus are high simultaneously, the combine effect on
-  crisis probability is greater than their individual effects added
-  together. The interaction term formalizes Marx’s argument that
-  structural crisis emerges not from wage depression or labor surplus
-  independently, but from their simultaneous occurrence — consistent
-  with the threshold mechanism described in Wage Labour and Capital.
+- $x_1x_2$ : mutual reinforcement between wage gap and labor surplus
 
-Following the **Events Per Variable rule**, which recommends a minimum
-of 10 observed events per predictor to ensure reliable parameter
-estimation in logistic regression, and given that our model contains 3
-variables ($x_1$, $x_2$, $x_1x_2$), the minimum number of **expected
-crisis events is 3×10=30**
+The structural crisis outcome $Y_t$ \~ $Bernoulli(pt)$ represents the
+binary realization of accumulated structural pressure — does a
+structural crisis occur in this decade or not? The probability
+$P(crisis[t])$ is governed by a logistic function of the cumulative
+pressure terms $CP_L$ and $CP_W$. This formulation captures the
+threshold nature of structural crisis — pressure accumulates gradually
+through wage depression and labor surplus until it crosses a critical
+level, at which point crisis probability rises sharply. Marx explicitly
+describes this intensification in Wage Labour and Capital: ‘in the same
+measure in which the capitalists are compelled, by the movement
+described above, to exploit the already existing gigantic means of
+production on an ever-increasing scale, and for this purpose to set in
+motion all the mainsprings of credit, in the same measure do they
+increase the industrial earthquakes, in the midst of which the
+commercial world can preserve itself only by sacrificing a portion of
+its wealth, its products, and even its forces of production, to the gods
+of the lower world — in short, the crises increase. They become more
+frequent and more violent’ (Marx, 1849).
 
 2.  The independent variables :
 
@@ -456,8 +459,6 @@ contrast, captures the mature dynamics of the system where structural
 pressures have fully accumulated and the ARMA autocorrelation structure
 is most clearly expressed empirically.
 
-**Labor surplus**
-
 ``` r
 lag_max <- 20 
 acf_matrix_l <- matrix(NA, nrow = lag_max , ncol = N_pilot)
@@ -605,6 +606,12 @@ of observation per society are needed to accumulate 15 independent
 observations from the wage gap.**
 
 #### Derive N from the events per variable (EPV)
+
+Following the **Events Per Variable rule**, which recommends a minimum
+of 10 observed events per predictor to ensure reliable parameter
+estimation in logistic regression, and given that our model contains 3
+variables ($x_1$, $x_2$, $x_1x_2$), the minimum number of **expected
+crisis events is 3×10=30**
 
 $$
 EPV = N\cdot T_{eff}\cdot p
