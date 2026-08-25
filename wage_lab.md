@@ -113,6 +113,28 @@ its wealth, its products, and even its forces of production, to the gods
 of the lower world — in short, the crises increase. They become more
 frequent and more violent’ (Marx, 1849).
 
+**The interaction term** : ($\beta_3x_1x_2$)
+
+The interaction term $\beta_3x_1x_2$ formalizes the mutual reinforcement
+between wage depression and labor surplus that Marx explicitly describes
+in Wage Labour and Capital. In his summary of capital’s contradictions,
+Marx traces how productive growth simultaneously extends the division of
+labor, intensifies competition among workers, and depresses wages —
+while also swelling the reserve army through the proletarianization of
+small manufacturers: ‘the forest of outstretched arms, begging for work,
+grows ever thicker, while the arms themselves grow ever leaner’ (Marx,
+1849). This simultaneous thickening of labor surplus and shrinking of
+wages is precisely what the interaction term captures — neither force
+operates independently, but each amplifies the other. We explicitly
+assume a multiplicative effect between the cumulative pressure terms,
+such that the joint presence of wage depression and labor surplus
+generates a disproportionate increase in crisis probability beyond their
+additive contributions. While Marx does not explicitly distinguish
+additive from multiplicative effects, the multiplicative assumption
+reflects the theoretical logic of mutual reinforcement described above —
+a hypothesis tested directly through the significance and magnitude of
+$\beta_3$ in the parameter recovery analysis.
+
 2.  The independent variables :
 
     - Labour surplus
