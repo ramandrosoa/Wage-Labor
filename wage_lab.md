@@ -224,6 +224,24 @@ Capital.
 
 #### 3.1 Pilot simulation
 
+In the absence of precise empirical estimates for the structural
+parameters, provisional values are assigned based on theoretical
+plausibility, ensuring that the simulated dynamics are qualitatively
+consistent with the mechanisms described in Marx’s Wage Labour and
+Capital. Specifically, parameters are chosen so that labour surplus
+follows a gradual logistic accumulation with dampened cyclical
+fluctuations, wage gap exhibits a feedback driven S-shaped trajectory,
+and cumulative pressures build meaningfully over time before the crisis
+threshold is reached. While these provisional values cannot be formally
+validated against historical data at this stage, a sensitivity analysis
+is conducted after the final simulation to assess whether the core
+findings, namely the reliable recovery of the logistic regression
+parameters and the theoretically expected ordering $\beta_3$ \>
+$\beta_1$ \> $\beta_2$, remain stable across alternative parameter
+specifications. Robustness of the results across this range would
+suggest that the conclusions are driven by the theoretical structure of
+the model rather than by any specific parameter choice.
+
 ``` r
 set.seed(123)
 ```
@@ -252,7 +270,7 @@ t0_w <- 60
 delta_c <- 0.43
 ```
 
-#### Generate wage gap and labor surplus
+**Generate wage gap and labor surplus**
 
 Labor surplus has to be generated before wage gap because the growth
 rate $r_w$ of the logistic trend of the wage gap depends on labor
@@ -338,7 +356,7 @@ no labor surplus before $t=1$. Therefore, the wage gap at $t=1$ is
 identical for all societies, meaning that all societies start with the
 same structural conditions but diverge as the market history evolves.
 
-#### Generate cumulative wage gap and cumulative labor surplus
+**Generate cumulative wage gap and cumulative labor surplus**
 
 Weights are assigned inversely to chronological distance, prioritizing
 recent events over earlier ones via an exponential decay factor.
@@ -436,7 +454,7 @@ head(CP_w)
   the identical wage gap at $t=1$. At $t=2$, CP_w looks back one period,
   meaning it only uses data in $t=1$.
 
-#### Estimation of the Autocorrelation Structure
+##### Estimation of the Autocorrelation Structure
 
 The cumulative pressure series $CP_l$ and $CP_w$ are stochastic. Since
 each society draws its own sequence of random shocks $\epsilon$ and
@@ -516,7 +534,7 @@ ARMA(1,q) structure**. Yet, unlike the wage gap, which follows a
 smoother trajectory, the labor surplus features dampened oscillations
 that cause $CP\_L$ to retain more autocorrelation than $CP\_W$.
 
-#### Derive T from the effective sample size (ESS)
+##### Derive T from the effective sample size (ESS)
 
 In time series data, observations are not independent — each period
 carries information from previous ones. The effective sample size T_eff
@@ -599,7 +617,7 @@ observations from the labor surplus**. Similarly, roughly **140 decades
 of observation per society are needed to accumulate 15 independent
 observations from the wage gap.**
 
-#### Derive N from the events per variable (EPV)
+##### Derive N from the events per variable (EPV)
 
 Following the **Events Per Variable rule**, which recommends a minimum
 of 10 observed events per predictor to ensure reliable parameter
@@ -678,7 +696,7 @@ effective crisis observations is inversely proportional to the baseline
 crisis probability p. Consequently, lower values of p demand
 substantially larger N to compensate the rarity of crisis events.
 
-#### Generate the structural crisis (y_pilot)
+##### Generate the structural crisis (y_pilot)
 
 The baseline crisis probability p is calibrated from **Turchin and
 Nefedov’s (2009)** observation that recurrent waves of state breakdown
@@ -794,7 +812,9 @@ The substantial jump from 1328 to 51356 crises is an expected outcome
 rather than a anomaly; it directly reflects the roughly 39-fold scaling
 of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
 
-#### Parameter recovery analysis
+#### 4. Parameter recovery analysis
+
+##### 4.1 Frequentist approach
 
 The true parameters are known by construction. By fitting the logistic
 regression, we can validate whether the sample size N derived from the
@@ -813,7 +833,7 @@ unknown parameters from real historical data**
 To fit the logistic regression, we will utilize two estimation
 approaches and evaluate the differences in the resulting coefficients :
 
-**1. Long format + glm()**
+**Long format + glm()**
 
 This is the cleanest approach for logistic regression in R: the NxT
 matrices to a long format dataframe and fit the data straightforwardly.
@@ -861,7 +881,7 @@ summary(model)
     ## 
     ## Number of Fisher Scoring iterations: 7
 
-**2. Custom Maximum Likelihood Estimation function**
+**Custom Maximum Likelihood Estimation function**
 
 This method shows what glm() is doing internally.
 
@@ -925,119 +945,7 @@ to the custom MLE. This suggests that, under this specific simulation
 design, the autocorrelation does not introduce severe bias into the
 estimates.
 
-#### Time Series Diagnosis :
-
-Assumption violation \> Coefficient biased \> overconfident model \>
-inaccurate standard errors
-
-**1. Comparison of the ACF of the pilot and final simulation :**
-
-``` r
-acfin_matrix_l <- matrix(NA, nrow = lag_max , ncol = N_final)
-acfin_matrix_w <- matrix(NA, nrow = lag_max , ncol = N_final)
-
-acfin_avg_l <- acf_func(lag_max, acfin_matrix_l, N_final, T_final, t0_l, CPfin_l)
-acfin_avg_w <- acf_func(lag_max, acfin_matrix_w, N_final, T_final, t0_w, CPfin_w)
-```
-
-``` r
-# compare acf pilot and acf final for labor surplus
-acf_comp_l<- data.frame(lag = 1:lag_max, 
-                        acf_final = acfin_avg_l, 
-                        acf_pilot = acf_avg_l)
-
-# compare acf pilot and acf final for wage gap
-acf_comp_w <- data.frame(lag = 1:lag_max, 
-                         acf_final = acfin_avg_w, 
-                         acf_pilot = acf_avg_w)
-```
-
-``` r
-acf_comparison <- function(acf_comp, title = "ACF Comparison: Final vs Pilot"){
-  
-  # convert to long format 
-  acf_long <- pivot_longer(acf_comp, 
-                           cols = c(acf_final, acf_pilot), 
-                           names_to = "Type", 
-                           values_to = "ACF_Values")
-  
-  p <- ggplot(acf_long, aes(x = lag, y = ACF_Values, color = Type, group = Type)) +
-    geom_line(position = position_dodge(width = 0.2), linewidth = 1) + 
-    geom_point(position = position_dodge(width = 0.2), size = 3) + 
-    geom_hline(yintercept = 0, linetype = "dashed", color = "gray") +
-    theme_minimal() +
-   
-    labs(title = title,        
-         x = "Lag", 
-         y = "ACF Value") +
-    scale_color_manual(values = c("acf_final" = "steelblue", "acf_pilot" = "firebrick"))
-  
-  # Return the plot
-  return(p) 
-}
-```
-
-``` r
-plot_wage <- acf_comparison(acf_comp_w, title = "ACF Comparison (wage gap)" )
-plot_labor <-acf_comparison(acf_comp_l, title = "ACF Comparison (labor surplus)" )
-```
-
-``` r
-combined_plot <- plot_wage + plot_labor
-combined_plot
-```
-
-![](wage_lab_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->
-
-As confirmed by the plots, the final and pilot simulations exhibit the
-**same autocorrelation structure.** This alignment indicate two key
-points:
-
-- **Stability of the Data Generating Process (DGP):** The DGP is stable,
-  meaning the underlying parameters consistently produce the same
-  autocorrelation structure regardless of the sample size (N)
-
-- **Validity of the Effective Sample Size (ESS):** The ESS derived from
-  the pilot simulation remains valid for the final simulation, as the
-  underlying autocorrelation structure has remained unchanged.
-
-**2. Residual autocorrelation from logistic regression**
-
-The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic
-regression assumption of independent observations. However, this does
-not necessarily bias the estimated $\beta$ coefficients; rather, the
-primary consequence is **inaccurate standard errors**. Because $CP_w$
-and $CP_l$ are expected to capture the temporal structure, the residuals
-should be uncorrelated. **The presence of correlated residuals can lead
-to biased standard errors.**
-
-``` r
-residuals_pearson <- residuals(model, type = "pearson")
-lag_max <- min(Tl_obs/4, 20)
-df_long_ord <- df_long %>% arrange(society, decade)
-acf_resid_matrix <- matrix (NA, nrow = lag_max, ncol = N_final)
-
-
-for (s in 1:N_final){
-  # Extract the residuals for society s
-  res_s <- residuals_pearson[df_long$society == s]
-  acf_resid_matrix[,s]<-acf(res_s, lag_max, plot = FALSE)$acf[-1]
-}
-
-avg_resid_matrix <- rowMeans(acf_resid_matrix)
-```
-
-``` r
-acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
-```
-
-![](wage_lab_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
-
-Because the predictors $CP_W$ and $CP_L$ effectively explain the
-autoregressive nature of the data, the model residuals exhibit
-negligible autocorrelation, as demonstrated in the plots below.
-
-#### Bayesian Version :
+##### 4.2 Bayesian approach
 
 The previous simulations used a frequentist framework that assumes
 parameters are fixed values. However, because the goal of this project
@@ -1047,13 +955,6 @@ non-independence of historical data with the ARMA(1,q) structure of the
 observations. Because the data points are not truly independent, the
 Bayesian approach provides a more honest and accurate quantification of
 uncertainty.
-
-*Note on Limitations:* While this simulation successfully replicates the
-temporal autocorrelation typical of historical data, it assumes the
-dataset is fully complete. **Real historical archives are often
-fragmented and incomplete.** Future iterations of this model should
-introduce missingness mechanisms to fully mimic the challenges of
-empirical historical research.
 
 **1.Manual Metropolis Hasting** :
 
@@ -1171,7 +1072,7 @@ trace_plot(mcmc_samples)
 post_plot(mcmc_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-43-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1210,7 +1111,7 @@ trace_plot(mcmc_std)
 post_plot(mcmc_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-47-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1271,7 +1172,7 @@ trace_plot(mnp_samples)
 post_plot(mnp_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-50-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-43-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1289,13 +1190,13 @@ trace_plot(mnp_std)
 post_plot(mnp_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-52-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
 ```
 
-#### R-hat computation for the Manual Metropolis Hasting :
+**R-hat computation for the Manual Metropolis Hasting :**
 
 $\hat{R}$ is a convergence diagnostic. It tells whether the MCMC chains
 have converged to the same posterior distribution.
@@ -1433,13 +1334,15 @@ bayesian_model <- brm(
 
     ## Compiling Stan program...
 
+    ## Trying to compile a simple C file
+
     ## Start sampling
 
 ``` r
 plot(bayesian_model)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-50-1.png)<!-- -->
 
 ``` r
 summary_bayesian <- summary(bayesian_model)
@@ -1467,3 +1370,115 @@ All parameters achieved $\hat{R} \approx 1$ with the Hamiltonian Monte
 Carlo algorithm, confirming convergence across the four chains. In
 contrast, the manual Metropolis-Hastings sampler failed to achieve
 simultaneous convergence for all parameters.
+
+#### 5. Time Series Diagnosis :
+
+Assumption violation \> Coefficient biased \> overconfident model \>
+inaccurate standard errors
+
+**1. Comparison of the ACF of the pilot and final simulation :**
+
+``` r
+acfin_matrix_l <- matrix(NA, nrow = lag_max , ncol = N_final)
+acfin_matrix_w <- matrix(NA, nrow = lag_max , ncol = N_final)
+
+acfin_avg_l <- acf_func(lag_max, acfin_matrix_l, N_final, T_final, t0_l, CPfin_l)
+acfin_avg_w <- acf_func(lag_max, acfin_matrix_w, N_final, T_final, t0_w, CPfin_w)
+```
+
+``` r
+# compare acf pilot and acf final for labor surplus
+acf_comp_l<- data.frame(lag = 1:lag_max, 
+                        acf_final = acfin_avg_l, 
+                        acf_pilot = acf_avg_l)
+
+# compare acf pilot and acf final for wage gap
+acf_comp_w <- data.frame(lag = 1:lag_max, 
+                         acf_final = acfin_avg_w, 
+                         acf_pilot = acf_avg_w)
+```
+
+``` r
+acf_comparison <- function(acf_comp, title = "ACF Comparison: Final vs Pilot"){
+  
+  # convert to long format 
+  acf_long <- pivot_longer(acf_comp, 
+                           cols = c(acf_final, acf_pilot), 
+                           names_to = "Type", 
+                           values_to = "ACF_Values")
+  
+  p <- ggplot(acf_long, aes(x = lag, y = ACF_Values, color = Type, group = Type)) +
+    geom_line(position = position_dodge(width = 0.2), linewidth = 1) + 
+    geom_point(position = position_dodge(width = 0.2), size = 3) + 
+    geom_hline(yintercept = 0, linetype = "dashed", color = "gray") +
+    theme_minimal() +
+   
+    labs(title = title,        
+         x = "Lag", 
+         y = "ACF Value") +
+    scale_color_manual(values = c("acf_final" = "steelblue", "acf_pilot" = "firebrick"))
+  
+  # Return the plot
+  return(p) 
+}
+```
+
+``` r
+plot_wage <- acf_comparison(acf_comp_w, title = "ACF Comparison (wage gap)" )
+plot_labor <-acf_comparison(acf_comp_l, title = "ACF Comparison (labor surplus)" )
+```
+
+``` r
+combined_plot <- plot_wage + plot_labor
+combined_plot
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-56-1.png)<!-- -->
+
+As confirmed by the plots, the final and pilot simulations exhibit the
+**same autocorrelation structure.** This alignment indicate two key
+points:
+
+- **Stability of the Data Generating Process (DGP):** The DGP is stable,
+  meaning the underlying parameters consistently produce the same
+  autocorrelation structure regardless of the sample size (N)
+
+- **Validity of the Effective Sample Size (ESS):** The ESS derived from
+  the pilot simulation remains valid for the final simulation, as the
+  underlying autocorrelation structure has remained unchanged.
+
+**2. Residual autocorrelation from logistic regression**
+
+The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic
+regression assumption of independent observations. However, this does
+not necessarily bias the estimated $\beta$ coefficients; rather, the
+primary consequence is **inaccurate standard errors**. Because $CP_w$
+and $CP_l$ are expected to capture the temporal structure, the residuals
+should be uncorrelated. **The presence of correlated residuals can lead
+to biased standard errors.**
+
+``` r
+residuals_pearson <- residuals(model, type = "pearson")
+lag_max <- min(Tl_obs/4, 20)
+df_long_ord <- df_long %>% arrange(society, decade)
+acf_resid_matrix <- matrix (NA, nrow = lag_max, ncol = N_final)
+
+
+for (s in 1:N_final){
+  # Extract the residuals for society s
+  res_s <- residuals_pearson[df_long$society == s]
+  acf_resid_matrix[,s]<-acf(res_s, lag_max, plot = FALSE)$acf[-1]
+}
+
+avg_resid_matrix <- rowMeans(acf_resid_matrix)
+```
+
+``` r
+acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-58-1.png)<!-- -->
+
+Because the predictors $CP_W$ and $CP_L$ effectively explain the
+autoregressive nature of the data, the model residuals exhibit
+negligible autocorrelation, as demonstrated in the plots below.
