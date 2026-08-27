@@ -434,36 +434,6 @@ head(CP_w)
   the identical wage gap at $t=1$. At $t=2$, CP_w looks back one period,
   meaning it only uses data in $t=1$.
 
-``` r
-n <- 70
-s <- 50
-trend_l <- K_l / (1 + exp(-r_l * (s:n - t0_l)))
- 
-par(mfrow = c(1,2))
-
-plot(s:n, labor_surplus[s:n, 1], type = "n",
-     xlab = "Decades", ylab = "Labor Surplus",
-     main = "Labor Surplus-Society 1")
-lines(s:n, labor_surplus[s:n, 1], col = "#00070d", lwd = 1.5)
-lines(s:n, trend_l, col = "#E24B4A", lty = 2, lwd = 2)
-legend("topleft",
-       legend = c("Labor surplus", "Logistic trend"),
-       col = c("#00070d", "#E24B4A"),
-       lty = c(1, 2, 1, 1), lwd = 2)
-
-plot(1:T_pilot, CP_l[,1], type = "l", 
-     xlab = "Decades", ylab = "Cumulative Pressure",
-     main = "Cumulative Pressure-Society 1")
-lines(1:T_pilot, CP_w[,1],col ="red")
-legend("bottomright", legend = c("CP_l", "CP_w"), col = c("black", "red"), lty = 1)
-```
-
-![](wage_lab_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
-
-``` r
-par(mfrow = c(1, 1))
-```
-
 #### Estimation of the Autocorrelation Structure
 
 The cumulative pressure series $CP_l$ and $CP_w$ are stochastic. Since
@@ -533,7 +503,7 @@ acf_plot(acf_avg_l, T_pilot, title = "ACF labor surplus")
 acf_plot(acf_avg_w, T_pilot, title = "ACF wage gap" )
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1,1))
@@ -1015,7 +985,7 @@ combined_plot <- plot_wage + plot_labor
 combined_plot
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
 
 As confirmed by the plots, the final and pilot simulations exhibit the
 **same autocorrelation structure.** This alignment indicate two key
@@ -1059,7 +1029,7 @@ avg_resid_matrix <- rowMeans(acf_resid_matrix)
 acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
 
 Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit
@@ -1199,7 +1169,7 @@ trace_plot(mcmc_samples)
 post_plot(mcmc_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1238,7 +1208,7 @@ trace_plot(mcmc_std)
 post_plot(mcmc_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-50-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-49-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1299,7 +1269,7 @@ trace_plot(mnp_samples)
 post_plot(mnp_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-53-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-52-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1317,7 +1287,7 @@ trace_plot(mnp_std)
 post_plot(mnp_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-55-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1467,7 +1437,7 @@ bayesian_model <- brm(
 plot(bayesian_model)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-60-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
 
 ``` r
 summary_bayesian <- summary(bayesian_model)
