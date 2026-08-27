@@ -93,7 +93,9 @@ $$
 
 The growth rate $r_w$ is modeled as a function of lagged labor surplus, reflecting Turchin and Nefedov's (2009) empirical observation that oversupply of labor leads to depressed wages — a mechanism Marx identifies as the primary driver of wage depression in Wage Labour and Capital.
 
-#### Data Generating Process : Pilot Simulation
+### 3. Data Generating Process
+
+#### 3.1  Pilot simulation
 
 ```{r}
 set.seed(123)
@@ -104,11 +106,6 @@ N_pilot <- 10
 T_pilot <- 200
 ```
 
-#### Generate wage gap and labor surplus
-
-Labor surplus has to be generated before wage gap because the growth rate $r_w$ of the logistic trend of the wage gap depends on labor surplus
-
-
 ```{r}
 # labor_surplus parameters
 K_l <- 1
@@ -117,7 +114,20 @@ t0_l  <- 50
 A <- .2
 P <- 5
 delta_l <- .43
+
+# wage_gap parameters
+K_w <- 1
+r_base <- .03
+alpha <- .5
+t0_w <- 60
+
+# decay parameter (cumulative pressure)
+delta_c <- 0.43
 ```
+
+#### Generate wage gap and labor surplus
+
+Labor surplus has to be generated before wage gap because the growth rate $r_w$ of the logistic trend of the wage gap depends on labor surplus
 
 ```{r}
 func_labor_surplus <- function(N,T) {
@@ -141,15 +151,6 @@ func_labor_surplus <- function(N,T) {
 ```{r}
 labor_surplus <- func_labor_surplus(N_pilot, T_pilot)
 head(labor_surplus)
-```
-
-
-```{r}
-# wage_gap parameters
-K_w <- 1
-r_base <- .03
-alpha <- .5
-t0_w <- 60
 ```
 
 ```{r}
@@ -179,18 +180,18 @@ At $t=1$, $r_w = r_{base}$ because there is no labor surplus before $t=1$. There
 #### Generate cumulative wage gap and cumulative labor surplus
 Weights are assigned inversely to chronological distance, prioritizing recent events over earlier ones via an exponential decay factor.
 
+      -   Cumulative labour surplus
+
 $$
 CP\_L(t) = \sum^{t-1}_{k} L_{t-k}\cdot e^{-\delta_c\cdot k}
 $$
+
+      -   Cumulative wage gap
 
 $$
 CP\_W(t) = \sum^{t-1}_{k} W_{t-k}\cdot e^{-\delta_c\cdot k}
 $$
 
-```{r}
-# decay parameter (cumulative pressure)
-delta_c <- 0.43
-```
 
 ```{r}
 cp <- function(N, T, lab, wag) {
@@ -442,7 +443,7 @@ y_pilot <- y_func(beta0, beta1, beta2, beta3, CP_l, CP_w, T_pilot, N_pilot)
 head(y_pilot)
 ```
 
-#### Data Generating Process : Final Simulation
+#### 3.2  Final simulation
 
 For the final simulation, we set **N_final = 389 societies and T_final = 200**. This timeline spans the necessary pre- and post-inflection decades. The choice to include exactly 150 post-inflection decades is driven by the differing autocorrelation structures of our variables: while these 150 decades translate to merely 5 effective independent informations for labor surplus, they yield 15 independent observations for the wage gap. The pre-inflection phase is retained to preserve the theoretical warmup consistent with Marx's early capitalism argument. However, the labor surplus exhibits high autocorrelation, substantially reducing the effective independent information per society. **To compensate for this loss of independence and to satisfy the EPV rule of a minimum of 30 effective crisis, N = 389 societies are required.**
 

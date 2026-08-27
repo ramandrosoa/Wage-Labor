@@ -220,7 +220,9 @@ oversupply of labor leads to depressed wages — a mechanism Marx
 identifies as the primary driver of wage depression in Wage Labour and
 Capital.
 
-#### Data Generating Process : Pilot Simulation
+### 3. Data Generating Process
+
+#### 3.1 Pilot simulation
 
 ``` r
 set.seed(123)
@@ -231,12 +233,6 @@ N_pilot <- 10
 T_pilot <- 200
 ```
 
-#### Generate wage gap and labor surplus
-
-Labor surplus has to be generated before wage gap because the growth
-rate $r_w$ of the logistic trend of the wage gap depends on labor
-surplus
-
 ``` r
 # labor_surplus parameters
 K_l <- 1
@@ -245,7 +241,22 @@ t0_l  <- 50
 A <- .2
 P <- 5
 delta_l <- .43
+
+# wage_gap parameters
+K_w <- 1
+r_base <- .03
+alpha <- .5
+t0_w <- 60
+
+# decay parameter (cumulative pressure)
+delta_c <- 0.43
 ```
+
+#### Generate wage gap and labor surplus
+
+Labor surplus has to be generated before wage gap because the growth
+rate $r_w$ of the logistic trend of the wage gap depends on labor
+surplus
 
 ``` r
 func_labor_surplus <- function(N,T) {
@@ -284,14 +295,6 @@ head(labor_surplus)
     ## [4,] 0.04210396 0.04842933 0.04518526 0.08219751
     ## [5,] 0.10795426 0.09990176 0.06114187 0.12709855
     ## [6,] 0.13609679 0.14006248 0.10997459 0.12055319
-
-``` r
-# wage_gap parameters
-K_w <- 1
-r_base <- .03
-alpha <- .5
-t0_w <- 60
-```
 
 ``` r
 func_wage_gap <- function(N, T, lab){
@@ -340,18 +343,17 @@ same structural conditions but diverge as the market history evolves.
 Weights are assigned inversely to chronological distance, prioritizing
 recent events over earlier ones via an exponential decay factor.
 
+      -   Cumulative labour surplus
+
 $$
 CP\_L(t) = \sum^{t-1}_{k} L_{t-k}\cdot e^{-\delta_c\cdot k}
 $$
 
+      -   Cumulative wage gap
+
 $$
 CP\_W(t) = \sum^{t-1}_{k} W_{t-k}\cdot e^{-\delta_c\cdot k}
 $$
-
-``` r
-# decay parameter (cumulative pressure)
-delta_c <- 0.43
-```
 
 ``` r
 cp <- function(N, T, lab, wag) {
@@ -503,7 +505,7 @@ acf_plot(acf_avg_l, T_pilot, title = "ACF labor surplus")
 acf_plot(acf_avg_w, T_pilot, title = "ACF wage gap" )
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1,1))
@@ -742,7 +744,7 @@ head(y_pilot)
     ## [5,]    0    0    0    0    0    0    0    0    0     0
     ## [6,]    0    0    0    0    0    0    0    0    0     0
 
-#### Data Generating Process : Final Simulation
+#### 3.2 Final simulation
 
 For the final simulation, we set **N_final = 389 societies and T_final =
 200**. This timeline spans the necessary pre- and post-inflection
@@ -985,7 +987,7 @@ combined_plot <- plot_wage + plot_labor
 combined_plot
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->
 
 As confirmed by the plots, the final and pilot simulations exhibit the
 **same autocorrelation structure.** This alignment indicate two key
@@ -1029,7 +1031,7 @@ avg_resid_matrix <- rowMeans(acf_resid_matrix)
 acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
 
 Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit
@@ -1169,7 +1171,7 @@ trace_plot(mcmc_samples)
 post_plot(mcmc_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-43-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1208,7 +1210,7 @@ trace_plot(mcmc_std)
 post_plot(mcmc_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-49-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-47-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1269,7 +1271,7 @@ trace_plot(mnp_samples)
 post_plot(mnp_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-52-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-50-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1287,7 +1289,7 @@ trace_plot(mnp_std)
 post_plot(mnp_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-52-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1437,7 +1439,7 @@ bayesian_model <- brm(
 plot(bayesian_model)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
 
 ``` r
 summary_bayesian <- summary(bayesian_model)
