@@ -41,16 +41,19 @@ used the **10 events per variable (EPV)** rule of thumb for logistic
 regression. But two methodological challenges must be addressed. First,
 the determination of N and T depends on the crisis probability and the
 autocorrelation structure of the cumulative pressure variables. Second,
-the cumulative pressure terms exhibit an ARMA (1,q) autocorrelation
+the cumulative pressure terms exhibit an **ARMA (1,q)** autocorrelation
 structure, making analytical derivation of the **effective sample size
 (ESS)** inappropriate. For these reasons, we proceed in two stages: a
 pilot simulation with provisional parameters to empirically estimate the
 autocorrelation structure, followed by the full simulation with final N
 and T derived from both the empirical autocorrelation estimate and the
-sensitivity analysis on crisis probability.
+sensitivity analysis on crisis probability. Following the final
+simulation, a sensitivity analysis on the structural parameters is
+conducted to assess whether the core findings remain stable across
+alternative parameter specifications.
 
-Finally, we compare frequentist and Bayesian approaches to parameter
-recovery, testing whether Marx’s structural parameters — including the
+Finally, we compare **frequentist and Bayesian approaches to parameter
+recovery**, testing whether Marx’s structural parameters — including the
 interaction term between wage depression and labor surplus — are
 statistically detectable from synthetic historical data.
 
@@ -1333,8 +1336,6 @@ bayesian_model <- brm(
 ```
 
     ## Compiling Stan program...
-
-    ## Trying to compile a simple C file
 
     ## Start sampling
 
