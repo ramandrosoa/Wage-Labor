@@ -815,6 +815,52 @@ The substantial jump from 1328 to 51356 crises is an expected outcome
 rather than a anomaly; it directly reflects the roughly 39-fold scaling
 of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
 
+``` r
+# compute logistic trend of labor surplus
+logistic_trend_l <- K_l / (1 + exp(-r_l * (1:T_final - t0_l)))
+
+# compute the logistic trend of CP_l
+# by feeding only the logistic component into the CP formula
+
+CPtrend_l <- numeric(T_final)
+for (t in 2:T_final) {
+  cpsum <- 0
+  for (k in 1:(t-1)) {
+    cpsum <- cpsum + logistic_trend_l[t - k] * exp(-delta_c * k)
+  }
+  CPtrend_l[t] <- cpsum
+}
+
+# --- control the x-axis range here ---
+x_min <-1       
+x_max <-T_final        
+# ------------------------------------
+
+# plot CP_l as the base
+plot(1:T_final, CPfin_l[, 1], type = "l",
+     xlab = "Decade", ylab = "Cumulative Pressure",
+     main = "Cumulative Pressure Dynamics and Logistic Trend - Society 1",
+     col  = "#378ADD", lwd = 2,
+     xlim = c(x_min, x_max),
+     ylim = c(0, max(CPfin_l[, 1], CPfin_w[, 1], CPtrend_l, na.rm = TRUE)))
+
+# add CP_w
+lines(1:T_final, CPfin_w[, 1], col = "#E24B4A", lwd = 2)
+
+# add logistic trend
+lines(1:T_final, CPtrend_l, col = "#2CA46E", lwd = 2, lty = 2)
+
+# legend
+legend("topleft",
+       legend = c("CP_l (Cumulative Labour Surplus)",
+                  "CP_w (Cumulative Wage Gap)",
+                  "Logistic Trend (Labour Surplus)"),
+       col   = c("#378ADD", "#E24B4A", "#2CA46E"),
+       lty   = c(1, 1, 2), lwd = 2, cex = 0.8)
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
+
 #### 4. Parameter recovery analysis
 
 ##### 4.1 Frequentist approach
@@ -1075,7 +1121,7 @@ trace_plot(mcmc_samples)
 post_plot(mcmc_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-37-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1114,7 +1160,7 @@ trace_plot(mcmc_std)
 post_plot(mcmc_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1175,7 +1221,7 @@ trace_plot(mnp_samples)
 post_plot(mnp_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-43-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-44-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1193,7 +1239,7 @@ trace_plot(mnp_std)
 post_plot(mnp_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1337,13 +1383,15 @@ bayesian_model <- brm(
 
     ## Compiling Stan program...
 
+    ## Trying to compile a simple C file
+
     ## Start sampling
 
 ``` r
 plot(bayesian_model)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-50-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-51-1.png)<!-- -->
 
 ``` r
 summary_bayesian <- summary(bayesian_model)
@@ -1434,7 +1482,7 @@ combined_plot <- plot_wage + plot_labor
 combined_plot
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-56-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
 
 As confirmed by the plots, the final and pilot simulations exhibit the
 **same autocorrelation structure.** This alignment indicate two key
@@ -1478,7 +1526,7 @@ avg_resid_matrix <- rowMeans(acf_resid_matrix)
 acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-58-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
 
 Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit
