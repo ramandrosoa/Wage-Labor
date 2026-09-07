@@ -1004,7 +1004,10 @@ structure of the observations. Because the data points are not truly
 independent, the Bayesian approach provides a more honest and accurate
 quantification of uncertainty.
 
-**1.Manual Metropolis Hasting** :
+2 methods from the Markov chain Monte Carlo family : Manual
+Metropolis-Hastings , Hamiltonian Monte Carlo
+
+      -   Manual Metropolis-Hastings
 
 For our manual Metropolis-Hastings implementation, we assign Normal
 priors to the model parameters. Specifically, we center the priors for
@@ -1381,6 +1384,8 @@ data.frame(
     ## 3      beta2 1.030176 2.329562 3.634332 3.118935
     ## 4      beta3 2.040359 3.652906 3.443001 2.665755
 
+      -   Hamiltonian Monte Carlo
+
 ``` r
 bayesian_model <- brm(
   formula = y~CP_w+CP_l+CP_w:CP_l, 
@@ -1414,9 +1419,8 @@ plot(bayesian_model)
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-51-1.png)<!-- -->
 
-**Trace plot:** The chain crosses the true value frequently and stays
-centered around it for all parameters $\beta_0$ , $\beta_1$ , $\beta_2$
-, $\beta_3$
+**The chain crosses the true value frequently and stays centered around
+it for all parameters** $\beta_0$ , $\beta_1$ , $\beta_2$ , $\beta_3$
 
 ``` r
 summary_bayesian <- summary(bayesian_model)

@@ -610,7 +610,9 @@ The close alignment between the estimated and true parameters demonstrates that 
 
 The previous simulations used a frequentist framework that assumes parameters are fixed values. However, because the goal of this project is to model the challenges of historical data, we use synthetic data that mimics the non-independence of historical data with the ARMA(1,q) structure of the observations. Because the data points are not truly independent, the Bayesian approach provides a more honest and accurate quantification of uncertainty.
 
-**1.Manual Metropolis Hasting** :
+2 methods from the Markov chain Monte Carlo family : Manual Metropolis-Hastings , Hamiltonian Monte Carlo
+
+      -   Manual Metropolis-Hastings
 
 For our manual Metropolis-Hastings implementation, we assign Normal priors to the model parameters. Specifically, we center the priors for the parameters $\beta_0$, $\beta_1$, $\beta_2$ and $\beta_3$ at zero to reflect a neutral initial assumption.
 
@@ -821,6 +823,7 @@ trace_plot(mnp_std)
 post_plot(mnp_std)
 par(mfrow = c(1, 1))
 ```
+
 -   $\beta_0$ : 
 -   $\beta_1$ : 
 -   $\beta_2$ : 
@@ -924,8 +927,7 @@ data.frame(
 )
 ```
 
-
-
+      -   Hamiltonian Monte Carlo
 
 ```{r, results='hide'}
 bayesian_model <- brm(
@@ -952,7 +954,7 @@ bayesian_model <- brm(
 plot(bayesian_model)
 ```
 
-**Trace plot:** The chain crosses the true value frequently and stays centered around it for all parameters $\beta_0$ , $\beta_1$ , $\beta_2$ , $\beta_3$
+**The chain crosses the true value frequently and stays centered around it for all parameters** $\beta_0$ , $\beta_1$ , $\beta_2$ , $\beta_3$
 
 ```{r}
 summary_bayesian <- summary(bayesian_model)
