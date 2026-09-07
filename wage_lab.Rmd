@@ -728,6 +728,7 @@ par(mfrow = c(1, 1))
 -   $\beta_0$ , $\beta_2$ : The chain drifts immediately from the true value and stabilized in an incorrect plateau. This happens when the posterior has multiple modes : a result of the multicollinearity between $CP_W$ and $CP_L$ and the interaction term.
 -   $\beta_1$, $\beta_3$: The chain is exploring but very inefficiently. While convergence is eventually achieved, the inefficiency reflects the difficulty of isotropic proposals in navigating the correlated posterior geometry.
 
+To remediate 
 **With Standardized observations:** To optimize the Metropolis-Hastings algorithm, the predictor matrix was standardized. Putting all variables on the same scale prevents numerical instability and symmetrizes the likelihood surface, making it much easier for the algorithm's random walk to navigate the parameters efficiently.
 
 ```{r}
@@ -757,7 +758,7 @@ par(mfrow = c(1, 1))
 ```
 
 -   $\beta_0$ : This parameter's chain begins at the initialization value of 0 and requires approximately 2000 iterations to approach the true value — indicating that the warmup period was insufficient to reach the stationary distribution. Post-warmup samples drawn before iteration 2000 are not representative of the posterior and contaminate the inference.
--   $\beta_1$, $\beta_2$, $\beta_3$  : 
+-   $\beta_1$, $\beta_2$, $\beta_3$  : These parameters drift systematically downward from the true value and never recover. The similar pattern is explained by the multicollinearity between $CP_W$ and $CP_L$ 
 
 The correlation between $CP_W$ and $CP_L$ , exacerbated by their interaction term, results in **extreme multicollinearity.** The observations do not contain enough independent variation to precisely estimate all four parameters.
 Consequently, a standard Metropolis-Hastings algorithm may struggle to converge to the true parameter values. By implementing a **multivariate Normal proposal**, the algorithm can learn and navigate this underlying covariance structure.

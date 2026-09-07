@@ -1138,11 +1138,11 @@ par(mfrow = c(1, 1))
   the difficulty of isotropic proposals in navigating the correlated
   posterior geometry.
 
-**With Standardized observations:** To optimize the Metropolis-Hastings
-algorithm, the predictor matrix was standardized. Putting all variables
-on the same scale prevents numerical instability and symmetrizes the
-likelihood surface, making it much easier for the algorithm’s random
-walk to navigate the parameters efficiently.
+To remediate **With Standardized observations:** To optimize the
+Metropolis-Hastings algorithm, the predictor matrix was standardized.
+Putting all variables on the same scale prevents numerical instability
+and symmetrizes the likelihood surface, making it much easier for the
+algorithm’s random walk to navigate the parameters efficiently.
 
 ``` r
 # standardize X
@@ -1183,7 +1183,10 @@ par(mfrow = c(1, 1))
   the stationary distribution. Post-warmup samples drawn before
   iteration 2000 are not representative of the posterior and contaminate
   the inference.
-- $\beta_1$, $\beta_2$, $\beta_3$ :
+- $\beta_1$, $\beta_2$, $\beta_3$ : These parameters drift
+  systematically downward from the true value and never recover. The
+  similar pattern is explained by the multicollinearity between $CP_W$
+  and $CP_L$
 
 The correlation between $CP_W$ and $CP_L$ , exacerbated by their
 interaction term, results in **extreme multicollinearity.** The
