@@ -1177,7 +1177,12 @@ post_plot(mcmc_std)
 par(mfrow = c(1, 1))
 ```
 
-- $\beta_0$ :
+- $\beta_0$ : This parameter’s chain begins at the initialization value
+  of 0 and requires approximately 2000 iterations to approach the true
+  value — indicating that the warmup period was insufficient to reach
+  the stationary distribution. Post-warmup samples drawn before
+  iteration 2000 are not representative of the posterior and contaminate
+  the inference.
 - $\beta_1$, $\beta_2$, $\beta_3$ :
 
 The correlation between $CP_W$ and $CP_L$ , exacerbated by their
