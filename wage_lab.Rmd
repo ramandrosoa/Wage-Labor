@@ -75,7 +75,7 @@ $$
 
 -   $\frac{K_l}{1+e^{-r_l(t-t_{0,l})}}$ : This term represents the logistic trend of labor surplus — the secular accumulation of the reserve army of labor across multiple boom-bust cycles. Its upward trajectory is driven by two compounding forces. First, each recovery absorbs fewer workers than the previous crisis displaced, leaving a residual surplus that accumulates over time. Second, technology progressively replaces labor — each new sector requires fewer workers than the one it displaced, meaning the trend never returns to its previous low. As Marx argues in Wage Labour and Capital, competition among capitalists drives the continuous introduction of machinery and greater division of labor, permanently swelling the reserve army: "the larger the army of workers among whom the labour is subdivided, the more gigantic the scale upon which machinery is introduced" (Marx, 1849). The logistic shape reflects the self-reinforcing nature of this accumulation — slow growth in early capitalism accelerates as mechanization intensifies, before stabilizing as the system approaches its structural limits. The ceiling $K_l$ represents the maximum sustainable labor surplus — the point beyond which the system faces structural breakdown
 
--   $A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P} + \epsilon$ : This term captures the cyclical dynamics of labor surplus around the logistic trend. The sinusoidal component reflects the anarchic movement of capital described by Marx in Wage Labour and Capital: capital perpetually emigrates from sectors where prices fall below cost of production and immigrates into more profitable ones — "the high price produces an excessive immigration, and the low price an excessive emigration" (Marx, 1849). When $sin\frac{2t\pi}{P}$ > 0, capital flight displaces workers, pushing labor surplus above the trend (Phase 3 — overproduction). When $sin\frac{2t\pi}{P}$ < 0, capital immigration into new sectors temporarily absorbs workers, pulling labor surplus below the trend (Phase 2 — recovery).The exponential term $A e^{{-\delta_l}t}$ introduces amplitude modulation over time. Rather than producing strictly shrinking cycles, the visualization reveals heterogeneous cycle amplitudes — consistent with Marx's characterization of capital movement as anarchic rather than regular. No two cycles are identical, reflecting the unpredictable timing and magnitude of capital reallocation across sectors. The noise term $\epsilon$ ~ $N(0, \sigma^2)$ captures additional stochastic variation around the deterministic cycle structure.
+-   $A e^{{-\delta_l}t}\cdot sin\frac{2t\pi}{P} + \epsilon$ : This term captures the cyclical dynamics of labor surplus around the logistic trend. The sinusoidal component reflects the anarchic movement of capital described by Marx in Wage Labour and Capital: capital perpetually emigrates from sectors where prices fall below cost of production and immigrates into more profitable ones — "the high price produces an excessive immigration, and the low price an excessive emigration" (Marx, 1849). When $sin\frac{2t\pi}{P}$ > 0, capital flight displaces workers, pushing labor surplus above the trend (Overproduction Phase). When $sin\frac{2t\pi}{P}$ < 0, capital immigration into new sectors temporarily absorbs workers, pulling labor surplus below the trend (Recovery Phase).The exponential term $A e^{{-\delta_l}t}$ introduces amplitude modulation over time. Rather than producing strictly shrinking cycles, the visualization reveals heterogeneous cycle amplitudes — consistent with Marx's characterization of capital movement as anarchic rather than regular. No two cycles are identical, reflecting the unpredictable timing and magnitude of capital reallocation across sectors. The noise term $\epsilon$ ~ $N(0, \sigma^2)$ captures additional stochastic variation around the deterministic cycle structure.
 
       -   Wage gap
 
@@ -113,9 +113,9 @@ T_pilot <- 200
 K_l <- 1
 r_l <- .05
 t0_l  <- 50
-A <- .2
-P <- 5
-delta_l <- .43
+A <- .5
+P <- 20
+delta_l <- .1
 
 # wage_gap parameters
 K_w <- 1
@@ -498,7 +498,7 @@ for (t in 2:T_final) {
 }
 
 # --- control the x-axis range here ---
-x_min <-1       
+x_min <-1     
 x_max <-T_final        
 # ------------------------------------
 
@@ -608,7 +608,7 @@ The close alignment between the estimated and true parameters demonstrates that 
 
 #####    4.2 Bayesian approach
 
-The previous simulations used a frequentist framework that assumes parameters are fixed values. However, because the goal of this project is to model the challenges of historical data — inspired by Marx's Wage Labour and Capital, we use synthetic data that mimics the non-independence of historical data with the ARMA(1,q) structure of the observations. Because the data points are not truly independent, the Bayesian approach provides a more honest and accurate quantification of uncertainty.
+The previous simulations used a frequentist framework that assumes parameters are fixed values. However, because the goal of this project is to model the challenges of historical data, we use synthetic data that mimics the non-independence of historical data with the ARMA(1,q) structure of the observations. Because the data points are not truly independent, the Bayesian approach provides a more honest and accurate quantification of uncertainty.
 
 **1.Manual Metropolis Hasting** :
 
@@ -722,6 +722,10 @@ post_plot(mcmc_samples)
 par(mfrow = c(1, 1))
 ```
 
+
+-   $\beta_0$ , $\beta_2$ : The chain drifts immediately from the true value and stabilized in an incorrect plateau. This happens when the posterior has multiple modes : a result of the multicollinearity between $CP_W$ and $CP_L$ and the interaction term.
+-   $\beta_1$, $\beta_3$: The chain is exploring but very inefficiently. While convergence is eventually achieved, the inefficiency reflects the difficulty of isotropic proposals in navigating the correlated posterior geometry.
+
 **With Standardized observations:** To optimize the Metropolis-Hastings algorithm, the predictor matrix was standardized. Putting all variables on the same scale prevents numerical instability and symmetrizes the likelihood surface, making it much easier for the algorithm's random walk to navigate the parameters efficiently.
 
 ```{r}
@@ -749,6 +753,9 @@ trace_plot(mcmc_std)
 post_plot(mcmc_std)
 par(mfrow = c(1, 1))
 ```
+
+-   $\beta_0$ : 
+-   $\beta_1$, $\beta_2$, $\beta_3$  : 
 
 The correlation between $CP_W$ and $CP_L$ , exacerbated by their interaction term, results in **extreme multicollinearity.** The observations do not contain enough independent variation to precisely estimate all four parameters.
 Consequently, a standard Metropolis-Hastings algorithm may struggle to converge to the true parameter values. By implementing a **multivariate Normal proposal**, the algorithm can learn and navigate this underlying covariance structure.
@@ -799,6 +806,11 @@ post_plot(mnp_samples)
 par(mfrow = c(1, 1))
 ```
 
+-   $\beta_0$ : 
+-   $\beta_1$ : 
+-   $\beta_2$ : 
+-   $\beta_3$ : 
+
 ```{r}
 mnp_std <- multivariate_normal_proposal(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
 ```
@@ -809,6 +821,11 @@ trace_plot(mnp_std)
 post_plot(mnp_std)
 par(mfrow = c(1, 1))
 ```
+-   $\beta_0$ : 
+-   $\beta_1$ : 
+-   $\beta_2$ : 
+-   $\beta_3$ : 
+
 
 **R-hat computation for the Manual Metropolis Hasting :**
 
@@ -907,6 +924,9 @@ data.frame(
 )
 ```
 
+
+
+
 ```{r, results='hide'}
 bayesian_model <- brm(
   formula = y~CP_w+CP_l+CP_w:CP_l, 
@@ -931,6 +951,8 @@ bayesian_model <- brm(
 ```{r}
 plot(bayesian_model)
 ```
+
+**Trace plot:** The chain crosses the true value frequently and stays centered around it for all parameters $\beta_0$ , $\beta_1$ , $\beta_2$ , $\beta_3$
 
 ```{r}
 summary_bayesian <- summary(bayesian_model)
