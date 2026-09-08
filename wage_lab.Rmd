@@ -758,7 +758,7 @@ par(mfrow = c(1, 1))
 ```
 
 -   $\beta_0$ : This parameter's chain begins at the initialization value of 0 and requires approximately 2000 iterations to approach the true value — indicating that the warmup period was insufficient to reach the stationary distribution. Post-warmup samples drawn before iteration 2000 are not representative of the posterior and contaminate the inference.
--   $\beta_1$, $\beta_2$, $\beta_3$  : These parameters drift systematically downward from the true value and never recover. The similar pattern is explained by the multicollinearity between $CP_W$ and $CP_L$ 
+-   $\beta_1$, $\beta_2$, $\beta_3$  : These parameters drift systematically downward from the true value and never recover. When $\beta_0$ is overestimated, the model compensates by underestimating the slope parameters simultanuously, since the cumulative pressure terms $CP_W$ and $CP_L$ are positively correlated. The sampler becomes trapped along this ridge, unable to distinguish the true parameter combination from the many alternatives that produce equivalent likelihood values.
 
 The correlation between $CP_W$ and $CP_L$ , exacerbated by their interaction term, results in **extreme multicollinearity.** The observations do not contain enough independent variation to precisely estimate all four parameters.
 Consequently, a standard Metropolis-Hastings algorithm may struggle to converge to the true parameter values. By implementing a **multivariate Normal proposal**, the algorithm can learn and navigate this underlying covariance structure.
@@ -809,10 +809,8 @@ post_plot(mnp_samples)
 par(mfrow = c(1, 1))
 ```
 
--   $\beta_0$ : 
--   $\beta_1$ : 
--   $\beta_2$ : 
--   $\beta_3$ : 
+-   $\beta_0$ , $\beta_3$ : 
+-   $\beta_1$ , $\beta_2$ : 
 
 ```{r}
 mnp_std <- multivariate_normal_proposal(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)

@@ -1184,9 +1184,13 @@ par(mfrow = c(1, 1))
   iteration 2000 are not representative of the posterior and contaminate
   the inference.
 - $\beta_1$, $\beta_2$, $\beta_3$ : These parameters drift
-  systematically downward from the true value and never recover. The
-  similar pattern is explained by the multicollinearity between $CP_W$
-  and $CP_L$
+  systematically downward from the true value and never recover. When
+  $\beta_0$ is overestimated, the model compensates by underestimating
+  the slope parameters simultanuously, since the cumulative pressure
+  terms $CP_W$ and $CP_L$ are positively correlated. The sampler becomes
+  trapped along this ridge, unable to distinguish the true parameter
+  combination from the many alternatives that produce equivalent
+  likelihood values.
 
 The correlation between $CP_W$ and $CP_L$ , exacerbated by their
 interaction term, results in **extreme multicollinearity.** The
@@ -1416,8 +1420,6 @@ bayesian_model <- brm(
 ```
 
     ## Compiling Stan program...
-
-    ## Trying to compile a simple C file
 
     ## Start sampling
 
