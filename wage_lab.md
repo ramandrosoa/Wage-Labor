@@ -1139,7 +1139,7 @@ par(mfrow = c(1, 1))
   difficulty of isotropic proposals in navigating the correlated
   posterior geometry.
 
-**Remediation — With Standardized observations:** To optimize the
+**Remediation — Standardized observations:** To optimize the
 Metropolis-Hastings algorithm, the predictor matrix was standardized.
 Putting all variables on the same scale prevents numerical instability
 and symmetrizes the likelihood surface, making it much easier for the
@@ -1166,6 +1166,7 @@ model_std <- glm(y_vec~X_std-1, family = binomial)
 ```
 
 ``` r
+# manual Metropolis Hasting with standardized observations X_std
 set.seed(42)
 mcmc_std <- manual_metropolis_hasting(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
 ```
@@ -1199,14 +1200,13 @@ par(mfrow = c(1, 1))
   combination from the many alternatives that produce equivalent
   likelihood values.
 
-The correlation between $CP_W$ and $CP_L$ , exacerbated by their
-interaction term, results in **extreme multicollinearity.** The
-observations do not contain enough independent variation to precisely
-estimate all four parameters. Consequently, a standard
-Metropolis-Hastings algorithm may struggle to converge to the true
-parameter values. By implementing a **multivariate Normal proposal**,
-the algorithm can learn and navigate this underlying covariance
-structure.
+**Remediation — multivariate Normal proposal:** The correlation between
+$CP_W$ and $CP_L$ , exacerbated by their interaction term, results in
+**extreme multicollinearity.** The observations do not contain enough
+independent variation to precisely estimate all four parameters.
+Consequently, a standard Metropolis-Hastings algorithm may struggle to
+converge to the true parameter values. By implementing a, the algorithm
+can learn and navigate this underlying covariance structure.
 
 ``` r
 multivariate_normal_proposal <- function(X, y, n_iter = 5000, proposal_sd = .05, model){
@@ -1260,10 +1260,16 @@ post_plot(mnp_samples)
 par(mfrow = c(1, 1))
 ```
 
-- $\beta_0$ , $\beta_3$ :
-- $\beta_1$ , $\beta_2$ :
+- $\beta_0$ , $\beta_3$ : The chains cross the true value during the
+  first iterations but subsequently drift upward and never recover,
+  converging to a posterior mean that consistently overestimates the
+  true value.
+- $\beta_1$ , $\beta_2$ : The opposite pattern is observed, with chains
+  drifting downward and converging to a posterior mean that
+  underestimates the true value.
 
 ``` r
+# multivariate Normal proposal with standardized observations X_std
 mnp_std <- multivariate_normal_proposal(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
 ```
 

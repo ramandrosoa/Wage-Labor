@@ -729,7 +729,7 @@ par(mfrow = c(1, 1))
 -   $\beta_1$, $\beta_3$ : The chain is exploring but very inefficiently. The traces drift slowly and are highly autocorrelated. While convergence is eventually achieved, the inefficiency reflects the difficulty of isotropic proposals in navigating the correlated posterior geometry.
 
 
-**Remediation — With Standardized observations:** To optimize the Metropolis-Hastings algorithm, the predictor matrix was standardized. Putting all variables on the same scale prevents numerical instability and symmetrizes the likelihood surface, making it much easier for the algorithm's random walk to navigate the parameters efficiently.
+**Remediation — Standardized observations:** To optimize the Metropolis-Hastings algorithm, the predictor matrix was standardized. Putting all variables on the same scale prevents numerical instability and symmetrizes the likelihood surface, making it much easier for the algorithm's random walk to navigate the parameters efficiently.
 Centering the predictors before forming the interaction term removes the artificial correlation that created the spurious modes, so chains no longer get trapped ($\beta_0$ , $\beta_2$), placing all variables on a common scale makes the posterior roughly round, so a single step size works in every direction and the chain crosses it in normal strides rather than baby steps ($\beta_1$, $\beta_3$).
 
 ```{r}
@@ -747,6 +747,7 @@ model_std <- glm(y_vec~X_std-1, family = binomial)
 ```
 
 ```{r}
+# manual Metropolis Hasting with standardized observations X_std
 set.seed(42)
 mcmc_std <- manual_metropolis_hasting(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
 ```
@@ -761,8 +762,8 @@ par(mfrow = c(1, 1))
 -   $\beta_0$ : This parameter's chain begins at the initialization value of 0 and requires approximately 2000 iterations to approach the true value — indicating that the warmup period was insufficient to reach the stationary distribution. Post-warmup samples drawn before iteration 2000 are not representative of the posterior and contaminate the inference.
 -   $\beta_1$, $\beta_2$, $\beta_3$  : These parameters drift systematically downward from the true value and never recover. When $\beta_0$ is overestimated, the model compensates by underestimating the slope parameters simultanuously, since the cumulative pressure terms $CP_W$ and $CP_L$ are positively correlated. The sampler becomes trapped along this ridge, unable to distinguish the true parameter combination from the many alternatives that produce equivalent likelihood values.
 
-The correlation between $CP_W$ and $CP_L$ , exacerbated by their interaction term, results in **extreme multicollinearity.** The observations do not contain enough independent variation to precisely estimate all four parameters.
-Consequently, a standard Metropolis-Hastings algorithm may struggle to converge to the true parameter values. By implementing a **multivariate Normal proposal**, the algorithm can learn and navigate this underlying covariance structure.
+**Remediation  — multivariate Normal proposal:** The correlation between $CP_W$ and $CP_L$ , exacerbated by their interaction term, results in **extreme multicollinearity.** The observations do not contain enough independent variation to precisely estimate all four parameters.
+Consequently, a standard Metropolis-Hastings algorithm may struggle to converge to the true parameter values. By implementing a, the algorithm can learn and navigate this underlying covariance structure.
 
 
 ```{r}
@@ -810,10 +811,11 @@ post_plot(mnp_samples)
 par(mfrow = c(1, 1))
 ```
 
--   $\beta_0$ , $\beta_3$ : 
--   $\beta_1$ , $\beta_2$ : 
+-   $\beta_0$ , $\beta_3$ : The chains cross the true value during the first iterations but subsequently drift upward and never recover, converging to a posterior mean that consistently overestimates the true value.
+-   $\beta_1$ , $\beta_2$ : The opposite pattern is observed, with chains drifting downward and converging to a posterior mean that underestimates the true value.
 
 ```{r}
+# multivariate Normal proposal with standardized observations X_std
 mnp_std <- multivariate_normal_proposal(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
 ```
 
