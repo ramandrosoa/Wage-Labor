@@ -726,10 +726,11 @@ par(mfrow = c(1, 1))
 
 
 -   $\beta_0$ , $\beta_2$ : The chain drifts immediately from the true value and stabilized in an incorrect plateau. This happens when the posterior has multiple modes : a result of the multicollinearity between $CP_W$ and $CP_L$ and the interaction term.
--   $\beta_1$, $\beta_3$: The chain is exploring but very inefficiently. While convergence is eventually achieved, the inefficiency reflects the difficulty of isotropic proposals in navigating the correlated posterior geometry.
+-   $\beta_1$, $\beta_3$ : The chain is exploring but very inefficiently. The traces drift slowly and are highly autocorrelated. While convergence is eventually achieved, the inefficiency reflects the difficulty of isotropic proposals in navigating the correlated posterior geometry.
 
-To remediate 
-**With Standardized observations:** To optimize the Metropolis-Hastings algorithm, the predictor matrix was standardized. Putting all variables on the same scale prevents numerical instability and symmetrizes the likelihood surface, making it much easier for the algorithm's random walk to navigate the parameters efficiently.
+
+**Remediation — With Standardized observations:** To optimize the Metropolis-Hastings algorithm, the predictor matrix was standardized. Putting all variables on the same scale prevents numerical instability and symmetrizes the likelihood surface, making it much easier for the algorithm's random walk to navigate the parameters efficiently.
+Centering the predictors before forming the interaction term removes the artificial correlation that created the spurious modes, so chains no longer get trapped ($\beta_0$ , $\beta_2$), placing all variables on a common scale makes the posterior roughly round, so a single step size works in every direction and the chain crosses it in normal strides rather than baby steps ($\beta_1$, $\beta_3$).
 
 ```{r}
 # standardize X
