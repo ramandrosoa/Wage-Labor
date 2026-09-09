@@ -608,9 +608,9 @@ The close alignment between the estimated and true parameters demonstrates that 
 
 #####    4.2 Bayesian approach
 
-The previous simulations used a frequentist framework that assumes parameters are fixed values. However, because the goal of this project is to model the challenges of historical data, the data points are not truly independent, the Bayesian approach provides a more honest and accurate quantification of uncertainty.
-
-2 methods from the Markov chain Monte Carlo family : Manual Metropolis-Hastings , Hamiltonian Monte Carlo
+The previous simulations used a frequentist framework, which treats parameters as fixed, unknown values. However, because this project aims to model the challenges of real historical data—where observations are not truly independent—a Bayesian approach provides a more honest and accurate quantification of uncertainty.
+Bayesian inference takes a different view: instead of assuming fixed parameters, it treats them as random variables with probability distributions. It combines our initial beliefs (the prior) with the evidence from the data (the likelihood) to produce updated beliefs (the posterior): **posterior ∝ likelihood × prior**
+Rather than a single point estimate, the posterior captures the full range of plausible parameter values, making uncertainty quantification explicit. Since the posterior is typically analytically intractable, we approximate it through sampling. To this end, we implement two methods from the Markov Chain Monte Carlo (MCMC) family: a manual Metropolis–Hastings sampler and Hamiltonian Monte Carlo.
 
       -   Manual Metropolis-Hastings
 
@@ -833,7 +833,7 @@ $$
 W = \frac{1}{M} \sum^M_{m=1} s^2_m
 $$
 
--   $s^2_m: $ The variance of the chain m.
+-   $s^2_m$ : The variance of the chain m.
 
 **Estimated marginal posterior variance** : This combines B and W into an estimate of the true posterior variance.
 
