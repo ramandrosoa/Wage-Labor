@@ -608,7 +608,7 @@ The close alignment between the estimated and true parameters demonstrates that 
 
 #####    4.2 Bayesian approach
 
-The previous simulations used a frequentist framework that assumes parameters are fixed values. However, because the goal of this project is to model the challenges of historical data, we use synthetic data that mimics the non-independence of historical data with the ARMA(1,q) structure of the observations. Because the data points are not truly independent, the Bayesian approach provides a more honest and accurate quantification of uncertainty.
+The previous simulations used a frequentist framework that assumes parameters are fixed values. However, because the goal of this project is to model the challenges of historical data, the data points are not truly independent, the Bayesian approach provides a more honest and accurate quantification of uncertainty.
 
 2 methods from the Markov chain Monte Carlo family : Manual Metropolis-Hastings , Hamiltonian Monte Carlo
 
@@ -814,27 +814,7 @@ par(mfrow = c(1, 1))
 -   $\beta_0$ , $\beta_3$ : The chains cross the true value during the first iterations but subsequently drift upward and never recover, converging to a posterior mean that consistently overestimates the true value.
 -   $\beta_1$ , $\beta_2$ : The opposite pattern is observed, with chains drifting downward and converging to a posterior mean that underestimates the true value.
 
-```{r}
-# multivariate Normal proposal with standardized observations X_std
-mnp_std <- multivariate_normal_proposal(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
-```
-
-```{r}
-par(mfcol = c(2, 4), mar = c(4, 4, 2, 1))
-trace_plot(mnp_std)
-post_plot(mnp_std)
-par(mfrow = c(1, 1))
-```
-
--   $\beta_0$ : 
--   $\beta_1$ : 
--   $\beta_2$ : 
--   $\beta_3$ : 
-
-
-**R-hat computation for the Manual Metropolis Hasting :**
-
-$\hat{R}$ is a convergence diagnostic. It tells whether the MCMC chains have converged to the same posterior distribution.
+**R-hat computation for the Manual Metropolis Hasting :** $\hat{R}$ is a convergence diagnostic. It tells whether the MCMC chains have converged to the same posterior distribution.
 
 **Between-chain variance** : This measures how different the two chain means are from each other.
 
@@ -916,7 +896,6 @@ compute_rhat <- function(samples) {
 rhat_mcmc_samples <- compute_rhat(mcmc_samples)
 rhat_mcmc_std <- compute_rhat(mcmc_std)
 rhat_mnp_samples <- compute_rhat(mnp_samples)
-rhat_mnp_std <- compute_rhat(mnp_std)
 ```
 
 ```{r}
@@ -924,10 +903,10 @@ data.frame(
   parameters = c("beta0", "beta1", "beta2", "beta3"), 
   rhat1 = c(rhat_mcmc_samples), 
   rhat2 = c(rhat_mcmc_std), 
-  rhat3 = c(rhat_mnp_samples), 
-  rhat4 = c(rhat_mnp_std)
+  rhat3 = c(rhat_mnp_samples)
 )
 ```
+
 
       -   Hamiltonian Monte Carlo
 
@@ -967,8 +946,7 @@ data.frame(
   parameters = c("beta0", "beta1", "beta2", "beta3"), 
   rhat_mh_1 = c(rhat_mcmc_samples), 
   rhat_mh_2 = c(rhat_mcmc_std), 
-  rhat_mh_3 = c(rhat_mnp_samples), 
-  rhat_mh_4 = c(rhat_mnp_std), 
+  rhat_mh_3 = c(rhat_mnp_samples),
   rhat_hmc =  (rhat)
 )
 )
@@ -1030,9 +1008,6 @@ acf_comparison <- function(acf_comp, title = "ACF Comparison: Final vs Pilot"){
 ```{r}
 plot_wage <- acf_comparison(acf_comp_w, title = "ACF Comparison (wage gap)" )
 plot_labor <-acf_comparison(acf_comp_l, title = "ACF Comparison (labor surplus)" )
-```
-
-```{r}
 combined_plot <- plot_wage + plot_labor
 combined_plot
 ```

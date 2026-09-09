@@ -998,11 +998,9 @@ estimates.
 
 The previous simulations used a frequentist framework that assumes
 parameters are fixed values. However, because the goal of this project
-is to model the challenges of historical data, we use synthetic data
-that mimics the non-independence of historical data with the ARMA(1,q)
-structure of the observations. Because the data points are not truly
-independent, the Bayesian approach provides a more honest and accurate
-quantification of uncertainty.
+is to model the challenges of historical data, the data points are not
+truly independent, the Bayesian approach provides a more honest and
+accurate quantification of uncertainty.
 
 2 methods from the Markov chain Monte Carlo family : Manual
 Metropolis-Hastings , Hamiltonian Monte Carlo
@@ -1268,34 +1266,9 @@ par(mfrow = c(1, 1))
   drifting downward and converging to a posterior mean that
   underestimates the true value.
 
-``` r
-# multivariate Normal proposal with standardized observations X_std
-mnp_std <- multivariate_normal_proposal(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
-```
-
-    ## Acceptance rate:  0.752
-
-``` r
-par(mfcol = c(2, 4), mar = c(4, 4, 2, 1))
-trace_plot(mnp_std)
-post_plot(mnp_std)
-```
-
-![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
-
-``` r
-par(mfrow = c(1, 1))
-```
-
-- $\beta_0$ :
-- $\beta_1$ :
-- $\beta_2$ :
-- $\beta_3$ :
-
-**R-hat computation for the Manual Metropolis Hasting :**
-
-$\hat{R}$ is a convergence diagnostic. It tells whether the MCMC chains
-have converged to the same posterior distribution.
+**R-hat computation for the Manual Metropolis Hasting :** $\hat{R}$ is a
+convergence diagnostic. It tells whether the MCMC chains have converged
+to the same posterior distribution.
 
 **Between-chain variance** : This measures how different the two chain
 means are from each other.
@@ -1388,7 +1361,6 @@ compute_rhat <- function(samples) {
 rhat_mcmc_samples <- compute_rhat(mcmc_samples)
 rhat_mcmc_std <- compute_rhat(mcmc_std)
 rhat_mnp_samples <- compute_rhat(mnp_samples)
-rhat_mnp_std <- compute_rhat(mnp_std)
 ```
 
 ``` r
@@ -1396,16 +1368,15 @@ data.frame(
   parameters = c("beta0", "beta1", "beta2", "beta3"), 
   rhat1 = c(rhat_mcmc_samples), 
   rhat2 = c(rhat_mcmc_std), 
-  rhat3 = c(rhat_mnp_samples), 
-  rhat4 = c(rhat_mnp_std)
+  rhat3 = c(rhat_mnp_samples)
 )
 ```
 
-    ##   parameters    rhat1    rhat2    rhat3    rhat4
-    ## 1      beta0 2.169829 3.853452 3.501115 1.279569
-    ## 2      beta1 1.281464 3.529730 2.744399 2.025436
-    ## 3      beta2 1.030176 2.329562 3.634332 3.118935
-    ## 4      beta3 2.040359 3.652906 3.443001 2.665755
+    ##   parameters    rhat1    rhat2    rhat3
+    ## 1      beta0 2.169829 3.853452 3.501115
+    ## 2      beta1 1.281464 3.529730 2.744399
+    ## 3      beta2 1.030176 2.329562 3.634332
+    ## 4      beta3 2.040359 3.652906 3.443001
 
       -   Hamiltonian Monte Carlo
 
@@ -1432,13 +1403,15 @@ bayesian_model <- brm(
 
     ## Compiling Stan program...
 
+    ## Trying to compile a simple C file
+
     ## Start sampling
 
 ``` r
 plot(bayesian_model)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-51-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-49-1.png)<!-- -->
 
 **The chain crosses the true value frequently and stays centered around
 it for all parameters** $\beta_0$ , $\beta_1$ , $\beta_2$ , $\beta_3$
@@ -1452,18 +1425,17 @@ data.frame(
   parameters = c("beta0", "beta1", "beta2", "beta3"), 
   rhat_mh_1 = c(rhat_mcmc_samples), 
   rhat_mh_2 = c(rhat_mcmc_std), 
-  rhat_mh_3 = c(rhat_mnp_samples), 
-  rhat_mh_4 = c(rhat_mnp_std), 
+  rhat_mh_3 = c(rhat_mnp_samples),
   rhat_hmc =  (rhat)
 )
 )
 ```
 
-    ##   parameters rhat_mh_1 rhat_mh_2 rhat_mh_3 rhat_mh_4 rhat_hmc
-    ## 1      beta0  2.169829  3.853452  3.501115  1.279569 1.003090
-    ## 2      beta1  1.281464  3.529730  2.744399  2.025436 1.004250
-    ## 3      beta2  1.030176  2.329562  3.634332  3.118935 1.001756
-    ## 4      beta3  2.040359  3.652906  3.443001  2.665755 1.004215
+    ##   parameters rhat_mh_1 rhat_mh_2 rhat_mh_3 rhat_hmc
+    ## 1      beta0  2.169829  3.853452  3.501115 1.003090
+    ## 2      beta1  1.281464  3.529730  2.744399 1.004250
+    ## 3      beta2  1.030176  2.329562  3.634332 1.001756
+    ## 4      beta3  2.040359  3.652906  3.443001 1.004215
 
 All parameters achieved $\hat{R} \approx 1$ with the Hamiltonian Monte
 Carlo algorithm, confirming convergence across the four chains. In
@@ -1525,14 +1497,11 @@ acf_comparison <- function(acf_comp, title = "ACF Comparison: Final vs Pilot"){
 ``` r
 plot_wage <- acf_comparison(acf_comp_w, title = "ACF Comparison (wage gap)" )
 plot_labor <-acf_comparison(acf_comp_l, title = "ACF Comparison (labor surplus)" )
-```
-
-``` r
 combined_plot <- plot_wage + plot_labor
 combined_plot
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
 
 As confirmed by the plots, the final and pilot simulations exhibit the
 **same autocorrelation structure.** This alignment indicate two key
@@ -1576,7 +1545,7 @@ avg_resid_matrix <- rowMeans(acf_resid_matrix)
 acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-56-1.png)<!-- -->
 
 Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit
