@@ -1190,29 +1190,33 @@ post_plot(mcmc_std)
 par(mfrow = c(1, 1))
 ```
 
-- $\beta_0$ : This parameter’s chain begins at the initialization value
-  of 0 and requires approximately 2000 iterations to approach the true
-  value — indicating that the warmup period was insufficient to reach
-  the stationary distribution. Post-warmup samples drawn before
-  iteration 2000 are not representative of the posterior and contaminate
-  the inference.
+- $\beta_0$ : Initialized at 0 — far above the true value (-5.2933) —
+  and takes \~2000 iterations to cross the true value. This indicates
+  insufficient warmup; early post-warmup samples fail to represent the
+  stationary distribution and contaminate the inference.
 - $\beta_1$, $\beta_2$, $\beta_3$ : These parameters drift
-  systematically downward from the true value and never recover. When
-  $\beta_0$ is overestimated, the model compensates by underestimating
-  the slope parameters simultanuously, since the cumulative pressure
-  terms $CP_W$ and $CP_L$ are positively correlated. The sampler becomes
-  trapped along this ridge, unable to distinguish the true parameter
-  combination from the many alternatives that produce equivalent
-  likelihood values.
+  systematically downward from the true value and never recover. Because
+  $\beta_0$ starts heavily overestimated,the model immediately
+  compensates by pushing the slopes too low. Since the cumulative
+  pressure terms $CP_W$ and $CP_L$ are positively correlated, , the
+  sampler becomes trapped on a likelihood “ridge”— unable to distinguish
+  the true parameter combination from false, compensatory ones.
+  Consequently, even after $\beta_0$ crosses the true value, the trapped
+  slopes force it to continue drifting downward to maintain the
+  likelihood.
 
-**Remediation — multivariate Normal proposal:** The correlation between
-$CP_W$ and $CP_L$ , exacerbated by their interaction term, results in
-**extreme multicollinearity.** The observations do not contain enough
-independent variation to precisely estimate all four parameters.
-Consequently, a standard Metropolis-Hastings algorithm may struggle to
-converge to the true parameter values. By implementing a multivariate
-Normal proposal, the algorithm can learn and navigate this underlying
-covariance structure.
+**Remediation — multivariate Normal proposal:** The compensatory trap
+and likelihood “ridge” described above stem from extreme
+multicollinearity: the positively correlated predictors ($CP_W$, $CP_L$
+and their interaction term) lack the independent variation needed to
+isolate the intercept and slopes. **A standard Metropolis-Hastings
+algorithm updates parameters independently, blinding it to this joint
+covariance and causing it to slide along these false compensatory
+paths.** By implementing a multivariate Normal proposal, the sampler can
+learn the underlying covariance structure and propose joint parameter
+updates. **This allows $\beta_0$ and the slopes to move together in the
+correct directions, effectively escaping the ridge and converging to the
+true values.**
 
 ``` r
 multivariate_normal_proposal <- function(X, y, n_iter = 5000, proposal_sd = .05, model){
