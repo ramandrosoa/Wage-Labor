@@ -1005,7 +1005,7 @@ different view: instead of assuming fixed parameters, it treats them as
 random variables with probability distributions. It combines our initial
 beliefs (the prior) with the evidence from the data (the likelihood) to
 produce updated beliefs (the posterior): **posterior ∝ likelihood ×
-prior** Rather than a single point estimate, the posterior captures the
+prior** .Rather than a single point estimate, the posterior captures the
 full range of plausible parameter values, making uncertainty
 quantification explicit. Since the posterior is typically analytically
 intractable, we approximate it through sampling. To this end, we
@@ -1210,8 +1210,9 @@ $CP_W$ and $CP_L$ , exacerbated by their interaction term, results in
 **extreme multicollinearity.** The observations do not contain enough
 independent variation to precisely estimate all four parameters.
 Consequently, a standard Metropolis-Hastings algorithm may struggle to
-converge to the true parameter values. By implementing a, the algorithm
-can learn and navigate this underlying covariance structure.
+converge to the true parameter values. By implementing a multivariate
+Normal proposal, the algorithm can learn and navigate this underlying
+covariance structure.
 
 ``` r
 multivariate_normal_proposal <- function(X, y, n_iter = 5000, proposal_sd = .05, model){
@@ -1273,9 +1274,16 @@ par(mfrow = c(1, 1))
   drifting downward and converging to a posterior mean that
   underestimates the true value.
 
-**R-hat computation for the Manual Metropolis Hasting :** $\hat{R}$ is a
-convergence diagnostic. It tells whether the MCMC chains have converged
-to the same posterior distribution.
+**Diagnosing convergence with the R-hat statistic:** The trace plots and
+posterior distributions of the parameters suggest that the manual
+Metropolis–Hastings sampler failed to achieve simultaneous convergence
+across all parameters. To confirm this with a quantitative measure, we
+compute the R-hat. R-hat is a convergence diagnostic that compares the
+variance between chains to the variance within each chain. It indicates
+whether the MCMC chains have converged to the same posterior
+distribution: values close to 1 suggest convergence, while larger values
+reveal that the chains are exploring different regions of the parameter
+space.
 
 **Between-chain variance** : This measures how different the two chain
 means are from each other.
