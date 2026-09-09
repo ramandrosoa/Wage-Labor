@@ -1282,9 +1282,9 @@ par(mfrow = c(1, 1))
 posterior distributions of the parameters suggest that the manual
 Metropolis–Hastings sampler failed to achieve simultaneous convergence
 across all parameters. To confirm this with a quantitative measure, we
-compute the R-hat. R-hat is a convergence diagnostic that compares the
-variance between chains to the variance within each chain. It indicates
-whether the MCMC chains have converged to the same posterior
+compute the R-hat. **R-hat is a convergence diagnostic that compares the
+variance between chains to the variance within each chain.** It
+indicates whether the MCMC chains have converged to the same posterior
 distribution: values close to 1 suggest convergence, while larger values
 reveal that the chains are exploring different regions of the parameter
 space.
@@ -1397,6 +1397,24 @@ data.frame(
     ## 3      beta2 1.030176 2.329562 3.634332
     ## 4      beta3 2.040359 3.652906 3.443001
 
+**R-hat results for the Metropolis–Hastings variants:** All three
+samplers—standard Metropolis–Hastings, Metropolis–Hastings with
+standardized predictors, and Metropolis–Hastings with a multivariate
+normal proposal—fail the convergence test. With $\hat{R}$ values ranging
+from 1.28 to 3.85, every variant lies far from the $\hat{R}$ ≤ 1
+benchmark. These values quantitatively confirm the diagnosis suggested
+by the trace plots: no variant achieves simultaneous convergence across
+all four parameters. Notably, even in the best case (standard
+Metropolis–Hastings, where $\beta_2$ $\hat{R}$ reaches 1.030176),
+convergence occurs for a single parameter only, while the remaining
+three fail badly. **This illustrates a key limitation: individual
+parameters may appear well-behaved in isolation, yet the joint posterior
+remains unreachable.** Moreover, the fact that refining the proposal
+(standardization, multivariate structure) does not resolve the issue
+suggests the bottleneck is not the tuning of the proposal, but the
+random-walk nature of Metropolis–Hastings itself—reinforcing the need
+for the gradient-based approach of HMC.
+
       -   Hamiltonian Monte Carlo
 
 ``` r
@@ -1432,8 +1450,19 @@ plot(bayesian_model)
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-49-1.png)<!-- -->
 
-**The chain crosses the true value frequently and stays centered around
-it for all parameters** $\beta_0$ , $\beta_1$ , $\beta_2$ , $\beta_3$
+**Hamiltonian Monte Carlo results :** In contrast to the manual
+Metropolis–Hastings sampler, the HMC chains converge for all four
+parameters simultaneously. For each of $\beta_0$ , $\beta_1$ , $\beta_2$
+, $\beta_3$ , the chains repeatedly cross the true value and remain
+centered around it, indicating that the posterior means accurately
+recover the true parameters. This success is expected.
+Metropolis–Hastings explores the parameter space through a random walk,
+which leads to slow mixing and weak exploration—especially when
+parameters are correlated. HMC, by contrast, uses gradient information
+to propose informed, long-range moves, allowing the chains to mix
+efficiently and reach the target posterior much faster. This illustrates
+why gradient-based samplers like HMC are the method of choice in modern
+Bayesian software.
 
 ``` r
 summary_bayesian <- summary(bayesian_model)
