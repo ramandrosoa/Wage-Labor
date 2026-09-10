@@ -280,7 +280,7 @@ rate $r_w$ of the logistic trend of the wage gap depends on labor
 surplus
 
 ``` r
-func_labor_surplus <- function(N,T) {
+func_labor_surplus <- function(N, T, K_l, r_l, t0_l, A, P, delta_l ) {
   
   labor_surplus <- matrix(NA, nrow = T , ncol = N)
   for (n in 1:N) {
@@ -298,7 +298,7 @@ func_labor_surplus <- function(N,T) {
 ```
 
 ``` r
-labor_surplus <- func_labor_surplus(N_pilot, T_pilot)
+labor_surplus <- func_labor_surplus(N_pilot, T_pilot, K_l, r_l, t0_l, A, P, delta_l )
 head(labor_surplus)
 ```
 
@@ -318,7 +318,7 @@ head(labor_surplus)
     ## [6,] 0.3866248 0.3565370 0.3671156
 
 ``` r
-func_wage_gap <- function(N, T, lab){
+func_wage_gap <- function(N, T, lab, K_w, r_base, alpha, t0_w){
   
   wage_gap <- matrix(NA, nrow = T , ncol = N)
   for (n in 1:N) {
@@ -334,7 +334,7 @@ func_wage_gap <- function(N, T, lab){
 ```
 
 ``` r
-wage_gap <- func_wage_gap(N_pilot, T_pilot, labor_surplus)
+wage_gap <- func_wage_gap(N_pilot, T_pilot, labor_surplus, K_w, r_base, alpha, t0_w)
 head(wage_gap)
 ```
 
@@ -787,8 +787,8 @@ T_final <- 200
 
 ``` r
 # Generate labor surplus , wage gap, CP_l, CP_w, y with N_final, T_final 
-labor_surplus_fin <- func_labor_surplus(N_final, T_final)
-wage_gap_fin <- func_wage_gap(N_final, T_final, labor_surplus_fin)
+labor_surplus_fin <- func_labor_surplus(N_final, T_final, K_l, r_l, t0_l, A, P, delta_l )
+wage_gap_fin <- func_wage_gap(N_final, T_final, labor_surplus_fin, K_w, r_base, alpha, t0_w)
 
 cp_fin <- cp(N_final, T_final, labor_surplus_fin, wage_gap_fin)
 CPfin_l <- cp_fin$CP_l
