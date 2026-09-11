@@ -527,6 +527,7 @@ legend("topleft",
        lty   = c(1, 1, 2), lwd = 2, cex = 0.8)
 ```
 
+
 **Explain CP dynamics + references**
 
 ####    3.3 Sensitivity Analysis on the structural parameters
@@ -554,32 +555,32 @@ params_baseline <- list(
 run_simulation <- function(r_l, r_base, A, P, alpha, t0_l, t0_w) {
   
   # generate labor surplus and wage gap
-  labor_surplus <- func_labor_surplus(N_final, T_final, r_l = r_l, t0_l = t0_l, A = A, P = P)
-  wage_gap <- func_wage_gap(N_final, T_final, labor_surplus, r_base = r_base, t0_w = t0_w, alpha = alpha)
+  labor_surplus_sim <- func_labor_surplus(N_final, T_final, r_l = r_l, t0_l = t0_l, A = A, P = P)
+  wage_gap_sim <- func_wage_gap(N_final, T_final, labor_surplus_sim, r_base = r_base, t0_w = t0_w, alpha = alpha)
   
   # generate cumulative pressure
-  results <- cp(N_final, T_final, labor_surplus, wage_gap)
-  CP_w <- results$CP_w
-  CP_l <- results$CP_l
+  results <- cp(N_final, T_final, labor_surplus_sim, wage_gap_sim)
+  CPsim_w <- results$CP_w
+  CPsim_l <- results$CP_l
   
   # generate crisis
-  y <- y_func(beta0, beta1, beta2, beta3, CP_l, CP_w, T_final, N_final)
+  ysim <- y_func(beta0, beta1, beta2, beta3, CPsim_l, CPsim_w, T_final, N_final)
   
   # df long
   df <- data.frame(
     society = rep(1:N_final, reach = T_final), 
     decade = rep(1:T_final, reach = N_final), 
-    CP_w = as.vector(CP_w), 
-    CP_l = as.vector(CP_l), 
-    y = as.vector(y)
+    CPsim_w = as.vector(CPsim_w), 
+    CPsim_l = as.vector(CPsim_l), 
+    ysim = as.vector(ysim)
   )
   
   # fit a model
-  model <- glm(y~CP_w+CP_l+CP_w:CP_l, data = df, family = binomial)
+  model <- glm(ysim~CPsim_w+CPsim_l+CPsim_w:CPsim_l, data = df, family = binomial)
   
   # summary
   coefs <- coef(model)
-  crisis_freq <- mean(df$y)
+  crisis_freq <- mean(df$ysim)
   ordering_preserved <- coefs[4] > coefs[2] & coefs[2] > coefs[3]
 
   return(data.frame(
@@ -616,6 +617,8 @@ for (param_name in names(s_grid)){
       t0_w = params$t0_w, 
       P = params$P
     )
+    
+    rownames(res) <- NULL
     
     res$parameter <- param_name
     res$value <- val 
