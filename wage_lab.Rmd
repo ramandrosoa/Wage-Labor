@@ -541,8 +541,8 @@ s_grid <- list (
   t0_l = c(30, 50, 70), 
   A = c(.02, .05, .08), 
   P = c(10, 20, 30), 
-  r_base = c(.01, .03, 06), 
-  alpha = c(30, 50, 70), 
+  r_base = c(.01, .03, .06), 
+  alpha = c(0.3, 0.5, 0.8), 
   t0_w = c(20, 60, 80)
 )
 
@@ -568,8 +568,8 @@ run_simulation <- function(r_l, r_base, A, P, alpha, t0_l, t0_w) {
   
   # df long
   df <- data.frame(
-    society = rep(1:N_final, reach = T_final), 
-    decade = rep(1:T_final, reach = N_final), 
+    society = rep(1:N_final, each = T_final), 
+    decade = rep(1:T_final, times = N_final), 
     CPsim_w = as.vector(CPsim_w), 
     CPsim_l = as.vector(CPsim_l), 
     ysim = as.vector(ysim)
@@ -632,6 +632,7 @@ sensitivity_results <- do.call(rbind, results_list)
 print(sensitivity_results)
 ```
 
+**Explain why the crisis frequency is higher than expected**
 
 ####    4. Parameter recovery analysis
 

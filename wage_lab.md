@@ -878,8 +878,8 @@ s_grid <- list (
   t0_l = c(30, 50, 70), 
   A = c(.02, .05, .08), 
   P = c(10, 20, 30), 
-  r_base = c(.01, .03, 06), 
-  alpha = c(30, 50, 70), 
+  r_base = c(.01, .03, .06), 
+  alpha = c(0.3, 0.5, 0.8), 
   t0_w = c(20, 60, 80)
 )
 
@@ -905,8 +905,8 @@ run_simulation <- function(r_l, r_base, A, P, alpha, t0_l, t0_w) {
   
   # df long
   df <- data.frame(
-    society = rep(1:N_final, reach = T_final), 
-    decade = rep(1:T_final, reach = N_final), 
+    society = rep(1:N_final, each = T_final), 
+    decade = rep(1:T_final, times = N_final), 
     CPsim_w = as.vector(CPsim_w), 
     CPsim_l = as.vector(CPsim_l), 
     ysim = as.vector(ysim)
@@ -984,10 +984,10 @@ print(sensitivity_results)
     ## 12     0.961     0.581     1.976     -0.039      0.081     -0.024      0.6603
     ## 13     1.021     0.406     1.985      0.021     -0.094     -0.015      0.6599
     ## 14     0.934     0.924     1.888     -0.066      0.424     -0.112      0.6610
-    ## 15     1.139     0.638     1.869      0.139      0.138     -0.131      0.6658
-    ## 16     1.027     0.203     2.105      0.027     -0.297      0.105      0.6679
-    ## 17     1.180     0.759     1.814      0.180      0.259     -0.186      0.6662
-    ## 18     0.937     0.268     2.140     -0.063     -0.232      0.140      0.6664
+    ## 15     1.211     0.778     1.765      0.211      0.278     -0.235      0.6607
+    ## 16     1.018     0.043     2.176      0.018     -0.457      0.176      0.6565
+    ## 17     1.171     0.632     1.878      0.171      0.132     -0.122      0.6594
+    ## 18     0.958     0.428     2.065     -0.042     -0.072      0.065      0.6626
     ## 19     1.276     1.690     1.375      0.276      1.190     -0.625      0.7462
     ## 20     1.284     0.688     1.831      0.284      0.188     -0.169      0.6616
     ## 21     1.294     0.199     1.918      0.294     -0.301     -0.082      0.5777
@@ -1006,13 +1006,15 @@ print(sensitivity_results)
     ## 12               TRUE         P 30.00    FALSE
     ## 13               TRUE    r_base  0.01    FALSE
     ## 14               TRUE    r_base  0.03     TRUE
-    ## 15               TRUE    r_base  6.00    FALSE
-    ## 16               TRUE     alpha 30.00    FALSE
-    ## 17               TRUE     alpha 50.00    FALSE
-    ## 18               TRUE     alpha 70.00    FALSE
+    ## 15               TRUE    r_base  0.06    FALSE
+    ## 16               TRUE     alpha  0.30    FALSE
+    ## 17               TRUE     alpha  0.50     TRUE
+    ## 18               TRUE     alpha  0.80    FALSE
     ## 19              FALSE      t0_w 20.00    FALSE
     ## 20               TRUE      t0_w 60.00     TRUE
     ## 21               TRUE      t0_w 80.00    FALSE
+
+**Explain why the crisis frequency is higher than expected**
 
 #### 4. Parameter recovery analysis
 
