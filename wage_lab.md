@@ -280,7 +280,7 @@ rate $r_w$ of the logistic trend of the wage gap depends on labor
 surplus
 
 ``` r
-func_labor_surplus <- function(N, T, K_l, r_l, t0_l, A, P, delta_l ) {
+func_labor_surplus <- function(N, T, r_l, t0_l, A, P) {
   
   labor_surplus <- matrix(NA, nrow = T , ncol = N)
   for (n in 1:N) {
@@ -298,7 +298,7 @@ func_labor_surplus <- function(N, T, K_l, r_l, t0_l, A, P, delta_l ) {
 ```
 
 ``` r
-labor_surplus <- func_labor_surplus(N_pilot, T_pilot, K_l, r_l, t0_l, A, P, delta_l )
+labor_surplus <- func_labor_surplus(N_pilot, T_pilot, r_l, t0_l, A, P )
 head(labor_surplus)
 ```
 
@@ -318,7 +318,7 @@ head(labor_surplus)
     ## [6,] 0.3866248 0.3565370 0.3671156
 
 ``` r
-func_wage_gap <- function(N, T, lab, K_w, r_base, alpha, t0_w){
+func_wage_gap <- function(N, T, lab, r_base, alpha, t0_w){
   
   wage_gap <- matrix(NA, nrow = T , ncol = N)
   for (n in 1:N) {
@@ -334,7 +334,7 @@ func_wage_gap <- function(N, T, lab, K_w, r_base, alpha, t0_w){
 ```
 
 ``` r
-wage_gap <- func_wage_gap(N_pilot, T_pilot, labor_surplus, K_w, r_base, alpha, t0_w)
+wage_gap <- func_wage_gap(N_pilot, T_pilot, labor_surplus, r_base, alpha, t0_w)
 head(wage_gap)
 ```
 
@@ -787,8 +787,8 @@ T_final <- 200
 
 ``` r
 # Generate labor surplus , wage gap, CP_l, CP_w, y with N_final, T_final 
-labor_surplus_fin <- func_labor_surplus(N_final, T_final, K_l, r_l, t0_l, A, P, delta_l )
-wage_gap_fin <- func_wage_gap(N_final, T_final, labor_surplus_fin, K_w, r_base, alpha, t0_w)
+labor_surplus_fin <- func_labor_surplus(N_final, T_final, r_l, t0_l, A, P )
+wage_gap_fin <- func_wage_gap(N_final, T_final, labor_surplus_fin, r_base, alpha, t0_w)
 
 cp_fin <- cp(N_final, T_final, labor_surplus_fin, wage_gap_fin)
 CPfin_l <- cp_fin$CP_l
@@ -893,10 +893,10 @@ run_simulation <- function(r_l, r_base, A, P, alpha, t0_l, t0_w) {
   
   # generate labor surplus and wage gap
   labor_surplus <- func_labor_surplus(N_final, T_final, r_l = r_l, t0_l = t0_l, A = A, P = P)
-  wage_gap <- func_wage_gap(N_final, T_final, r_base = r_base, t0_w = t0_w, alpha = alpha)
+  wage_gap <- func_wage_gap(N_final, T_final, labor_surplus, r_base = r_base, t0_w = t0_w, alpha = alpha)
   
   # generate cumulative pressure
-  results <- cp(N_final, T_fina, labor_surplus, wage_gap)
+  results <- cp(N_final, T_final, labor_surplus, wage_gap)
   CP_w <- results$CP_w
   CP_l <- results$CP_l
   
@@ -907,8 +907,8 @@ run_simulation <- function(r_l, r_base, A, P, alpha, t0_l, t0_w) {
   df <- data.frame(
     society = rep(1:N_final, reach = T_final), 
     decade = rep(1:T_final, reach = N_final), 
-    CP_w = as.vector(CP_vector), 
-    CP_l = as.vector(CP_vector), 
+    CP_w = as.vector(CP_w), 
+    CP_l = as.vector(CP_l), 
     y = as.vector(y)
   )
   
@@ -918,7 +918,7 @@ run_simulation <- function(r_l, r_base, A, P, alpha, t0_l, t0_w) {
   # summary
   coefs <- coef(model)
   crisis_freq <- mean(df$y)
-  ordering <- coefs[4] > coefs[2] & coefs[2] > coefs[3]
+  ordering_preserved <- coefs[4] > coefs[2] & coefs[2] > coefs[3]
 
   return(data.frame(
     beta1_est = round(coefs[2], 3),
@@ -933,6 +933,84 @@ run_simulation <- function(r_l, r_base, A, P, alpha, t0_l, t0_w) {
   
 }
 ```
+
+``` r
+# run sensitivity analysis
+results_list <- list()
+
+for (param_name in names(s_grid)){
+  for (val in s_grid[[param_name]]){
+    
+    params <- params_baseline
+    params[param_name] <- val
+    
+    # r_l, r_base, A, P, alpha, t0_l, t0_w
+    res <- run_simulation(
+      r_l = params$r_l, 
+      r_base = params$r_base, 
+      A = params$A, 
+      alpha = params$alpha, 
+      t0_l = params$t0_l, 
+      t0_w = params$t0_w, 
+      P = params$P
+    )
+    
+    res$parameter <- param_name
+    res$value <- val 
+    res$baseline <- val == params_baseline[[param_name]]
+    
+    results_list[[length(results_list) + 1]] <- res
+  }
+}
+
+sensitivity_results <- do.call(rbind, results_list)
+print(sensitivity_results)
+```
+
+    ##        beta1_est beta2_est beta3_est bias_beta1 bias_beta2 bias_beta3
+    ## CP_w       0.926     0.368     2.058     -0.074     -0.132      0.058
+    ## CP_w1      0.955     0.092     2.160     -0.045     -0.408      0.160
+    ## CP_w2      0.787     0.385     2.164     -0.213     -0.115      0.164
+    ## CP_w3      1.084     0.360     2.017      0.084     -0.140      0.017
+    ## CP_w4      1.027     0.671     1.962      0.027      0.171     -0.038
+    ## CP_w5      1.110     1.136     1.669      0.110      0.636     -0.331
+    ## CP_w6      0.915     0.242     2.116     -0.085     -0.258      0.116
+    ## CP_w7      0.975     0.611     1.981     -0.025      0.111     -0.019
+    ## CP_w8      0.838     0.608     2.020     -0.162      0.108      0.020
+    ## CP_w9      1.017     0.419     2.036      0.017     -0.081      0.036
+    ## CP_w10     1.097     0.495     1.946      0.097     -0.005     -0.054
+    ## CP_w11     0.961     0.581     1.976     -0.039      0.081     -0.024
+    ## CP_w12     1.021     0.406     1.985      0.021     -0.094     -0.015
+    ## CP_w13     0.934     0.924     1.888     -0.066      0.424     -0.112
+    ## CP_w14     1.139     0.638     1.869      0.139      0.138     -0.131
+    ## CP_w15     1.027     0.203     2.105      0.027     -0.297      0.105
+    ## CP_w16     1.180     0.759     1.814      0.180      0.259     -0.186
+    ## CP_w17     0.937     0.268     2.140     -0.063     -0.232      0.140
+    ## CP_w18     1.276     1.690     1.375      0.276      1.190     -0.625
+    ## CP_w19     1.284     0.688     1.831      0.284      0.188     -0.169
+    ## CP_w20     1.294     0.199     1.918      0.294     -0.301     -0.082
+    ##        crisis_freq ordering_preserved parameter value baseline
+    ## CP_w        0.6451               TRUE       r_l  0.03    FALSE
+    ## CP_w1       0.6603               TRUE       r_l  0.05     TRUE
+    ## CP_w2       0.6699               TRUE       r_l  0.08    FALSE
+    ## CP_w3       0.6757               TRUE      t0_l 30.00    FALSE
+    ## CP_w4       0.6606               TRUE      t0_l 50.00     TRUE
+    ## CP_w5       0.6210              FALSE      t0_l 70.00    FALSE
+    ## CP_w6       0.6606               TRUE         A  0.02    FALSE
+    ## CP_w7       0.6605               TRUE         A  0.05    FALSE
+    ## CP_w8       0.6607               TRUE         A  0.08    FALSE
+    ## CP_w9       0.6609               TRUE         P 10.00    FALSE
+    ## CP_w10      0.6595               TRUE         P 20.00     TRUE
+    ## CP_w11      0.6603               TRUE         P 30.00    FALSE
+    ## CP_w12      0.6599               TRUE    r_base  0.01    FALSE
+    ## CP_w13      0.6610               TRUE    r_base  0.03     TRUE
+    ## CP_w14      0.6658               TRUE    r_base  6.00    FALSE
+    ## CP_w15      0.6679               TRUE     alpha 30.00    FALSE
+    ## CP_w16      0.6662               TRUE     alpha 50.00    FALSE
+    ## CP_w17      0.6664               TRUE     alpha 70.00    FALSE
+    ## CP_w18      0.7462              FALSE      t0_w 20.00    FALSE
+    ## CP_w19      0.6616               TRUE      t0_w 60.00     TRUE
+    ## CP_w20      0.5777               TRUE      t0_w 80.00    FALSE
 
 #### 4. Parameter recovery analysis
 
@@ -1201,7 +1279,7 @@ trace_plot(mcmc_samples)
 post_plot(mcmc_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1257,7 +1335,7 @@ trace_plot(mcmc_std)
 post_plot(mcmc_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-42-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-43-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1337,7 +1415,7 @@ trace_plot(mnp_samples)
 post_plot(mnp_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1513,15 +1591,13 @@ bayesian_model <- brm(
 
     ## Compiling Stan program...
 
-    ## Trying to compile a simple C file
-
     ## Start sampling
 
 ``` r
 plot(bayesian_model)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-50-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-51-1.png)<!-- -->
 
 **Hamiltonian Monte Carlo results :** In contrast to the manual
 Metropolis–Hastings sampler, the HMC chains converge for all four
@@ -1622,7 +1698,7 @@ combined_plot <- plot_wage + plot_labor
 combined_plot
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-55-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-56-1.png)<!-- -->
 
 As confirmed by the plots, the final and pilot simulations exhibit the
 **same autocorrelation structure.** This alignment indicate two key
@@ -1666,7 +1742,7 @@ avg_resid_matrix <- rowMeans(acf_resid_matrix)
 acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-58-1.png)<!-- -->
 
 Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit

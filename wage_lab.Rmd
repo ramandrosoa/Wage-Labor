@@ -132,7 +132,7 @@ delta_c <- 0.43
 Labor surplus has to be generated before wage gap because the growth rate $r_w$ of the logistic trend of the wage gap depends on labor surplus
 
 ```{r}
-func_labor_surplus <- function(N, T, K_l, r_l, t0_l, A, P, delta_l ) {
+func_labor_surplus <- function(N, T, r_l, t0_l, A, P) {
   
   labor_surplus <- matrix(NA, nrow = T , ncol = N)
   for (n in 1:N) {
@@ -151,12 +151,12 @@ func_labor_surplus <- function(N, T, K_l, r_l, t0_l, A, P, delta_l ) {
 
 
 ```{r}
-labor_surplus <- func_labor_surplus(N_pilot, T_pilot, K_l, r_l, t0_l, A, P, delta_l )
+labor_surplus <- func_labor_surplus(N_pilot, T_pilot, r_l, t0_l, A, P )
 head(labor_surplus)
 ```
 
 ```{r}
-func_wage_gap <- function(N, T, lab, K_w, r_base, alpha, t0_w){
+func_wage_gap <- function(N, T, lab, r_base, alpha, t0_w){
   
   wage_gap <- matrix(NA, nrow = T , ncol = N)
   for (n in 1:N) {
@@ -172,7 +172,7 @@ func_wage_gap <- function(N, T, lab, K_w, r_base, alpha, t0_w){
 ```
 
 ```{r}
-wage_gap <- func_wage_gap(N_pilot, T_pilot, labor_surplus, K_w, r_base, alpha, t0_w)
+wage_gap <- func_wage_gap(N_pilot, T_pilot, labor_surplus, r_base, alpha, t0_w)
 head(wage_gap)
 ```
 
@@ -458,8 +458,8 @@ T_final <- 200
 
 ```{r}
 # Generate labor surplus , wage gap, CP_l, CP_w, y with N_final, T_final 
-labor_surplus_fin <- func_labor_surplus(N_final, T_final, K_l, r_l, t0_l, A, P, delta_l )
-wage_gap_fin <- func_wage_gap(N_final, T_final, labor_surplus_fin, K_w, r_base, alpha, t0_w)
+labor_surplus_fin <- func_labor_surplus(N_final, T_final, r_l, t0_l, A, P )
+wage_gap_fin <- func_wage_gap(N_final, T_final, labor_surplus_fin, r_base, alpha, t0_w)
 
 cp_fin <- cp(N_final, T_final, labor_surplus_fin, wage_gap_fin)
 CPfin_l <- cp_fin$CP_l
@@ -555,10 +555,10 @@ run_simulation <- function(r_l, r_base, A, P, alpha, t0_l, t0_w) {
   
   # generate labor surplus and wage gap
   labor_surplus <- func_labor_surplus(N_final, T_final, r_l = r_l, t0_l = t0_l, A = A, P = P)
-  wage_gap <- func_wage_gap(N_final, T_final, r_base = r_base, t0_w = t0_w, alpha = alpha)
+  wage_gap <- func_wage_gap(N_final, T_final, labor_surplus, r_base = r_base, t0_w = t0_w, alpha = alpha)
   
   # generate cumulative pressure
-  results <- cp(N_final, T_fina, labor_surplus, wage_gap)
+  results <- cp(N_final, T_final, labor_surplus, wage_gap)
   CP_w <- results$CP_w
   CP_l <- results$CP_l
   
@@ -569,8 +569,8 @@ run_simulation <- function(r_l, r_base, A, P, alpha, t0_l, t0_w) {
   df <- data.frame(
     society = rep(1:N_final, reach = T_final), 
     decade = rep(1:T_final, reach = N_final), 
-    CP_w = as.vector(CP_vector), 
-    CP_l = as.vector(CP_vector), 
+    CP_w = as.vector(CP_w), 
+    CP_l = as.vector(CP_l), 
     y = as.vector(y)
   )
   
@@ -580,7 +580,7 @@ run_simulation <- function(r_l, r_base, A, P, alpha, t0_l, t0_w) {
   # summary
   coefs <- coef(model)
   crisis_freq <- mean(df$y)
-  ordering <- coefs[4] > coefs[2] & coefs[2] > coefs[3]
+  ordering_preserved <- coefs[4] > coefs[2] & coefs[2] > coefs[3]
 
   return(data.frame(
     beta1_est = round(coefs[2], 3),
@@ -596,6 +596,38 @@ run_simulation <- function(r_l, r_base, A, P, alpha, t0_l, t0_w) {
 }
 ```
 
+```{r}
+# run sensitivity analysis
+results_list <- list()
+
+for (param_name in names(s_grid)){
+  for (val in s_grid[[param_name]]){
+    
+    params <- params_baseline
+    params[param_name] <- val
+    
+    # r_l, r_base, A, P, alpha, t0_l, t0_w
+    res <- run_simulation(
+      r_l = params$r_l, 
+      r_base = params$r_base, 
+      A = params$A, 
+      alpha = params$alpha, 
+      t0_l = params$t0_l, 
+      t0_w = params$t0_w, 
+      P = params$P
+    )
+    
+    res$parameter <- param_name
+    res$value <- val 
+    res$baseline <- val == params_baseline[[param_name]]
+    
+    results_list[[length(results_list) + 1]] <- res
+  }
+}
+
+sensitivity_results <- do.call(rbind, results_list)
+print(sensitivity_results)
+```
 
 
 ####    4. Parameter recovery analysis
