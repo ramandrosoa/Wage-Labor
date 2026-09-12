@@ -1014,6 +1014,52 @@ print(sensitivity_results)
     ## 20               TRUE      t0_w 60.00     TRUE
     ## 21               TRUE      t0_w 80.00    FALSE
 
+``` r
+# ordering preserved summary
+data.frame(
+  total_specs = nrow(sensitivity_results), 
+  ordering_preserved = sum(sensitivity_results$ordering_preserved), 
+  ordering_violated = sum(!sensitivity_results$ordering_preserved), 
+  perc_ordering_preserved = round(mean(sensitivity_results$ordering_preserved)*100, 1)
+)
+```
+
+    ##   total_specs ordering_preserved ordering_violated perc_ordering_preserved
+    ## 1          21                 19                 2                    90.5
+
+``` r
+# bias summary
+data.frame(
+  beta = c("beta1", "beta2", "beta3"), 
+  mean = c(round(mean(sensitivity_results$bias_beta1), 4), 
+           round(mean(sensitivity_results$bias_beta2), 4), 
+           round(mean(sensitivity_results$bias_beta3), 4)
+           ),
+  max = c(round(max(sensitivity_results$bias_beta1), 4), 
+          round(max(sensitivity_results$bias_beta2), 4), 
+          round(max(sensitivity_results$bias_beta3), 4)
+          )
+)
+```
+
+    ##    beta    mean   max
+    ## 1 beta1  0.0409 0.294
+    ## 2 beta2  0.0598 1.190
+    ## 3 beta3 -0.0483 0.176
+
+``` r
+# crisis probability summary
+data.frame(
+  mean = round(mean(sensitivity_results$crisis_freq), 4), 
+  mean = round(median(sensitivity_results$crisis_freq), 4), 
+  max = round(max(sensitivity_results$crisis_freq), 4), 
+  min = round(min(sensitivity_results$crisis_freq), 4)
+)
+```
+
+    ##     mean mean.1    max    min
+    ## 1 0.6591 0.6606 0.7462 0.5777
+
 **Explain why the crisis frequency is higher than expected**
 
 #### 4. Parameter recovery analysis
@@ -1283,7 +1329,7 @@ trace_plot(mcmc_samples)
 post_plot(mcmc_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-42-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1339,7 +1385,7 @@ trace_plot(mcmc_std)
 post_plot(mcmc_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-43-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1419,7 +1465,7 @@ trace_plot(mnp_samples)
 post_plot(mnp_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-49-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1595,13 +1641,15 @@ bayesian_model <- brm(
 
     ## Compiling Stan program...
 
+    ## Trying to compile a simple C file
+
     ## Start sampling
 
 ``` r
 plot(bayesian_model)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-51-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
 
 **Hamiltonian Monte Carlo results :** In contrast to the manual
 Metropolis–Hastings sampler, the HMC chains converge for all four
@@ -1702,7 +1750,7 @@ combined_plot <- plot_wage + plot_labor
 combined_plot
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-56-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
 
 As confirmed by the plots, the final and pilot simulations exhibit the
 **same autocorrelation structure.** This alignment indicate two key
@@ -1746,7 +1794,7 @@ avg_resid_matrix <- rowMeans(acf_resid_matrix)
 acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-58-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-61-1.png)<!-- -->
 
 Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit

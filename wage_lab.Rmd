@@ -632,6 +632,40 @@ sensitivity_results <- do.call(rbind, results_list)
 print(sensitivity_results)
 ```
 
+```{r}
+# ordering preserved summary
+data.frame(
+  total_specs = nrow(sensitivity_results), 
+  ordering_preserved = sum(sensitivity_results$ordering_preserved), 
+  ordering_violated = sum(!sensitivity_results$ordering_preserved), 
+  perc_ordering_preserved = round(mean(sensitivity_results$ordering_preserved)*100, 1)
+)
+```
+
+```{r}
+# bias summary
+data.frame(
+  beta = c("beta1", "beta2", "beta3"), 
+  mean = c(round(mean(sensitivity_results$bias_beta1), 4), 
+           round(mean(sensitivity_results$bias_beta2), 4), 
+           round(mean(sensitivity_results$bias_beta3), 4)
+           ),
+  max = c(round(max(sensitivity_results$bias_beta1), 4), 
+          round(max(sensitivity_results$bias_beta2), 4), 
+          round(max(sensitivity_results$bias_beta3), 4)
+          )
+)
+```
+```{r}
+# crisis probability summary
+data.frame(
+  mean = round(mean(sensitivity_results$crisis_freq), 4), 
+  mean = round(median(sensitivity_results$crisis_freq), 4), 
+  max = round(max(sensitivity_results$crisis_freq), 4), 
+  min = round(min(sensitivity_results$crisis_freq), 4)
+)
+```
+
 **Explain why the crisis frequency is higher than expected**
 
 ####    4. Parameter recovery analysis
