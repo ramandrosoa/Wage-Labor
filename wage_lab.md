@@ -1027,6 +1027,15 @@ data.frame(
     ##   total_specs ordering_preserved ordering_violated perc_ordering_preserved
     ## 1          21                 19                 2                    90.5
 
+The theoretical ordering $\beta_3 > \beta_2 > \beta_1$ is preserved in
+19 out of 21 specifications, corresponding to 90.5% of the sensitivity
+grid, suggesting that the model’s ability to recover the relative
+importance of the predictors is largely robust to structural parameter
+changes. In particular, Marx’s conjunctural argument, that the
+interaction term dominates individual effects, remains supported across
+the vast majority of specifications. The two violations occur when the
+inflection points $t_{0,w}$ and $t_{0,l}$ are varied.
+
 ``` r
 # bias summary
 data.frame(
@@ -1051,16 +1060,27 @@ data.frame(
 # crisis probability summary
 data.frame(
   mean = round(mean(sensitivity_results$crisis_freq), 4), 
-  mean = round(median(sensitivity_results$crisis_freq), 4), 
+  median = round(median(sensitivity_results$crisis_freq), 4), 
   max = round(max(sensitivity_results$crisis_freq), 4), 
   min = round(min(sensitivity_results$crisis_freq), 4)
 )
 ```
 
-    ##     mean mean.1    max    min
+    ##     mean median    max    min
     ## 1 0.6591 0.6606 0.7462 0.5777
 
-**Explain why the crisis frequency is higher than expected**
+**The sensitivity analysis reveals that crisis frequency is highly
+sensitive to changes in the structural parameters.** When structural
+parameters are varied, the scale of $CP_W$ and $CP_L$ changes
+accordingly, while $\beta_0$ remains fixed at its baseline value. Since
+$\beta_0$ no longer corresponds to the target crisis probability p =
+0.005 under the new CP scales, crisis frequency fluctuates substantially
+across specifications, ranging from 0.5777 to 0.7462 with a mean of
+0.6591. This limitation arises from the sensitivity analysis design, in
+which $\beta_0$ is not recalibrated for each structural parameter
+combination. Future work could address this by deriving specific
+$\beta_0$ to ensure constant crisis frequency across the sensitivity
+grid.
 
 #### 4. Parameter recovery analysis
 
