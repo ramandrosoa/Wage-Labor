@@ -156,28 +156,27 @@ head(labor_surplus)
 ```
 
 ```{r}
-func_wage_gap <- function(N, T, lab, r_base, alpha, t0_w){
-  
-  wage_gap <- matrix(NA, nrow = T , ncol = N)
+func_wage_gap <- function(N, T, lab, r_base, alpha, t0_w,
+                          sd_t0 = 5, sd_r = 1) {
+  wage_gap <- matrix(NA, nrow = T, ncol = N)
   for (n in 1:N) {
+    # one draw per society -> persistent, smooth differences
+    t0_n <- t0_w + rnorm(1, 0, sd_t0)
+    r_n  <- r_base * exp(rnorm(1, 0, sd_r))   # log-normal keeps r > 0
     for (t in 1:T) {
-    
-      if (t == 1) {r_w <- r_base} else {r_w <- r_base + alpha*(lab[t-1, n])}
-    
-     wage_gap[t,n]<- K_w/(1+exp(-r_w*(t-t0_w)))
+      r_w <- if (t == 1) r_n else r_n + alpha * lab[t - 1, n]
+      wage_gap[t, n] <- K_w / (1 + exp(-r_w * (t - t0_n)))
     }
   }
-  return(wage_gap)
+  wage_gap
 }
 ```
+
 
 ```{r}
 wage_gap <- func_wage_gap(N_pilot, T_pilot, labor_surplus, r_base, alpha, t0_w)
 head(wage_gap)
 ```
-
-The logistic formula of the wage gap is deterministic given the growth rate $r_w$ and the time $t$. 
-At $t=1$, $r_w = r_{base}$ because there is no labor surplus before $t=1$. Therefore, the wage gap at $t=1$ is identical for all societies, meaning that all societies start with the same structural conditions but diverge as the market history evolves. 
 
 **Generate cumulative wage gap and cumulative labor surplus**
 
@@ -479,7 +478,34 @@ data.frame (
     )
 ```
 
-The substantial jump from 1328 to 51356 crises is an expected outcome rather than a anomaly; it directly reflects the roughly 39-fold scaling of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
+The substantial jump from 1328 to 51159 crises is an expected outcome rather than a anomaly; it directly reflects the roughly 39-fold scaling of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
+
+**Plot 1 — The structural variables over time**
+
+```{r}
+trajectories_func <- function(variable, ylab = "variable", main = "variable trajectories — Sample of 5 Societies"){
+  matplot(1:T_final, variable[, 1:5],
+        type = "l", lty = 1,
+        col = adjustcolor(c("#378ADD","#E24B4A","#1D9E75",
+                            "#D97706","#7C3AED"), alpha = 0.7),
+        xlab = "Decades", ylab = ylab,
+        main = main)
+abline(v = t0_w, lty = 2, col = "gray50")
+legend("topleft", legend = paste("Society", 1:5),
+       col = c("#378ADD","#E24B4A","#1D9E75","#D97706","#7C3AED"),
+       lty = 1, cex = 0.7)
+}
+```
+
+```{r}
+trajectories_func(wage_gap_fin, ylab = "Wage Gap", main = "Wage gap trajectories — Sample of 5 Societies")
+```
+
+```{r}
+trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "labour surplus trajectories — Sample of 5 Societies")
+```
+
+**Plot 2 — Cumulative pressure with crisis markers**
 
 
 ####    3.3 Sensitivity Analysis on the structural parameters
@@ -489,13 +515,13 @@ As the parameters are provisional values, a sensitivity analysis is implemented 
 ```{r}
 # sensitivity grid 
 s_grid <- list (
-  r_l = c(.03, .05, .08), 
-  t0_l = c(30, 50, 70), 
-  A = c(.02, .05, .08), 
-  P = c(10, 20, 30), 
-  r_base = c(.01, .03, .06), 
-  alpha = c(0.3, 0.5, 0.8), 
-  t0_w = c(20, 60, 80)
+  r_l = c(.01, .05, .09), 
+  t0_l = c(20, 50, 80), 
+  A = c(.1, .5, .9), 
+  P = c(5, 20, 35), 
+  r_base = c(.01, .04, .07), 
+  alpha = c(0.1, 0.5, 0.9), 
+  t0_w = c(10, 60, 110)
 )
 
 params_baseline <- list(
@@ -595,23 +621,7 @@ data.frame(
 )
 ```
 
-The theoretical ordering $\beta_3 > \beta_2 > \beta_1$ is preserved in 19 out of 21 specifications, corresponding to 90.5% of the sensitivity grid, suggesting that the model's ability to recover the relative importance of the predictors is largely robust to structural parameter changes. In particular, Marx's conjunctural argument, that the interaction term dominates individual effects, remains supported across the vast majority of specifications. The two violations occur when the inflection points $t_{0,w}$ and $t_{0,l}$ are varied. 
-
-```{r}
-# bias summary
-data.frame(
-  beta = c("beta1", "beta2", "beta3"), 
-  mean = c(round(mean(sensitivity_results$bias_beta1), 4), 
-           round(mean(sensitivity_results$bias_beta2), 4), 
-           round(mean(sensitivity_results$bias_beta3), 4)
-           ),
-  max = c(round(max(sensitivity_results$bias_beta1), 4), 
-          round(max(sensitivity_results$bias_beta2), 4), 
-          round(max(sensitivity_results$bias_beta3), 4)
-          )
-)
-```
-$\beta_2$ exhibits the highest mean bias of 0.0598 and maximum bias of 1.190 across the sensitivity grid. Two compounding factors explain this. First, $\beta_2$ is the smallest slope parameter, and in logistic regression, small coefficient is always harder to estimate reliably because their signal is weaker relative to noise. Second, both ordering violations directly affect $\beta_2$ : when $t_{0,l}$ = 70, $\CP_l$ builds slowly and $\beta_2$'s contribution becomes negligible, while when $t_{0,w}$ = 20, $CP_w$ builds very quickly and inflates $\beta_2$'s estimate. 
+The theoretical ordering $\beta_3 > \beta_2 > \beta_1$ is preserved in all 21 specifications, corresponding to 100% of the sensitivity grid, suggesting that the model's ability to recover the relative importance of the predictors is largely robust to structural parameter changes. In particular, Marx's conjunctural argument, that **the interaction term dominates individual effects, remains supported across the vast majority of specifications**. 
 
 ```{r}
 # crisis probability summary
@@ -623,7 +633,7 @@ data.frame(
 )
 ```
 
-**The sensitivity analysis reveals that crisis frequency is highly sensitive to changes in the structural parameters.** When structural parameters are varied, the scale of $CP_W$ and $CP_L$ changes accordingly, while $\beta_0$ remains fixed at its baseline value. Since $\beta_0$ no longer corresponds to the target crisis probability p = 0.005 under the new CP scales, crisis frequency fluctuates substantially across specifications, ranging from 0.5777	to 0.746 with a mean of 0.659. This limitation arises from the sensitivity analysis design, in which $\beta_0$ is not recalibrated for each structural parameter combination. Future work could address this by deriving specific $\beta_0$ to ensure constant crisis frequency across the sensitivity grid. 
+**The sensitivity analysis reveals that crisis frequency is highly sensitive to changes in the structural parameters.** When structural parameters are varied, the scale of $CP_W$ and $CP_L$ changes accordingly, while $\beta_0$ remains fixed at its baseline value. Since $\beta_0$ no longer corresponds to the target crisis probability p = 0.005 under the new CP scales, crisis frequency fluctuates substantially across specifications, ranging from 0.4362	to 0.7535 with a mean of 0.6447. This limitation arises from the sensitivity analysis design, in which $\beta_0$ is not recalibrated for each structural parameter combination. Future work could address this by deriving specific $\beta_0$ to ensure constant crisis frequency across the sensitivity grid. 
 
 ####    4. Parameter recovery analysis
 
@@ -1003,7 +1013,7 @@ data.frame(
 ```
 
 **R-hat results for the Metropolis–Hastings variants:** All three samplers—standard Metropolis–Hastings, Metropolis–Hastings with standardized predictors, and Metropolis–Hastings with a multivariate normal proposal—fail the convergence test. With $\hat{R}$ values ranging from 1.28 to 3.85, every variant lies far from the $\hat{R}$ ≤ 1 benchmark. These values quantitatively confirm the diagnosis suggested by the trace plots: no variant achieves simultaneous convergence across all four parameters.
-Notably, even in the best case (standard Metropolis–Hastings, where $\beta_2$ $\hat{R}$ reaches 1.030176), convergence occurs for a single parameter only, while the remaining three fail badly. **This illustrates a key limitation: individual parameters may appear well-behaved in isolation, yet the joint posterior remains unreachable.** Moreover, the fact that refining the proposal (standardization, multivariate structure) does not resolve the issue suggests the bottleneck is not the tuning of the proposal, but the random-walk nature of Metropolis–Hastings itself—reinforcing the need for the gradient-based approach of HMC.
+Notably, even in the best case (standard Metropolis–Hastings, where $\beta_2$ $\hat{R}$ reaches 1.030176), convergence occurs for a single parameter only, while the remaining three fail badly. **This illustrates a key limitation: individual parameters may appear well-behaved in isolation, yet the joint posterior remains unreachable.** Moreover, the fact that refining the proposal (standardization, multivariate structure) does not resolve the issue suggests the bottleneck is not the tuning of the proposal, but the random-walk nature of Metropolis–Hastings itself—reinforcing the need for the gradient-based approach of  Hamiltonian Monte Carlo (HMC).
 
       -   Hamiltonian Monte Carlo
 
@@ -1112,7 +1122,7 @@ combined_plot
 
 As confirmed by the plots, the final and pilot simulations exhibit the **same autocorrelation structure.** This alignment indicate two key points: 
 
--   **Stability of the Data Generating Process (DGP):** The DGP is stable, meaning the underlying parameters consistently produce the same autocorrelation structure regardless of the sample size (N)
+-   **Stability of the Data Generating Process (DGP):** The DGP is stable, meaning the underlying parameters consistently produce the same autocorrelation structure regardless of the sample size.
 
 -   **Validity of the Effective Sample Size (ESS):** The ESS derived from the pilot simulation remains valid for the final simulation, as the underlying autocorrelation structure has remained unchanged. 
 
