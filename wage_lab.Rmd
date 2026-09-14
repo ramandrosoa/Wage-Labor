@@ -113,9 +113,9 @@ T_pilot <- 200
 K_l <- 1
 r_l <- .05
 t0_l  <- 50
-A <- .5
-P <- 20
-delta_l <- .1
+A <- .2
+P <- 5
+delta_l <- 0.43
 
 # wage_gap parameters
 K_w <- 1
@@ -481,54 +481,6 @@ data.frame (
 
 The substantial jump from 1328 to 51356 crises is an expected outcome rather than a anomaly; it directly reflects the roughly 39-fold scaling of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
 
-**Cumulative Pressure Dynamics** 
-
-```{r}
-# compute logistic trend of labor surplus
-logistic_trend_l <- K_l / (1 + exp(-r_l * (1:T_final - t0_l)))
-
-# compute the logistic trend of CP_l
-# by feeding only the logistic component into the CP formula
-
-CPtrend_l <- numeric(T_final)
-for (t in 2:T_final) {
-  cpsum <- 0
-  for (k in 1:(t-1)) {
-    cpsum <- cpsum + logistic_trend_l[t - k] * exp(-delta_c * k)
-  }
-  CPtrend_l[t] <- cpsum
-}
-
-# --- control the x-axis range here ---
-x_min <-1     
-x_max <-T_final        
-# ------------------------------------
-
-# plot CP_l as the base
-plot(1:T_final, CPfin_l[, 1], type = "l",
-     xlab = "Decade", ylab = "Cumulative Pressure",
-     main = "Cumulative Pressure Dynamics and Logistic Trend - Society 1",
-     col  = "#378ADD", lwd = 2,
-     xlim = c(x_min, x_max),
-     ylim = c(0, max(CPfin_l[, 1], CPfin_w[, 1], CPtrend_l, na.rm = TRUE)))
-
-# add CP_w
-lines(1:T_final, CPfin_w[, 1], col = "#E24B4A", lwd = 2)
-
-# add logistic trend
-lines(1:T_final, CPtrend_l, col = "#2CA46E", lwd = 2, lty = 2)
-
-# legend
-legend("topleft",
-       legend = c("CP_l (Cumulative Labour Surplus)",
-                  "CP_w (Cumulative Wage Gap)",
-                  "Logistic Trend (Labour Surplus)"),
-       col   = c("#378ADD", "#E24B4A", "#2CA46E"),
-       lty   = c(1, 1, 2), lwd = 2, cex = 0.8)
-```
-
-
-**Explain CP dynamics + references**
 
 ####    3.3 Sensitivity Analysis on the structural parameters
 
@@ -547,8 +499,8 @@ s_grid <- list (
 )
 
 params_baseline <- list(
-  r_l = 0.05, r_base = 0.03, A = 0.5,
-  P = 20, alpha = 0.5, t0_l = 50, t0_w = 60
+  r_l = 0.05, r_base = 0.03, A = 0.2,
+  P = 5, alpha = 0.5, t0_l = 50, t0_w = 60
 )
 
 # function to run one simulation and return estimated betas
@@ -659,6 +611,7 @@ data.frame(
           )
 )
 ```
+$\beta_2$ exhibits the highest mean bias of 0.0598 and maximum bias of 1.190 across the sensitivity grid. Two compounding factors explain this. First, $\beta_2$ is the smallest slope parameter, and in logistic regression, small coefficient is always harder to estimate reliably because their signal is weaker relative to noise. Second, both ordering violations directly affect $\beta_2$ : when $t_{0,l}$ = 70, $\CP_l$ builds slowly and $\beta_2$'s contribution becomes negligible, while when $t_{0,w}$ = 20, $CP_w$ builds very quickly and inflates $\beta_2$'s estimate. 
 
 ```{r}
 # crisis probability summary
@@ -670,7 +623,7 @@ data.frame(
 )
 ```
 
-**The sensitivity analysis reveals that crisis frequency is highly sensitive to changes in the structural parameters.** When structural parameters are varied, the scale of $CP_W$ and $CP_L$ changes accordingly, while $\beta_0$ remains fixed at its baseline value. Since $\beta_0$ no longer corresponds to the target crisis probability p = 0.005 under the new CP scales, crisis frequency fluctuates substantially across specifications, ranging from 0.5777	to 0.7462 with a mean of 0.6591. This limitation arises from the sensitivity analysis design, in which $\beta_0$ is not recalibrated for each structural parameter combination. Future work could address this by deriving specific $\beta_0$ to ensure constant crisis frequency across the sensitivity grid. 
+**The sensitivity analysis reveals that crisis frequency is highly sensitive to changes in the structural parameters.** When structural parameters are varied, the scale of $CP_W$ and $CP_L$ changes accordingly, while $\beta_0$ remains fixed at its baseline value. Since $\beta_0$ no longer corresponds to the target crisis probability p = 0.005 under the new CP scales, crisis frequency fluctuates substantially across specifications, ranging from 0.5777	to 0.746 with a mean of 0.659. This limitation arises from the sensitivity analysis design, in which $\beta_0$ is not recalibrated for each structural parameter combination. Future work could address this by deriving specific $\beta_0$ to ensure constant crisis frequency across the sensitivity grid. 
 
 ####    4. Parameter recovery analysis
 
