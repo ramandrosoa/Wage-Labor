@@ -318,18 +318,19 @@ head(labor_surplus)
     ## [6,] 0.13609679 0.14006248 0.10997459 0.12055319
 
 ``` r
-func_wage_gap <- function(N, T, lab, r_base, alpha, t0_w){
-  
-  wage_gap <- matrix(NA, nrow = T , ncol = N)
+func_wage_gap <- function(N, T, lab, r_base, alpha, t0_w,
+                          sd_t0 = 5, sd_r = 1) {
+  wage_gap <- matrix(NA, nrow = T, ncol = N)
   for (n in 1:N) {
+    # one draw per society -> persistent, smooth differences
+    t0_n <- t0_w + rnorm(1, 0, sd_t0)
+    r_n  <- r_base * exp(rnorm(1, 0, sd_r))   # log-normal keeps r > 0
     for (t in 1:T) {
-    
-      if (t == 1) {r_w <- r_base} else {r_w <- r_base + alpha*(lab[t-1, n])}
-    
-     wage_gap[t,n]<- K_w/(1+exp(-r_w*(t-t0_w)))
+      r_w <- if (t == 1) r_n else r_n + alpha * lab[t - 1, n]
+      wage_gap[t, n] <- K_w / (1 + exp(-r_w * (t - t0_n)))
     }
   }
-  return(wage_gap)
+  wage_gap
 }
 ```
 
@@ -338,26 +339,20 @@ wage_gap <- func_wage_gap(N_pilot, T_pilot, labor_surplus, r_base, alpha, t0_w)
 head(wage_gap)
 ```
 
-    ##              [,1]        [,2]         [,3]         [,4]         [,5]
-    ## [1,] 0.1455423289 0.145542329 0.1455423289 0.1455423289 0.1455423289
-    ## [2,] 0.0006704215 0.000135376 0.0005055557 0.0002599045 0.0003940441
-    ## [3,] 0.0046465507 0.001933961 0.0079072025 0.0041413392 0.0059221964
-    ## [4,] 0.0165507000 0.044647597 0.0543564714 0.0394263593 0.0243475722
-    ## [5,] 0.0370404840 0.028805036 0.0390395722 0.0842941217 0.0207684077
-    ## [6,] 0.0138673882 0.018511248 0.0103885169 0.0097446576 0.0128228115
-    ##             [,6]         [,7]         [,8]         [,9]       [,10]
-    ## [1,] 0.145542329 0.1455423289 0.1455423289 0.1455423289 0.145542329
-    ## [2,] 0.000862816 0.0003382043 0.0009091775 0.0005728145 0.001022810
-    ## [3,] 0.007352031 0.0062656155 0.0059467181 0.0028082360 0.005910659
-    ## [4,] 0.039102096 0.0243965410 0.0262861289 0.0493821876 0.039938387
-    ## [5,] 0.041228463 0.0569009758 0.0482545875 0.0525208464 0.019638459
-    ## [6,] 0.056370350 0.0106155291 0.0131597191 0.0365855432 0.006358015
-
-The logistic formula of the wage gap is deterministic given the growth
-rate $r_w$ and the time $t$. At $t=1$, $r_w = r_{base}$ because there is
-no labor surplus before $t=1$. Therefore, the wage gap at $t=1$ is
-identical for all societies, meaning that all societies start with the
-same structural conditions but diverge as the market history evolves.
+    ##              [,1]         [,2]        [,3]        [,4]         [,5]
+    ## [1,] 0.1047081006 3.282911e-03 0.274721947 0.312708026 0.2340751985
+    ## [2,] 0.0005932133 3.929928e-06 0.001015117 0.001885161 0.0002380818
+    ## [3,] 0.0038233848 5.362701e-05 0.016173143 0.019253870 0.0056139443
+    ## [4,] 0.0130387230 1.196073e-03 0.107480210 0.118240778 0.0289711215
+    ## [5,] 0.0285508400 8.363772e-04 0.076995721 0.207669039 0.0234281954
+    ## [6,] 0.0112635069 5.864351e-04 0.020358630 0.038872991 0.0128760136
+    ##              [,6]         [,7]         [,8]        [,9]        [,10]
+    ## [1,] 0.0407147571 1.996592e-02 4.912357e-03 0.179746302 0.0359930087
+    ## [2,] 0.0003243375 3.298935e-05 3.183696e-05 0.001311575 0.0003156913
+    ## [3,] 0.0024593481 7.077921e-04 2.133154e-04 0.005512710 0.0017034692
+    ## [4,] 0.0121909079 3.047212e-03 9.882061e-04 0.070690563 0.0108212160
+    ## [5,] 0.0132314014 7.818484e-03 1.945152e-03 0.074887760 0.0056723468
+    ## [6,] 0.0184061776 1.345885e-03 5.650398e-04 0.054846226 0.0020265533
 
 **Generate cumulative wage gap and cumulative labor surplus**
 
@@ -438,20 +433,20 @@ head(CP_l)
 head(CP_w)
 ```
 
-    ##            [,1]       [,2]       [,3]       [,4]       [,5]       [,6]
-    ## [1,] 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
-    ## [2,] 0.09467661 0.09467661 0.09467661 0.09467661 0.09467661 0.09467661
-    ## [3,] 0.06202411 0.06167606 0.06191686 0.06175707 0.06184432 0.06214926
-    ## [4,] 0.04336987 0.04137890 0.04542119 0.04286751 0.04408274 0.04521122
-    ## [5,] 0.03897888 0.05596102 0.06490628 0.05353291 0.04451454 0.05484658
-    ## [6,] 0.04945129 0.05514109 0.06761772 0.08965774 0.04246715 0.06249769
-    ##            [,7]       [,8]       [,9]      [,10]
-    ## [1,] 0.00000000 0.00000000 0.00000000 0.00000000
-    ## [2,] 0.09467661 0.09467661 0.09467661 0.09467661
-    ## [3,] 0.06180800 0.06217942 0.06196062 0.06225334
-    ## [4,] 0.04428251 0.04431667 0.04213273 0.04434130
-    ## [5,] 0.04467634 0.04592777 0.05953128 0.05482470
-    ## [6,] 0.06607697 0.06126648 0.07289093 0.04843897
+    ##            [,1]         [,2]       [,3]       [,4]       [,5]       [,6]
+    ## [1,] 0.00000000 0.0000000000 0.00000000 0.00000000 0.00000000 0.00000000
+    ## [2,] 0.06811357 0.0021355636 0.17870913 0.20341941 0.15226805 0.02648532
+    ## [3,] 0.04469439 0.0013917600 0.11691225 0.13355249 0.09920662 0.01743993
+    ## [4,] 0.03156125 0.0009402374 0.08657326 0.09940193 0.06818673 0.01294466
+    ## [5,] 0.02901269 0.0013896895 0.12623355 0.14157856 0.06320207 0.01635091
+    ## [6,] 0.03744560 0.0014480767 0.13220249 0.22718874 0.05635377 0.01924357
+    ##             [,7]        [,8]       [,9]      [,10]
+    ## [1,] 0.000000000 0.000000000 0.00000000 0.00000000
+    ## [2,] 0.012988015 0.003195533 0.11692660 0.02341378
+    ## [3,] 0.008470282 0.002099433 0.07691501 0.01543624
+    ## [4,] 0.005970421 0.001504464 0.05361998 0.01114953
+    ## [5,] 0.005866052 0.001621505 0.08086514 0.01429217
+    ## [6,] 0.008901915 0.002320142 0.10131868 0.01298710
 
 - The identical wage gap at $t=2$ across all societies can be explain by
   the identical wage gap at $t=1$. At $t=2$, CP_w looks back one period,
@@ -577,14 +572,14 @@ cat("Effective sample size — wage gap:",
     round(Tw_eff, 3), "\n")
 ```
 
-    ## Effective sample size — wage gap: 15.432
+    ## Effective sample size — wage gap: 16.198
 
 ``` r
 cat("Efficiency ratio — wage gap:", 
     round(ratio_w, 3), "\n")
 ```
 
-    ## Efficiency ratio — wage gap: 0.11
+    ## Efficiency ratio — wage gap: 0.116
 
 ``` r
 cat("Efficiency ratio — labor surplus:", 
@@ -685,11 +680,11 @@ print(sensitivity_analysis)
 ```
 
     ##   crisis_prob   beta0 N_needed
-    ## 1       0.001 -6.9068     1944
-    ## 2       0.005 -5.2933      389
-    ## 3       0.010 -4.5951      195
-    ## 4       0.020 -3.8918       98
-    ## 5       0.050 -2.9444       39
+    ## 1       0.001 -6.9068     1853
+    ## 2       0.005 -5.2933      371
+    ## 3       0.010 -4.5951      186
+    ## 4       0.020 -3.8918       93
+    ## 5       0.050 -2.9444       38
 
 According to the EPV rule, a minimum of 30 crisis events is required
 across the entire dataset to reliably estimate the three parameters of
@@ -759,7 +754,7 @@ head(y_pilot)
 
     ##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
     ## [1,]    0    0    0    0    0    0    0    0    0     0
-    ## [2,]    0    0    1    0    0    0    0    0    0     0
+    ## [2,]    0    0    0    0    0    0    0    0    0     0
     ## [3,]    0    0    0    0    0    0    0    0    0     0
     ## [4,]    0    0    0    0    0    0    0    0    0     0
     ## [5,]    0    0    0    0    0    0    0    0    0     0
@@ -808,12 +803,48 @@ data.frame (
 ```
 
     ##   Simulation   N   T Total_crisis
-    ## 1      Pilot  10 200         1328
-    ## 2      Final 389 200        51356
+    ## 1      Pilot  10 200         1334
+    ## 2      Final 389 200        51384
 
-The substantial jump from 1328 to 51356 crises is an expected outcome
+The substantial jump from 1328 to 51159 crises is an expected outcome
 rather than a anomaly; it directly reflects the roughly 39-fold scaling
 of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
+
+**Plot 1 — The structural variables over time**
+
+``` r
+trajectories_func <- function(variable, ylab = "variable", main = "variable trajectories — Sample of 5 Societies", cex.main = 0.9){
+  matplot(1:T_final, variable[, 1:5],
+        type = "l", lty = 1,
+        col = adjustcolor(c("#378ADD","#E24B4A","#1D9E75",
+                            "#D97706","#7C3AED"), alpha = 0.7),
+        xlab = "Decades", ylab = ylab,
+        main = main, cex.main = cex.main)
+abline(v = t0_w, lty = 2, col = "gray50")
+legend("bottomright", legend = paste("Society", 1:5),
+       col = c("#378ADD","#E24B4A","#1D9E75","#D97706","#7C3AED"),
+       lty = 1, cex = 0.7)
+}
+```
+
+``` r
+par(mfcol = c(1, 2), mar = c(4, 4, 2, 2))
+#op <- par(mfcol = c(1, 2),
+#          mar = c(4.5, 4, 3, 0.5) + .5,  # tighter right gap between panels
+#          oma = c(1, 0, 2.5, 0))          # outer top margin for a shared title
+trajectories_func(wage_gap_fin, ylab = "Wage Gap", main = "Wage gap trajectories")
+trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labour surplus trajectories")
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
+
+``` r
+#mtext("Sample of 5 societies",        # shared title in the outer margin
+#      outer = TRUE, side = 3, line = 1, cex = 1.1, font = 2)
+par(mfrow = c(1, 1))
+```
+
+**Plot 2 — Cumulative pressure with crisis markers**
 
 #### 3.3 Sensitivity Analysis on the structural parameters
 
@@ -824,13 +855,13 @@ different values.
 ``` r
 # sensitivity grid 
 s_grid <- list (
-  r_l = c(.03, .05, .08), 
+  r_l = c(.02, .05, .03), 
   t0_l = c(30, 50, 70), 
-  A = c(.02, .05, .08), 
-  P = c(10, 20, 30), 
-  r_base = c(.01, .03, .06), 
-  alpha = c(0.3, 0.5, 0.8), 
-  t0_w = c(20, 60, 80)
+  A = c(.1, .2, .3), 
+  P = c(5, 10, 15), 
+  r_base = c(.01, .04, .07), 
+  alpha = c(0.1, 0.5, 0.9), 
+  t0_w = c(10, 60, 110)
 )
 
 params_baseline <- list(
@@ -920,49 +951,49 @@ print(sensitivity_results)
 ```
 
     ##    beta1_est beta2_est beta3_est bias_beta1 bias_beta2 bias_beta3 crisis_freq
-    ## 1      0.995     0.568     1.961     -0.005      0.068     -0.039      0.6451
-    ## 2      0.978     0.161     2.129     -0.022     -0.339      0.129      0.6601
-    ## 3      0.759     0.396     2.172     -0.241     -0.104      0.172      0.6698
-    ## 4      1.071     0.305     2.032      0.071     -0.195      0.032      0.6757
-    ## 5      1.017     0.547     2.005      0.017      0.047      0.005      0.6605
-    ## 6      1.031     0.833     1.827      0.031      0.333     -0.173      0.6209
-    ## 7      0.921     0.264     2.107     -0.079     -0.236      0.107      0.6606
-    ## 8      0.977     0.617     1.978     -0.023      0.117     -0.022      0.6606
-    ## 9      0.837     0.605     2.021     -0.163      0.105      0.021      0.6607
-    ## 10     1.016     0.461     2.027      0.016     -0.039      0.027      0.6606
-    ## 11     1.113     0.530     1.931      0.113      0.030     -0.069      0.6593
-    ## 12     0.954     0.490     2.006     -0.046     -0.010      0.006      0.6603
-    ## 13     1.035     0.409     1.978      0.035     -0.091     -0.022      0.6598
-    ## 14     0.919     0.931     1.892     -0.081      0.431     -0.108      0.6609
-    ## 15     1.190     0.786     1.769      0.190      0.286     -0.231      0.6606
-    ## 16     1.046     0.121     2.139      0.046     -0.379      0.139      0.6565
-    ## 17     1.158     0.599     1.893      0.158      0.099     -0.107      0.6594
-    ## 18     0.942     0.450     2.066     -0.058     -0.050      0.066      0.6624
-    ## 19     0.756    -1.654     3.151     -0.244     -2.154      1.151      0.7460
-    ## 20     1.279     0.699     1.825      0.279      0.199     -0.175      0.6616
-    ## 21     1.270     0.209     1.927      0.270     -0.291     -0.073      0.5777
-    ##    ordering_preserved parameter value baseline
-    ## 1                TRUE       r_l  0.03    FALSE
-    ## 2                TRUE       r_l  0.05     TRUE
-    ## 3                TRUE       r_l  0.08    FALSE
-    ## 4                TRUE      t0_l 30.00    FALSE
-    ## 5                TRUE      t0_l 50.00     TRUE
-    ## 6                TRUE      t0_l 70.00    FALSE
-    ## 7                TRUE         A  0.02    FALSE
-    ## 8                TRUE         A  0.05    FALSE
-    ## 9                TRUE         A  0.08    FALSE
-    ## 10               TRUE         P 10.00    FALSE
-    ## 11               TRUE         P 20.00    FALSE
-    ## 12               TRUE         P 30.00    FALSE
-    ## 13               TRUE    r_base  0.01    FALSE
-    ## 14              FALSE    r_base  0.03     TRUE
-    ## 15               TRUE    r_base  0.06    FALSE
-    ## 16               TRUE     alpha  0.30    FALSE
-    ## 17               TRUE     alpha  0.50     TRUE
-    ## 18               TRUE     alpha  0.80    FALSE
-    ## 19               TRUE      t0_w 20.00    FALSE
-    ## 20               TRUE      t0_w 60.00     TRUE
-    ## 21               TRUE      t0_w 80.00    FALSE
+    ## 1      1.303     1.037     1.648      0.303      0.537     -0.352      0.6233
+    ## 2      0.927     0.298     2.086     -0.073     -0.202      0.086      0.6597
+    ## 3      1.039     0.834     1.914      0.039      0.334     -0.086      0.6420
+    ## 4      0.778     0.291     2.173     -0.222     -0.209      0.173      0.6750
+    ## 5      1.098     0.392     2.018      0.098     -0.108      0.018      0.6606
+    ## 6      1.040     0.430     2.000      0.040     -0.070      0.000      0.6211
+    ## 7      1.024     0.687     1.931      0.024      0.187     -0.069      0.6612
+    ## 8      0.804     0.441     2.150     -0.196     -0.059      0.150      0.6610
+    ## 9      0.929     0.489     2.017     -0.071     -0.011      0.017      0.6598
+    ## 10     0.935     0.478     2.053     -0.065     -0.022      0.053      0.6593
+    ## 11     0.824     0.629     2.060     -0.176      0.129      0.060      0.6585
+    ## 12     0.866     0.504     2.045     -0.134      0.004      0.045      0.6617
+    ## 13     1.006     0.748     1.921      0.006      0.248     -0.079      0.6606
+    ## 14     1.015     1.034     1.828      0.015      0.534     -0.172      0.6587
+    ## 15     1.051     0.671     1.875      0.051      0.171     -0.125      0.6610
+    ## 16     1.056     0.674     1.924      0.056      0.174     -0.076      0.6439
+    ## 17     1.115     0.897     1.790      0.115      0.397     -0.210      0.6607
+    ## 18     1.074     0.521     1.955      0.074      0.021     -0.045      0.6625
+    ## 19     1.061     1.530     1.456      0.061      1.030     -0.544      0.7514
+    ## 20     0.922     0.249     2.128     -0.078     -0.251      0.128      0.6605
+    ## 21     2.706     0.435     1.063      1.706     -0.065     -0.937      0.4351
+    ##    ordering_preserved parameter  value baseline
+    ## 1                TRUE       r_l   0.02    FALSE
+    ## 2                TRUE       r_l   0.05     TRUE
+    ## 3                TRUE       r_l   0.03    FALSE
+    ## 4                TRUE      t0_l  30.00    FALSE
+    ## 5                TRUE      t0_l  50.00     TRUE
+    ## 6                TRUE      t0_l  70.00    FALSE
+    ## 7                TRUE         A   0.10    FALSE
+    ## 8                TRUE         A   0.20     TRUE
+    ## 9                TRUE         A   0.30    FALSE
+    ## 10               TRUE         P   5.00     TRUE
+    ## 11               TRUE         P  10.00    FALSE
+    ## 12               TRUE         P  15.00    FALSE
+    ## 13               TRUE    r_base   0.01    FALSE
+    ## 14              FALSE    r_base   0.04    FALSE
+    ## 15               TRUE    r_base   0.07    FALSE
+    ## 16               TRUE     alpha   0.10    FALSE
+    ## 17               TRUE     alpha   0.50     TRUE
+    ## 18               TRUE     alpha   0.90    FALSE
+    ## 19              FALSE      t0_w  10.00    FALSE
+    ## 20               TRUE      t0_w  60.00     TRUE
+    ## 21              FALSE      t0_w 110.00    FALSE
 
 ``` r
 # ordering preserved summary
@@ -975,46 +1006,15 @@ data.frame(
 ```
 
     ##   total_specs ordering_preserved ordering_violated perc_ordering_preserved
-    ## 1          21                 20                 1                    95.2
+    ## 1          21                 18                 3                    85.7
 
 The theoretical ordering $\beta_3 > \beta_2 > \beta_1$ is preserved in
 19 out of 21 specifications, corresponding to 90.5% of the sensitivity
 grid, suggesting that the model’s ability to recover the relative
 importance of the predictors is largely robust to structural parameter
-changes. In particular, Marx’s conjunctural argument, that the
+changes. In particular, Marx’s conjunctural argument, that **the
 interaction term dominates individual effects, remains supported across
-the vast majority of specifications. The two violations occur when the
-inflection points $t_{0,w}$ and $t_{0,l}$ are varied.
-
-``` r
-# bias summary
-data.frame(
-  beta = c("beta1", "beta2", "beta3"), 
-  mean = c(round(mean(sensitivity_results$bias_beta1), 4), 
-           round(mean(sensitivity_results$bias_beta2), 4), 
-           round(mean(sensitivity_results$bias_beta3), 4)
-           ),
-  max = c(round(max(sensitivity_results$bias_beta1), 4), 
-          round(max(sensitivity_results$bias_beta2), 4), 
-          round(max(sensitivity_results$bias_beta3), 4)
-          )
-)
-```
-
-    ##    beta    mean   max
-    ## 1 beta1  0.0126 0.279
-    ## 2 beta2 -0.1035 0.431
-    ## 3 beta3  0.0398 1.151
-
-$\beta_2$ exhibits the highest mean bias of 0.0598 and maximum bias of
-1.190 across the sensitivity grid. Two compounding factors explain this.
-First, $\beta_2$ is the smallest slope parameter, and in logistic
-regression, small coefficient is always harder to estimate reliably
-because their signal is weaker relative to noise. Second, both ordering
-violations directly affect $\beta_2$ : when $t_{0,l}$ = 70, $\CP_l$
-builds slowly and $\beta_2$’s contribution becomes negligible, while
-when $t_{0,w}$ = 20, $CP_w$ builds very quickly and inflates $\beta_2$’s
-estimate.
+the vast majority of specifications**.
 
 ``` r
 # crisis probability summary
@@ -1026,8 +1026,8 @@ data.frame(
 )
 ```
 
-    ##    mean median   max    min
-    ## 1 0.659 0.6606 0.746 0.5777
+    ##     mean median    max    min
+    ## 1 0.6494 0.6605 0.7514 0.4351
 
 **The sensitivity analysis reveals that crisis frequency is highly
 sensitive to changes in the structural parameters.** When structural
@@ -1035,8 +1035,8 @@ parameters are varied, the scale of $CP_W$ and $CP_L$ changes
 accordingly, while $\beta_0$ remains fixed at its baseline value. Since
 $\beta_0$ no longer corresponds to the target crisis probability p =
 0.005 under the new CP scales, crisis frequency fluctuates substantially
-across specifications, ranging from 0.5777 to 0.746 with a mean of
-0.659. This limitation arises from the sensitivity analysis design, in
+across specifications, ranging from 0.4351 to 0.7514 with a mean of
+0.647. This limitation arises from the sensitivity analysis design, in
 which $\beta_0$ is not recalibrated for each structural parameter
 combination. Future work could address this by deriving specific
 $\beta_0$ to ensure constant crisis frequency across the sensitivity
@@ -1092,22 +1092,22 @@ summary(model)
     ## 
     ## Deviance Residuals: 
     ##     Min       1Q   Median       3Q      Max  
-    ## -3.0406  -0.1091   0.1552   0.1779   3.2501  
+    ## -3.0576  -0.1110   0.1536   0.1764   3.2605  
     ## 
     ## Coefficients:
     ##             Estimate Std. Error z value Pr(>|z|)    
-    ## (Intercept) -5.27659    0.15340 -34.397  < 2e-16 ***
-    ## CP_w         0.97390    0.12166   8.005  1.2e-15 ***
-    ## CP_l         0.40172    0.19683   2.041   0.0413 *  
-    ## CP_w:CP_l    2.06788    0.09875  20.940  < 2e-16 ***
+    ## (Intercept) -5.31055    0.14681 -36.173  < 2e-16 ***
+    ## CP_w         1.03531    0.11638   8.896  < 2e-16 ***
+    ## CP_l         0.57678    0.17944   3.214  0.00131 ** 
+    ## CP_w:CP_l    1.95633    0.09633  20.310  < 2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## (Dispersion parameter for binomial family taken to be 1)
     ## 
-    ##     Null deviance: 99735  on 77799  degrees of freedom
-    ## Residual deviance: 16558  on 77796  degrees of freedom
-    ## AIC: 16566
+    ##     Null deviance: 99697  on 77799  degrees of freedom
+    ## Residual deviance: 16522  on 77796  degrees of freedom
+    ## AIC: 16530
     ## 
     ## Number of Fisher Scoring iterations: 7
 
@@ -1157,10 +1157,10 @@ data.frame(
 ```
 
     ##                true estimated_1 estimated_2
-    ## (Intercept) -5.2933  -5.2765871  -5.2756803
-    ## CP_w         1.0000   0.9738972   0.9737307
-    ## CP_l         0.5000   0.4017216   0.4007913
-    ## CP_w:CP_l    2.0000   2.0678817   2.0681868
+    ## (Intercept) -5.2933  -5.3105509  -5.3105189
+    ## CP_w         1.0000   1.0353090   1.0352842
+    ## CP_l         0.5000   0.5767759   0.5767352
+    ## CP_w:CP_l    2.0000   1.9563257   1.9563533
 
 The close alignment between the estimated and true parameters
 demonstrates that both models successfully recover the parameters
@@ -1253,7 +1253,7 @@ set.seed(42)
 mcmc_samples <- manual_metropolis_hasting(X, y_vec, n_iter = 5000, proposal_sd = .05, model)
 ```
 
-    ## Acceptance rate:  0.812
+    ## Acceptance rate:  0.813
 
 ``` r
 trace_plot <- function(sample){
@@ -1309,7 +1309,7 @@ trace_plot(mcmc_samples)
 post_plot(mcmc_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-42-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1357,7 +1357,7 @@ set.seed(42)
 mcmc_std <- manual_metropolis_hasting(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
 ```
 
-    ## Acceptance rate:  0.523
+    ## Acceptance rate:  0.52
 
 ``` r
 par(mfcol = c(2, 4), mar = c(4, 4, 2, 1))
@@ -1365,7 +1365,7 @@ trace_plot(mcmc_std)
 post_plot(mcmc_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1437,7 +1437,7 @@ set.seed(42)
 mnp_samples <- multivariate_normal_proposal(X, y_vec, n_iter = 5000, proposal_sd = .05, model)
 ```
 
-    ## Acceptance rate:  0.689
+    ## Acceptance rate:  0.705
 
 ``` r
 par(mfcol = c(2, 4), mar = c(4, 4, 2, 1))
@@ -1445,7 +1445,7 @@ trace_plot(mnp_samples)
 post_plot(mnp_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-48-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-49-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1573,10 +1573,10 @@ data.frame(
 ```
 
     ##   parameters    rhat1    rhat2    rhat3
-    ## 1      beta0 2.179487 3.811691 3.593542
-    ## 2      beta1 1.236316 3.534859 3.651831
-    ## 3      beta2 1.029766 2.398305 3.631189
-    ## 4      beta3 2.173697 3.669222 3.669219
+    ## 1      beta0 2.168147 3.940527 3.460051
+    ## 2      beta1 1.180604 3.541819 2.855445
+    ## 3      beta2 1.032897 2.190855 3.597005
+    ## 4      beta3 2.291407 3.556249 3.377270
 
 **R-hat results for the Metropolis–Hastings variants:** All three
 samplers—standard Metropolis–Hastings, Metropolis–Hastings with
@@ -1594,7 +1594,7 @@ remains unreachable.** Moreover, the fact that refining the proposal
 (standardization, multivariate structure) does not resolve the issue
 suggests the bottleneck is not the tuning of the proposal, but the
 random-walk nature of Metropolis–Hastings itself—reinforcing the need
-for the gradient-based approach of HMC.
+for the gradient-based approach of Hamiltonian Monte Carlo (HMC).
 
       -   Hamiltonian Monte Carlo
 
@@ -1621,15 +1621,13 @@ bayesian_model <- brm(
 
     ## Compiling Stan program...
 
-    ## Trying to compile a simple C file
-
     ## Start sampling
 
 ``` r
 plot(bayesian_model)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-53-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
 
 **Hamiltonian Monte Carlo results :** In contrast to the manual
 Metropolis–Hastings sampler, the HMC chains converge for all four
@@ -1660,11 +1658,11 @@ data.frame(
 )
 ```
 
-    ##   parameters rhat_mh_1 rhat_mh_2 rhat_mh_3 rhat_hmc
-    ## 1      beta0  2.179487  3.811691  3.593542 1.000804
-    ## 2      beta1  1.236316  3.534859  3.651831 1.002303
-    ## 3      beta2  1.029766  2.398305  3.631189 1.000326
-    ## 4      beta3  2.173697  3.669222  3.669219 1.000534
+    ##   parameters rhat_mh_1 rhat_mh_2 rhat_mh_3  rhat_hmc
+    ## 1      beta0  2.168147  3.940527  3.460051 0.9996589
+    ## 2      beta1  1.180604  3.541819  2.855445 1.0013379
+    ## 3      beta2  1.032897  2.190855  3.597005 0.9998596
+    ## 4      beta3  2.291407  3.556249  3.377270 1.0002140
 
 All parameters achieved $\hat{R} \approx 1$ with the Hamiltonian Monte
 Carlo algorithm, confirming convergence across the four chains. In
@@ -1730,7 +1728,7 @@ combined_plot <- plot_wage + plot_labor
 combined_plot
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-58-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
 
 As confirmed by the plots, the final and pilot simulations exhibit the
 **same autocorrelation structure.** This alignment indicate two key
@@ -1738,7 +1736,7 @@ points:
 
 - **Stability of the Data Generating Process (DGP):** The DGP is stable,
   meaning the underlying parameters consistently produce the same
-  autocorrelation structure regardless of the sample size (N)
+  autocorrelation structure regardless of the sample size.
 
 - **Validity of the Effective Sample Size (ESS):** The ESS derived from
   the pilot simulation remains valid for the final simulation, as the
@@ -1774,7 +1772,7 @@ avg_resid_matrix <- rowMeans(acf_resid_matrix)
 acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-60-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-61-1.png)<!-- -->
 
 Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit

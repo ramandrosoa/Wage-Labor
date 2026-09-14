@@ -483,27 +483,33 @@ The substantial jump from 1328 to 51159 crises is an expected outcome rather tha
 **Plot 1 — The structural variables over time**
 
 ```{r}
-trajectories_func <- function(variable, ylab = "variable", main = "variable trajectories — Sample of 5 Societies"){
+trajectories_func <- function(variable, ylab = "variable", main = "variable trajectories — Sample of 5 Societies", cex.main = 0.9){
   matplot(1:T_final, variable[, 1:5],
         type = "l", lty = 1,
         col = adjustcolor(c("#378ADD","#E24B4A","#1D9E75",
                             "#D97706","#7C3AED"), alpha = 0.7),
         xlab = "Decades", ylab = ylab,
-        main = main)
+        main = main, cex.main = cex.main)
 abline(v = t0_w, lty = 2, col = "gray50")
-legend("topleft", legend = paste("Society", 1:5),
+legend("bottomright", legend = paste("Society", 1:5),
        col = c("#378ADD","#E24B4A","#1D9E75","#D97706","#7C3AED"),
        lty = 1, cex = 0.7)
 }
 ```
 
 ```{r}
-trajectories_func(wage_gap_fin, ylab = "Wage Gap", main = "Wage gap trajectories — Sample of 5 Societies")
+par(mfcol = c(1, 2), mar = c(4, 4, 2, 2))
+#op <- par(mfcol = c(1, 2),
+#          mar = c(4.5, 4, 3, 0.5) + .5,  # tighter right gap between panels
+#          oma = c(1, 0, 2.5, 0))          # outer top margin for a shared title
+trajectories_func(wage_gap_fin, ylab = "Wage Gap", main = "Wage gap trajectories")
+trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labour surplus trajectories")
+
+#mtext("Sample of 5 societies",        # shared title in the outer margin
+#      outer = TRUE, side = 3, line = 1, cex = 1.1, font = 2)
+par(mfrow = c(1, 1))
 ```
 
-```{r}
-trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "labour surplus trajectories — Sample of 5 Societies")
-```
 
 **Plot 2 — Cumulative pressure with crisis markers**
 
@@ -515,10 +521,10 @@ As the parameters are provisional values, a sensitivity analysis is implemented 
 ```{r}
 # sensitivity grid 
 s_grid <- list (
-  r_l = c(.01, .05, .09), 
-  t0_l = c(20, 50, 80), 
-  A = c(.1, .5, .9), 
-  P = c(5, 20, 35), 
+  r_l = c(.02, .05, .03), 
+  t0_l = c(30, 50, 70), 
+  A = c(.1, .2, .3), 
+  P = c(5, 10, 15), 
   r_base = c(.01, .04, .07), 
   alpha = c(0.1, 0.5, 0.9), 
   t0_w = c(10, 60, 110)
@@ -621,7 +627,7 @@ data.frame(
 )
 ```
 
-The theoretical ordering $\beta_3 > \beta_2 > \beta_1$ is preserved in all 21 specifications, corresponding to 100% of the sensitivity grid, suggesting that the model's ability to recover the relative importance of the predictors is largely robust to structural parameter changes. In particular, Marx's conjunctural argument, that **the interaction term dominates individual effects, remains supported across the vast majority of specifications**. 
+The theoretical ordering $\beta_3 > \beta_2 > \beta_1$ is preserved in 19 out of 21 specifications, corresponding to 90.5% of the sensitivity grid, suggesting that the model's ability to recover the relative importance of the predictors is largely robust to structural parameter changes. In particular, Marx's conjunctural argument, that **the interaction term dominates individual effects, remains supported across the vast majority of specifications**. 
 
 ```{r}
 # crisis probability summary
@@ -633,7 +639,7 @@ data.frame(
 )
 ```
 
-**The sensitivity analysis reveals that crisis frequency is highly sensitive to changes in the structural parameters.** When structural parameters are varied, the scale of $CP_W$ and $CP_L$ changes accordingly, while $\beta_0$ remains fixed at its baseline value. Since $\beta_0$ no longer corresponds to the target crisis probability p = 0.005 under the new CP scales, crisis frequency fluctuates substantially across specifications, ranging from 0.4362	to 0.7535 with a mean of 0.6447. This limitation arises from the sensitivity analysis design, in which $\beta_0$ is not recalibrated for each structural parameter combination. Future work could address this by deriving specific $\beta_0$ to ensure constant crisis frequency across the sensitivity grid. 
+**The sensitivity analysis reveals that crisis frequency is highly sensitive to changes in the structural parameters.** When structural parameters are varied, the scale of $CP_W$ and $CP_L$ changes accordingly, while $\beta_0$ remains fixed at its baseline value. Since $\beta_0$ no longer corresponds to the target crisis probability p = 0.005 under the new CP scales, crisis frequency fluctuates substantially across specifications, ranging from 0.4351	to 0.7514 with a mean of 0.647. This limitation arises from the sensitivity analysis design, in which $\beta_0$ is not recalibrated for each structural parameter combination. Future work could address this by deriving specific $\beta_0$ to ensure constant crisis frequency across the sensitivity grid. 
 
 ####    4. Parameter recovery analysis
 
