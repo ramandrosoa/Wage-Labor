@@ -299,23 +299,7 @@ func_labor_surplus <- function(N, T, r_l, t0_l, A, P) {
 
 ``` r
 labor_surplus <- func_labor_surplus(N_pilot, T_pilot, r_l, t0_l, A, P )
-head(labor_surplus)
 ```
-
-    ##            [,1]       [,2]       [,3]       [,4]       [,5]       [,6]
-    ## [1,] 0.19196322 0.24714894 0.20170161 0.22465298 0.21029840 0.18325676
-    ## [2,] 0.12831483 0.15916664 0.10954535 0.13237144 0.11975818 0.11211928
-    ## [3,] 0.08587992 0.04940285 0.04201079 0.05403914 0.07180980 0.05434615
-    ## [4,] 0.05847272 0.06792644 0.05648572 0.02674120 0.08012128 0.05441905
-    ## [5,] 0.09793522 0.08706267 0.10876338 0.11115717 0.10087496 0.04436261
-    ## [6,] 0.14846486 0.10463862 0.08115263 0.10994888 0.11704565 0.13497503
-    ##            [,7]       [,8]       [,9]      [,10]
-    ## [1,] 0.21556973 0.18145037 0.19739227 0.17738545
-    ## [2,] 0.11776818 0.11961233 0.14604865 0.11982701
-    ## [3,] 0.07173624 0.06900272 0.04562580 0.05355927
-    ## [4,] 0.04210396 0.04842933 0.04518526 0.08219751
-    ## [5,] 0.10795426 0.09990176 0.06114187 0.12709855
-    ## [6,] 0.13609679 0.14006248 0.10997459 0.12055319
 
 ``` r
 func_wage_gap <- function(N, T, lab, r_base, alpha, t0_w,
@@ -335,24 +319,9 @@ func_wage_gap <- function(N, T, lab, r_base, alpha, t0_w,
 ```
 
 ``` r
-wage_gap <- func_wage_gap(N_pilot, T_pilot, labor_surplus, r_base, alpha, t0_w)
-head(wage_gap)
+wage_gap <- func_wage_gap(N_pilot, T_pilot, labor_surplus, r_base, alpha, t0_w,
+                          sd_t0 = 5, sd_r = 1)
 ```
-
-    ##              [,1]         [,2]        [,3]        [,4]         [,5]
-    ## [1,] 0.1047081006 3.282911e-03 0.274721947 0.312708026 0.2340751985
-    ## [2,] 0.0005932133 3.929928e-06 0.001015117 0.001885161 0.0002380818
-    ## [3,] 0.0038233848 5.362701e-05 0.016173143 0.019253870 0.0056139443
-    ## [4,] 0.0130387230 1.196073e-03 0.107480210 0.118240778 0.0289711215
-    ## [5,] 0.0285508400 8.363772e-04 0.076995721 0.207669039 0.0234281954
-    ## [6,] 0.0112635069 5.864351e-04 0.020358630 0.038872991 0.0128760136
-    ##              [,6]         [,7]         [,8]        [,9]        [,10]
-    ## [1,] 0.0407147571 1.996592e-02 4.912357e-03 0.179746302 0.0359930087
-    ## [2,] 0.0003243375 3.298935e-05 3.183696e-05 0.001311575 0.0003156913
-    ## [3,] 0.0024593481 7.077921e-04 2.133154e-04 0.005512710 0.0017034692
-    ## [4,] 0.0121909079 3.047212e-03 9.882061e-04 0.070690563 0.0108212160
-    ## [5,] 0.0132314014 7.818484e-03 1.945152e-03 0.074887760 0.0056723468
-    ## [6,] 0.0184061776 1.345885e-03 5.650398e-04 0.054846226 0.0020265533
 
 **Generate cumulative wage gap and cumulative labor surplus**
 
@@ -409,48 +378,6 @@ result <- cp(N_pilot, T_pilot, labor_surplus, wage_gap)
 CP_w <- result$CP_w
 CP_l <- result$CP_l
 ```
-
-``` r
-head(CP_l)
-```
-
-    ##           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]
-    ## [1,] 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
-    ## [2,] 0.1248738 0.1607726 0.1312087 0.1461388 0.1368010 0.1192102 0.1402301
-    ## [3,] 0.1647015 0.2081234 0.1566127 0.1811734 0.1668941 0.1504819 0.1678302
-    ## [4,] 0.1630055 0.1675232 0.1292064 0.1530079 0.1552791 0.1332425 0.1558402
-    ## [5,] 0.1440736 0.1531621 0.1207944 0.1169284 0.1531301 0.1220756 0.1287644
-    ## [6,] 0.1574289 0.1562684 0.1493294 0.1483718 0.1652326 0.1082695 0.1539877
-    ##           [,8]      [,9]     [,10]
-    ## [1,] 0.0000000 0.0000000 0.0000000
-    ## [2,] 0.1180351 0.1284055 0.1153908
-    ## [3,] 0.1545918 0.1785349 0.1530114
-    ## [4,] 0.1454503 0.1458186 0.1343761
-    ## [5,] 0.1261205 0.1242497 0.1408831
-    ## [6,] 0.1470295 0.1205989 0.1743245
-
-``` r
-head(CP_w)
-```
-
-    ##            [,1]         [,2]       [,3]       [,4]       [,5]       [,6]
-    ## [1,] 0.00000000 0.0000000000 0.00000000 0.00000000 0.00000000 0.00000000
-    ## [2,] 0.06811357 0.0021355636 0.17870913 0.20341941 0.15226805 0.02648532
-    ## [3,] 0.04469439 0.0013917600 0.11691225 0.13355249 0.09920662 0.01743993
-    ## [4,] 0.03156125 0.0009402374 0.08657326 0.09940193 0.06818673 0.01294466
-    ## [5,] 0.02901269 0.0013896895 0.12623355 0.14157856 0.06320207 0.01635091
-    ## [6,] 0.03744560 0.0014480767 0.13220249 0.22718874 0.05635377 0.01924357
-    ##             [,7]        [,8]       [,9]      [,10]
-    ## [1,] 0.000000000 0.000000000 0.00000000 0.00000000
-    ## [2,] 0.012988015 0.003195533 0.11692660 0.02341378
-    ## [3,] 0.008470282 0.002099433 0.07691501 0.01543624
-    ## [4,] 0.005970421 0.001504464 0.05361998 0.01114953
-    ## [5,] 0.005866052 0.001621505 0.08086514 0.01429217
-    ## [6,] 0.008901915 0.002320142 0.10131868 0.01298710
-
-- The identical wage gap at $t=2$ across all societies can be explain by
-  the identical wage gap at $t=1$. At $t=2$, CP_w looks back one period,
-  meaning it only uses data in $t=1$.
 
 ##### Estimation of the Autocorrelation Structure
 
@@ -521,7 +448,7 @@ acf_plot(acf_avg_l, T_pilot, title = "ACF labor surplus")
 acf_plot(acf_avg_w, T_pilot, title = "ACF wage gap" )
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1,1))
@@ -828,23 +755,38 @@ legend("bottomright", legend = paste("Society", 1:5),
 ```
 
 ``` r
-par(mfcol = c(1, 2), mar = c(4, 4, 2, 2))
-#op <- par(mfcol = c(1, 2),
-#          mar = c(4.5, 4, 3, 0.5) + .5,  # tighter right gap between panels
-#          oma = c(1, 0, 2.5, 0))          # outer top margin for a shared title
-trajectories_func(wage_gap_fin, ylab = "Wage Gap", main = "Wage gap trajectories")
-trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labour surplus trajectories")
+par(mfrow = c(2, 1), mar = c(3, 4, 2, 1))
+trajectories_func(wage_gap_fin, ylab = "Wage Gap", main = "Wage gap trajectories - Sample of 5 societies")
+trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labour surplus trajectories - Sample of 5 societies")
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
 
 ``` r
-#mtext("Sample of 5 societies",        # shared title in the outer margin
-#      outer = TRUE, side = 3, line = 1, cex = 1.1, font = 2)
 par(mfrow = c(1, 1))
 ```
 
 **Plot 2 — Cumulative pressure with crisis markers**
+
+``` r
+society_idx <- 1
+crisis_decades <- which(y_final[, society_idx] == 1)
+
+plot(1:T_final, CPfin_w[, society_idx],
+     type = "l", col = "#378ADD", lwd = 1.5,
+     xlab = "", ylab = "CP_W",
+     main = "Cumulative Pressure and Crisis Events — Society 1")
+abline(v = crisis_decades, col = "#E24B4A", lty = 2)
+lines(1:T_final, CPfin_l[, 1], col = "#E24B4A", lwd = 2)
+legend("topleft",
+       legend = c("Cumulative Wage Gap",
+                  "Cumulative Labor Surplus", 
+                  "Crisis"),
+       col   = c("#378ADD", "#E24B4A", "#E24B4A"),
+       lty   = c(1, 1, 2), lwd = 2, cex = 0.7)
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
 
 #### 3.3 Sensitivity Analysis on the structural parameters
 
@@ -1309,7 +1251,7 @@ trace_plot(mcmc_samples)
 post_plot(mcmc_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-42-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1365,7 +1307,7 @@ trace_plot(mcmc_std)
 post_plot(mcmc_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1445,7 +1387,7 @@ trace_plot(mnp_samples)
 post_plot(mnp_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-49-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-48-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1621,13 +1563,15 @@ bayesian_model <- brm(
 
     ## Compiling Stan program...
 
+    ## Trying to compile a simple C file
+
     ## Start sampling
 
 ``` r
 plot(bayesian_model)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-53-1.png)<!-- -->
 
 **Hamiltonian Monte Carlo results :** In contrast to the manual
 Metropolis–Hastings sampler, the HMC chains converge for all four
@@ -1728,7 +1672,7 @@ combined_plot <- plot_wage + plot_labor
 combined_plot
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-58-1.png)<!-- -->
 
 As confirmed by the plots, the final and pilot simulations exhibit the
 **same autocorrelation structure.** This alignment indicate two key
@@ -1772,7 +1716,7 @@ avg_resid_matrix <- rowMeans(acf_resid_matrix)
 acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-61-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-60-1.png)<!-- -->
 
 Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit

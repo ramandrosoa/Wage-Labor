@@ -152,7 +152,6 @@ func_labor_surplus <- function(N, T, r_l, t0_l, A, P) {
 
 ```{r}
 labor_surplus <- func_labor_surplus(N_pilot, T_pilot, r_l, t0_l, A, P )
-head(labor_surplus)
 ```
 
 ```{r}
@@ -172,10 +171,9 @@ func_wage_gap <- function(N, T, lab, r_base, alpha, t0_w,
 }
 ```
 
-
 ```{r}
-wage_gap <- func_wage_gap(N_pilot, T_pilot, labor_surplus, r_base, alpha, t0_w)
-head(wage_gap)
+wage_gap <- func_wage_gap(N_pilot, T_pilot, labor_surplus, r_base, alpha, t0_w,
+                          sd_t0 = 5, sd_r = 1)
 ```
 
 **Generate cumulative wage gap and cumulative labor surplus**
@@ -234,17 +232,6 @@ result <- cp(N_pilot, T_pilot, labor_surplus, wage_gap)
 CP_w <- result$CP_w
 CP_l <- result$CP_l
 ```
-
-```{r}
-head(CP_l)
-```
-
-```{r}
-head(CP_w)
-```
-
--   The identical wage gap at $t=2$ across all societies can be explain by the identical wage gap at $t=1$. At $t=2$, CP_w looks back one period, meaning it only uses data in $t=1$.
-
 
 ##### Estimation of the Autocorrelation Structure
 
@@ -498,21 +485,52 @@ legend("bottomright", legend = paste("Society", 1:5),
 ```
 
 ```{r}
-par(mfcol = c(1, 2), mar = c(4, 4, 2, 2))
-#op <- par(mfcol = c(1, 2),
-#          mar = c(4.5, 4, 3, 0.5) + .5,  # tighter right gap between panels
-#          oma = c(1, 0, 2.5, 0))          # outer top margin for a shared title
-trajectories_func(wage_gap_fin, ylab = "Wage Gap", main = "Wage gap trajectories")
-trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labour surplus trajectories")
-
-#mtext("Sample of 5 societies",        # shared title in the outer margin
-#      outer = TRUE, side = 3, line = 1, cex = 1.1, font = 2)
+par(mfrow = c(2, 1), mar = c(3, 4, 2, 1))
+trajectories_func(wage_gap_fin, ylab = "Wage Gap", main = "Wage gap trajectories - Sample of 5 societies")
+trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labour surplus trajectories - Sample of 5 societies")
 par(mfrow = c(1, 1))
 ```
 
-
 **Plot 2 — Cumulative pressure with crisis markers**
 
+```{r}
+society_idx <- 1
+crisis_decades <- which(y_final[, society_idx] == 1)
+
+plot(1:T_final, CPfin_w[, society_idx],
+     type = "l", col = "#378ADD", lwd = 1.5,
+     xlab = "", ylab = "CP_W",
+     main = "Cumulative Pressure and Crisis Events — Society 1")
+abline(v = crisis_decades, col = "#E24B4A", lty = 2)
+lines(1:T_final, CPfin_l[, 1], col = "#E24B4A", lwd = 2)
+legend("topleft",
+       legend = c("Cumulative Wage Gap",
+                  "Cumulative Labor Surplus", 
+                  "Crisis"),
+       col   = c("#378ADD", "#E24B4A", "#E24B4A"),
+       lty   = c(1, 1, 2), lwd = 2, cex = 0.7)
+```
+
+**Plot 3 — Crisis frequency over time**
+
+```{r}
+crisis_rate_by_decade <- rowMeans(y_final)
+
+plot(1:T_final, crisis_rate_by_decade,
+     type = "l", col = "#E24B4A", lwd = 2, 
+     xlab = "Decades", ylab = "Crisis rate", 
+     main = "Crisis frequency across societies ovre time")
+abline(h = mean(crisis_rate_by_decade), 
+       lty = 2, col = "gray50")
+abline(v = t0_l, lty = 3, col = "#1D9E75")
+abline(v = t0_w, lty = 3, col = "#378ADD")
+legend("topleft", 
+       legend = c("crisis rate", "mean rate", 
+                  "labor surplus inflection point", 
+                  "wage gap inflection point"), 
+       col = c("#E24B4A", "gray50", "#1D9E75", "#378ADD"), 
+       lty = c(1, 2, 3, 3), cex = 0.8)
+```
 
 ####    3.3 Sensitivity Analysis on the structural parameters
 
