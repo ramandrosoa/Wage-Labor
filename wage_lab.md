@@ -177,15 +177,14 @@ $$
   flight displaces workers, pushing labor surplus above the trend
   (Overproduction Phase). When $sin\frac{2t\pi}{P}$ \< 0, capital
   immigration into new sectors temporarily absorbs workers, pulling
-  labor surplus below the trend (Recovery Phase).The exponential term
-  $A e^{{-\delta_l}t}$ introduces amplitude modulation over time. Rather
-  than producing strictly shrinking cycles, the visualization reveals
-  heterogeneous cycle amplitudes — consistent with Marx’s
-  characterization of capital movement as anarchic rather than regular.
-  No two cycles are identical, reflecting the unpredictable timing and
-  magnitude of capital reallocation across sectors. The noise term
-  $\epsilon$ \~ $N(0, \sigma^2)$ captures additional stochastic
-  variation around the deterministic cycle structure.
+  labor surplus below the trend (Recovery Phase). The exponential term
+  $A e^{{-\delta_l}t}$ introduces amplitude modulation over time. No two
+  cycles are identical, reflecting the unpredictable timing and
+  magnitude of capital reallocation across sectors — consistent with
+  Marx’s characterization of capital movement as anarchic rather than
+  regular. The noise term $\epsilon$ \~ $N(0, \sigma^2)$ captures
+  additional stochastic variation around the deterministic cycle
+  structure.
 
   - Wage gap
 
@@ -231,7 +230,7 @@ In the absence of precise empirical estimates for the structural
 parameters, provisional values are assigned based on theoretical
 plausibility, ensuring that the simulated dynamics are qualitatively
 consistent with the mechanisms described in Marx’s Wage Labour and
-Capital. Specifically, parameters are chosen so that labour surplus
+Capital. Specifically, parameters are chosen so that labor surplus
 follows a gradual logistic accumulation with dampened cyclical
 fluctuations, wage gap exhibits a feedback driven S-shaped trajectory,
 and cumulative pressures build meaningfully over time before the crisis
@@ -274,10 +273,6 @@ delta_c <- 0.43
 ```
 
 **Generate wage gap and labor surplus**
-
-Labor surplus has to be generated before wage gap because the growth
-rate $r_w$ of the logistic trend of the wage gap depends on labor
-surplus
 
 ``` r
 func_labor_surplus <- function(N, T, r_l, t0_l, A, P) {
@@ -457,24 +452,24 @@ par(mfrow = c(1,1))
 Both variables exhibit **high autocorrelation as a consequence of their
 ARMA(1,q) structure**. Yet, unlike the wage gap, which follows a
 smoother trajectory, the labor surplus features dampened oscillations
-that cause $CP\_L$ to retain more autocorrelation than $CP\_W$.
+that cause $CP_L$ to retain more autocorrelation than $CP\_W$.
 
 ##### Derive T from the effective sample size (ESS)
 
 In time series data, observations are not independent — each period
-carries information from previous ones. The effective sample size T_eff
-allows us to measure the **true amount of independent information** in
-the raw sample T when observations are correlated.
+carries information from previous ones. The effective sample size
+$T_{eff}$ allows us to measure the **true amount of independent
+information in the raw sample T when observations are correlated.**
 
 $$
 T_{eff} = \frac{T}{1+2\sum^{\infty}_{k=1}\rho(k)}
 $$
 
-- $T$ is T_pilot, the raw sample size, the total number of observed
+- $T$ : T_pilot, the raw sample size, the total number of observed
   periods.
-- $T_{eff}$ is the ESS — the equivalent number of independent
+- $T_{eff}$ : the ESS — the equivalent number of independent
   observations after accounting for autocorrelation
-- $\rho$ is the autocorrelation structure.
+- $\rho$ : the autocorrelation structure.
 
 ``` r
 # Labor surplus
@@ -527,8 +522,8 @@ cat("Usable decades — wage gap:", Tw_obs)
 
     ## Usable decades — wage gap: 140
 
-The effective sample size represents the number of **independent,
-non-redundant and unique** observations contained in a correlated time
+The effective sample size represents the number of independent,
+non-redundant and unique observations contained in a correlated time
 series. $Tl_{eff}$ \< $Tw_{eff}$ is theorically expected, as the
 oscillatory component introduces cyclical dependence that reduces the
 effective information content of $CP\_L$ relative to $CP\_W$.
@@ -623,20 +618,18 @@ substantially larger N to compensate the rarity of crisis events.
 
 ##### Generate the structural crisis (y_pilot)
 
-The baseline crisis probability p is calibrated from **Turchin and
-Nefedov’s (2009)** observation that recurrent waves of state breakdown
-occured approximately **three times over five centuries** of European
+The baseline crisis probability p is calibrated from Turchin and
+Nefedov’s (2009) observation that recurrent waves of state breakdown
+occured approximately three times over five centuries of European
 history — the calamitous fourteenth century, the iron century of
 1550-1660, and the age of revolutions of 1789-1849. This implies a
-**per-decade crisis probability of approximately p = 0.006**. This
-motivates the lower end of our sensitivity analysis, consistent with
-Marx’s argument in Wage Labour and Capital that structural crisis
-require prolonged accumulation of contradictions before becoming
-probable. The combination that mostly fits with this argument is
-($p = 0.005$, $\beta_0 = -5.2933$, $N = 389$).
-
-Then, we need to determine the parameters $\beta_1$ , $\beta_2$ ,
-$\beta_3$.
+per-decade crisis probability of approximately p = 0.006. This motivates
+the lower end of our sensitivity analysis, consistent with Marx’s
+argument in Wage Labour and Capital that structural crisis require
+prolonged accumulation of contradictions before becoming probable. The
+combination that mostly fits with this argument is ($p = 0.005$,
+$\beta_0 = -5.2933$, $N = 389$). Then, we will determine the parameters
+$\beta_1$ , $\beta_2$ , $\beta_3$.
 
 ``` r
 beta0 <- -5.2933    
@@ -649,10 +642,10 @@ The ordering $\beta_3$ \> $\beta_1$ \> $\beta_2$ reflects three
 theoretical priorities. The dominance of $\beta_3$ formalizes Marx’s
 conjunctural argument that **structural crisis emerges primarly from the
 simultaneous occurrence of wage depression and labor surplus.** The
-ordering beta1 \> beta2 reflects the relatively stronger direct effect
-of wage gap compared to labor surplus in isolation, consistent with
-Marx’s emphasis on wage depression as the most visible manifestation of
-capitalist contradiction in Wage Labour and Capital.
+ordering $\beta_1$ \> $\beta_2$ reflects the relatively stronger direct
+effect of wage gap compared to labor surplus in isolation, consistent
+with Marx’s emphasis on wage depression as the most visible
+manifestation of capitalist contradiction in Wage Labour and Capital.???
 
 $$
 z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
@@ -721,7 +714,7 @@ data.frame (
     ## 1      Pilot  10 200         1334
     ## 2      Final 389 200        51384
 
-The substantial jump from 1328 to 51159 crises is an expected outcome
+The substantial jump from 1342 to 51323 crises is an expected outcome
 rather than a anomaly; it directly reflects the roughly 39-fold scaling
 of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
 
@@ -987,7 +980,7 @@ data.frame(
     ## 1          21                 18                 3                    85.7
 
 The theoretical ordering $\beta_3 > \beta_2 > \beta_1$ is preserved in
-19 out of 21 specifications, corresponding to 90.5% of the sensitivity
+20 out of 21 specifications, corresponding to 95.2% of the sensitivity
 grid, suggesting that the model’s ability to recover the relative
 importance of the predictors is largely robust to structural parameter
 changes. In particular, Marx’s conjunctural argument, that **the
@@ -1013,8 +1006,8 @@ parameters are varied, the scale of $CP_W$ and $CP_L$ changes
 accordingly, while $\beta_0$ remains fixed at its baseline value. Since
 $\beta_0$ no longer corresponds to the target crisis probability p =
 0.005 under the new CP scales, crisis frequency fluctuates substantially
-across specifications, ranging from 0.4351 to 0.7514 with a mean of
-0.647. This limitation arises from the sensitivity analysis design, in
+across specifications, ranging from 0.4359 to 0.7506 with a mean of
+0.6491. This limitation arises from the sensitivity analysis design, in
 which $\beta_0$ is not recalibrated for each structural parameter
 combination. Future work could address this by deriving specific
 $\beta_0$ to ensure constant crisis frequency across the sensitivity
