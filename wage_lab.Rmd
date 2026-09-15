@@ -428,10 +428,6 @@ y_func <- function(beta0, beta1, beta2, beta3, CP_l, CP_w, T, N) {
 y_pilot <- y_func(beta0, beta1, beta2, beta3, CP_l, CP_w, T_pilot, N_pilot)
 ```
 
-```{r}
-head(y_pilot)
-```
-
 #### 3.2  Final simulation
 
 For the final simulation, we set **N_final = 389 societies and T_final = 200**. This timeline spans the necessary pre- and post-inflection decades. The choice to include exactly 150 post-inflection decades is driven by the differing autocorrelation structures of our variables: while these 150 decades translate to merely 5 effective independent informations for labor surplus, they yield 15 independent observations for the wage gap. The pre-inflection phase is retained to preserve the theoretical warmup consistent with Marx's early capitalism argument. However, the labor surplus exhibits high autocorrelation, substantially reducing the effective independent information per society. **To compensate for this loss of independence and to satisfy the EPV rule of a minimum of 30 effective crisis, N = 389 societies are required.**
@@ -523,13 +519,36 @@ plot(1:T_final, crisis_rate_by_decade,
 abline(h = mean(crisis_rate_by_decade), 
        lty = 2, col = "gray50")
 abline(v = t0_l, lty = 3, col = "#1D9E75")
-abline(v = t0_w, lty = 3, col = "#378ADD")
+abline(v = t0_w, lty = 3, col = "#E24B4A")
 legend("topleft", 
        legend = c("crisis rate", "mean rate", 
                   "labor surplus inflection point", 
                   "wage gap inflection point"), 
-       col = c("#E24B4A", "gray50", "#1D9E75", "#378ADD"), 
+       col = c("#E24B4A", "gray50", "#1D9E75", "#E24B4A"), 
        lty = c(1, 2, 3, 3), cex = 0.8)
+```
+
+**Plot 4 — Joint distribution at crisis vs non-crisis**
+
+```{r}
+df_plot <- data.frame(
+  CP_w   = as.vector(CPfin_w),
+  CP_l   = as.vector(CPfin_l),
+  crisis = factor(as.vector(y_final),
+                  labels = c("No crisis", "Crisis"))
+)
+
+ggplot(df_plot, aes(x = CP_w, y = CP_l, color = crisis)) +
+  geom_point(alpha = 0.1, size = 0.8) +
+  scale_color_manual(values = c("No crisis" = "#378ADD",
+                                "Crisis"    = "#E24B4A")) +
+  labs(title    = "Joint Distribution of Cumulative Pressures",
+       subtitle = "Crisis events cluster where both CP_W and CP_L are high",
+       x = "Cumulative Wage Pressure (CP_W)",
+       y = "Cumulative Labor Pressure (CP_L)",
+       color = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
 ```
 
 ####    3.3 Sensitivity Analysis on the structural parameters

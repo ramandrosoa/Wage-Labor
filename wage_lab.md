@@ -675,18 +675,6 @@ y_func <- function(beta0, beta1, beta2, beta3, CP_l, CP_w, T, N) {
 y_pilot <- y_func(beta0, beta1, beta2, beta3, CP_l, CP_w, T_pilot, N_pilot)
 ```
 
-``` r
-head(y_pilot)
-```
-
-    ##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-    ## [1,]    0    0    0    0    0    0    0    0    0     0
-    ## [2,]    0    0    0    0    0    0    0    0    0     0
-    ## [3,]    0    0    0    0    0    0    0    0    0     0
-    ## [4,]    0    0    0    0    0    0    0    0    0     0
-    ## [5,]    0    0    0    0    0    0    0    0    0     0
-    ## [6,]    0    0    0    0    0    0    0    0    0     0
-
 #### 3.2 Final simulation
 
 For the final simulation, we set **N_final = 389 societies and T_final =
@@ -760,7 +748,7 @@ trajectories_func(wage_gap_fin, ylab = "Wage Gap", main = "Wage gap trajectories
 trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labour surplus trajectories - Sample of 5 societies")
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -786,7 +774,55 @@ legend("topleft",
        lty   = c(1, 1, 2), lwd = 2, cex = 0.7)
 ```
 
+![](wage_lab_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
+
+**Plot 3 — Crisis frequency over time**
+
+``` r
+crisis_rate_by_decade <- rowMeans(y_final)
+
+plot(1:T_final, crisis_rate_by_decade,
+     type = "l", col = "#E24B4A", lwd = 2, 
+     xlab = "Decades", ylab = "Crisis rate", 
+     main = "Crisis frequency across societies ovre time")
+abline(h = mean(crisis_rate_by_decade), 
+       lty = 2, col = "gray50")
+abline(v = t0_l, lty = 3, col = "#1D9E75")
+abline(v = t0_w, lty = 3, col = "#E24B4A")
+legend("topleft", 
+       legend = c("crisis rate", "mean rate", 
+                  "labor surplus inflection point", 
+                  "wage gap inflection point"), 
+       col = c("#E24B4A", "gray50", "#1D9E75", "#E24B4A"), 
+       lty = c(1, 2, 3, 3), cex = 0.8)
+```
+
 ![](wage_lab_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
+
+**Plot 4 — Joint distribution at crisis vs non-crisis**
+
+``` r
+df_plot <- data.frame(
+  CP_w   = as.vector(CPfin_w),
+  CP_l   = as.vector(CPfin_l),
+  crisis = factor(as.vector(y_final),
+                  labels = c("No crisis", "Crisis"))
+)
+
+ggplot(df_plot, aes(x = CP_w, y = CP_l, color = crisis)) +
+  geom_point(alpha = 0.1, size = 0.8) +
+  scale_color_manual(values = c("No crisis" = "#378ADD",
+                                "Crisis"    = "#E24B4A")) +
+  labs(title    = "Joint Distribution of Cumulative Pressures",
+       subtitle = "Crisis events cluster where both CP_W and CP_L are high",
+       x = "Cumulative Wage Pressure (CP_W)",
+       y = "Cumulative Labor Pressure (CP_L)",
+       color = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
 
 #### 3.3 Sensitivity Analysis on the structural parameters
 
@@ -1251,7 +1287,7 @@ trace_plot(mcmc_samples)
 post_plot(mcmc_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-42-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1307,7 +1343,7 @@ trace_plot(mcmc_std)
 post_plot(mcmc_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1387,7 +1423,7 @@ trace_plot(mnp_samples)
 post_plot(mnp_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-48-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-49-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1571,7 +1607,7 @@ bayesian_model <- brm(
 plot(bayesian_model)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-53-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
 
 **Hamiltonian Monte Carlo results :** In contrast to the manual
 Metropolis–Hastings sampler, the HMC chains converge for all four
@@ -1672,7 +1708,7 @@ combined_plot <- plot_wage + plot_labor
 combined_plot
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-58-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
 
 As confirmed by the plots, the final and pilot simulations exhibit the
 **same autocorrelation structure.** This alignment indicate two key
@@ -1716,7 +1752,7 @@ avg_resid_matrix <- rowMeans(acf_resid_matrix)
 acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-60-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-61-1.png)<!-- -->
 
 Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit
