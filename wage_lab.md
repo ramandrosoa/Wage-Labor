@@ -720,8 +720,10 @@ of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
 
 #### 3.3 Findings
 
-**Structural dynamics — The variables trajectories** : Shows the DGP
-working as designed — logistic growth and oscillations visible
+**Structural dynamics — The variables trajectories** : a visualization
+of the logistic growth of the wage gap and the dampened oscillations of
+the labor surplus for a sample of 5 societies. The trajectory of each
+society shows some slight differences.
 
 ``` r
 trajectories_func <- function(variable, ylab = "variable", main = "variable trajectories — Sample of 5 Societies", cex.main = 0.9){
@@ -750,8 +752,10 @@ trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labour sur
 par(mfrow = c(1, 1))
 ```
 
-**Structural dynamics — The cumulative pressure with crisis marker** :
-Shows temporal relationship between pressure and crisis
+**Structural dynamics — The cumulative pressure with crisis marker** : A
+visualization of the temporal relationship between pressure and crisis.
+It shows how the crises are clustered in period of high cumulative
+pressure.
 
 ``` r
 society_idx <- 1
@@ -773,8 +777,10 @@ legend("topleft",
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
 
-**Crisis pattern — Crisis frequency over time** : Shows the aggregate
-pattern across all societies — Marx’s “more frequent crises” claim
+**Crisis pattern — Crisis frequency over time** : A visualization of the
+proportion of societies experiencing crisis per decade across the full
+simulation. It demonstrates the increase of crisis frequency over time
+as cumulative pressure builds.
 
 ``` r
 crisis_rate_by_decade <- rowMeans(y_final)
@@ -782,7 +788,7 @@ crisis_rate_by_decade <- rowMeans(y_final)
 plot(1:T_final, crisis_rate_by_decade,
      type = "l", col = "#E24B4A", lwd = 2, 
      xlab = "Decades", ylab = "Crisis rate", 
-     main = "Crisis frequency across societies ovre time")
+     main = "Crisis frequency across societies over time")
 abline(h = mean(crisis_rate_by_decade), 
        lty = 2, col = "gray50")
 abline(v = t0_l, lty = 3, col = "#1D9E75")
@@ -797,8 +803,8 @@ legend("topleft",
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
 
-**Crisis pattern — Joint distribution** : Crises cluster where both
-pressures are high
+**Crisis pattern — Joint distribution** : A scatter plot of the
+cumulative wage gap and labor surplus colored by crisis outcome.
 
 ``` r
 df_plot <- data.frame(
@@ -823,7 +829,11 @@ ggplot(df_plot, aes(x = CP_w, y = CP_l, color = crisis)) +
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
 
-**Crisis pattern — Marginal effect**
+**Crisis pattern — Marginal effect** : a visualization of the crisis
+probability as a function of the cumulative wage gap (holding at
+low/medium/high cumulative labor surplus). This directly demonstrates
+the interaction — the slope changes depending on the other variable’s
+level.
 
 ``` r
 marginal_effect <- function(CPx, CPy, CPpaste = "CPy", title = "Effect of CP_W at different CP_L levels", x = "CP_W" ) {
@@ -1074,9 +1084,9 @@ combination. Future work could address this by deriving specific
 $\beta_0$ to ensure constant crisis frequency across the sensitivity
 grid.
 
-#### 4. Parameter recovery analysis
+### 4. Parameter recovery analysis
 
-##### 4.1 Frequentist approach
+#### 4.1 Frequentist approach
 
 The true parameters are known by construction. By fitting the logistic
 regression, we can validate whether the sample size N derived from the
@@ -1207,7 +1217,7 @@ to the custom MLE. This suggests that, under this specific simulation
 design, the autocorrelation does not introduce severe bias into the
 estimates.
 
-##### 4.2 Bayesian approach
+#### 4.2 Bayesian approach
 
 The previous simulations used a frequentist framework, which treats
 parameters as fixed, unknown values. However, because this project aims

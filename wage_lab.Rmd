@@ -461,7 +461,7 @@ The substantial jump from 1334 to 51384 crises is an expected outcome rather tha
 
 #### 3.3 Findings
 
-  **Structural dynamics — The variables trajectories** : Shows the DGP working as designed — logistic growth and oscillations visible
+  **Structural dynamics — The variables trajectories** : a visualization of the logistic growth of the wage gap and the dampened oscillations of the labor surplus for a sample of 5 societies. The trajectory of each society shows some slight differences. 
 
 ```{r}
 trajectories_func <- function(variable, ylab = "variable", main = "variable trajectories — Sample of 5 Societies", cex.main = 0.9){
@@ -485,7 +485,7 @@ trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labour sur
 par(mfrow = c(1, 1))
 ```
 
-  **Structural dynamics — The cumulative pressure with crisis marker** : Shows temporal relationship between pressure and crisis
+  **Structural dynamics — The cumulative pressure with crisis marker** : A visualization of the temporal relationship between pressure and crisis. It shows how the crises are clustered in period of high cumulative pressure. 
 
 ```{r}
 society_idx <- 1
@@ -505,7 +505,7 @@ legend("topleft",
        lty   = c(1, 1, 2), lwd = 2, cex = 0.7)
 ```
 
-  **Crisis pattern — Crisis frequency over time** : Shows the aggregate pattern across all societies — Marx's "more frequent crises" claim
+  **Crisis pattern — Crisis frequency over time** : A visualization of the proportion of societies experiencing crisis per decade across the full simulation. It demonstrates the increase of crisis frequency over time as cumulative pressure builds.
 
 ```{r}
 crisis_rate_by_decade <- rowMeans(y_final)
@@ -513,7 +513,7 @@ crisis_rate_by_decade <- rowMeans(y_final)
 plot(1:T_final, crisis_rate_by_decade,
      type = "l", col = "#E24B4A", lwd = 2, 
      xlab = "Decades", ylab = "Crisis rate", 
-     main = "Crisis frequency across societies ovre time")
+     main = "Crisis frequency across societies over time")
 abline(h = mean(crisis_rate_by_decade), 
        lty = 2, col = "gray50")
 abline(v = t0_l, lty = 3, col = "#1D9E75")
@@ -526,7 +526,7 @@ legend("topleft",
        lty = c(1, 2, 3, 3), cex = 0.8)
 ```
 
-  **Crisis pattern — Joint distribution** : Crises cluster where both pressures are high
+  **Crisis pattern — Joint distribution** : A scatter plot of the cumulative wage gap and labor surplus colored by crisis outcome. 
 
 ```{r}
 df_plot <- data.frame(
@@ -549,7 +549,7 @@ ggplot(df_plot, aes(x = CP_w, y = CP_l, color = crisis)) +
   theme(legend.position = "bottom")
 ```
 
-  **Crisis pattern — Marginal effect**
+  **Crisis pattern — Marginal effect** : a visualization of the crisis probability as a function of the cumulative wage gap (holding at low/medium/high cumulative labor surplus). This directly demonstrates the interaction — the slope changes depending on the other variable's level. 
 
 ```{r}
 marginal_effect <- function(CPx, CPy, CPpaste = "CPy", title = "Effect of CP_W at different CP_L levels", x = "CP_W" ) {
@@ -732,9 +732,9 @@ data.frame(
 
 **The sensitivity analysis reveals that crisis frequency is highly sensitive to changes in the structural parameters.** When structural parameters are varied, the scale of $CP_W$ and $CP_L$ changes accordingly, while $\beta_0$ remains fixed at its baseline value. Since $\beta_0$ no longer corresponds to the target crisis probability p = 0.005 under the new CP scales, crisis frequency fluctuates substantially across specifications, ranging from 0.4351	to 0.7514 with a mean of 0.6494. This limitation arises from the sensitivity analysis design, in which $\beta_0$ is not recalibrated for each structural parameter combination. Future work could address this by deriving specific $\beta_0$ to ensure constant crisis frequency across the sensitivity grid. 
 
-####    4. Parameter recovery analysis
+###   4. Parameter recovery analysis
 
-#####    4.1 Frequentist approach
+####   4.1 Frequentist approach
 
 The true parameters are known by construction. By fitting the logistic regression, we can validate whether the sample size N derived from the EPV rule is sufficient to recover the true parameters, assess if a standard logistic regression remains reliable under the ARMA(1,q) autocorrelation structure of $CP_L$ and $CP_W$ and test whether the parameter $\beta_3$ is detectable. Here, $\beta_3$ represents the mathematical formalization of Marx's argument that the interaction of wage depression and labor surplus amplifies crisis emergence. This approach allows us to determine whether the statistical model can recover known parameters from synthetic data generated under controlled conditions. **If the estimated parameters diverge substantially from the true parameters, the model certainly cannot be trusted to estimate unknown parameters from real historical data**
 
@@ -811,7 +811,7 @@ data.frame(
 
 The close alignment between the estimated and true parameters demonstrates that both models successfully recover the parameters derived from Marxian theory. This also validates our use of the EPV rule, confirming that the sample size was sufficient for reliable estimation. Furthermore, the estimated parameters maintain the expected ordering ($\beta_3$ > $\beta_2$ > $\beta_1$), providing empirical support for the theoretical argument regarding the dominance of the interaction term. Finally, despite the autocorrelated structure of the CP variables, standard logistic regression via glm() performs comparably to the custom MLE. This suggests that, under this specific simulation design, the autocorrelation does not introduce severe bias into the estimates.
 
-#####    4.2 Bayesian approach
+####    4.2 Bayesian approach
 
 The previous simulations used a frequentist framework, which treats parameters as fixed, unknown values. However, because this project aims to model the challenges of real historical data—where observations are not truly independent—a Bayesian approach provides a more honest and accurate quantification of uncertainty.
 Bayesian inference takes a different view: instead of assuming fixed parameters, it treats them as random variables with probability distributions. It combines our initial beliefs (the prior) with the evidence from the data (the likelihood) to produce updated beliefs (the posterior): **posterior ∝ likelihood × prior** .Rather than a single point estimate, the posterior captures the full range of plausible parameter values, making uncertainty quantification explicit. Since the posterior is typically analytically intractable, we approximate it through sampling. To this end, we implement two methods from the Markov Chain Monte Carlo (MCMC) family: a manual Metropolis–Hastings sampler and Hamiltonian Monte Carlo.
