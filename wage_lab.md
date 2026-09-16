@@ -714,11 +714,14 @@ data.frame (
     ## 1      Pilot  10 200         1334
     ## 2      Final 389 200        51384
 
-The substantial jump from 1342 to 51323 crises is an expected outcome
+The substantial jump from 1334 to 51384 crises is an expected outcome
 rather than a anomaly; it directly reflects the roughly 39-fold scaling
 of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
 
-**Plot 1 — The structural variables over time**
+#### 3.3 Findings
+
+**Structural dynamics — The variables trajectories** : Shows the DGP
+working as designed — logistic growth and oscillations visible
 
 ``` r
 trajectories_func <- function(variable, ylab = "variable", main = "variable trajectories — Sample of 5 Societies", cex.main = 0.9){
@@ -747,7 +750,8 @@ trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labour sur
 par(mfrow = c(1, 1))
 ```
 
-**Plot 2 — Cumulative pressure with crisis markers**
+**Structural dynamics — The cumulative pressure with crisis marker** :
+Shows temporal relationship between pressure and crisis
 
 ``` r
 society_idx <- 1
@@ -769,7 +773,8 @@ legend("topleft",
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
 
-**Plot 3 — Crisis frequency over time**
+**Crisis pattern — Crisis frequency over time** : Shows the aggregate
+pattern across all societies — Marx’s “more frequent crises” claim
 
 ``` r
 crisis_rate_by_decade <- rowMeans(y_final)
@@ -792,7 +797,8 @@ legend("topleft",
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
 
-**Plot 4 — Joint distribution at crisis vs non-crisis**
+**Crisis pattern — Joint distribution** : Crises cluster where both
+pressures are high
 
 ``` r
 df_plot <- data.frame(
@@ -816,6 +822,61 @@ ggplot(df_plot, aes(x = CP_w, y = CP_l, color = crisis)) +
 ```
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
+
+**Crisis pattern — Marginal effect**
+
+``` r
+marginal_effect <- function(CPx, CPy, CPpaste = "CPy", title = "Effect of CP_W at different CP_L levels", x = "CP_W" ) {
+  
+  CPx_seq <- seq(0, max(CPx), length.out = 100)
+  cl_levels <- quantile(CPy, c(.25, .5, .75))
+  
+  df_marginal <- do.call(rbind, lapply(seq_along(cl_levels), function(i) {
+    data.frame(
+      CPx = CPx_seq, 
+      p = plogis(beta0 + beta1*CPx_seq + beta2*cl_levels[i] + beta3*CPx_seq*cl_levels[i]),
+      CPy_level = factor(paste0(CPpaste, round(cl_levels[i], 2), " (Q", c(25,50,75)[i], ")"))
+    )
+  }))
+  
+  p1 <- ggplot(df_marginal,
+               aes(x = CPx, y = p, color = CPy_level)) +
+    geom_line(linewidth = 1) +
+    scale_color_manual(values = c("#378ADD", "#D97706", "#E24B4A")) +
+    labs(title = title,
+         x = x, y = "P(crisis)", color = NULL) +
+    theme_minimal(base_size = 11) +
+    theme(
+      plot.title      = element_text(size = 10, face = "bold", hjust = 0),
+      legend.position = "bottom",
+      legend.title    = element_blank(),
+      legend.text     = element_text(size = 7),
+      legend.key.size = unit(0.35, "cm"),
+      legend.margin   = margin(0, 0, 0, 0),
+      legend.box.margin = margin(0, 0, 0, 0),
+      legend.spacing.x = unit(0.2, "cm"))
+  
+  return(p1)
+}
+```
+
+``` r
+plot_w<-marginal_effect(CPfin_w, CPfin_l, CPpaste = "CP_L", title = "Effect of CP_W at different CP_L levels", x = "CP_W")
+plot_l<-marginal_effect(CPfin_l, CPfin_w, CPpaste = "CP_W", title = "Effect of CP_L at different CP_W levels", x = "CP_L")
+```
+
+``` r
+plot_w + plot_l +
+  plot_annotation(
+    title    = "Marginal Effects — Marx's Conjunction Hypothesis",
+    subtitle = "Steeper slopes at higher levels of the other variable confirm the interaction",
+    theme = theme(plot.title    = element_text(size = 14, face = "bold"),
+                  plot.subtitle = element_text(size = 10, color = "grey30"))
+  ) &
+  theme(plot.tag = element_text(size = 10))
+```
+
+![](wage_lab_files/figure-gfm/unnamed-chunk-30-1.png)<!-- -->
 
 #### 3.3 Sensitivity Analysis on the structural parameters
 
@@ -980,7 +1041,7 @@ data.frame(
     ## 1          21                 18                 3                    85.7
 
 The theoretical ordering $\beta_3 > \beta_2 > \beta_1$ is preserved in
-20 out of 21 specifications, corresponding to 95.2% of the sensitivity
+18 out of 21 specifications, corresponding to 85.7% of the sensitivity
 grid, suggesting that the model’s ability to recover the relative
 importance of the predictors is largely robust to structural parameter
 changes. In particular, Marx’s conjunctural argument, that **the
@@ -1006,8 +1067,8 @@ parameters are varied, the scale of $CP_W$ and $CP_L$ changes
 accordingly, while $\beta_0$ remains fixed at its baseline value. Since
 $\beta_0$ no longer corresponds to the target crisis probability p =
 0.005 under the new CP scales, crisis frequency fluctuates substantially
-across specifications, ranging from 0.4359 to 0.7506 with a mean of
-0.6491. This limitation arises from the sensitivity analysis design, in
+across specifications, ranging from 0.4351 to 0.7514 with a mean of
+0.6494. This limitation arises from the sensitivity analysis design, in
 which $\beta_0$ is not recalibrated for each structural parameter
 combination. Future work could address this by deriving specific
 $\beta_0$ to ensure constant crisis frequency across the sensitivity
@@ -1280,7 +1341,7 @@ trace_plot(mcmc_samples)
 post_plot(mcmc_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-42-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-45-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1336,7 +1397,7 @@ trace_plot(mcmc_std)
 post_plot(mcmc_std)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-46-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-49-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1416,7 +1477,7 @@ trace_plot(mnp_samples)
 post_plot(mnp_samples)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-49-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-52-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 1))
@@ -1592,15 +1653,13 @@ bayesian_model <- brm(
 
     ## Compiling Stan program...
 
-    ## Trying to compile a simple C file
-
     ## Start sampling
 
 ``` r
 plot(bayesian_model)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-54-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-57-1.png)<!-- -->
 
 **Hamiltonian Monte Carlo results :** In contrast to the manual
 Metropolis–Hastings sampler, the HMC chains converge for all four
@@ -1701,7 +1760,7 @@ combined_plot <- plot_wage + plot_labor
 combined_plot
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-59-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-62-1.png)<!-- -->
 
 As confirmed by the plots, the final and pilot simulations exhibit the
 **same autocorrelation structure.** This alignment indicate two key
@@ -1745,7 +1804,7 @@ avg_resid_matrix <- rowMeans(acf_resid_matrix)
 acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-61-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-64-1.png)<!-- -->
 
 Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit
