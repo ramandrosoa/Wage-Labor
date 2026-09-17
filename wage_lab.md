@@ -1711,10 +1711,16 @@ Carlo algorithm, confirming convergence across the four chains. In
 contrast, the manual Metropolis-Hastings sampler failed to achieve
 simultaneous convergence for all parameters.
 
-#### 5. Time Series Diagnosis :
+### 5. Time Series Diagnosis :
 
-Assumption violation \> Coefficient biased \> overconfident model \>
-inaccurate standard errors
+In logistic regression, the variables must be independent. The ARMA(1,q)
+structure of $CP_w$ and $CP_l$ violates this assumption, resulting in
+biased coefficients, an overconfident model, and inaccurate standard
+errors. To address this, a time series diagnosis is performed: the ACF
+of the pilot simulation is compared with that of the final simulation in
+order to check the stability of the DGP and the validity of the ESS.
+Moreover, residual autocorrelation from the logistic regression is
+examined, since correlated residuals can lead to biased coefficients.
 
 **1. Comparison of the ACF of the pilot and final simulation :**
 
@@ -1803,7 +1809,7 @@ acf_resid_matrix <- matrix (NA, nrow = lag_max, ncol = N_final)
 
 for (s in 1:N_final){
   # Extract the residuals for society s
-  res_s <- residuals_pearson[df_long$society == s]
+  res_s <- residuals_pearson[df_long_ord$society == s]
   acf_resid_matrix[,s]<-acf(res_s, lag_max, plot = FALSE)$acf[-1]
 }
 
@@ -1819,3 +1825,5 @@ acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit
 negligible autocorrelation, as demonstrated in the plots below.
+
+### Discussion
