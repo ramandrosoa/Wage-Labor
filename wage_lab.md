@@ -720,10 +720,11 @@ of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
 
 #### 3.3 Findings
 
-**Structural dynamics — The variables trajectories** : a visualization
-of the logistic growth of the wage gap and the dampened oscillations of
-the labor surplus for a sample of 5 societies. The trajectory of each
-society shows some slight differences.
+**Structural dynamics — The variables trajectories** : The figures
+visualize the logistic growth of the wage gap and the dampened
+oscillations of the labor surplus across a sample of five societies.
+While each society follows the same underlying dynamics, their
+trajectories exhibit slight, intentionally designed variations.
 
 ``` r
 trajectories_func <- function(variable, ylab = "variable", main = "variable trajectories — Sample of 5 Societies", cex.main = 0.9){
@@ -751,6 +752,21 @@ trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labour sur
 ``` r
 par(mfrow = c(1, 1))
 ```
+
+- The wage gap follows a logistic curve, reflecting wage depression as
+  subsistence costs rise. Pre-inflection, the gap is minimal;
+  post-inflection, it expands rapidly as labor surplus accumulates. Once
+  the gap reaches its ceiling, wages fail to cover subsistence costs,
+  making crisis inevitable.
+
+- The labor surplus trajectory displays a logistic upward trend with
+  dampened oscillations, reflecting the gradual accumulation of the
+  reserve army of labor. Oscillations above the trend signify
+  overproduction phases—where labor intensifies and displacement
+  occurs—while dips below the trend represent recovery phases, as
+  capital shifts to new sectors to temporarily absorb workers. With each
+  successive cycle, residual labor surplus accumulates, expanding the
+  reserve army and driving the logistic trend upward.
 
 **Structural dynamics — The cumulative pressure with crisis marker** : A
 visualization of the temporal relationship between pressure and crisis.
