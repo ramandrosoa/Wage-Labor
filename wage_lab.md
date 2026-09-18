@@ -753,25 +753,29 @@ trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labour sur
 par(mfrow = c(1, 1))
 ```
 
-- The wage gap follows a logistic curve, reflecting wage depression as
-  subsistence costs rise. Pre-inflection, the gap is minimal;
-  post-inflection, it expands rapidly as labor surplus accumulates. Once
-  the gap reaches its ceiling, wages fail to cover subsistence costs,
-  making crisis inevitable.
+- The wage gap follows a logistic curve, reflecting the gradual
+  depression of real wages as subsistence costs rise relative to nominal
+  wages. Pre-inflection, the gap is minimal; post-inflection, it expands
+  rapidly as labor surplus accumulates. Once the gap reaches its
+  ceiling, wages fail to cover subsistence costs, making crisis
+  inevitable.
 
 - The labor surplus trajectory displays a logistic upward trend with
   dampened oscillations, reflecting the gradual accumulation of the
   reserve army of labor. Oscillations above the trend signify
   overproduction phases—where labor intensifies and displacement
   occurs—while dips below the trend represent recovery phases, as
-  capital shifts to new sectors to temporarily absorb workers. With each
-  successive cycle, residual labor surplus accumulates, expanding the
-  reserve army and driving the logistic trend upward.
+  capital shifts to new sectors to temporarily absorb workers.
+  Critically, each successive cycle leaves a residual surplus — recovery
+  is never complete, as each new sector requires fewer workers than the
+  one it displaced. This incomplete recovery drives the logistic trend
+  upward over time, progressively expanding the reserve army regardless
+  of cyclical fluctuations.
 
-**Structural dynamics — The cumulative pressure with crisis marker** : A
-visualization of the temporal relationship between pressure and crisis.
-It shows how the crises are clustered in period of high cumulative
-pressure.
+**Structural dynamics — The cumulative pressure with crisis marker** :
+This illustrates this temporal relationship between pressure
+accumulation and crisis occurrence, showing how crisis events cluster
+precisely in periods of high cumulative pressure.
 
 ``` r
 society_idx <- 1
@@ -782,7 +786,7 @@ plot(1:T_final, CPfin_w[, society_idx],
      xlab = "", ylab = "CP_W",
      main = "Cumulative Pressure and Crisis Events — Society 1")
 abline(v = crisis_decades, col = "#E24B4A", lty = 2)
-lines(1:T_final, CPfin_l[, 1], col = "#E24B4A", lwd = 2)
+lines(1:T_final, CPfin_l[, society_idx], col = "#E24B4A", lwd = 2)
 legend("topleft",
        legend = c("Cumulative Wage Gap",
                   "Cumulative Labor Surplus", 
@@ -792,6 +796,15 @@ legend("topleft",
 ```
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
+
+In the early phase of capital accumulation, cumulative pressures remain
+negligible and crises are absent. As labour surplus gradually builds and
+progressively feeds into the cumulative wage gap through the feedback
+mechanism, both variables approach their respective inflection points
+$t_{0,w}$ and $t_{0,l}$. At these critical junctures, structural
+pressures reach a level sufficient to trigger crisis events, which
+subsequently become more frequent as cumulative pressures continue
+rising toward their ceiling.
 
 **Crisis pattern — Crisis frequency over time** : A visualization of the
 proportion of societies experiencing crisis per decade across the full
