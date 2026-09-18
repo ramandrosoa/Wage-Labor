@@ -761,16 +761,24 @@ par(mfrow = c(1, 1))
   inevitable.
 
 - The labor surplus trajectory displays a logistic upward trend with
-  dampened oscillations, reflecting the gradual accumulation of the
+  dampened oscillations, reflecting the secular accumulation of the
   reserve army of labor. Oscillations above the trend signify
-  overproduction phases—where labor intensifies and displacement
-  occurs—while dips below the trend represent recovery phases, as
-  capital shifts to new sectors to temporarily absorb workers.
-  Critically, each successive cycle leaves a residual surplus — recovery
-  is never complete, as each new sector requires fewer workers than the
-  one it displaced. This incomplete recovery drives the logistic trend
-  upward over time, progressively expanding the reserve army regardless
-  of cyclical fluctuations.
+  overproduction phases — where labor intensifies and displacement
+  occurs as mechanization reduces the need for workers. While dips below
+  the trend represent recovery phases — as capital shifts to new sectors
+  to temporarily absorb workers. Critically, each successive cycle
+  leaves a residual surplus — recovery is never complete, as each new
+  sector requires fewer workers than the one it displaced. This
+  incomplete recovery drives the logistic trend upward over time,
+  progressively expanding the reserve army regardless of cyclical
+  fluctuations.
+
+Crucially, the feedback between the two variables — labor surplus
+accumulation accelerating the wage gap growth rate through
+$$r_w = r_{base,w} + \alpha(LaborSurplus_{t-1})$$ — means **these
+trajectories are not independent.** The reserve army’s growth directly
+steepens the wage gap’s logistic curve, ensuring that both structural
+pressures build simultaneously.
 
 **Structural dynamics — The cumulative pressure with crisis marker** :
 This illustrates this temporal relationship between pressure
@@ -798,7 +806,7 @@ legend("topleft",
 ![](wage_lab_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
 
 In the early phase of capital accumulation, cumulative pressures remain
-negligible and crises are absent. As labour surplus gradually builds and
+negligible and crises are absent. As labor surplus gradually builds and
 progressively feeds into the cumulative wage gap through the feedback
 mechanism, both variables approach their respective inflection points
 $t_{0,w}$ and $t_{0,l}$. At these critical junctures, structural
@@ -809,7 +817,8 @@ rising toward their ceiling.
 **Crisis pattern — Crisis frequency over time** : A visualization of the
 proportion of societies experiencing crisis per decade across the full
 simulation. It demonstrates the increase of crisis frequency over time
-as cumulative pressure builds.
+as cumulative pressure builds. Post the inflection points, the crisis
+frequency dramatically increases.
 
 ``` r
 crisis_rate_by_decade <- rowMeans(y_final)
@@ -831,6 +840,8 @@ legend("topleft",
 ```
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
+
+Post the inflection points, the crisis frequency dramatically increases.
 
 **Crisis pattern — Joint distribution** : A scatter plot of the
 cumulative wage gap and labor surplus colored by crisis outcome.
@@ -857,6 +868,9 @@ ggplot(df_plot, aes(x = CP_w, y = CP_l, color = crisis)) +
 ```
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
+
+The crises are clustered in the high cumulative pressures region. It
+shows the mutual reinforcement of the variables.
 
 **Crisis pattern — Marginal effect** : a visualization of the crisis
 probability as a function of the cumulative wage gap (holding at
