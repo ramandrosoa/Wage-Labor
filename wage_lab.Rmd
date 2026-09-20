@@ -614,11 +614,14 @@ plot_w + plot_l +
   theme(plot.tag = element_text(size = 10))
 ```
 
-The marginal effect shows the asymmetry between the cumulative pressure terms : **labor surplus accumulates earlier and more consistently than wage gap**
+The marginal effect shows the asymmetry between the cumulative pressure terms :
 
--   **Left panel (P(crisis) as a function of cumulative wage gap):** The p(crisis) is already high at the Q25 of $CP_L$. This means the 25th percentile of the $CP_L$ is already substantial, this is why its lowest line already shows a meaningful crisis probability at high $CP_W$.
--   **Right panel (P(crisis) as a function of cumulative labor surplus):**
+-   **Left panel (P(crisis) as a function of cumulative wage gap):** The P(crisis) is already high at the Q25 of $CP_L$ (0.88). This reflects the early accumulation of labor surplus pasts its inflection point $t_{0,l}$ = 50 - by Q25 of the distribution, $CP_L$ has already reached substantial levels, providing a non-negligible baseline of structural pressure.
+-   **Right panel (P(crisis) as a function of cumulative labor surplus):** at the Q25 of $CP_W$ (0.11), there is almost no wage pressure and the baseline crisis probability remains low across all level of $CP_L$ - reflecting that $CP_W$ has not crossed its inflection point $t_{0,w}$ for its earliest observations.
 
+The asymmetry between the two panels is partially explained by $\beta_1$ > $\beta_2$. Since $\beta_1$ = 1.0 > $\beta_2$ = 0.5, a unit increase in $CP_W$ contributes twice as much to $z$ as a unit increase in $CP_L$. So $CP_W$ is inherently a stronger driver of crisis probability than $CP_L$. 
+The temporal asymmetry compounds this effect : at their respective 25th percentile, $CP_L$ has already reached substantial levels while $CP_W$ has not yet crossed its inflection point - meaning a "low" condition for $CP_L$ carries far more structural pressure than a "low" condition for $CP_W$. 
+Critically, both panels show diverging lines as the conditioning variable increases — the hallmark signature of $\beta_3$ : the effect of each pressure variable on crisis probability is amplified when the other is simultaneously elevated, providing visual confirmation of Marx's conjunction hypothesis.
 
 ####    3.3 Sensitivity Analysis on the structural parameters
 
