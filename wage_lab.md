@@ -720,8 +720,8 @@ of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
 
 #### 3.3 Findings
 
-**Structural dynamics — The variables trajectories** : The figures
-visualize the logistic growth of the wage gap and the dampened
+**Structural dynamics plot 1 — The variables trajectories** : The
+figures visualize the logistic growth of the wage gap and the dampened
 oscillations of the labor surplus across a sample of five societies.
 While each society follows the same underlying dynamics, their
 trajectories exhibit slight, intentionally designed variations.
@@ -780,8 +780,8 @@ trajectories are not independent.** The reserve army’s growth directly
 steepens the wage gap’s logistic curve, ensuring that both structural
 pressures build simultaneously.
 
-**Structural dynamics — The cumulative pressure with crisis marker** :
-This illustrates this temporal relationship between pressure
+**Structural dynamics plot 2 — The cumulative pressure with crisis
+marker** : This illustrates this temporal relationship between pressure
 accumulation and crisis occurrence, showing how crisis events cluster
 precisely in periods of high cumulative pressure.
 
@@ -808,17 +808,21 @@ legend("topleft",
 In the early phase of capital accumulation, cumulative pressures remain
 negligible and crises are absent. As labor surplus gradually builds and
 progressively feeds into the cumulative wage gap through the feedback
-mechanism, both variables approach their respective inflection points
-$t_{0,w}$ and $t_{0,l}$. At these critical junctures, structural
-pressures reach a level sufficient to trigger crisis events, which
-subsequently become more frequent as cumulative pressures continue
-rising toward their ceiling.
+mechanism $$r_w = r_{base,w} + \alpha(LaborSurplus_{t-1})$$, both
+variables approach their respective inflection points $t_{0,w}$ and
+$t_{0,l}$. At these critical junctures, structural pressures reach a
+level sufficient to trigger crisis events, which subsequently become
+more frequent as cumulative pressures continue rising toward their
+ceiling. — formalizing Marx’s claim that crises become ‘more frequent
+and more violent’ (Marx, 1849) as structural contradictions intensify.
+This individual-level trajectory illustrates the full causal chain from
+structural pressure accumulation to crisis — the mechanism that the
+logistic regression model is designed to recover.
 
-**Crisis pattern — Crisis frequency over time** : A visualization of the
-proportion of societies experiencing crisis per decade across the full
-simulation. It demonstrates the increase of crisis frequency over time
-as cumulative pressure builds. Post the inflection points, the crisis
-frequency dramatically increases.
+**Crisis pattern plot 1 — Crisis frequency over time** : Aggregating the
+crisis outcome across all societies, this plot shows the proportion of
+societies experiencing structural crisis per decade throughout the
+simulation.
 
 ``` r
 crisis_rate_by_decade <- rowMeans(y_final)
@@ -839,11 +843,17 @@ legend("topleft",
        lty = c(1, 2, 3, 3), cex = 0.8)
 ```
 
-![](wage_lab_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
+![](wage_lab_files/figure-gfm/unnamed-chunk-26-1.png)<!-- --> Crisis
+frequency remains near zero during the pre-inflection phase, before
+rising sharply as cumulative pressures exceed their critical thresholds
+— mirroring the individual-level trajectory observed in Plot 2.
+Crucially, this aggregate pattern confirms that the causal mechanism
+generalizes consistently across societies: the rising crisis frequency
+is not an artifact of one society’s specific trajectory but an emergent
+property of the structural dynamics encoded in the data generating
+process.
 
-Post the inflection points, the crisis frequency dramatically increases.
-
-**Crisis pattern — Joint distribution** : A scatter plot of the
+**Crisis pattern plot 2 — Joint distribution** : A scatter plot of the
 cumulative wage gap and labor surplus colored by crisis outcome.
 
 ``` r
@@ -872,8 +882,8 @@ ggplot(df_plot, aes(x = CP_w, y = CP_l, color = crisis)) +
 The crises are clustered in the high cumulative pressures region. It
 shows the mutual reinforcement of the variables.
 
-**Crisis pattern — Marginal effect** : a visualization of the crisis
-probability as a function of the cumulative wage gap (holding at
+**Crisis pattern plot 3 — Marginal effect** : a visualization of the
+crisis probability as a function of the cumulative wage gap (holding at
 low/medium/high cumulative labor surplus). This directly demonstrates
 the interaction — the slope changes depending on the other variable’s
 level.
