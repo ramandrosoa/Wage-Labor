@@ -52,10 +52,10 @@ simulation, a sensitivity analysis on the structural parameters is
 conducted to assess whether the core findings remain stable across
 alternative parameter specifications.
 
-Finally, we compare **frequentist and Bayesian approaches to parameter
-recovery**, testing whether Marx’s structural parameters — including the
-interaction term between wage depression and labor surplus — are
-statistically detectable from synthetic historical data.
+Finally, we compare **the Frequentist and the Bayesian approaches to
+parameter recovery**, testing whether Marx’s structural parameters —
+including the interaction term between wage depression and labor surplus
+— are statistically detectable from synthetic historical data.
 
 ### 2. Theoretical Framework
 
@@ -88,14 +88,14 @@ dynamics.
 $P(crisis[t]) = logistic(z)$, with :
 
 $$
-z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
+z = \beta_0+ \beta_1\cdot CP_W+ \beta_2 \cdot CP_L+ \beta_3 \cdot CP_W \cdot CP_L
 $$
 
-- $x_1$: cumulative wage gap
+- $CP_W$: cumulative wage gap
 
-- $x_2$: cumulative labor surplus
+- $CP_L$: cumulative labor surplus
 
-- $x_1x_2$ : mutual reinforcement between wage gap and labor surplus
+- $CP_WCPL$ : mutual reinforcement between wage gap and labor surplus
 
 The structural crisis outcome $Y_t$ \~ $Bernoulli(pt)$ represents the
 binary realization of accumulated structural pressure — does a
@@ -744,7 +744,7 @@ legend("bottomright", legend = paste("Society", 1:5),
 ``` r
 par(mfrow = c(2, 1), mar = c(3, 4, 2, 1))
 trajectories_func(wage_gap_fin, ylab = "Wage Gap", main = "Wage gap trajectories - Sample of 5 societies")
-trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labour surplus trajectories - Sample of 5 societies")
+trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labor surplus trajectories - Sample of 5 societies")
 ```
 
 ![](wage_lab_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
@@ -1327,7 +1327,7 @@ intractable, we approximate it through sampling. To this end, we
 implement two methods from the Markov Chain Monte Carlo (MCMC) family: a
 manual Metropolis–Hastings sampler and Hamiltonian Monte Carlo.
 
-- **Manual Metropolis-Hastings**
+**Manual Metropolis-Hastings (MH)**
 
 For our manual Metropolis-Hastings implementation, we assign Normal
 priors to the model parameters. Specifically, we center the priors for
@@ -1716,11 +1716,11 @@ data.frame(
 samplers—standard Metropolis–Hastings, Metropolis–Hastings with
 standardized predictors, and Metropolis–Hastings with a multivariate
 normal proposal—fail the convergence test. With $\hat{R}$ values ranging
-from 1.28 to 3.85, every variant lies far from the $\hat{R}$ ≤ 1
+from 1.180604 to 3.940527, every variant lies far from the $\hat{R}$ ≤ 1
 benchmark. These values quantitatively confirm the diagnosis suggested
 by the trace plots: no variant achieves simultaneous convergence across
 all four parameters. Notably, even in the best case (standard
-Metropolis–Hastings, where $\beta_2$ $\hat{R}$ reaches 1.030176),
+Metropolis–Hastings, where $\beta_2$ $\hat{R}$ reaches 1.032897),
 convergence occurs for a single parameter only, while the remaining
 three fail badly. **This illustrates a key limitation: individual
 parameters may appear well-behaved in isolation, yet the joint posterior
@@ -1730,7 +1730,7 @@ suggests the bottleneck is not the tuning of the proposal, but the
 random-walk nature of Metropolis–Hastings itself—reinforcing the need
 for the gradient-based approach of Hamiltonian Monte Carlo (HMC).
 
-- **Hamiltonian Monte Carlo**
+**Hamiltonian Monte Carlo (HMC)**
 
 ``` r
 bayesian_model <- brm(
@@ -1798,10 +1798,10 @@ data.frame(
     ## 3      beta2  1.032897  2.190855  3.597005 0.9998596
     ## 4      beta3  2.291407  3.556249  3.377270 1.0002140
 
-All parameters achieved $\hat{R} \approx 1$ with the Hamiltonian Monte
-Carlo algorithm, confirming convergence across the four chains. In
-contrast, the manual Metropolis-Hastings sampler failed to achieve
-simultaneous convergence for all parameters.
+All parameters achieved $\hat{R}$ ≤ 1 with the Hamiltonian Monte Carlo
+algorithm, confirming convergence across the four chains. In contrast,
+the manual Metropolis-Hastings sampler failed to achieve simultaneous
+convergence for all parameters.
 
 ### 5. Time Series Diagnosis :
 

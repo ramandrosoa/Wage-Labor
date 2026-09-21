@@ -27,7 +27,7 @@ The simulation is structured around two independent variables — wage gap and l
 
 We observed N societies over T decades. To determine the sample size, we used the **10 events per variable (EPV)** rule of thumb for logistic regression. But two methodological challenges must be addressed. First, the determination of N and T depends on the crisis probability and the autocorrelation structure of the cumulative pressure variables. Second, the cumulative pressure terms exhibit an **ARMA (1,q)** autocorrelation structure, making analytical derivation of the **effective sample size (ESS)** inappropriate. For these reasons, we proceed in two stages: a pilot simulation with provisional parameters to empirically estimate the autocorrelation structure, followed by the full simulation with final N and T derived from both the empirical autocorrelation estimate and the sensitivity analysis on crisis probability. Following the final simulation, a sensitivity analysis on the structural parameters is conducted to assess whether the core findings remain stable across alternative parameter specifications.
 
-Finally, we compare **the frequentist and Bayesian approaches to parameter recovery**, testing whether Marx's structural parameters — including the interaction term between wage depression and labor surplus — are statistically detectable from synthetic historical data.
+Finally, we compare **the Frequentist and the Bayesian approaches to parameter recovery**, testing whether Marx's structural parameters — including the interaction term between wage depression and labor surplus — are statistically detectable from synthetic historical data.
 
 ### 2. Theoretical Framework
 
@@ -48,14 +48,14 @@ Since all past periods contribute to the current crisis, yet recent events exert
 $P(crisis[t]) = logistic(z)$, with :
 
 $$
-z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
+z = \beta_0+ \beta_1\cdot CP_W+ \beta_2 \cdot CP_L+ \beta_3 \cdot CP_W \cdot CP_L
 $$
 
-- $x_1$: cumulative wage gap
+- $CP_W$: cumulative wage gap
 
-- $x_2$: cumulative labor surplus
+- $CP_L$: cumulative labor surplus
 
-- $x_1x_2$ : mutual reinforcement between wage gap and labor surplus 
+- $CP_WCPL$ : mutual reinforcement between wage gap and labor surplus 
 
 The structural crisis outcome $Y_t$ ~ $Bernoulli(pt)$  represents the binary realization of accumulated structural pressure — does a structural crisis occur in this decade or not? The probability $P(crisis[t])$ is governed by a logistic function of the cumulative pressure terms $CP_L$ and $CP_W$.
 This formulation captures the threshold nature of structural crisis — pressure accumulates gradually through wage depression and labor surplus until it crosses a critical level, at which point crisis probability rises sharply. Marx explicitly describes this intensification in Wage Labour and Capital: 'in the same measure in which the capitalists are compelled, by the movement described above, to exploit the already existing gigantic means of production on an ever-increasing scale, and for this purpose to set in motion all the mainsprings of credit, in the same measure do they increase the industrial earthquakes, in the midst of which the commercial world can preserve itself only by sacrificing a portion of its wealth, its products, and even its forces of production, to the gods of the lower world — in short, the crises increase. They become more frequent and more violent' (Marx, 1849).
@@ -834,7 +834,7 @@ The close alignment between the estimated and true parameters demonstrates that 
 The previous simulations used a frequentist framework, which treats parameters as fixed, unknown values. However, because this project aims to model the challenges of real historical data—where observations are not truly independent—a Bayesian approach provides a more honest and accurate quantification of uncertainty.
 Bayesian inference takes a different view: instead of assuming fixed parameters, it treats them as random variables with probability distributions. It combines our initial beliefs (the prior) with the evidence from the data (the likelihood) to produce updated beliefs (the posterior): **posterior ∝ likelihood × prior** .Rather than a single point estimate, the posterior captures the full range of plausible parameter values, making uncertainty quantification explicit. Since the posterior is typically analytically intractable, we approximate it through sampling. To this end, we implement two methods from the Markov Chain Monte Carlo (MCMC) family: a manual Metropolis–Hastings sampler and Hamiltonian Monte Carlo.
 
-**Manual Metropolis-Hastings**
+**Manual Metropolis-Hastings (MH)**
 
 For our manual Metropolis-Hastings implementation, we assign Normal priors to the model parameters. Specifically, we center the priors for the parameters $\beta_0$, $\beta_1$, $\beta_2$ and $\beta_3$ at zero to reflect a neutral initial assumption.
 
@@ -1127,10 +1127,10 @@ data.frame(
 )
 ```
 
-**R-hat results for the Metropolis–Hastings variants:** All three samplers—standard Metropolis–Hastings, Metropolis–Hastings with standardized predictors, and Metropolis–Hastings with a multivariate normal proposal—fail the convergence test. With $\hat{R}$ values ranging from 1.28 to 3.85, every variant lies far from the $\hat{R}$ ≤ 1 benchmark. These values quantitatively confirm the diagnosis suggested by the trace plots: no variant achieves simultaneous convergence across all four parameters.
-Notably, even in the best case (standard Metropolis–Hastings, where $\beta_2$ $\hat{R}$ reaches 1.030176), convergence occurs for a single parameter only, while the remaining three fail badly. **This illustrates a key limitation: individual parameters may appear well-behaved in isolation, yet the joint posterior remains unreachable.** Moreover, the fact that refining the proposal (standardization, multivariate structure) does not resolve the issue suggests the bottleneck is not the tuning of the proposal, but the random-walk nature of Metropolis–Hastings itself—reinforcing the need for the gradient-based approach of  Hamiltonian Monte Carlo (HMC).
+**R-hat results for the Metropolis–Hastings variants:** All three samplers—standard Metropolis–Hastings, Metropolis–Hastings with standardized predictors, and Metropolis–Hastings with a multivariate normal proposal—fail the convergence test. With $\hat{R}$ values ranging from 1.180604 to 3.940527, every variant lies far from the $\hat{R}$ ≤ 1 benchmark. These values quantitatively confirm the diagnosis suggested by the trace plots: no variant achieves simultaneous convergence across all four parameters.
+Notably, even in the best case (standard Metropolis–Hastings, where $\beta_2$ $\hat{R}$ reaches 1.032897), convergence occurs for a single parameter only, while the remaining three fail badly. **This illustrates a key limitation: individual parameters may appear well-behaved in isolation, yet the joint posterior remains unreachable.** Moreover, the fact that refining the proposal (standardization, multivariate structure) does not resolve the issue suggests the bottleneck is not the tuning of the proposal, but the random-walk nature of Metropolis–Hastings itself—reinforcing the need for the gradient-based approach of  Hamiltonian Monte Carlo (HMC).
 
-**Hamiltonian Monte Carlo**
+**Hamiltonian Monte Carlo (HMC)**
 
 ```{r, results='hide'}
 bayesian_model <- brm(
@@ -1175,7 +1175,7 @@ data.frame(
 )
 ```
 
-All parameters achieved $\hat{R} \approx 1$ with the Hamiltonian Monte Carlo algorithm, confirming convergence across the four chains. In contrast, the manual Metropolis-Hastings sampler failed to achieve simultaneous convergence for all parameters.
+All parameters achieved $\hat{R}$ ≤ 1 with the Hamiltonian Monte Carlo algorithm, confirming convergence across the four chains. In contrast, the manual Metropolis-Hastings sampler failed to achieve simultaneous convergence for all parameters.
 
 ### 5. Time Series Diagnosis :
 
