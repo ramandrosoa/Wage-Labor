@@ -27,7 +27,7 @@ The simulation is structured around two independent variables — wage gap and l
 
 We observed N societies over T decades. To determine the sample size, we used the **10 events per variable (EPV)** rule of thumb for logistic regression. But two methodological challenges must be addressed. First, the determination of N and T depends on the crisis probability and the autocorrelation structure of the cumulative pressure variables. Second, the cumulative pressure terms exhibit an **ARMA (1,q)** autocorrelation structure, making analytical derivation of the **effective sample size (ESS)** inappropriate. For these reasons, we proceed in two stages: a pilot simulation with provisional parameters to empirically estimate the autocorrelation structure, followed by the full simulation with final N and T derived from both the empirical autocorrelation estimate and the sensitivity analysis on crisis probability. Following the final simulation, a sensitivity analysis on the structural parameters is conducted to assess whether the core findings remain stable across alternative parameter specifications.
 
-Finally, we compare **frequentist and Bayesian approaches to parameter recovery**, testing whether Marx's structural parameters — including the interaction term between wage depression and labor surplus — are statistically detectable from synthetic historical data.
+Finally, we compare **the frequentist and Bayesian approaches to parameter recovery**, testing whether Marx's structural parameters — including the interaction term between wage depression and labor surplus — are statistically detectable from synthetic historical data.
 
 ### 2. Theoretical Framework
 
@@ -481,7 +481,7 @@ legend("bottomright", legend = paste("Society", 1:5),
 ```{r}
 par(mfrow = c(2, 1), mar = c(3, 4, 2, 1))
 trajectories_func(wage_gap_fin, ylab = "Wage Gap", main = "Wage gap trajectories - Sample of 5 societies")
-trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labour surplus trajectories - Sample of 5 societies")
+trajectories_func(labor_surplus_fin, ylab = "Labour Surplus", main = "Labor surplus trajectories - Sample of 5 societies")
 par(mfrow = c(1, 1))
 ```
 -   The wage gap follows a logistic curve, reflecting the gradual depression of real wages as subsistence costs rise relative to nominal wages. Pre-inflection, the gap is minimal; post-inflection, it expands rapidly as labor surplus accumulates. Once the gap reaches its ceiling, wages fail to cover subsistence costs, making crisis inevitable.
@@ -834,7 +834,7 @@ The close alignment between the estimated and true parameters demonstrates that 
 The previous simulations used a frequentist framework, which treats parameters as fixed, unknown values. However, because this project aims to model the challenges of real historical data—where observations are not truly independent—a Bayesian approach provides a more honest and accurate quantification of uncertainty.
 Bayesian inference takes a different view: instead of assuming fixed parameters, it treats them as random variables with probability distributions. It combines our initial beliefs (the prior) with the evidence from the data (the likelihood) to produce updated beliefs (the posterior): **posterior ∝ likelihood × prior** .Rather than a single point estimate, the posterior captures the full range of plausible parameter values, making uncertainty quantification explicit. Since the posterior is typically analytically intractable, we approximate it through sampling. To this end, we implement two methods from the Markov Chain Monte Carlo (MCMC) family: a manual Metropolis–Hastings sampler and Hamiltonian Monte Carlo.
 
-      -   Manual Metropolis-Hastings
+**Manual Metropolis-Hastings**
 
 For our manual Metropolis-Hastings implementation, we assign Normal priors to the model parameters. Specifically, we center the priors for the parameters $\beta_0$, $\beta_1$, $\beta_2$ and $\beta_3$ at zero to reflect a neutral initial assumption.
 
@@ -1130,7 +1130,7 @@ data.frame(
 **R-hat results for the Metropolis–Hastings variants:** All three samplers—standard Metropolis–Hastings, Metropolis–Hastings with standardized predictors, and Metropolis–Hastings with a multivariate normal proposal—fail the convergence test. With $\hat{R}$ values ranging from 1.28 to 3.85, every variant lies far from the $\hat{R}$ ≤ 1 benchmark. These values quantitatively confirm the diagnosis suggested by the trace plots: no variant achieves simultaneous convergence across all four parameters.
 Notably, even in the best case (standard Metropolis–Hastings, where $\beta_2$ $\hat{R}$ reaches 1.030176), convergence occurs for a single parameter only, while the remaining three fail badly. **This illustrates a key limitation: individual parameters may appear well-behaved in isolation, yet the joint posterior remains unreachable.** Moreover, the fact that refining the proposal (standardization, multivariate structure) does not resolve the issue suggests the bottleneck is not the tuning of the proposal, but the random-walk nature of Metropolis–Hastings itself—reinforcing the need for the gradient-based approach of  Hamiltonian Monte Carlo (HMC).
 
-      -   Hamiltonian Monte Carlo
+**Hamiltonian Monte Carlo**
 
 ```{r, results='hide'}
 bayesian_model <- brm(
@@ -1181,7 +1181,7 @@ All parameters achieved $\hat{R} \approx 1$ with the Hamiltonian Monte Carlo alg
 
 In logistic regression, the variables must be independent. The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates this assumption, resulting in biased coefficients, an overconfident model, and inaccurate standard errors. To address this, a time series diagnosis is performed: the ACF of the pilot simulation is compared with that of the final simulation in order to check the stability of the DGP and the validity of the ESS. Moreover, residual autocorrelation from the logistic regression is examined, since correlated residuals can lead to biased coefficients. 
 
-**1.    Comparison of the ACF of the pilot and final simulation :**
+**5.1.    Comparison of the ACF of the pilot and final simulation :**
 
 ```{r}
 acfin_matrix_l <- matrix(NA, nrow = lag_max , ncol = N_final)
@@ -1241,7 +1241,7 @@ As confirmed by the plots, the final and pilot simulations exhibit the **same au
 
 -   **Validity of the Effective Sample Size (ESS):** The ESS derived from the pilot simulation remains valid for the final simulation, as the underlying autocorrelation structure has remained unchanged. 
 
-**2.   Residual autocorrelation from logistic regression**
+**5.2.   Residual autocorrelation from logistic regression**
 
 The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic regression assumption of independent observations. However, this does not necessarily bias the estimated $\beta$ coefficients; rather, the primary consequence is **inaccurate standard errors**. Because $CP_w$ and $CP_l$ are expected to capture the temporal structure, the residuals should be uncorrelated. **The presence of correlated residuals can lead to biased standard errors.**
 
@@ -1267,6 +1267,6 @@ acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 
 Because the predictors $CP_W$ and $CP_L$ effectively explain the autoregressive nature of the data, the model residuals exhibit negligible autocorrelation, as demonstrated in the plots below.
 
-### Discussion 
+### 6. Discussion 
 
-
+The most important theoretical result is that Marx's conjunctural mechanism, as described in Wage Labour and Capital, is mathematically coherent and internally consistent: structural crisis does not emerge from wage depression or labor surplus independently, but from their simultaneous accumulation. The positive and statistically detectable $\beta_3$ directly formalizes this conjuncture. It means that the effect of wage gap on crisis probability is not fixed but amplifies as labor surplus grows, and vice versa. In other words, a society experiencing both high cumulative wage depression and high cumulative labor surplus is not merely twice as vulnerable as one experiencing either condition alone, it is disproportionately more so. This is precisely Marx's argument in Wage Labour and Capital: it is the convergence of these two structural pressures, not their individual magnitude, that pushes a society past the threshold of structural crisis.

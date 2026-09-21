@@ -1327,7 +1327,7 @@ intractable, we approximate it through sampling. To this end, we
 implement two methods from the Markov Chain Monte Carlo (MCMC) family: a
 manual Metropolis–Hastings sampler and Hamiltonian Monte Carlo.
 
-      -   Manual Metropolis-Hastings
+- **Manual Metropolis-Hastings**
 
 For our manual Metropolis-Hastings implementation, we assign Normal
 priors to the model parameters. Specifically, we center the priors for
@@ -1730,7 +1730,7 @@ suggests the bottleneck is not the tuning of the proposal, but the
 random-walk nature of Metropolis–Hastings itself—reinforcing the need
 for the gradient-based approach of Hamiltonian Monte Carlo (HMC).
 
-      -   Hamiltonian Monte Carlo
+- **Hamiltonian Monte Carlo**
 
 ``` r
 bayesian_model <- brm(
@@ -1814,7 +1814,7 @@ order to check the stability of the DGP and the validity of the ESS.
 Moreover, residual autocorrelation from the logistic regression is
 examined, since correlated residuals can lead to biased coefficients.
 
-**1. Comparison of the ACF of the pilot and final simulation :**
+**5.1. Comparison of the ACF of the pilot and final simulation :**
 
 ``` r
 acfin_matrix_l <- matrix(NA, nrow = lag_max , ncol = N_final)
@@ -1882,7 +1882,7 @@ points:
   the pilot simulation remains valid for the final simulation, as the
   underlying autocorrelation structure has remained unchanged.
 
-**2. Residual autocorrelation from logistic regression**
+**5.2. Residual autocorrelation from logistic regression**
 
 The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic
 regression assumption of independent observations. However, this does
@@ -1918,4 +1918,19 @@ Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit
 negligible autocorrelation, as demonstrated in the plots below.
 
-### Discussion
+### 6. Discussion
+
+The most important theoretical result is that Marx’s conjunctural
+mechanism, as described in Wage Labour and Capital, is mathematically
+coherent and internally consistent: structural crisis does not emerge
+from wage depression or labor surplus independently, but from their
+simultaneous accumulation. The positive and statistically detectable
+$\beta_3$ directly formalizes this conjuncture. It means that the effect
+of wage gap on crisis probability is not fixed but amplifies as labor
+surplus grows, and vice versa. In other words, a society experiencing
+both high cumulative wage depression and high cumulative labor surplus
+is not merely twice as vulnerable as one experiencing either condition
+alone, it is disproportionately more so. This is precisely Marx’s
+argument in Wage Labour and Capital: it is the convergence of these two
+structural pressures, not their individual magnitude, that pushes a
+society past the threshold of structural crisis.
