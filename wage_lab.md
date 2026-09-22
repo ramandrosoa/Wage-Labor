@@ -1329,7 +1329,7 @@ intractable, we approximate it through sampling. To this end, we
 implement two methods from the Markov Chain Monte Carlo (MCMC) family: a
 manual Metropolis–Hastings sampler and Hamiltonian Monte Carlo.
 
-**Manual Metropolis-Hastings (MH)**
+- **Manual Metropolis-Hastings (MH)**
 
 For our manual Metropolis-Hastings implementation, we assign Normal
 priors to the model parameters. Specifically, we center the priors for
@@ -1732,7 +1732,7 @@ suggests the bottleneck is not the tuning of the proposal, but the
 random-walk nature of Metropolis–Hastings itself—reinforcing the need
 for the gradient-based approach of Hamiltonian Monte Carlo (HMC).
 
-**Hamiltonian Monte Carlo (HMC)**
+- **Hamiltonian Monte Carlo (HMC)**
 
 ``` r
 bayesian_model <- brm(
@@ -1873,16 +1873,15 @@ combined_plot
 ![](wage_lab_files/figure-gfm/unnamed-chunk-62-1.png)<!-- -->
 
 As confirmed by the plots, the final and pilot simulations exhibit the
-**same autocorrelation structure.** This alignment indicate two key
-points:
+same autocorrelation structure.This alignment indicate two key points:
 
-- **Stability of the Data Generating Process (DGP):** The DGP is stable,
-  meaning the underlying parameters consistently produce the same
-  autocorrelation structure regardless of the sample size.
+**Stability of the Data Generating Process (DGP):** The DGP is stable,
+meaning the underlying parameters consistently produce the same
+autocorrelation structure regardless of the sample size.
 
-- **Validity of the Effective Sample Size (ESS):** The ESS derived from
-  the pilot simulation remains valid for the final simulation, as the
-  underlying autocorrelation structure has remained unchanged.
+**Validity of the Effective Sample Size (ESS):** The ESS derived from
+the pilot simulation remains valid for the final simulation, as the
+underlying autocorrelation structure has remained unchanged.
 
 **5.2. Residual autocorrelation from logistic regression**
 
@@ -1918,80 +1917,87 @@ acf_plot(avg_resid_matrix, T_final, title = "ACF residuals")
 
 Because the predictors $CP_W$ and $CP_L$ effectively explain the
 autoregressive nature of the data, the model residuals exhibit
-negligible autocorrelation, as demonstrated in the plots below.
+negligible autocorrelation, as demonstrated in the plots above.
 
 ### 6. Discussion
 
-**Theoretical findings** The most important theoretical result is that
-Marx’s conjunctural mechanism, as described in Wage Labour and Capital,
-is mathematically coherent and internally consistent: structural crisis
-does not emerge from wage depression or labor surplus independently, but
-from their simultaneous accumulation. The positive and statistically
-detectable $\beta_3$ directly formalizes this conjuncture. It means that
-the effect of wage gap on crisis probability is not fixed but amplifies
-as labor surplus grows, and vice versa. In other words, a society
-experiencing both high $CP_W$ and $CP_L$ is not merely twice as
-vulnerable as one experiencing either condition alone, it is
-disproportionately more so. This is precisely Marx’s argument in Wage
-Labour and Capital: it is the convergence of these two structural
-pressures, not their individual magnitude, that pushes a society past
-the threshold of structural crisis.
+- **Theoretical findings**
 
-**Sensitivity analasis** The sensitivity analysis on structural
-parameters reveals that crisis frequencies consistently exceed the
-baseline probability originally specified. This is an expected
-consequence of varying the structural parameters without recalibrating
-$\beta_0$ — as the dynamics of $CP_W$ and $CP_L$ change across the
-sensitivity grid, the intercept must be adjusted to maintain the target
-crisis frequency. The primary objective of the sensitivity analysis was
-therefore not to reproduce a fixed crisis rate, but to assess whether
-the theoretically expected ordering $\beta_3$ \> $\beta_2$ \> $\beta_1$
-is preserved across alternative parameter specifications — confirming
-that the core finding is driven by the theoretical structure of the
-model rather than any specific parameter choice. Future work should
-address this limitation by deriving a recalibrated $\beta_0$ for each
-parameter configuration, ensuring a constant crisis frequency across the
-sensitivity grid.
+The most important theoretical result is that Marx’s conjunctural
+mechanism, as described in Wage Labour and Capital, is mathematically
+coherent and internally consistent: structural crisis does not emerge
+from wage depression or labor surplus independently, but from their
+simultaneous accumulation. The positive and statistically detectable
+$\beta_3$ directly formalizes this conjuncture. It means that the effect
+of wage gap on crisis probability is not fixed but amplifies as labor
+surplus grows, and vice versa. In other words, a society experiencing
+both high $CP_W$ and $CP_L$ is not merely twice as vulnerable as one
+experiencing either condition alone, it is disproportionately more so.
+This is precisely Marx’s argument in Wage Labour and Capital: it is the
+convergence of these two structural pressures, not their individual
+magnitude, that pushes a society past the threshold of structural
+crisis.
 
-**Methodological contribution — frequentist and Bayesian parameter
-recovery** The parameter recovery analysis reveals an important
-methodological finding about the nature of Marx’s theoretical model when
-formalized mathematically. The Metropolis-Hastings sampler failed to
-recover all parameters jointly — individual parameters appeared
-well-behaved in isolation, yet the joint posterior remained unreachable.
-This failure is attributable to the multicollinearity between $CP_W$,
-$CP_L$ and their interaction term — an inherent characteristic of
-historical structural variables that accumulate together over time. The
-isotropic proposal of MH treats parameter updates as independent,
-failing to navigate the elongated posterior ridge created by this
-correlation structure. Hamiltonian Monte Carlo, by contrast, uses
-gradient information to propose joint updates along the posterior
-geometry — successfully recovering all parameters simultaneously. The
-broader implication is that Marx’s structural mechanisms, when
-formalized mathematically, produce deeply correlated variables that
-cannot be analyzed independently. Treating observations as independent
-introduces bias into parameter estimates and undermines the reliability
-of inference. This finding underscores the necessity of gradient-based
-Bayesian samplers for models of structural historical dynamics.
+- **Sensitivity analysis**
 
-**Limitations and future directions** This project establishes a
-methodological pipeline for the quantitative formalization of Marx’s
-structural mechanisms — but under controlled synthetic conditions that
-differ from real historical data in three important ways. First, the
-synthetic dataset is complete by design, whereas real historical
-archives are fragmentary and incomplete. Future work should introduce
-explicit missingness mechanisms — particularly non-random missingness,
-where the most crisis-ridden societies are precisely those most likely
-to have incomplete records — and address this through Bayesian
-imputation or multiple imputation frameworks. Second, the true
-parameters are known in the synthetic setting but unknown in real data,
-requiring that estimation replace validation as the primary inferential
-task. Third, real historical data contains unmeasured confounders,
-measurement error, and mechanisms not captured by the current model
-specification. Most importantly, the headline finding of this project —
-that structural crisis emerges from the simultaneous accumulation of
-wage depression and labor surplus, formalized through the interaction
-term $\beta_3$ — must ultimately be validated against real historical
-noise. Whether $\beta_3$ remains statistically detectable when applied
-to empirical cliodynamic data constitutes the natural extension of this
-work and the decisive empirical test of Marx’s conjunction hypothesis.
+The sensitivity analysis on structural parameters reveals that crisis
+frequencies consistently exceed the baseline probability originally
+specified. This is an expected consequence of varying the structural
+parameters without recalibrating $\beta_0$ — as the dynamics of $CP_W$
+and $CP_L$ change across the sensitivity grid, the intercept must be
+adjusted to maintain the target crisis frequency. The primary objective
+of the sensitivity analysis was therefore not to reproduce a fixed
+crisis rate, but to assess whether the theoretically expected ordering
+$\beta_3$ \> $\beta_2$ \> $\beta_1$ is preserved across alternative
+parameter specifications — confirming that the core finding is driven by
+the theoretical structure of the model rather than any specific
+parameter choice. Future work should address this limitation by deriving
+a recalibrated $\beta_0$ for each parameter configuration, ensuring a
+constant crisis frequency across the sensitivity grid.
+
+- **Methodological contribution — frequentist and Bayesian parameter
+  recovery**
+
+The parameter recovery analysis reveals an important methodological
+finding about the nature of Marx’s theoretical model when formalized
+mathematically. The Metropolis-Hastings sampler failed to recover all
+parameters jointly — individual parameters appeared well-behaved in
+isolation, yet the joint posterior remained unreachable. This failure is
+attributable to the multicollinearity between $CP_W$, $CP_L$ and their
+interaction term — an inherent characteristic of historical structural
+variables that accumulate together over time. The isotropic proposal of
+MH treats parameter updates as independent, failing to navigate the
+elongated posterior ridge created by this correlation structure.
+Hamiltonian Monte Carlo, by contrast, uses gradient information to
+propose joint updates along the posterior geometry — successfully
+recovering all parameters simultaneously. The broader implication is
+that Marx’s structural mechanisms, when formalized mathematically,
+produce deeply correlated variables that cannot be analyzed
+independently. Treating observations as independent introduces bias into
+parameter estimates and undermines the reliability of inference. This
+finding underscores the necessity of gradient-based Bayesian samplers
+for models of structural historical dynamics.
+
+- **Limitations and future directions**
+
+This project establishes a methodological pipeline for the quantitative
+formalization of Marx’s structural mechanisms — but under controlled
+synthetic conditions that differ from real historical data in three
+important ways. First, the synthetic dataset is complete by design,
+whereas real historical archives are fragmentary and incomplete. Future
+work should introduce explicit missingness mechanisms — particularly
+non-random missingness, where the most crisis-ridden societies are
+precisely those most likely to have incomplete records — and address
+this through Bayesian imputation or multiple imputation frameworks.
+Second, the true parameters are known in the synthetic setting but
+unknown in real data, requiring that estimation replace validation as
+the primary inferential task. Third, real historical data contains
+unmeasured confounders, measurement error, and mechanisms not captured
+by the current model specification. Most importantly, the headline
+finding of this project — that structural crisis emerges from the
+simultaneous accumulation of wage depression and labor surplus,
+formalized through the interaction term $\beta_3$ — must ultimately be
+validated against real historical noise. Whether $\beta_3$ remains
+statistically detectable when applied to empirical cliodynamic data
+constitutes the natural extension of this work and the decisive
+empirical test of Marx’s conjunction hypothesis.
