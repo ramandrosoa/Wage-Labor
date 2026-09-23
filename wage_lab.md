@@ -240,11 +240,11 @@ threshold is reached. While these provisional values cannot be formally
 validated against historical data at this stage, a sensitivity analysis
 is conducted after the final simulation to assess whether the core
 findings, namely the reliable recovery of the logistic regression
-parameters and the theoretically expected ordering $\beta_3$ \>
-$\beta_1$ \> $\beta_2$, remain stable across alternative parameter
-specifications. Robustness of the results across this range would
-suggest that the conclusions are driven by the theoretical structure of
-the model rather than by any specific parameter choice.
+parameters and the expected ordering $\beta_3$ \> $\beta_1$ \>
+$\beta_2$, remain stable across alternative parameter specifications.
+Robustness of the results across this range would suggest that the
+conclusions are driven by the theoretical structure of the model rather
+than by any specific parameter choice.
 
 ``` r
 set.seed(123)
@@ -640,14 +640,15 @@ beta2 <- 0.5   # labor surplus effect — smaller alone
 beta3 <- 2.0   # interaction — largest, captures Marx's threshold
 ```
 
-The ordering $\beta_3$ \> $\beta_1$ \> $\beta_2$ reflects three
-theoretical priorities. The dominance of $\beta_3$ formalizes Marx’s
-conjunctural argument that **structural crisis emerges primarly from the
-simultaneous occurrence of wage depression and labor surplus.** The
-ordering $\beta_1$ \> $\beta_2$ reflects the relatively stronger direct
-effect of wage gap compared to labor surplus in isolation, consistent
-with Marx’s emphasis on wage depression as the most visible
-manifestation of capitalist contradiction in Wage Labour and Capital.xxx
+The dominance of $\beta_3$ formalizes Marx’s conjunctural argument that
+structural crisis emerges primarly from the simultaneous occurrence of
+wage depression and labor surplus — the interaction effect should
+dominate both individual effects. The ordering $\beta_1$ \> $\beta_2$
+reflects a modeling choice : wage depression directly threatens worker
+subsistence while labor surplus operates more indirectly — it depresses
+wages. Future work with real historical data could empirically test
+whether this ordering holds or whether labor surplus carries an
+independent effect comparable to or exceeding that of wage depression.
 
 $$
 z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
@@ -672,18 +673,18 @@ y_pilot <- y_func(beta0, beta1, beta2, beta3, CP_l, CP_w, T_pilot, N_pilot)
 
 #### 3.2 Final simulation
 
-For the final simulation, we set **N_final = 389 societies and T_final =
-200**. This timeline spans the necessary pre- and post-inflection
-decades. The choice to include exactly 150 post-inflection decades is
-driven by the differing autocorrelation structures of our variables:
-while these 150 decades translate to merely 5 effective independent
-informations for labor surplus, they yield 15 independent observations
-for the wage gap. The pre-inflection phase is retained to preserve the
-theoretical warmup consistent with Marx’s early capitalism argument.
-However, the labor surplus exhibits high autocorrelation, substantially
-reducing the effective independent information per society. **To
-compensate for this loss of independence and to satisfy the EPV rule of
-a minimum of 30 effective crisis, N = 389 societies are required.**
+For the final simulation, we set N_final = 389 societies and T_final =
+200. This timeline spans the necessary pre- and post-inflection decades.
+The choice to include exactly 150 post-inflection decades is driven by
+the differing autocorrelation structures of our variables: while these
+150 decades translate to merely 5 effective independent informations for
+labor surplus, they yield 15 independent observations for the wage gap.
+The pre-inflection phase is retained to preserve the theoretical warmup
+consistent with Marx’s early capitalism argument. However, the labor
+surplus exhibits high autocorrelation, substantially reducing the
+effective independent information per society. **To compensate for this
+loss of independence and to satisfy the EPV rule of a minimum of 30
+effective crisis, N = 389 societies are required.**
 
 ``` r
 N_final <- 389
@@ -971,12 +972,12 @@ terms :
 - **Left panel (P(crisis) as a function of cumulative wage gap):** The
   P(crisis) is already high at the Q25 of $CP_L$ (0.88). This reflects
   the early accumulation of labor surplus pasts its inflection point
-  $t_{0,l}$ = 50 - by Q25 of the distribution, $CP_L$ has already
+  $t_{0,l}$ = 50 — by Q25 of the distribution, $CP_L$ has already
   reached substantial levels, providing a non-negligible baseline of
   structural pressure.
 - **Right panel (P(crisis) as a function of cumulative labor surplus):**
   at the Q25 of $CP_W$ (0.11), there is almost no wage pressure and the
-  baseline crisis probability remains low across all level of $CP_L$ -
+  baseline crisis probability remains low across all level of $CP_L$ —
   reflecting that $CP_W$ has not crossed its inflection point $t_{0,w}$
   for its earliest observations.
 
@@ -986,7 +987,7 @@ in $CP_W$ contributes twice as much to $z$ as a unit increase in $CP_L$.
 So $CP_W$ is inherently a stronger driver of crisis probability than
 $CP_L$. The temporal asymmetry compounds this effect : at their
 respective 25th percentile, $CP_L$ has already reached substantial
-levels while $CP_W$ has not yet crossed its inflection point - meaning a
+levels while $CP_W$ has not yet crossed its inflection point — meaning a
 “low” condition for $CP_L$ carries far more structural pressure than a
 “low” condition for $CP_W$. Critically, both panels show diverging lines
 as the conditioning variable increases — the hallmark signature of
