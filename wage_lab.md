@@ -219,8 +219,8 @@ r_w = r_{base,w} + \alpha(LaborSurplus_{t-1})
 $$
 
 The growth rate $r_w$ is modeled as a function of lagged labor surplus,
-reflecting Turchin and Nefedov’s (2009) empirical observation that
-oversupply of labor leads to depressed wages — a mechanism Marx
+reflecting Turchin and Nefedov’s (2009) empirical observation :
+“Oversupply of labor leads to depressed wages” — a mechanism Marx
 identifies as the primary driver of wage depression in Wage Labour and
 Capital.
 
@@ -647,7 +647,7 @@ simultaneous occurrence of wage depression and labor surplus.** The
 ordering $\beta_1$ \> $\beta_2$ reflects the relatively stronger direct
 effect of wage gap compared to labor surplus in isolation, consistent
 with Marx’s emphasis on wage depression as the most visible
-manifestation of capitalist contradiction in Wage Labour and Capital.???
+manifestation of capitalist contradiction in Wage Labour and Capital.xxx
 
 $$
 z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
@@ -732,14 +732,26 @@ trajectories exhibit slight, intentionally designed variations.
 trajectories_func <- function(variable, ylab = "variable", main = "variable trajectories — Sample of 5 Societies", cex.main = 0.9){
   matplot(1:T_final, variable[, 1:5],
         type = "l", lty = 1,
-        col = adjustcolor(c("#378ADD","#E24B4A","#1D9E75",
+        col = adjustcolor(c("#378ADD","#000000","#1D9E75",
                             "#D97706","#7C3AED"), alpha = 0.7),
         xlab = "Decades", ylab = ylab,
         main = main, cex.main = cex.main)
-abline(v = t0_w, lty = 2, col = "gray50")
-legend("bottomright", legend = paste("Society", 1:5),
-       col = c("#378ADD","#E24B4A","#1D9E75","#D97706","#7C3AED"),
+
+  if (ylab == "Labour Surplus") {
+    logistic_trend_l <- K_l / (1 + exp(-r_l * (1:T_final - t0_l))) # compute logistic trend
+    abline(v = t0_l, lty = 2, col = "gray50")
+    lines(1:T_final, logistic_trend_l, col = "#E24B4A", lwd = 2, lty = 2)
+    legend("bottomright", legend = c(paste("Society", 1:5), "trend"),
+       col = c("#378ADD","#000000","#1D9E75","#D97706","#7C3AED", "#E24B4A"),
        lty = 1, cex = 0.7)
+  }
+  else {
+    legend("bottomright", legend = paste("Society", 1:5),
+          col = c("#378ADD","#000000","#1D9E75","#D97706","#7C3AED"),
+          lty = 1, cex = 0.7)
+    abline(v = t0_w, lty = 2, col = "gray50")
+  }
+
 }
 ```
 
@@ -1199,7 +1211,7 @@ unknown parameters from real historical data**
 To fit the logistic regression, we will utilize two estimation
 approaches and evaluate the differences in the resulting coefficients :
 
-**Long format + glm()**
+- **Long format + glm()**
 
 This is the cleanest approach for logistic regression in R: the NxT
 matrices to a long format dataframe and fit the data straightforwardly.
@@ -1247,7 +1259,7 @@ summary(model)
     ## 
     ## Number of Fisher Scoring iterations: 7
 
-**Custom Maximum Likelihood Estimation function**
+- **Custom Maximum Likelihood Estimation function**
 
 This method shows what glm() is doing internally.
 
@@ -1888,8 +1900,8 @@ underlying autocorrelation structure has remained unchanged.
 The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic
 regression assumption of independent observations. However, this does
 not necessarily bias the estimated $\beta$ coefficients; rather, the
-primary consequence is **inaccurate standard errors**. Because $CP_w$
-and $CP_l$ are expected to capture the temporal structure, the residuals
+primary consequence is inaccurate standard errors. Because $CP_w$ and
+$CP_l$ are expected to capture the temporal structure, the residuals
 should be uncorrelated. **The presence of correlated residuals can lead
 to biased standard errors.**
 

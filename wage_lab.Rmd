@@ -91,13 +91,13 @@ $$
 r_w = r_{base,w} + \alpha(LaborSurplus_{t-1})
 $$
 
-The growth rate $r_w$ is modeled as a function of lagged labor surplus, reflecting Turchin and Nefedov's (2009) empirical observation that oversupply of labor leads to depressed wages — a mechanism Marx identifies as the primary driver of wage depression in Wage Labour and Capital.
+The growth rate $r_w$ is modeled as a function of lagged labor surplus, reflecting Turchin and Nefedov's (2009) empirical observation : "Oversupply of labor leads to depressed wages" — a mechanism Marx identifies as the primary driver of wage depression in Wage Labour and Capital.
 
 ### 3. Data Generating Process
 
 #### 3.1  Pilot simulation
 
-In the absence of precise empirical estimates for the structural parameters, provisional values are assigned based on theoretical plausibility, ensuring that the simulated dynamics are qualitatively consistent with the mechanisms described in Marx's Wage Labour and Capital. Specifically, parameters are chosen so that labor surplus follows a gradual logistic accumulation with dampened cyclical fluctuations, wage gap exhibits a feedback driven S-shaped trajectory, and cumulative pressures build meaningfully over time before the crisis threshold is reached. While these provisional values cannot be formally validated against historical data at this stage, a sensitivity analysis is conducted after the final simulation to assess whether the core findings, namely the reliable recovery of the logistic regression parameters and the theoretically expected ordering $\beta_3$ > $\beta_1$  > $\beta_2$, remain stable across alternative parameter specifications. Robustness of the results across this range would suggest that the conclusions are driven by the theoretical structure of the model rather than by any specific parameter choice.
+In the absence of precise empirical estimates for the structural parameters, provisional values are assigned based on theoretical plausibility, ensuring that the simulated dynamics are qualitatively consistent with the mechanisms described in Marx's Wage Labour and Capital. Specifically, parameters are chosen so that labor surplus follows a gradual logistic accumulation with dampened cyclical fluctuations, wage gap exhibits a feedback driven S-shaped trajectory, and cumulative pressures build meaningfully over time before the crisis threshold is reached. While these provisional values cannot be formally validated against historical data at this stage, a sensitivity analysis is conducted after the final simulation to assess whether the core findings, namely the reliable recovery of the logistic regression parameters and the expected ordering $\beta_3$ > $\beta_1$  > $\beta_2$, remain stable across alternative parameter specifications. Robustness of the results across this range would suggest that the conclusions are driven by the theoretical structure of the model rather than by any specific parameter choice.
 
 ```{r}
 set.seed(123)
@@ -302,7 +302,6 @@ $$
 T_{eff} = \frac{T}{1+2\sum^{\infty}_{k=1}\rho(k)}
 $$
 
-
 -   $T$ : T_pilot, the raw sample size, the total number of observed periods.
 -   $T_{eff}$ : the ESS — the equivalent number of independent observations after accounting for autocorrelation
 -   $\rho$ : the autocorrelation structure. 
@@ -400,7 +399,7 @@ beta2 <- 0.5   # labor surplus effect — smaller alone
 beta3 <- 2.0   # interaction — largest, captures Marx's threshold
 ```
 
-The ordering $\beta_3$ > $\beta_1$  > $\beta_2$ reflects three theoretical priorities. The dominance of $\beta_3$ formalizes Marx's conjunctural argument that **structural crisis emerges primarly from the simultaneous occurrence of wage depression and labor surplus.** The ordering $\beta_1$  > $\beta_2$ reflects the relatively stronger direct effect of wage gap compared to labor surplus in isolation, consistent with Marx's emphasis on wage depression as the most visible manifestation of capitalist contradiction in Wage Labour and Capital.???
+The dominance of $\beta_3$ formalizes Marx's conjunctural argument that structural crisis emerges primarly from the simultaneous occurrence of wage depression and labor surplus. —  the interaction effect should dominate both individual effects. The ordering $\beta_1$  > $\beta_2$ 
 
 $$
 z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
@@ -467,14 +466,26 @@ The substantial jump from 1334 to 51384 crises is an expected outcome rather tha
 trajectories_func <- function(variable, ylab = "variable", main = "variable trajectories — Sample of 5 Societies", cex.main = 0.9){
   matplot(1:T_final, variable[, 1:5],
         type = "l", lty = 1,
-        col = adjustcolor(c("#378ADD","#E24B4A","#1D9E75",
+        col = adjustcolor(c("#378ADD","#000000","#1D9E75",
                             "#D97706","#7C3AED"), alpha = 0.7),
         xlab = "Decades", ylab = ylab,
         main = main, cex.main = cex.main)
-abline(v = t0_w, lty = 2, col = "gray50")
-legend("bottomright", legend = paste("Society", 1:5),
-       col = c("#378ADD","#E24B4A","#1D9E75","#D97706","#7C3AED"),
+
+  if (ylab == "Labour Surplus") {
+    logistic_trend_l <- K_l / (1 + exp(-r_l * (1:T_final - t0_l))) # compute logistic trend
+    abline(v = t0_l, lty = 2, col = "gray50")
+    lines(1:T_final, logistic_trend_l, col = "#E24B4A", lwd = 2, lty = 2)
+    legend("bottomright", legend = c(paste("Society", 1:5), "trend"),
+       col = c("#378ADD","#000000","#1D9E75","#D97706","#7C3AED", "#E24B4A"),
        lty = 1, cex = 0.7)
+  }
+  else {
+    legend("bottomright", legend = paste("Society", 1:5),
+          col = c("#378ADD","#000000","#1D9E75","#D97706","#7C3AED"),
+          lty = 1, cex = 0.7)
+    abline(v = t0_w, lty = 2, col = "gray50")
+  }
+
 }
 ```
 
@@ -758,7 +769,7 @@ The true parameters are known by construction. By fitting the logistic regressio
 
 To fit the logistic regression, we will utilize two estimation approaches and evaluate the differences in the resulting coefficients :
 
-**Long format + glm()**
+-   **Long format + glm()**
 
 This is the cleanest approach for logistic regression in R: the NxT matrices to a long format dataframe and fit the data straightforwardly. 
 
@@ -779,7 +790,7 @@ model <- glm(y~CP_w+CP_l+CP_w:CP_l,
 summary(model)
 ```
 
-**Custom Maximum Likelihood Estimation function**
+-   **Custom Maximum Likelihood Estimation function**
 
 This method shows what glm() is doing internally.
 
@@ -1243,7 +1254,7 @@ As confirmed by the plots, the final and pilot simulations exhibit the same auto
 
 **5.2.   Residual autocorrelation from logistic regression**
 
-The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic regression assumption of independent observations. However, this does not necessarily bias the estimated $\beta$ coefficients; rather, the primary consequence is **inaccurate standard errors**. Because $CP_w$ and $CP_l$ are expected to capture the temporal structure, the residuals should be uncorrelated. **The presence of correlated residuals can lead to biased standard errors.**
+The ARMA(1,q) structure of $CP_w$ and $CP_l$ violates the logistic regression assumption of independent observations. However, this does not necessarily bias the estimated $\beta$ coefficients; rather, the primary consequence is inaccurate standard errors. Because $CP_w$ and $CP_l$ are expected to capture the temporal structure, the residuals should be uncorrelated. **The presence of correlated residuals can lead to biased standard errors.**
 
 ```{r}
 residuals_pearson <- residuals(model, type = "pearson")
