@@ -637,7 +637,7 @@ $\beta_1$ , $\beta_2$ , $\beta_3$.
 beta0 <- -5.2933    
 beta1 <- 1.0   # wage gap effect — moderate
 beta2 <- 0.5   # labor surplus effect — smaller alone
-beta3 <- 2.0   # interaction — largest, captures Marx's threshold
+beta3 <- 2.0   # interaction — largest
 ```
 
 The dominance of $\beta_3$ formalizes Marx’s conjunctural argument that
@@ -650,8 +650,14 @@ wages. Future work with real historical data could empirically test
 whether this ordering holds or whether labor surplus carries an
 independent effect comparable to or exceeding that of wage depression.
 
+Recall:
+
 $$
-z = \beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_1x_2
+P(crisis[t]) = \frac{1}{1+e^{-z}}
+$$
+
+$$
+z = \beta_0+ \beta_1\cdot CP_W+ \beta_2 \cdot CP_L+ \beta_3 \cdot CP_W \cdot CP_L
 $$
 
 ``` r
