@@ -2020,3 +2020,21 @@ validated against real historical noise. Whether $\beta_3$ remains
 statistically detectable when applied to empirical cliodynamic data
 constitutes the natural extension of this work and the decisive
 empirical test of Marx’s conjunction hypothesis.
+
+### 7. Conclusion
+
+This project matters beyond its technical contribution. Marx wrote in an
+era of machinery displacement — workers being replaced by mechanical
+production at industrial scale. We write in an era of algorithmic
+displacement — the same structural dynamic, accelerated and abstracted.
+The “reserve army of labor” Marx described is being reconstituted in the
+age of artificial intelligence, and the structural pressures he
+identified — wage depression, labor surplus, capital volatility — are
+reasserting themselves in new forms. By formalizing Marx’s mechanisms
+mathematically, this project does not advocate for his conclusions. It
+does something more epistemically valuable: it de-ideologizes the text,
+transforming a political manifesto into a cold and clinical system of
+equations. This allows Marx’s ideas to be debated on the basis of
+mathematical logic rather than political identity — separating the
+mechanism from the rhetoric, and the testable claim from the ideological
+commitment.
