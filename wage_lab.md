@@ -2023,6 +2023,40 @@ empirical test of Marx’s conjunction hypothesis.
 
 ### 7. Conclusion
 
+This project translates Marx’s causal claims from Wage Labour and
+Capital into a mathematical data generating process, testing the
+internal consistency of his structural mechanisms under controlled
+synthetic conditions. By stripping away the complexity of real
+historical processes, the synthetic environment isolates the pure logic
+of Marx’s theory — allowing us to ask not whether his predictions match
+history, but whether his mechanisms, when expressed as equations,
+produce the dynamics he described. The answer, within the controlled
+setting of this project, is affirmative: the structural equations
+generate trajectories consistent with Marx’s narrative, and the key
+parameters are recoverable through both Frequentist and Bayesian
+estimation.
+
+The central finding is that Marx’s conjunction hypothesis is
+mathematically coherent: structural crisis does not emerge from wage
+depression or labor surplus independently, but from their simultaneous
+accumulation. The interaction term $\beta_3$, positive and statistically
+detectable across estimation methods, formalizes this conjuncture — and
+its dominance over the individual coefficients $\beta_1$ and $\beta_2$
+confirms that the amplifying effect of co-occurring structural pressures
+is the decisive mechanism, not the magnitude of either pressure alone.
+
+Beyond Marx, this project demonstrates a transferable methodological
+principle: verbal historical theories can be treated as algorithmic
+systems, and synthetic data generation can serve as a validation tool
+for theoretical logic rather than merely a forecasting instrument for
+the future. The pipeline established here — structural equations,
+controlled simulation, parameter recovery, Bayesian inference — is
+applicable to any historical theory that makes explicit causal claims.
+The limitation, however, is fundamental: whether $\beta_3$ remains
+detectable under the noise, fragmentation, and unmeasured confounders of
+real historical data remains an open question — and the decisive
+empirical test of Marx’s conjunction hypothesis.
+
 This project matters beyond its technical contribution. Marx wrote in an
 era of machinery displacement — workers being replaced by mechanical
 production at industrial scale. We write in an era of algorithmic
