@@ -1,7 +1,7 @@
 Walrasian Labor Market
 ================
 
-Walrasian Equilibrium : $L^s(w^*)$ = $L^d(w^*)$ = $L^*$
+Walrasian Equilibrium : $L^s(w^*)=L^d(w^*)=L^*$
 
 - $L^s(w^*)$ : Labor supply function (The workers)
 
@@ -21,6 +21,6 @@ $$
 When wage decreases, companies want to hire more (downward-sloping).
 When wage increases, workers want to work more.
 
-Wage $w*$ can be expressed as : $w*$ =
-$\frac{U'_{leisure}}{U'_{consumption}}$ . This ratio is called
+Wage $w^*$ can be expressed as :
+$w^*=\frac{U'_{leisure}}{U'_{consumption}}$ . This ratio is called
 **Marginal Rate of Substitution**.

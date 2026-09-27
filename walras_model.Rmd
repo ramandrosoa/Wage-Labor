@@ -6,7 +6,19 @@ output:
     toc_depth: 2
 ---
 
-Walrasian Equilibrium : $L^s(w^*)$ = $L^d(w^*)$ = $L^*$
+```{r setup, include=FALSE }
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(sandwich)
+library(lmtest)
+library(patchwork)
+library(MASS)
+library(brms)
+```
+
+
+Walrasian Equilibrium :  $L^s(w^*)=L^d(w^*)=L^*$
 
 -   $L^s(w^*)$ :  Labor supply function (The workers)
 
@@ -22,5 +34,5 @@ $$
 
 When wage decreases, companies want to hire more (downward-sloping). When wage increases, workers want to work more. 
 
-Wage $w*$ can be expressed as : $w*$ = $\frac{U'_{leisure}}{U'_{consumption}}$ . This ratio is called **Marginal Rate of Substitution**.
+Wage $w^*$ can be expressed as : $w^*=\frac{U'_{leisure}}{U'_{consumption}}$ . This ratio is called **Marginal Rate of Substitution**.
 
