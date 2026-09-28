@@ -29,7 +29,7 @@ The firm sets the labor demand so that $w = MPL$ , where $MPL$ is the
 one more unit of labor. When wage equals $MPL$, the firm has no
 incentive to hire more or less.
 
-While wage can be expressed as follow :
+Wage can be expressed as follow :
 $w=\frac{U'_{leisure}}{U'_{consumption}}$
 
 - $U'_{leisure}$ : Marginal Utility of Leisure
@@ -50,7 +50,7 @@ and $w = MPL$ respectively. The market clears when $MRS = MPL$
 In a pure Walrasian World, the reserve army and the elite overproduction
 cannot mathematically exist, but in the actual economy, the markets do
 not clear instantly because of frictions — skill mismatch, position
-scarcity.
+scarcity…
 
 **Excess demand function** : The Walrasian tatonnement works through
 excess demand
@@ -66,3 +66,19 @@ $$
 - $ED = 0$ : market clears -\> equilibrium
 
 The frictions are the mechanisms that keep $ED \neq 0$ persistently.
+
+#### Tier 1 : standard reserve army
+
+**Adding a friction : Automation**
+
+Automation causes labor displacement that forces job-to-job transitions,
+and since the skills of the displaced workers are considered obsolete,
+it will result to a relatively prolonged unemployment to acquire new
+skills for the existing positions . Thus, automation prevents the
+equilibrium of the Walrasian model.
+
+Automation is a capital-substitute for labor : firms choose to demand
+less labor because the machines can do the job. So automation affects
+the labor demand.
+
+#### Tier 2 : elite reserve army (elite overproduction)

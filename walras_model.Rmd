@@ -72,7 +72,7 @@ The frictions are the mechanisms that keep $ED \neq 0$ persistently.
 
 #### Tier 1 : standard reserve army 
 
-**Adding a friction : Automation **
+**Adding a friction : Automation**
 
 Automation causes labor displacement that forces job-to-job transitions, and since the skills of the displaced workers are considered obsolete, it will result to a relatively prolonged unemployment to acquire new skills for the existing positions . Thus, automation prevents the equilibrium of the Walrasian model. 
 
