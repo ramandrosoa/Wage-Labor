@@ -29,7 +29,8 @@ one more unit of labor. When wage equals $MPL$, the firm has no
 incentive to hire more or less.
 
 Wage can be expressed as follow :
-$w=\frac{U'_{leisure}}{U'_{consumption}}$
+
+$$w=\frac{U'_{leisure}}{U'_{consumption}}$$
 
 - $U'_{leisure}$ : Marginal Utility of Leisure
 
@@ -112,8 +113,8 @@ with $\tilde{L}$ = $L_n + \theta(t) \cdot L_a$ . $\theta(t)$ is an
 automation coefficient — how productive automatable workers are relative
 to machines.
 
-To determine $MPL$ , we take the derivative of $Y$ with respect with
-$L_a$ . Using the chain rule :
+To determine $MPL$ , we take the derivative of $Y$ with respect to $L_a$
+. Using the chain rule :
 
 $$MPL = \frac{\partial Y}{\partial L_a} = \frac{\partial Y}{\partial \tilde{L} } \cdot \frac{\partial \tilde{L}}{\partial L_a }$$
 
