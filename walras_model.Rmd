@@ -99,18 +99,16 @@ $$
 Y = A(t) \cdot K^{\alpha} \cdot \tilde{L}^{1 - \alpha} 
 $$
 
-$\tilde{L}$ = $L_n + \theta(t) \cdot L_a$
+with $\tilde{L}$ = $L_n + \theta(t) \cdot L_a$ . $\theta(t)$ is an automation coefficient — how productive automatable workers are relative to machines.
 
-$\theta(t)$ is an automation coefficient — how productive automatable workers are relative to machines.
+To determine $MPL$ , we take the derivative of $Y$ with respect with $L_a$ . Using the chain rule : 
 
-Using the chain rule : 
+$$MPL = \frac{\partial Y}{\partial L_a} = \frac{\partial Y}{\partial \tilde{L} } \cdot \frac{\partial \tilde{L}}{\partial L_a }$$
 
-$MPL = \frac{\partial Y}{\partial L_a} = \frac{\partial Y}{\partial \tilde{L} } \cdot \frac{\partial \tilde{L}}{\partial L_a }$
+$$\frac{\partial Y}{\partial \tilde{L} } = (1- \alpha) A(t) \cdot K^{\alpha} \cdot \tilde{L}^{- \alpha}$$
 
-$\frac{\partial Y}{\partial \tilde{L} } = (1- \alpha) A(t) \cdot K^{\alpha} \cdot \tilde{L}^{- \alpha}$
+$$\frac{\partial {\tilde{L}}}{\partial L_a } = \theta (t)$$
 
-$\frac{\partial {\tilde{L}}}{\partial L_a } = \theta (t) $
-
-$MPL = (1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}}$
+$$MPL = (1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}}$$
 
 #### Tier 2 : elite reserve army (elite overproduction)
