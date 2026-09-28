@@ -29,22 +29,43 @@ The market clears when the quantity of labor demanded $L$ by the firm exactly eq
 When wage decreases, companies want to hire more (downward-sloping). When wage increases, workers want to work more (upward-sloping). Thus :
 
 $$
-\frac{\delta L^s}{\delta w} < 0 , \frac{\delta L^d}{\delta w} > 0
+\frac{\partial L^s}{\partial w} > 0 , \frac{\partial L^d}{\partial w} < 0
 $$
 
-When wage decreases, companies want to hire more (downward-sloping). When wage increases, workers want to work more. 
+When wage decreases, companies want to hire more (downward-sloping) -> $\frac{\partial L^d}{\partial w} < 0$
 
-Wage $w$ can be expressed as : 
+When wage increases, workers want to work more (upward-sloping) -> $\frac{\partial L^s}{\partial w} > 0$
 
-$$
-w=\frac{U'_{leisure}}{U'_{consumption}}
-$$ 
+The firm sets the labor demand so that $w = MPL$ , where $MPL$ is the **Marginal Product of Labor (MPL)** — the additional output produced by one more unit of labor. When wage equals $MPL$, the firm has no incentive to hire more or less.
 
+While wage can be expressed as follow : $w=\frac{U'_{leisure}}{U'_{consumption}}$ 
 
 -   $U'_{leisure}$ : Marginal Utility of Leisure
 
 -   $U'_{consumption}$ : Marginal Utility of Consumption
 
-This ratio is called **Marginal Rate of Substitution**.
+This ratio is called **Marginal Rate of Substitution (MRS)**.
 
-In a pure Walrasian World, the reserve army and the elite overproduction cannot mathematically exist, but in the actual economy, the markets do not clear instantly because of frictions — skill mismatch, position scarcity ... 
+The market requires both conditions simultaneously : 
+
+$$
+w= MPL = \frac{U'_{leisure}}{U'_{consumption}}
+$$
+
+The workers and the firm optimize the wage by setting $w$ as $w = MRS$ and $w = MPL$ respectively. The market clears when $MRS = MPL$
+
+In a pure Walrasian World, the reserve army and the elite overproduction cannot mathematically exist, but in the actual economy, the markets do not clear instantly because of frictions — skill mismatch, position scarcity. 
+
+**Excess demand function** : The Walrasian tatonnement works through excess demand 
+
+$$
+ED(w) = L^d(w) - L^s(w)  
+$$
+
+- $ED>0$ : more demand than supply -> wage rises
+
+- $ED<0$ : more supply than demand -> wage falls
+
+- $ED = 0$ : market clears -> equilibrium
+
+The frictions are the mechanisms that keep $ED \neq 0$ persistently.
