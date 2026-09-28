@@ -3,26 +3,25 @@ Walrasian Labor Market
 
 Walrasian Equilibrium : $L^s(w)=L^d(w)=L$
 
+The market clears when the quantity of labor demanded $L$ by the firm
+exactly equals to the quantity of labor supplied by the workers at a
+specific market-clearing wage $w$ .
+
 - $L^s(w)$ : Labor supply function (The workers)
 
 - $L^d(w)$ : Labor demand function (The Firms)
 
-The market clears when the quantity of labor demanded $L$ by the firm
-exactly equals to the quantity of labor supplied by the workers at a
-specific market-clearing wage $w$
-
-When wage decreases, companies want to hire more (downward-sloping).
-When wage increases, workers want to work more (upward-sloping). Thus :
+Where :
 
 $$
 \frac{\partial L^s}{\partial w} > 0 , \frac{\partial L^d}{\partial w} < 0
 $$
 
-When wage decreases, companies want to hire more (downward-sloping) -\>
-$\frac{\partial L^d}{\partial w} < 0$
+- When wage decreases, companies want to hire more (downward-sloping)
+  -\> $\frac{\partial L^d}{\partial w} < 0$
 
-When wage increases, workers want to work more (upward-sloping) -\>
-$\frac{\partial L^s}{\partial w} > 0$
+- When wage increases, workers want to work more (upward-sloping) -\>
+  $\frac{\partial L^s}{\partial w} > 0$
 
 The firm sets the labor demand so that $w = MPL$ , where $MPL$ is the
 **Marginal Product of Labor (MPL)** — the additional output produced by
@@ -106,8 +105,22 @@ compete automation — creativity, judgment, social interaction, complex
 problem solving. So the production function become :
 
 $$
-Y = A(t) \cdot K^{\alpha} \cdot (L_n + \theta(t) \cdot L_a)^{1 - \alpha}
-$$ $\theta(t)$ is an automation coefficient — how productive automatable
+Y = A(t) \cdot K^{\alpha} \cdot \tilde{L}^{1 - \alpha} 
+$$
+
+$\tilde{L}$ = $L_n + \theta(t) \cdot L_a$
+
+$\theta(t)$ is an automation coefficient — how productive automatable
 workers are relative to machines.
+
+Using the chain rule :
+
+$MPL = \frac{\partial Y}{\partial L_a} = \frac{\partial Y}{\partial \tilde{L} } \cdot \frac{\partial \tilde{L}}{\partial L_a }$
+
+$\frac{\partial Y}{\partial \tilde{L} } = (1- \alpha) A(t) \cdot K^{\alpha} \cdot \tilde{L}^{- \alpha}$
+
+\$ = (t) \$
+
+$MPL = (1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}}$
 
 #### Tier 2 : elite reserve army (elite overproduction)
