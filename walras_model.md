@@ -81,4 +81,33 @@ Automation is a capital-substitute for labor : firms choose to demand
 less labor because the machines can do the job. So automation affects
 the labor demand.
 
+By introducing this friction to the $MPL$ , the wage will be expressed
+with a time varying technology parameter $A(t)$ . $MPL$ is a derivative
+of the Production function (Cobb-Douglas) :
+
+$$
+Y = A(t) \cdot K^{\alpha} \cdot L^{1 - \alpha}
+$$
+
+- $A$ : Time varying technology parameter
+
+- $K$ : Capital
+
+- $L$ : Labor
+
+- $\alpha$ and $1 - \alpha$ : Distribution of the income between the
+  capital and the Labor. Typically $\alpha = 0.3$ and $1-\alpha = 0.7$
+
+For this project, the labor is splitted to automatable labor $L_a$ and
+non-automatable labor $L_n$. $L_a$ is composed by the workers who
+perform routine, codifiable tasks that machines can replace, while $L_n$
+represents the workers who perform tasks that complement rather than
+compete automation — creativity, judgment, social interaction, complex
+problem solving. So the production function become :
+
+$$
+Y = A(t) \cdot K^{\alpha} \cdot (L_n + \theta(t) \cdot L_a)^{1 - \alpha}
+$$ $\theta(t)$ is an automation coefficient — how productive automatable
+workers are relative to machines.
+
 #### Tier 2 : elite reserve army (elite overproduction)
