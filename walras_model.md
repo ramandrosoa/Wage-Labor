@@ -111,7 +111,7 @@ $$
 
 with $\tilde{L}$ = $L_n + \theta(t) \cdot L_a$ . $\theta(t)$ is an
 automation coefficient — how productive automatable workers are relative
-to machines.
+to machines. When $\theta(t)$ falls, automation intensifies.
 
 To determine $MPL$ , we take the derivative of $Y$ with respect to $L_a$
 . Using the chain rule :
@@ -127,6 +127,10 @@ $$MPL = w = (1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n +
 Automation reduces the demand of automatable labor $L^d_a$ . To get
 $L^d_a$ , we solve the equation above for $L_a$ as a function of the
 wage $w$
+
+$$
+L^d_a = \frac{1}{\theta(t)} [(\frac{(1-\alpha) \cdot \theta(t)\cdot A(t) \cdot K^{\alpha}}{w})^{1/\alpha} - L_n]
+$$
 
 **Friction 2 : Workers can not move to a new sector instantly**
 
