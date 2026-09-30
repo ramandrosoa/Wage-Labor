@@ -74,7 +74,7 @@ The frictions are the mechanisms that keep $ED \neq 0$ persistently.
 
 #### Tier 1 : standard reserve army 
 
-**Adding a friction : Automation**
+**Friction 1 : Automation**
 
 Automation causes labor displacement that forces job-to-job transitions, and since the skills of the displaced workers are considered obsolete, it will result to a relatively prolonged unemployment to acquire new skills for the existing positions . Thus, automation prevents the equilibrium of the Walrasian model. 
 
@@ -84,7 +84,7 @@ By introducing this friction to the $MPL$ , the wage will be expressed with a ti
 $MPL$ is a derivative of the Production function (Cobb-Douglas) : 
 
 $$
-Y = A(t) \cdot K^{\alpha} \cdot L^{1 - \alpha}
+Y = A(t) \cdot K^{\alpha} \cdot L^{(1 - \alpha)}
 $$
 
 - $A$ : Time varying technology parameter
@@ -98,7 +98,7 @@ $$
 For this project, the labor is splitted to automatable labor $L_a$ and non-automatable labor $L_n$. $L_a$ is composed by the workers who perform routine, codifiable tasks that machines can replace, while $L_n$ represents the workers who perform tasks that complement rather than compete automation — creativity, judgment, social interaction, complex problem solving. So the production function become : 
 
 $$
-Y = A(t) \cdot K^{\alpha} \cdot \tilde{L}^{1 - \alpha} 
+Y = A(t) \cdot K^{\alpha} \cdot \tilde{L}^{(1 - \alpha)} 
 $$
 
 with $\tilde{L}$ = $L_n + \theta(t) \cdot L_a$ . $\theta(t)$ is an automation coefficient — how productive automatable workers are relative to machines.
@@ -111,6 +111,10 @@ $$\frac{\partial Y}{\partial \tilde{L} } = (1- \alpha) A(t) \cdot K^{\alpha} \cd
 
 $$\frac{\partial {\tilde{L}}}{\partial L_a } = \theta (t)$$
 
-$$MPL = (1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}}$$
+$$MPL = w = (1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}}$$
+
+Automation reduces the demand of automatable labor $L^d_a$ . To get $L^d_a$ , we solve the equation above for $L_a$ as a function of the wage $w$
+
+**Friction 2 : Workers can not move to a new sector instantly**
 
 #### Tier 2 : elite reserve army (elite overproduction)
