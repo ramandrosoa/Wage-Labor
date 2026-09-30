@@ -126,12 +126,10 @@ $$MPL = w = (1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n +
 
 Automation reduces the demand of automatable labor $L^d_a$ . To get
 $L^d_a$ , we solve the equation above for $L_a$ as a function of the
-wage $w$
+wage $w$ :
 
 $$
 L^d_a = \frac{1}{\theta(t)} [(\frac{(1-\alpha) \cdot \theta(t)\cdot A(t) \cdot K^{\alpha}}{w})^{1/\alpha} - L_n]
 $$
-
-**Friction 2 : Workers can not move to a new sector instantly**
 
 #### Tier 2 : elite reserve army (elite overproduction)

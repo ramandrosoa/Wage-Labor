@@ -119,6 +119,4 @@ $$
 L^d_a = \frac{1}{\theta(t)} [(\frac{(1-\alpha) \cdot \theta(t)\cdot A(t) \cdot K^{\alpha}}{w})^{1/\alpha} - L_n]
 $$
 
-**Friction 2 : Workers can not move to a new sector instantly**
-
 #### Tier 2 : elite reserve army (elite overproduction)
