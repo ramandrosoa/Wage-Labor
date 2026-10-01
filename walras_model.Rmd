@@ -119,4 +119,18 @@ $$
 L^d_a = \frac{1}{\theta(t)} [(\frac{(1-\alpha) \cdot \theta(t)\cdot A(t) \cdot K^{\alpha}}{w})^{1/\alpha} - L_n]
 $$
 
+The excess labor supply can be expressed as :
+
+$$
+R_1(t) = L^s_a(w) - L^d_a(w, \theta (t)) > 0
+$$
+
+- $R_1$ : reserve army of labor 
+
+- $L^s_a(w)$ : automatable labor supply
+
+- $L^d_a(w, \theta(t))$ : automatable labor demand
+
+Sign of $\frac{\partial L^d_a}{w}$ and  $\frac{\partial L^d_a}{\theta}$
+
 #### Tier 2 : elite reserve army (elite overproduction)
