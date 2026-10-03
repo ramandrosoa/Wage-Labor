@@ -132,7 +132,7 @@ $$
 L^d_a = \frac{1}{\theta(t)} [(\frac{(1-\alpha) \cdot \theta(t)\cdot A(t) \cdot K^{\alpha}}{w})^{1/\alpha} - L_n]
 $$
 
-The excess labor supply can be expressed as :
+This Tier 1 friction is the excess labor supply, given as :
 
 $$
 R_1(t) = L^s_a(w) - L^d_a(w, \theta (t)) > 0
@@ -143,6 +143,18 @@ $$
 - $L^s_a(w)$ : automatable labor supply
 
 - $L^d_a(w, \theta(t))$ : automatable labor demand
+
+Walrasian model requires $R_1(t)$ = 0
+
+The excess labor supply will persist as long as the desired wage at
+which the workers are willing to work $w_1$ does not match the wage at
+which the firms are willing to hire $w_2$ .
+
+When automation arrives, a part of the works can be done by machines.
+Thus, $w_2$ will be adjusted by the firms following the improvement in
+technology. Generally, $w_2$ falls. But in real world, $w_1$ can not
+instantly falls to $w_2$, because of the workers existing contracts, the
+minimum wage floor and the workers may not refuse to accept lower wage.
 
 - **Sign of** $\frac{\partial L^d_a}{\theta}$
 
@@ -160,8 +172,8 @@ $$
 \frac{\partial L^d_a}{\partial \theta} = [(\frac {1-\alpha}{\alpha})\cdot P^{1/\alpha}\cdot \theta]^{1/\alpha} > 0
 $$
 
-$\frac{\partial L^d_a}{\partial \theta}$ is positive. When $\theta(t)$
-falls and automation falls, the labor demand falls.
+-\> $\frac{\partial L^d_a}{\partial \theta}$ is positive. When
+$\theta(t)$ falls and automation falls, the labor demand falls.
 
 - **Sign of** $\frac{\partial L^d_a}{\partial w}$
 
@@ -170,15 +182,18 @@ Y = (1-\alpha) ) \cdot \theta(t) \cdot A(t) \cdot K^{\alpha}
 $$
 
 $$
-L^d_a = \frac{1}{\theta(t)}\cdot \frac{Y}{w}^{\frac{1}{\alpha}}
+L^d_a = \frac{1}{\theta(t)} [\frac{Y}{w}]^{1/\alpha}
 $$
 
 $$
-L^d_a = \frac{1}{\theta(t)} \cdot Y^{\frac{1}{\alpha}} \cdot w^{\frac{-1}{\alpha}}
+L^d_a = \frac{1}{\theta(t)} \cdot Y^{1/\alpha} \cdot w^{1/\alpha}
 $$
 
 $$
 \frac{\partial L^d_a}{\partial w} = \frac{-1}{\alpha} \cdot \frac{1}{\theta(t)} \cdot Y^{\frac{1}{\alpha}}  \cdot w^{\frac{-1-\alpha}{\alpha}} < 0
 $$
+
+-\> $\frac{\partial L^d_a}{\partial w}$ is negative, when wage (w)
+increases, the labor demand falls.
 
 #### Tier 2 : elite reserve army (elite overproduction)
