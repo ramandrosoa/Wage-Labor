@@ -144,8 +144,7 @@ $$
 
 - $L^d_a(w, \theta(t))$ : automatable labor demand
 
-Sign of $\frac{\partial L^d_a}{\partial w}$ and
-$\frac{\partial L^d_a}{\theta}$
+- **Sign of** $\frac{\partial L^d_a}{\theta}$
 
 $$
 P = \frac{(1-\alpha) \cdot A(t) \cdot K^{\alpha}}{w}
@@ -158,10 +157,28 @@ L^d_a  = \theta(t)^{\frac {1-\alpha}{\alpha}} \cdot P^{1/\alpha} - L_n
 $$
 
 $$
-\frac{\partial L^d_a}{\partial \theta} = [(\frac {1-\alpha}{\alpha})\cdot P^{1/\alpha}\cdot \theta]^{1/\alpha}
+\frac{\partial L^d_a}{\partial \theta} = [(\frac {1-\alpha}{\alpha})\cdot P^{1/\alpha}\cdot \theta]^{1/\alpha} > 0
 $$
 
 $\frac{\partial L^d_a}{\partial \theta}$ is positive. When $\theta(t)$
 falls and automation falls, the labor demand falls.
+
+- **Sign of** $\frac{\partial L^d_a}{\partial w}$
+
+$$
+Y = (1-\alpha) ) \cdot \theta(t) \cdot A(t) \cdot K^{\alpha}
+$$
+
+$$
+L^d_a = \frac{1}{\theta(t)}\cdot \frac{Y}{w}^{\frac{1}{\alpha}}
+$$
+
+$$
+L^d_a = \frac{1}{\theta(t)} \cdot Y^{\frac{1}{\alpha}} \cdot w^{\frac{-1}{\alpha}}
+$$
+
+$$
+\frac{\partial L^d_a}{\partial w} = \frac{-1}{\alpha} \cdot \frac{1}{\theta(t)} \cdot Y^{\frac{1}{\alpha}}  \cdot w^{\frac{-1-\alpha}{\alpha}} < 0
+$$
 
 #### Tier 2 : elite reserve army (elite overproduction)
