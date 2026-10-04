@@ -47,6 +47,12 @@ $$
 The workers and the firm optimize the wage by setting $w$ as $w = MRS$
 and $w = MPL$ respectively. The market clears when $MRS = MPL$
 
+- Workers optimize -\> wage = MRS
+
+- Firms optimize -\> wage = MPL
+
+- Market clears -\> MRS = MPL
+
 In a pure Walrasian World, the reserve army and the elite overproduction
 cannot mathematically exist, but in the actual economy, the markets do
 not clear instantly because of frictions — skill mismatch, position
