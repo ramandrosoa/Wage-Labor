@@ -1,5 +1,5 @@
 ---
-title: "Walrasian Labor Market"
+title: "Walrasian Labor Market - Notes"
 output: 
   github_document:
     toc: true
@@ -174,7 +174,7 @@ $$
 \frac{\partial L^d_a}{\partial \theta} = [(\frac {1-\alpha}{\alpha})\cdot P^{1/\alpha}\cdot \theta]^{1/\alpha} > 0
 $$
 
--> $\frac{\partial L^d_a}{\partial \theta}$ is positive. When $\theta(t)$ falls and automation falls, the labor demand falls.
+-> $\frac{\partial L^d_a}{\partial \theta}$ is positive. When $\theta(t)$ falls, the labor demand $L^d_a$ falls. Intuitively, as automatable workers become less productive relative to machine ($\theta$ falls), firms want fewer of them at any given wage.
 
 
 #### Tier 2 : elite reserve army (elite overproduction)

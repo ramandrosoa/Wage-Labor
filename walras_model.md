@@ -1,4 +1,4 @@
-Walrasian Labor Market
+Walrasian Labor Market - Notes
 ================
 
 Walrasian Equilibrium : $L^s(w)=L^d(w)=L$
@@ -199,6 +199,8 @@ $$
 $$
 
 -\> $\frac{\partial L^d_a}{\partial \theta}$ is positive. When
-$\theta(t)$ falls and automation falls, the labor demand falls.
+$\theta(t)$ falls, the labor demand $L^d_a$ falls. Intuitively, as
+automatable workers become less productive relative to machine ($\theta$
+falls), firms want fewer of them at any given wage.
 
 #### Tier 2 : elite reserve army (elite overproduction)
