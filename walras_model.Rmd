@@ -153,7 +153,9 @@ $$
 
 Walrasian model requires  $R_1(t)$ = 0, but when automation falls $\theta(t)$ faster than wage $w$, the excess labor supply persists. — The desired wage at which the workers are willing to work $w_1$ does not match the wage at which the firms are willing to hire $w_2$ . 
 
-When automation arrives, a part of the works can be done by machines. Thus, $w_2$ is adjusted by the firms as technology improves. Generally, $w_2$ falls. But in real world, $w_1$ can not instantly falls to $w_2$, because of the workers existing contracts, the minimum wage floor, the workers may not refuse to accept lower wage. But most importantly the wage can not fall below what is needed to survive — **The subsistence floor.** 
+When automation arrives, a part of the works can be done by machines. Thus, $w_2$ is adjusted by the firms as technology improves. Generally, $w_2$ falls. But in real world, $w_1$ can not instantly falls to $w_2$, because of the workers existing contracts, the minimum wage floor, the workers may not refuse to accept lower wage. But most importantly, the wage can not fall below what is needed to survive — **The subsistence floor**  $\bar{w}$
+
+Excess labor supply $R_1 > 0$ emerges whenever $\theta(t) < 0$ and $w_1  > \bar{w}$
 
 -   **How** $\theta$ **affects the labor demand — Sign of** $\frac{\partial L^d_a}{\theta}$
 

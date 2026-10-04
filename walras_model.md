@@ -174,9 +174,12 @@ When automation arrives, a part of the works can be done by machines.
 Thus, $w_2$ is adjusted by the firms as technology improves. Generally,
 $w_2$ falls. But in real world, $w_1$ can not instantly falls to $w_2$,
 because of the workers existing contracts, the minimum wage floor, the
-workers may not refuse to accept lower wage. But most importantly the
+workers may not refuse to accept lower wage. But most importantly, the
 wage can not fall below what is needed to survive — **The subsistence
-floor.**
+floor** $\bar{w}$
+
+Excess labor supply $R_1 > 0$ emerges whenever $\theta(t) < 0$ and
+$w_1 > \bar{w}$
 
 - **How** $\theta$ **affects the labor demand — Sign of**
   $\frac{\partial L^d_a}{\theta}$
