@@ -684,8 +684,8 @@ For the final simulation, we set N_final = 371 societies and T_final =
 200. This timeline spans the necessary pre- and post-inflection decades.
 The choice to include exactly 150 post-inflection decades is driven by
 the differing autocorrelation structures of our variables: while these
-150 decades translate to merely 5 effective independent informations for
-labor surplus, they yield 15 independent observations for the wage gap.
+150 decades translate to merely 5 effective independent information for
+labor surplus, they yield 16 independent observations for the wage gap.
 The pre-inflection phase is retained to preserve the theoretical warmup
 consistent with Marx’s early capitalism argument. However, the labor
 surplus exhibits high autocorrelation, substantially reducing the
@@ -725,7 +725,7 @@ data.frame (
     ## 2      Final 371 200        48957
 
 The substantial jump from 1334 to 48957 crises is an expected outcome
-rather than a anomaly; it directly reflects the roughly 3–fold scaling
+rather than a anomaly; it directly reflects the roughly 36-fold scaling
 of the number of societies from $N_{pilot} = 10$ to $N_{final} = 371$
 
 #### 3.3 Findings
