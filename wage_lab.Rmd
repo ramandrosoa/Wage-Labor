@@ -176,7 +176,7 @@ wage_gap <- func_wage_gap(N_pilot, T_pilot, labor_surplus, r_base, alpha, t0_w,
 
 **Generate cumulative wage gap and cumulative labor surplus**
 
-Weights are assigned inversely to chronological distance, prioritizing recent events over earlier ones via an exponential decay factor.
+Weights $e^{-\delta_c\cdot k}$ are assigned inversely to chronological distance, prioritizing recent events over earlier ones via an exponential decay factor.
 
       -   Cumulative labour surplus
 
