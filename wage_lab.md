@@ -537,7 +537,7 @@ high autocorrelation structure of each variable, the raw sample is
 substantially larger than the effective one. For instance, each society
 must be observed for roughly **150 decades to yield only 5 independent
 observations from the labor surplus**. Similarly, roughly **140 decades
-of observation per society are needed to accumulate 15 independent
+of observation per society are needed to accumulate 16 independent
 observations from the wage gap.**
 
 ##### Derive N from the events per variable (EPV)
@@ -631,7 +631,7 @@ the lower end of our sensitivity analysis, consistent with Marx’s
 argument in Wage Labour and Capital that structural crisis require
 prolonged accumulation of contradictions before becoming probable. The
 combination that mostly fits with this argument is ($p = 0.005$,
-$\beta_0 = -5.2933$, $N = 389$). Then, we will determine the parameters
+$\beta_0 = -5.2933$, $N = 371$). Then, we will determine the parameters
 $\beta_1$ , $\beta_2$ , $\beta_3$.
 
 ``` r
@@ -680,7 +680,7 @@ y_pilot <- y_func(beta0, beta1, beta2, beta3, CP_l, CP_w, T_pilot, N_pilot)
 
 #### 3.2 Final simulation
 
-For the final simulation, we set N_final = 389 societies and T_final =
+For the final simulation, we set N_final = 371 societies and T_final =
 200. This timeline spans the necessary pre- and post-inflection decades.
 The choice to include exactly 150 post-inflection decades is driven by
 the differing autocorrelation structures of our variables: while these
@@ -691,10 +691,10 @@ consistent with Marx’s early capitalism argument. However, the labor
 surplus exhibits high autocorrelation, substantially reducing the
 effective independent information per society. **To compensate for this
 loss of independence and to satisfy the EPV rule of a minimum of 30
-effective crisis, N = 389 societies are required.**
+effective crisis, N = 371 societies are required.**
 
 ``` r
-N_final <- 389
+N_final <- 371
 T_final <- 200
 ```
 
@@ -722,11 +722,11 @@ data.frame (
 
     ##   Simulation   N   T Total_crisis
     ## 1      Pilot  10 200         1334
-    ## 2      Final 389 200        51384
+    ## 2      Final 371 200        48957
 
-The substantial jump from 1334 to 51384 crises is an expected outcome
-rather than a anomaly; it directly reflects the roughly 39-fold scaling
-of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
+The substantial jump from 1334 to 48957 crises is an expected outcome
+rather than a anomaly; it directly reflects the roughly 3–fold scaling
+of the number of societies from $N_{pilot} = 10$ to $N_{final} = 371$
 
 #### 3.3 Findings
 
@@ -983,7 +983,7 @@ terms :
   reached substantial levels, providing a non-negligible baseline of
   structural pressure.
 - **Right panel (P(crisis) as a function of cumulative labor surplus):**
-  at the Q25 of $CP_W$ (0.11), there is almost no wage pressure and the
+  at the Q25 of $CP_W$ (0.12), there is almost no wage pressure and the
   baseline crisis probability remains low across all level of $CP_L$ —
   reflecting that $CP_W$ has not crossed its inflection point $t_{0,w}$
   for its earliest observations.
@@ -1107,27 +1107,27 @@ print(sensitivity_results)
 ```
 
     ##    beta1_est beta2_est beta3_est bias_beta1 bias_beta2 bias_beta3 crisis_freq
-    ## 1      1.303     1.037     1.648      0.303      0.537     -0.352      0.6233
-    ## 2      0.927     0.298     2.086     -0.073     -0.202      0.086      0.6597
-    ## 3      1.039     0.834     1.914      0.039      0.334     -0.086      0.6420
-    ## 4      0.778     0.291     2.173     -0.222     -0.209      0.173      0.6750
-    ## 5      1.098     0.392     2.018      0.098     -0.108      0.018      0.6606
-    ## 6      1.040     0.430     2.000      0.040     -0.070      0.000      0.6211
-    ## 7      1.024     0.687     1.931      0.024      0.187     -0.069      0.6612
-    ## 8      0.804     0.441     2.150     -0.196     -0.059      0.150      0.6610
-    ## 9      0.929     0.489     2.017     -0.071     -0.011      0.017      0.6598
-    ## 10     0.935     0.478     2.053     -0.065     -0.022      0.053      0.6593
-    ## 11     0.824     0.629     2.060     -0.176      0.129      0.060      0.6585
-    ## 12     0.866     0.504     2.045     -0.134      0.004      0.045      0.6617
-    ## 13     1.006     0.748     1.921      0.006      0.248     -0.079      0.6606
-    ## 14     1.015     1.034     1.828      0.015      0.534     -0.172      0.6587
-    ## 15     1.051     0.671     1.875      0.051      0.171     -0.125      0.6610
-    ## 16     1.056     0.674     1.924      0.056      0.174     -0.076      0.6439
-    ## 17     1.115     0.897     1.790      0.115      0.397     -0.210      0.6607
-    ## 18     1.074     0.521     1.955      0.074      0.021     -0.045      0.6625
-    ## 19     1.061     1.530     1.456      0.061      1.030     -0.544      0.7514
-    ## 20     0.922     0.249     2.128     -0.078     -0.251      0.128      0.6605
-    ## 21     2.706     0.435     1.063      1.706     -0.065     -0.937      0.4351
+    ## 1      1.100     0.703     1.848      0.100      0.203     -0.152      0.6251
+    ## 2      0.995     0.668     1.908     -0.005      0.168     -0.092      0.6608
+    ## 3      1.176     0.804     1.857      0.176      0.304     -0.143      0.6447
+    ## 4      1.270     0.584     1.892      0.270      0.084     -0.108      0.6765
+    ## 5      1.066     0.812     1.873      0.066      0.312     -0.127      0.6589
+    ## 6      0.855    -0.120     2.322     -0.145     -0.620      0.322      0.6201
+    ## 7      0.997     0.661     1.937     -0.003      0.161     -0.063      0.6626
+    ## 8      0.947     0.460     2.032     -0.053     -0.040      0.032      0.6601
+    ## 9      1.064     0.400     2.003      0.064     -0.100      0.003      0.6601
+    ## 10     1.100     0.451     1.970      0.100     -0.049     -0.030      0.6607
+    ## 11     1.011     0.816     1.834      0.011      0.316     -0.166      0.6585
+    ## 12     1.163     0.518     1.911      0.163      0.018     -0.089      0.6596
+    ## 13     0.854     0.484     2.107     -0.146     -0.016      0.107      0.6582
+    ## 14     0.929     0.289     2.090     -0.071     -0.211      0.090      0.6583
+    ## 15     0.988     0.666     1.974     -0.012      0.166     -0.026      0.6581
+    ## 16     0.972     0.215     2.094     -0.028     -0.285      0.094      0.6425
+    ## 17     0.973     0.236     2.130     -0.027     -0.264      0.130      0.6585
+    ## 18     1.042     0.588     1.957      0.042      0.088     -0.043      0.6624
+    ## 19     1.188     0.858     1.799      0.188      0.358     -0.201      0.7520
+    ## 20     1.059     0.728     1.908      0.059      0.228     -0.092      0.6583
+    ## 21     1.878     0.490     1.518      0.878     -0.010     -0.482      0.4351
     ##    ordering_preserved parameter  value baseline
     ## 1                TRUE       r_l   0.02    FALSE
     ## 2                TRUE       r_l   0.05     TRUE
@@ -1142,12 +1142,12 @@ print(sensitivity_results)
     ## 11               TRUE         P  10.00    FALSE
     ## 12               TRUE         P  15.00    FALSE
     ## 13               TRUE    r_base   0.01    FALSE
-    ## 14              FALSE    r_base   0.04    FALSE
+    ## 14               TRUE    r_base   0.04    FALSE
     ## 15               TRUE    r_base   0.07    FALSE
     ## 16               TRUE     alpha   0.10    FALSE
     ## 17               TRUE     alpha   0.50     TRUE
     ## 18               TRUE     alpha   0.90    FALSE
-    ## 19              FALSE      t0_w  10.00    FALSE
+    ## 19               TRUE      t0_w  10.00    FALSE
     ## 20               TRUE      t0_w  60.00     TRUE
     ## 21              FALSE      t0_w 110.00    FALSE
 
@@ -1162,10 +1162,10 @@ data.frame(
 ```
 
     ##   total_specs ordering_preserved ordering_violated perc_ordering_preserved
-    ## 1          21                 18                 3                    85.7
+    ## 1          21                 20                 1                    95.2
 
 The theoretical ordering $\beta_3 > \beta_2 > \beta_1$ is preserved in
-18 out of 21 specifications, corresponding to 85.7% of the sensitivity
+20 out of 21 specifications, corresponding to 95.2% of the sensitivity
 grid, suggesting that the model’s ability to recover the relative
 importance of the predictors is largely robust to structural parameter
 changes. In particular, Marx’s conjunctural argument, that **the
@@ -1182,8 +1182,8 @@ data.frame(
 )
 ```
 
-    ##     mean median    max    min
-    ## 1 0.6494 0.6605 0.7514 0.4351
+    ##     mean median   max    min
+    ## 1 0.6491 0.6585 0.752 0.4351
 
 **The sensitivity analysis reveals that crisis frequency is highly
 sensitive to changes in the structural parameters.** When structural
@@ -1191,12 +1191,11 @@ parameters are varied, the scale of $CP_W$ and $CP_L$ changes
 accordingly, while $\beta_0$ remains fixed at its baseline value. Since
 $\beta_0$ no longer corresponds to the target crisis probability p =
 0.005 under the new CP scales, crisis frequency fluctuates substantially
-across specifications, ranging from 0.4351 to 0.7514 with a mean of
-0.6494. This limitation arises from the sensitivity analysis design, in
-which $\beta_0$ is not recalibrated for each structural parameter
-combination. Future work could address this by deriving specific
-$\beta_0$ to ensure constant crisis frequency across the sensitivity
-grid.
+across specifications, ranging from 0.435 to 0.752 with a mean of 0.649.
+This limitation arises from the sensitivity analysis design, in which
+$\beta_0$ is not recalibrated for each structural parameter combination.
+Future work could address this by deriving specific $\beta_0$ to ensure
+constant crisis frequency across the sensitivity grid.
 
 ### 4. Parameter recovery analysis
 
@@ -1248,22 +1247,22 @@ summary(model)
     ## 
     ## Deviance Residuals: 
     ##     Min       1Q   Median       3Q      Max  
-    ## -3.0576  -0.1110   0.1536   0.1764   3.2605  
+    ## -3.0317  -0.1093   0.1543   0.1777   3.2639  
     ## 
     ## Coefficients:
     ##             Estimate Std. Error z value Pr(>|z|)    
-    ## (Intercept) -5.31055    0.14681 -36.173  < 2e-16 ***
-    ## CP_w         1.03531    0.11638   8.896  < 2e-16 ***
-    ## CP_l         0.57678    0.17944   3.214  0.00131 ** 
-    ## CP_w:CP_l    1.95633    0.09633  20.310  < 2e-16 ***
+    ## (Intercept)  -5.3216     0.1531 -34.770  < 2e-16 ***
+    ## CP_w          0.9151     0.1188   7.704 1.32e-14 ***
+    ## CP_l          0.5048     0.1880   2.685  0.00726 ** 
+    ## CP_w:CP_l     2.0604     0.1003  20.552  < 2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## (Dispersion parameter for binomial family taken to be 1)
     ## 
-    ##     Null deviance: 99697  on 77799  degrees of freedom
-    ## Residual deviance: 16522  on 77796  degrees of freedom
-    ## AIC: 16530
+    ##     Null deviance: 95150  on 74199  degrees of freedom
+    ## Residual deviance: 15939  on 74196  degrees of freedom
+    ## AIC: 15947
     ## 
     ## Number of Fisher Scoring iterations: 7
 
@@ -1313,10 +1312,10 @@ data.frame(
 ```
 
     ##                true estimated_1 estimated_2
-    ## (Intercept) -5.2933  -5.3105509  -5.3105189
-    ## CP_w         1.0000   1.0353090   1.0352842
-    ## CP_l         0.5000   0.5767759   0.5767352
-    ## CP_w:CP_l    2.0000   1.9563257   1.9563533
+    ## (Intercept) -5.2933  -5.3215513  -5.3215176
+    ## CP_w         1.0000   0.9151470   0.9151209
+    ## CP_l         0.5000   0.5047634   0.5047191
+    ## CP_w:CP_l    2.0000   2.0604131   2.0604429
 
 The close alignment between the estimated and true parameters
 demonstrates that both models successfully recover the parameters
@@ -1409,7 +1408,7 @@ set.seed(42)
 mcmc_samples <- manual_metropolis_hasting(X, y_vec, n_iter = 5000, proposal_sd = .05, model)
 ```
 
-    ## Acceptance rate:  0.813
+    ## Acceptance rate:  0.811
 
 ``` r
 trace_plot <- function(sample){
@@ -1513,7 +1512,7 @@ set.seed(42)
 mcmc_std <- manual_metropolis_hasting(X_std, y_vec, n_iter = 5000, proposal_sd = .05, model_std)
 ```
 
-    ## Acceptance rate:  0.52
+    ## Acceptance rate:  0.522
 
 ``` r
 par(mfcol = c(2, 4), mar = c(4, 4, 2, 1))
@@ -1593,7 +1592,7 @@ set.seed(42)
 mnp_samples <- multivariate_normal_proposal(X, y_vec, n_iter = 5000, proposal_sd = .05, model)
 ```
 
-    ## Acceptance rate:  0.705
+    ## Acceptance rate:  0.704
 
 ``` r
 par(mfcol = c(2, 4), mar = c(4, 4, 2, 1))
@@ -1729,16 +1728,16 @@ data.frame(
 ```
 
     ##   parameters    rhat1    rhat2    rhat3
-    ## 1      beta0 2.168147 3.940527 3.460051
-    ## 2      beta1 1.180604 3.541819 2.855445
-    ## 3      beta2 1.032897 2.190855 3.597005
-    ## 4      beta3 2.291407 3.556249 3.377270
+    ## 1      beta0 2.187046 3.904668 3.463845
+    ## 2      beta1 1.205190 3.535621 2.889958
+    ## 3      beta2 1.032190 2.311240 3.599434
+    ## 4      beta3 2.145058 3.590913 3.388903
 
 **R-hat results for the Metropolis–Hastings variants:** All three
 samplers—standard Metropolis–Hastings, Metropolis–Hastings with
 standardized predictors, and Metropolis–Hastings with a multivariate
 normal proposal—fail the convergence test. With $\hat{R}$ values ranging
-from 1.180 to 3.940, every variant lies far from the $\hat{R}$ ≤ 1
+from 1.032 to 3.904, every variant lies far from the $\hat{R}$ ≤ 1
 benchmark. These values quantitatively confirm the diagnosis suggested
 by the trace plots: no variant achieves simultaneous convergence across
 all four parameters. Notably, even in the best case (standard
@@ -1777,6 +1776,8 @@ bayesian_model <- brm(
 
     ## Compiling Stan program...
 
+    ## Trying to compile a simple C file
+
     ## Start sampling
 
 ``` r
@@ -1814,11 +1815,11 @@ data.frame(
 )
 ```
 
-    ##   parameters rhat_mh_1 rhat_mh_2 rhat_mh_3  rhat_hmc
-    ## 1      beta0  2.168147  3.940527  3.460051 0.9996589
-    ## 2      beta1  1.180604  3.541819  2.855445 1.0013379
-    ## 3      beta2  1.032897  2.190855  3.597005 0.9998596
-    ## 4      beta3  2.291407  3.556249  3.377270 1.0002140
+    ##   parameters rhat_mh_1 rhat_mh_2 rhat_mh_3 rhat_hmc
+    ## 1      beta0  2.187046  3.904668  3.463845 1.002876
+    ## 2      beta1  1.205190  3.535621  2.889958 1.002962
+    ## 3      beta2  1.032190  2.311240  3.599434 1.003005
+    ## 4      beta3  2.145058  3.590913  3.388903 1.002571
 
 All parameters achieved $\hat{R}$ ≤ 1 with the Hamiltonian Monte Carlo
 algorithm, confirming convergence across the four chains. In contrast,

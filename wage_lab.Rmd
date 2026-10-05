@@ -332,7 +332,7 @@ cat("Usable decades — wage gap:", Tw_obs)
 
 The effective sample size represents the number of independent, non-redundant and unique observations contained in a correlated time series. $Tl_{eff}$ < $Tw_{eff}$ is theorically expected, as the oscillatory component introduces cyclical dependence that reduces the effective information content of $CP\_L$ relative to $CP\_W$. 
 
-The usable decades represent the number of observed periods required to accumulate a given number of truly independent observations. Due to the high autocorrelation structure of each variable, the raw sample is substantially larger than the effective one. For instance, each society must be observed for roughly **150 decades to yield only 5 independent observations from the labor surplus**. Similarly, roughly **140 decades of observation per society are needed to accumulate 15 independent observations from the wage gap.** 
+The usable decades represent the number of observed periods required to accumulate a given number of truly independent observations. Due to the high autocorrelation structure of each variable, the raw sample is substantially larger than the effective one. For instance, each society must be observed for roughly **150 decades to yield only 5 independent observations from the labor surplus**. Similarly, roughly **140 decades of observation per society are needed to accumulate 16 independent observations from the wage gap.** 
 
 ##### Derive N from the events per variable (EPV)
 
@@ -389,7 +389,7 @@ According to the EPV rule, a minimum of 30 crisis events is required across the 
 ##### Generate the structural crisis (y_pilot)
 
 The baseline crisis probability p is calibrated from Turchin and Nefedov's (2009) observation that recurrent waves of state breakdown occured approximately three times over five centuries of European history — the calamitous fourteenth century, the iron century of 1550-1660, and the age of revolutions of 1789-1849. This implies a per-decade crisis probability of approximately p = 0.006. This motivates the lower end of our sensitivity analysis, consistent with Marx's argument in Wage Labour and Capital that structural crisis require prolonged accumulation of contradictions before becoming probable. 
-The combination that mostly fits with this argument is ($p = 0.005$, $\beta_0 = -5.2933$, $N = 389$).
+The combination that mostly fits with this argument is ($p = 0.005$, $\beta_0 = -5.2933$, $N = 371$).
 Then, we will determine the parameters $\beta_1$ , $\beta_2$ , $\beta_3$. 
 
 ```{r}
@@ -430,11 +430,11 @@ y_pilot <- y_func(beta0, beta1, beta2, beta3, CP_l, CP_w, T_pilot, N_pilot)
 
 #### 3.2  Final simulation
 
-For the final simulation, we set N_final = 389 societies and T_final = 200. This timeline spans the necessary pre- and post-inflection decades. The choice to include exactly 150 post-inflection decades is driven by the differing autocorrelation structures of our variables: while these 150 decades translate to merely 5 effective independent informations for labor surplus, they yield 15 independent observations for the wage gap. The pre-inflection phase is retained to preserve the theoretical warmup consistent with Marx's early capitalism argument. However, the labor surplus exhibits high autocorrelation, substantially reducing the effective independent information per society. **To compensate for this loss of independence and to satisfy the EPV rule of a minimum of 30 effective crisis, N = 389 societies are required.**
+For the final simulation, we set N_final = 371 societies and T_final = 200. This timeline spans the necessary pre- and post-inflection decades. The choice to include exactly 150 post-inflection decades is driven by the differing autocorrelation structures of our variables: while these 150 decades translate to merely 5 effective independent informations for labor surplus, they yield 15 independent observations for the wage gap. The pre-inflection phase is retained to preserve the theoretical warmup consistent with Marx's early capitalism argument. However, the labor surplus exhibits high autocorrelation, substantially reducing the effective independent information per society. **To compensate for this loss of independence and to satisfy the EPV rule of a minimum of 30 effective crisis, N = 371 societies are required.**
 
 
 ```{r}
-N_final <- 389
+N_final <- 371
 T_final <- 200
 ```
 
@@ -461,7 +461,7 @@ data.frame (
     )
 ```
 
-The substantial jump from 1334 to 51384 crises is an expected outcome rather than a anomaly; it directly reflects the roughly 39-fold scaling of the number of societies from $N_{pilot} = 10$ to $N_{final} = 389$
+The substantial jump from 1334 to 48957 crises is an expected outcome rather than a anomaly; it directly reflects the roughly 3--fold scaling of the number of societies from $N_{pilot} = 10$ to $N_{final} = 371$
 
 #### 3.3 Findings
 
@@ -633,7 +633,7 @@ plot_w + plot_l +
 The marginal effect shows the asymmetry between the cumulative pressure terms :
 
 -   **Left panel (P(crisis) as a function of cumulative wage gap):** The P(crisis) is already high at the Q25 of $CP_L$ (0.88). This reflects the early accumulation of labor surplus pasts its inflection point $t_{0,l}$ = 50 — by Q25 of the distribution, $CP_L$ has already reached substantial levels, providing a non-negligible baseline of structural pressure.
--   **Right panel (P(crisis) as a function of cumulative labor surplus):** at the Q25 of $CP_W$ (0.11), there is almost no wage pressure and the baseline crisis probability remains low across all level of $CP_L$ — reflecting that $CP_W$ has not crossed its inflection point $t_{0,w}$ for its earliest observations.
+-   **Right panel (P(crisis) as a function of cumulative labor surplus):** at the Q25 of $CP_W$ (0.12), there is almost no wage pressure and the baseline crisis probability remains low across all level of $CP_L$ — reflecting that $CP_W$ has not crossed its inflection point $t_{0,w}$ for its earliest observations.
 
 The asymmetry between the two panels is partially explained by $\beta_1$ > $\beta_2$. Since $\beta_1$ = 1.0 > $\beta_2$ = 0.5, a unit increase in $CP_W$ contributes twice as much to $z$ as a unit increase in $CP_L$. So $CP_W$ is inherently a stronger driver of crisis probability than $CP_L$. 
 The temporal asymmetry compounds this effect : at their respective 25th percentile, $CP_L$ has already reached substantial levels while $CP_W$ has not yet crossed its inflection point — meaning a "low" condition for $CP_L$ carries far more structural pressure than a "low" condition for $CP_W$. 
@@ -752,7 +752,7 @@ data.frame(
 )
 ```
 
-The theoretical ordering $\beta_3 > \beta_2 > \beta_1$ is preserved in 18 out of 21 specifications, corresponding to 85.7% of the sensitivity grid, suggesting that the model's ability to recover the relative importance of the predictors is largely robust to structural parameter changes. In particular, Marx's conjunctural argument, that **the interaction term dominates individual effects, remains supported across the vast majority of specifications**. 
+The theoretical ordering $\beta_3 > \beta_2 > \beta_1$ is preserved in 20 out of 21 specifications, corresponding to 95.2% of the sensitivity grid, suggesting that the model's ability to recover the relative importance of the predictors is largely robust to structural parameter changes. In particular, Marx's conjunctural argument, that **the interaction term dominates individual effects, remains supported across the vast majority of specifications**. 
 
 ```{r}
 # crisis probability summary
@@ -764,7 +764,7 @@ data.frame(
 )
 ```
 
-**The sensitivity analysis reveals that crisis frequency is highly sensitive to changes in the structural parameters.** When structural parameters are varied, the scale of $CP_W$ and $CP_L$ changes accordingly, while $\beta_0$ remains fixed at its baseline value. Since $\beta_0$ no longer corresponds to the target crisis probability p = 0.005 under the new CP scales, crisis frequency fluctuates substantially across specifications, ranging from 0.4351	to 0.7514 with a mean of 0.6494. This limitation arises from the sensitivity analysis design, in which $\beta_0$ is not recalibrated for each structural parameter combination. Future work could address this by deriving specific $\beta_0$ to ensure constant crisis frequency across the sensitivity grid. 
+**The sensitivity analysis reveals that crisis frequency is highly sensitive to changes in the structural parameters.** When structural parameters are varied, the scale of $CP_W$ and $CP_L$ changes accordingly, while $\beta_0$ remains fixed at its baseline value. Since $\beta_0$ no longer corresponds to the target crisis probability p = 0.005 under the new CP scales, crisis frequency fluctuates substantially across specifications, ranging from 0.435	to 0.752 with a mean of 0.649. This limitation arises from the sensitivity analysis design, in which $\beta_0$ is not recalibrated for each structural parameter combination. Future work could address this by deriving specific $\beta_0$ to ensure constant crisis frequency across the sensitivity grid. 
 
 ###   4. Parameter recovery analysis
 
@@ -1143,7 +1143,7 @@ data.frame(
 )
 ```
 
-**R-hat results for the Metropolis–Hastings variants:** All three samplers—standard Metropolis–Hastings, Metropolis–Hastings with standardized predictors, and Metropolis–Hastings with a multivariate normal proposal—fail the convergence test. With $\hat{R}$ values ranging from 1.180 to 3.940, every variant lies far from the $\hat{R}$ ≤ 1 benchmark. These values quantitatively confirm the diagnosis suggested by the trace plots: no variant achieves simultaneous convergence across all four parameters.
+**R-hat results for the Metropolis–Hastings variants:** All three samplers—standard Metropolis–Hastings, Metropolis–Hastings with standardized predictors, and Metropolis–Hastings with a multivariate normal proposal—fail the convergence test. With $\hat{R}$ values ranging from 1.032 to 3.904, every variant lies far from the $\hat{R}$ ≤ 1 benchmark. These values quantitatively confirm the diagnosis suggested by the trace plots: no variant achieves simultaneous convergence across all four parameters.
 Notably, even in the best case (standard Metropolis–Hastings, where $\beta_2$ $\hat{R}$ reaches 1.032), convergence occurs for a single parameter only, while the remaining three fail badly. **This illustrates a key limitation: individual parameters may appear well-behaved in isolation, yet the joint posterior remains unreachable.** Moreover, the fact that refining the proposal (standardization, multivariate structure) does not resolve the issue suggests the bottleneck is not the tuning of the proposal, but the random-walk nature of Metropolis–Hastings itself—reinforcing the need for the gradient-based approach of  Hamiltonian Monte Carlo (HMC).
 
 -   **Hamiltonian Monte Carlo (HMC)**
