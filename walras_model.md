@@ -234,9 +234,10 @@ $$
 \bar{w} = \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}}
 $$
 
-When the workers have more leisure time than working time, the
-consumption is very low. At a subsistence level, each additional unit of
-consumption is extremely valuable. Thus, $U'_{consumption}$ at $\bar{c}$
-is a large denominator which makes $\bar{w}$ low.
+At wage $\bar{w}$ , workers can purchase $\bar{c}$ goods. When the
+workers have more leisure time than working time, the consumption is
+very low. At a subsistence level, each additional unit of consumption is
+extremely valuable. Thus, $U'_{consumption}$ at $\bar{c}$ is a large
+denominator which makes $\bar{w}$ low.
 
 #### Tier 2 : elite reserve army (elite overproduction)
