@@ -88,8 +88,9 @@ less labor because the machines can do the job. So automation affects
 the labor demand.
 
 By introducing this friction to the $MPL$ , the wage will be expressed
-with a time varying technology parameter $A(t)$ . $MPL$ is a derivative
-of the Production function (Cobb-Douglas) :
+with a time varying technology parameter $A(t)$ .
+
+$MPL$ is a derivative of the Production function (Cobb-Douglas) :
 
 $$
 Y = A(t) \cdot K^{\alpha} \cdot L^{(1 - \alpha)}
@@ -150,7 +151,7 @@ L^d_a = \frac{1}{\theta(t)} [\frac{Y}{w}]^{1/\alpha}
 $$
 
 $$
-L^d_a = \frac{1}{\theta(t)} \cdot Y^{1/\alpha} \cdot w^{1/\alpha}
+L^d_a = \frac{1}{\theta(t)} \cdot Y^{1/\alpha} \cdot w^{-1/\alpha}
 $$
 
 $$
@@ -173,8 +174,8 @@ $$
 
 Walrasian model requires $R_1(t)$ = 0, but when automation falls
 $\theta(t)$ faster than wage $w$, the excess labor supply persists. —
-The desired wage at which the workers are willing to work $w_1$ does not
-match the wage at which the firms are willing to hire $w_2$ .
+The desired wage $w_1$ at which the workers are willing to work does not
+match the wage $w_2$ at which the firms are willing to hire .
 
 When automation arrives, a part of the works can be done by machines.
 Thus, $w_2$ is adjusted by the firms as technology improves. Generally,
@@ -183,9 +184,6 @@ because of the workers existing contracts, the minimum wage floor, the
 workers may not refuse to accept lower wage. But most importantly, the
 wage can not fall below what is needed to survive — **The subsistence
 floor** $\bar{w}$
-
-Excess labor supply $R_1 > 0$ emerges whenever $\theta(t) < 0$ and
-$w_1 > \bar{w}$
 
 - **How** $\theta$ **affects the labor demand — Sign of**
   $\frac{\partial L^d_a}{\theta}$
@@ -208,5 +206,25 @@ $$
 $\theta(t)$ falls, the labor demand $L^d_a$ falls. Intuitively, as
 automatable workers become less productive relative to machine ($\theta$
 falls), firms want fewer of them at any given wage.
+
+With the wage stickiness and the swift technological progess,
+$\theta(t)$ falls faster than the market-clearing wage $w$ . This yields
+to a decreasing labor demand and a persistent excess of labor.
+
+- **Equilibrium : MRS and MPL cross at wage** $w$ :
+
+The Marginal Rate of Substitution represents the workers’optimization.
+They choose how many hours to work by balancing the benefit of working —
+earning wage to buy consumption goods, the cost of working — giving up
+leisure time. Then, higher wage makes working more attractive than
+leisure. Workers have reservation wage : below this wage, leisure time
+is more valuable than consumption wage buys. Crucially, there is a
+subsistence constraint — consumption can not fall below some minimum
+$\bar{c}$ .
+
+Friction occurs when minimum wage workers are willing to accept is lower
+than what the firms accept to pay. The maximum wage the firms are
+willing to pay is the Marginal Product of Labor. If the maximum demand
+wage is below the minimum supply wage, no transaction is possible.
 
 #### Tier 2 : elite reserve army (elite overproduction)
