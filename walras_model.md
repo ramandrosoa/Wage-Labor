@@ -209,7 +209,7 @@ falls), firms want fewer of them at any given wage.
 
 With the wage stickiness and the swift technological progess,
 $\theta(t)$ falls faster than the market-clearing wage $w$ . This yields
-to a decreasing labor demand and a persistent excess of labor.
+to a decreasing labor demand and a persistent excess of labor supply.
 
 - **Equilibrium : MRS and MPL cross at wage** $w$ :
 
@@ -226,5 +226,8 @@ Friction occurs when minimum wage workers are willing to accept is lower
 than what the firms accept to pay. The maximum wage the firms are
 willing to pay is the Marginal Product of Labor. If the maximum demand
 wage is below the minimum supply wage, no transaction is possible.
+
+The minimum wage expressed in terms of utility function and minimum
+consumption $\bar{c}$ :
 
 #### Tier 2 : elite reserve army (elite overproduction)

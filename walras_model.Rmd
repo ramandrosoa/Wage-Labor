@@ -181,12 +181,18 @@ $$
 
 -> $\frac{\partial L^d_a}{\partial \theta}$ is positive. When $\theta(t)$ falls, the labor demand $L^d_a$ falls. Intuitively, as automatable workers become less productive relative to machine ($\theta$ falls), firms want fewer of them at any given wage.
 
-With the wage stickiness and the swift technological progess, $\theta(t)$ falls faster than the market-clearing wage $w$ . This yields to a decreasing labor demand and a persistent excess of labor.
+With the wage stickiness and the swift technological progess, $\theta(t)$ falls faster than the market-clearing wage $w$ . This yields to a decreasing labor demand and a persistent excess of labor supply.
 
 -   **Equilibrium : MRS and MPL cross at wage** $w$ : 
 
 The Marginal Rate of Substitution represents the workers'optimization. They choose how many hours to work by balancing the benefit of working — earning wage to buy consumption goods, the cost of working — giving up leisure time. Then, higher wage makes working more attractive than leisure. Workers have reservation wage : below this wage, leisure time is more valuable than consumption wage buys. Crucially, there is a subsistence constraint — consumption can not fall below some minimum $\bar{c}$ . 
 
-Friction occurs when minimum wage workers are willing to accept is lower than what the firms accept to pay. The maximum wage the firms are willing to pay is the Marginal Product of Labor. If the maximum demand wage is below the minimum supply wage, no transaction is possible.  
+Friction occurs when minimum wage workers are willing to accept is lower than what the firms accept to pay. The maximum wage the firms are willing to pay is the Marginal Product of Labor. If the maximum demand wage is below the minimum supply wage, no transaction is possible.
+
+The minimum wage expressed in terms of utility function and minimum consumption $\bar{c}$ : 
+
+
+
+
 
 #### Tier 2 : elite reserve army (elite overproduction)
