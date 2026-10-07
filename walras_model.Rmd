@@ -207,4 +207,10 @@ $$
 (1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}} < \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}}
 $$
 
+$$
+\theta(t) < \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}} \cdot \frac{(L_n + \theta(t) \cdot L_a)^{\alpha}}{(1- \alpha)\cdot A(t) \cdot K^{\alpha}}
+$$
+
+
+
 #### Tier 2 : elite reserve army (elite overproduction)
