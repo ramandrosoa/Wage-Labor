@@ -3,7 +3,7 @@ Walrasian Labor Market - Notes
 
 Walrasian Equilibrium : $L^s(w)=L^d(w)=L$
 
-The market clears when the quantity of labor demanded $L$ by the firm
+The market clears when the quantity of labor demanded by the firm
 exactly equals to the quantity of labor supplied by the workers at a
 specific market-clearing wage $w$ .
 
