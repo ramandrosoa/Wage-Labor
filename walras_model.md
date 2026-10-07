@@ -230,4 +230,13 @@ wage is below the minimum supply wage, no transaction is possible.
 The minimum wage expressed in terms of utility function and minimum
 consumption $\bar{c}$ :
 
+$$
+\bar{w} = \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}}
+$$
+
+When the workers have more leisure time than working time, the
+consumption is very low. At a subsistence level, each additional unit of
+consumption is extremely valuable. Thus, $U'_{consumption}$ at $\bar{c}$
+is a large denominator which makes $\bar{w}$ low.
+
 #### Tier 2 : elite reserve army (elite overproduction)
