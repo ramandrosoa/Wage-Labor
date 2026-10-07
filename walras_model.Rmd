@@ -189,15 +189,15 @@ The Marginal Rate of Substitution represents the workers'optimization. They choo
 
 Friction occurs when minimum wage workers are willing to accept is lower than what the firms accept to pay. The maximum wage the firms are willing to pay is the Marginal Product of Labor. If the maximum demand wage is below the minimum supply wage, no transaction is possible.
 
-The friction condition is : $MPL(\theta(t), L_a)$ < $\bar{w_{min}}$ for all $L_a > 0$ 
+The friction condition is : $MPL(\theta(t), L_a)$ < $\bar{w}_{min}$ for all $L_a > 0$ 
 
 The minimum wage expressed in terms of utility function and minimum consumption $\bar{c}$ : 
 
 $$
-\bar{w_{min}} = \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}}
+\bar{w}_{min} = \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}}
 $$
 
-At wage $\bar{w_{min}}$ , workers can purchase $\bar{c}$ goods. When the workers have more leisure time than working time, the consumption is very low. At a subsistence level, each additional unit of consumption is extremely valuable. Thus, $U'_{consumption}$ at $\bar{c}$  is a large denominator which makes $\bar{w_{min}}$ low.
+At wage $\bar{w}_{min}$ , workers can purchase $\bar{c}$ goods. When the workers have more leisure time than working time, the consumption is very low. At a subsistence level, each additional unit of consumption is extremely valuable. Thus, $U'_{consumption}$ at $\bar{c}$  is a large denominator which makes $\bar{w}_{min}$ low.
 
 **Under what condition on** $\theta(t)$ **does MPL and MRS curves can no longer intersect ?**
 
