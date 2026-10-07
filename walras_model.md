@@ -90,7 +90,8 @@ the labor demand.
 By introducing this friction to the $MPL$ , the wage will be expressed
 with a time varying technology parameter $A(t)$ .
 
-$MPL$ is a derivative of the Production function (Cobb-Douglas) :
+$MPL$ is a derivative of the following Production function
+(Cobb-Douglas) :
 
 $$
 Y = A(t) \cdot K^{\alpha} \cdot L^{(1 - \alpha)}
@@ -218,7 +219,7 @@ They choose how many hours to work by balancing the benefit of working —
 earning wage to buy consumption goods, the cost of working — giving up
 leisure time. Then, higher wage makes working more attractive than
 leisure. Workers have reservation wage : below this wage, leisure time
-is more valuable than consumption wage buys. Crucially, there is a
+is more valuable than consumption wage buys. But crucially, there is a
 subsistence constraint — consumption can not fall below some minimum
 $\bar{c}$ .
 
@@ -227,17 +228,30 @@ than what the firms accept to pay. The maximum wage the firms are
 willing to pay is the Marginal Product of Labor. If the maximum demand
 wage is below the minimum supply wage, no transaction is possible.
 
+The friction condition is : $MPL(\theta(t), L_a)$ \< $\bar{w_{min}}$ for
+all $L_a > 0$
+
 The minimum wage expressed in terms of utility function and minimum
 consumption $\bar{c}$ :
 
 $$
-\bar{w} = \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}}
+\bar{w_{min}} = \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}}
 $$
 
-At wage $\bar{w}$ , workers can purchase $\bar{c}$ goods. When the
+At wage $\bar{w_{min}}$ , workers can purchase $\bar{c}$ goods. When the
 workers have more leisure time than working time, the consumption is
 very low. At a subsistence level, each additional unit of consumption is
 extremely valuable. Thus, $U'_{consumption}$ at $\bar{c}$ is a large
-denominator which makes $\bar{w}$ low.
+denominator which makes $\bar{w_{min}}$ low.
+
+**Under what condition on** $\theta(t)$ **does MPL and MRS curves can no
+longer intersect ?**
+
+Given the friction condition $MPL(\theta(t), L_a)$ \< $\bar{w_{min}}$ ,
+we get :
+
+$$
+(1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}} < \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}}
+$$
 
 #### Tier 2 : elite reserve army (elite overproduction)
