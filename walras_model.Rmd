@@ -221,4 +221,16 @@ $$
 \theta(t) < \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}} \cdot \frac{L}{(1-\alpha)\cdot Y}
 $$
 
+$$
+\theta(t) < \frac{\bar{w}_{min}}{(1-\alpha)(Y/L)}
+$$
+
+-   $Y/L$  is the output per worker. 
+-   $(1-\alpha)$ is the labor share.
+
+The market breaks down when the automation coefficient $\theta(t)$ falls below the ratio of the minimum acceptable wage to the average product of labor scaled by the labor share. The labor demand curve has shifted so far left that it never intersects the labor supply curve above the subsistence floor, and the MPL and the MRS do not meet at the market clearing wage $w$ .The market clearing mechanism fails. 
+
+When ${\bar{w}_{min}}$ rises, the subsistence costs increase as well. This yields to a rising threshold, making the breakdown more likely at any given $\theta(t)$ and the reserve army emerges sooner. When $Y/L$ increases, the threshold is delayed and the market stays stable longer. Higher productivity gives more room for firms to pay workers even if the automation coefficient $\theta(t)$ falls as technology is improving. 
+
+
 #### Tier 2 : elite reserve army (elite overproduction)
