@@ -55,7 +55,7 @@ and $w = MPL$ respectively. The market clears when $MRS = MPL$
 
 In a pure Walrasian World, the reserve army and the elite overproduction
 cannot mathematically exist, but in the actual economy, the markets do
-not clear instantly because of frictions — skill mismatch, position
+not clear instantly because of frictions — automation, position
 scarcity…
 
 **Excess demand function** : The Walrasian tatonnement works through
@@ -75,7 +75,7 @@ The frictions are the mechanisms that keep $ED \neq 0$ persistently.
 
 #### Tier 1 : standard reserve army
 
-**Friction 1 : Automation**
+**Friction : Automation**
 
 Automation causes labor displacement that forces job-to-job transitions,
 and since the skills of the displaced workers are considered obsolete,
@@ -289,5 +289,20 @@ any given $\theta(t)$ — The reserve army emerges sooner. When $Y/L$
 increases, the threshold is delayed and the market stays stable longer.
 Higher productivity gives more room for firms to pay workers even if the
 automation coefficient $\theta(t)$ falls as technology is improving.
+
+We define the critical threshold:
+
+$$
+\theta^*(t) = \frac{\bar{w}_{min}}{(1-\alpha)(Y/L)}
+$$
+
+This gives us a clean equation when $R_1$ activates :
+
+$$
+R_1(t) = \begin{cases}
+0 & \text{if } \theta(t)> \theta^*(t) \\[6pt]
+L^s_a(\bar{w}_{min}) - L^d_a(\bar{w}_{min},\theta(t)) & \text{if } \theta(t)< \theta^*(t)
+\end{cases}
+$$
 
 #### Tier 2 : elite reserve army (elite overproduction)
