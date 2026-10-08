@@ -300,8 +300,8 @@ This gives us a clean equation when $R_1$ activates :
 
 $$
 R_1(t) = \begin{cases}
-0 & \text{if } \theta(t)> \theta^{*}(t) \\[6pt]
-L^s_a(\bar{w}_{min}) - L^d_a(\bar{w}_{min},\theta(t)) & \text{if } \theta(t)< \theta^{*}(t)
+0 & \text{if } \theta(t)> \theta^\ast (t) \\[6pt]
+L^s_a(\bar{w}_{min}) - L^d_a(\bar{w}_{min},\theta(t)) & \text{if } \theta(t)< \theta^\ast (t)
 \end{cases}
 $$
 
