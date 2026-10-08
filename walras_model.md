@@ -306,3 +306,14 @@ L^s_a(\bar{w}_{min}) - L^d_a(\bar{w}_{min},\theta(t)) & \text{if } \theta(t)< \t
 $$
 
 #### Tier 2 : elite reserve army (elite overproduction)
+
+In the formal mathematical models of Structural-Demographic Theory
+(SDT), the elites are represented through two variables framework :
+
+- $E$ : the total number of elites
+
+- $A$ : the elite aspirants
+
+The system has a restrained capacity, constrained by $W$ : the number of
+actual position available. $W$ is a fixed constant or grows very slowly
+$\Delta W \approx 0$
