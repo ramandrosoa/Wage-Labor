@@ -285,7 +285,7 @@ clearing wage $w$ .The market clearing mechanism fails.
 
 When ${\bar{w}_{min}}$ rises, the subsistence costs increase as well.
 This yields to a rising threshold, making the breakdown more likely at
-any given $\theta(t)$ and the reserve army emerges sooner. When $Y/L$
+any given $\theta(t)$ — The reserve army emerges sooner. When $Y/L$
 increases, the threshold is delayed and the market stays stable longer.
 Higher productivity gives more room for firms to pay workers even if the
 automation coefficient $\theta(t)$ falls as technology is improving.
