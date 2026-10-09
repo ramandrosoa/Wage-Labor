@@ -285,9 +285,15 @@ $$
 \frac{dW}{dt} = gw \cdot W
 $$
 
-with $gw$ as growth rate, and $gw \approx 0$ or very small
+with $gw$ as growth rate, and $gw \approx 0$ or very small. 
 
+The elite growth rate is $r_e \cdot \frac{\rho}{w}$. The elite overproduction emerges when : 
 
+$$
+r_e \cdot \frac{\rho}{w} > gw 
+$$
+
+This is Tier 2 breakdown condition, analogue to $\theta(t) < \theta^{\ast}(t)$ from Tier 1. When the elite growth rate exceeds the positions growth rate, the elite reserve army $R_2$ starts accumulating. 
 
 
 
