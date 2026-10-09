@@ -330,4 +330,7 @@ $$
 
 - $w$ : average commoner wages
 
-When the $w$ stagnate or decline, the ratio $\frac{\rho}{w}$ expands.
+The expansion of the elite class is driven by an increase in the ratio
+$\frac{\rho}{w}$ . This ratio widens when $w$ stagnates or declines, or
+when $\rho$ grows. When both conditions occur simultaneously, they
+compound, resulting in a highly unequal society.
