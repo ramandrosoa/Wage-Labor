@@ -334,3 +334,14 @@ The expansion of the elite class is driven by an increase in the ratio
 $\frac{\rho}{w}$ . This ratio widens when $w$ stagnates or declines, or
 when $\rho$ grows. When both conditions occur simultaneously, they
 compound, resulting in a highly unequal society.
+
+According to Turchin and Nefedov (2009), “elite dynamics are governed
+not only by the biological reproductive rate but also by upward and
+downward social mobility.” In an unequal economic environment, the
+economic surplus is concentrated among the wealthy middle class and the
+elites. The former can leverage this surplus to acquire elite
+credentials for themselves and their children — such as Ivy League
+degrees or political influence — facilitating their transition into the
+elite class. Conversely, established elites use their surplus to ensure
+their heirs remain within the upper tier, preventing downward mobility
+into the commoner population.
