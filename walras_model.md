@@ -318,7 +318,7 @@ The system has a restrained capacity, constrained by $W$ : the number of
 actual position available. $W$ is a fixed constant or grows very slowly
 $\Delta W \approx 0$
 
-**The elite growth rate :**
+**The elite growth:**
 
 $$
 \frac{dE}{dt} = r_e \cdot E \cdot (\frac{\rho}{w})
@@ -345,3 +345,21 @@ degrees or political influence — facilitating their transition into the
 elite class. Conversely, established elites use their surplus to ensure
 their heirs remain within the upper tier, preventing downward mobility
 into the commoner population.
+
+**Positions scarcity**
+
+Structural elite positions (parliamentary seats, executive roles,
+ministerial posts, and top academic chairs) are finite, and established
+elites tend to block commoner access to them. Although symbolic gateways
+to the elite, such as university degrees, have democratized and
+multiplied, this expansion has outpaced the creation of actual elite
+positions. As a result, the elite class grows faster than the positions
+available to them.
+
+The positions growth is given by :
+
+$$
+\frac{dW}{dt} = gw \cdot W
+$$
+
+with $gw$ as growth rate, and $gw \approx 0$ or very small
