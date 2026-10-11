@@ -340,7 +340,7 @@ not only by the biological reproductive rate but also by upward and
 downward social mobility.” In an unequal economic environment, the
 economic surplus is concentrated among the wealthy middle class and the
 elites. The former can leverage this surplus to acquire elite
-credentials for themselves and their children — such as Ivy League
+credentials for themselves and their children — such as university
 degrees or political influence — facilitating their transition into the
 elite class. Conversely, established elites use their surplus to ensure
 their heirs remain within the upper tier, preventing downward mobility
@@ -374,3 +374,14 @@ This is Tier 2 breakdown condition, analogue to
 $\theta(t) < \theta^{\ast}(t)$ from Tier 1. When the elite growth rate
 exceeds the positions growth rate, the elite reserve army $R_2$ starts
 accumulating.
+
+$$
+R_2(t) = max(A(t)-W(t),0)
+$$
+
+Elite overproduction occurs when $R_2 > 0$ , creating an elite reserve
+army of credentialed aspirants $A(t)$ , who expect elite status.
+Historically, the rapid growth of this group is politically volatile. As
+Turchin notes, these “counter-elites” often spark revolutions by
+weaponizing the grievances of the standard reserve army for their own
+purposes.
