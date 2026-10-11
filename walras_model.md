@@ -405,3 +405,27 @@ $$
 
 This is the cascade equation, which describes the flow of the reserve
 army from Tier 1 into Tier 2.
+
+Term 1 — $\mu \cdot (\frac{\rho}{w}) \cdot N$: upward mobility from
+commoners.
+
+Term 2 — $\lambda \cdot (\frac{\rho}{w}) \cdot R_1 \cdot (t-\tau)$ :
+cascade from Tier 1.
+
+Term 3 — $\gamma \cdot W$ : placement into positions.
+
+- $\mu \cdot (\frac{\rho}{w})$ : mobility rate from commoners to
+  aspirants.
+
+- $N$ : total commoner population.
+
+- $\lambda \cdot (\frac{\rho}{w})$ : fraction of Tier 1 seeking for an
+  elite status.
+
+- $\tau$ : lag between the displacement and the credentials acquisition.
+
+- $\gamma$ : rate at which aspirants successfully fill positions.
+
+$(\frac{\rho}{w})$ in $\mu$ and $\lambda$ refers to the economy-wide
+surplus. Both mobility channels are facilitated by the same surplus
+concentration that drives elite growth.
