@@ -387,3 +387,20 @@ Historically, the rapid growth of this group is politically volatile. As
 Turchin notes, these “counter-elites” often spark revolutions by
 weaponizing the grievances of the standard reserve army for their own
 purposes.
+
+Two distinct groups feed the aspirants pool :
+
+- **wealthy commoners driven by opportunity :** surplus is available,
+  credentials are affordable.
+
+- **workers driven by necessity :** automation has displaced them, with
+  no alternative employment, credentials become a survival strategy.
+
+Thus, the aspirants growth is modeled by :
+
+$$
+\frac{dA(t)}{d(t)} = [\mu \cdot (\frac{\rho}{w}) \cdot N] + [\lambda \cdot (\frac{\rho}{w}) \cdot R_1 \cdot (t-\tau)] - \gamma \cdot W
+$$
+
+This is the cascade equation, which describes the flow of the reserve
+army from Tier 1 into Tier 2.
