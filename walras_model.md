@@ -348,12 +348,14 @@ into the commoner population.
 
 **Friction : Positions scarcity**
 
-Structural elite positions (parliamentary seats, executive roles,
-ministerial posts, and top academic chairs) are finite, and established
-elites tend to block commoner access to them. Although symbolic gateways
-to the elite have democratized and multiplied, this expansion has
-outpaced the creation of actual elite positions. As a result, the elite
-class grows faster than the positions available to them.
+Unlike Tier 1 where the failure is wage-based, Tier 2 failure is purely
+positional. Structural elite positions (parliamentary seats, executive
+roles, ministerial posts, and top academic chairs) are finite, and
+established elites tend to block commoner access to them. Although
+symbolic gateways to the elite have democratized and multiplied, this
+expansion has outpaced the creation of actual elite positions. As a
+result, the elite class grows faster than the positions available to
+them.
 
 The positions growth is given by :
 
