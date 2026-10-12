@@ -384,8 +384,8 @@ possible scenarios can explain the growth of the elites :
   aspirants grow slowly.
 
 - **scenario 2:** The elite growth is driving by upward mobility from
-  commoners and Tier 1 cascade. The aspirants $A$ grows rapidly but the
-  positions $W$ barely change.
+  commoners and credentialed workers from Tier 1. The aspirants $A$
+  grows rapidly but the positions $W$ barely change.
 
 -\> The breakdown condition should ideally reference the aspirant
 component specifically.
@@ -406,11 +406,10 @@ R_2(t) = max(A(t)-W(t),0)
 $$
 
 Elite overproduction occurs when $R_2 > 0$ , creating an elite reserve
-army of credentialed aspirants $A$ , who expect elite status.
-Historically, the rapid growth of this group is politically volatile. As
-Turchin notes, these “counter-elites” often spark revolutions by
-weaponizing the grievances of the standard reserve army for their own
-purposes.
+army of aspirants $A$ , who expect elite status. Historically, the rapid
+growth of this group is politically volatile. As Turchin notes, these
+“counter-elites” often spark revolutions by weaponizing the grievances
+of the standard reserve army for their own purposes.
 
 Two distinct groups feed the aspirants pool :
 
