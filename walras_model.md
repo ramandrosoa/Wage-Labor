@@ -377,6 +377,18 @@ $\theta(t) < \theta^{\ast}(t)$ from Tier 1. When the elite growth rate
 exceeds the positions growth rate, the elite reserve army $R_2$ starts
 accumulating.
 
+$r_e \cdot \frac{\rho}{w} > gw$ uses the total elite growth rate. Two
+possible scenarios can explain the growth of the elites :
+
+- **scenario 1:** The elite growth is driven mainly by the established
+  elites having more children. $E$ grows but most of the growth stay
+  within the existing position holders — children replace parents. The
+  aspirants grow slowly.
+
+- **scenario 2:** The elite growth is driving by upward mobility from
+  commoners and Tier 1 cascade. The aspirants $A$ grows rapidly but the
+  positions $W$ barely change.
+
 $$
 R_2(t) = max(A(t)-W(t),0)
 $$
