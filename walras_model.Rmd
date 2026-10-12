@@ -129,7 +129,7 @@ $$
 -   **Verifying the slope condition** $\frac{\partial L^d_a}{\partial w} < 0$ 
 
 $$
-Y = (1-\alpha) ) \cdot \theta(t) \cdot A(t) \cdot K^{\alpha}
+Y = (1-\alpha) \cdot \theta(t) \cdot A(t) \cdot K^{\alpha}
 $$
 
 $$
@@ -311,14 +311,14 @@ Two distinct groups feed the aspirants pool :
 Thus, the aspirants growth is modeled by : 
 
 $$
-\frac{dA(t)}{d(t)} = [\mu \cdot (\frac{\rho}{w}) \cdot N] + [\lambda \cdot (\frac{\rho}{w}) \cdot R_1 \cdot (t-\tau)] - \gamma \cdot W
+\frac{dA(t)}{d(t)} = [\mu \cdot (\frac{\rho}{w}) \cdot N] + [\lambda  \cdot R_1 \cdot (t-\tau)] - \gamma \cdot W
 $$
 
 This is the cascade equation, which describes the flow of the reserve army from Tier 1 into Tier 2.
 
 Term 1 — $\mu \cdot (\frac{\rho}{w}) \cdot N$: upward mobility from commoners.  
 
-Term 2 — $\lambda \cdot (\frac{\rho}{w}) \cdot R_1 \cdot (t-\tau)$ : cascade from Tier 1. 
+Term 2 — $\lambda \cdot R_1 \cdot (t-\tau)$ : cascade from Tier 1. 
 
 Term 3 — $\gamma \cdot W$ : placement into positions. 
 
@@ -326,10 +326,9 @@ Term 3 — $\gamma \cdot W$ : placement into positions.
 
 -   $N$ : total commoner population.
 
--   $\lambda \cdot (\frac{\rho}{w})$ : fraction of Tier 1 seeking for an elite status.
+-   $\lambda$ : fraction of Tier 1 seeking for an elite status.
 
 -   $\tau$ : lag between the displacement and the credentials acquisition.
 
 -   $\gamma$ : rate at which aspirants successfully fill positions.
 
-$(\frac{\rho}{w})$ in $\mu$ and $\lambda$ refers to the economy-wide surplus. Both mobility channels are facilitated by the same surplus concentration that drives elite growth. 
