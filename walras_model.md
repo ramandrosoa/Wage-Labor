@@ -17,10 +17,10 @@ $$
 \frac{\partial L^s}{\partial w} > 0 , \frac{\partial L^d}{\partial w} < 0
 $$
 
-- When wage decreases, companies want to hire more (downward-sloping)
-  -\> $\frac{\partial L^d}{\partial w} < 0$
+- When wage decreases, companies want to hire more (downward-sloping) :
+  $\frac{\partial L^d}{\partial w} < 0$
 
-- When wage increases, workers want to work more (upward-sloping) -\>
+- When wage increases, workers want to work more (upward-sloping) :
   $\frac{\partial L^s}{\partial w} > 0$
 
 The firm sets the labor demand so that $w = MPL$ , where $MPL$ is the
@@ -398,8 +398,8 @@ $$
 \frac{\dot{A}}{A} \approx \frac{\dot{E}}{E} - \frac{\dot{E_w}}{E_w} \approx r_e \cdot \frac{\rho}{w} - gw 
 $$
 
-When the elite growth rate exceeds the positions growth rate, the elite
-reserve army $R_2$ starts accumulating.
+When there are more elites than positions for them, the elite reserve
+army $R_2$ starts accumulating :
 
 $$
 R_2(t) = max(A(t)-W(t),0)
