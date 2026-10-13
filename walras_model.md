@@ -453,6 +453,28 @@ The market clears perfectly when : $E=W$ — every elite aspirants hold a
 position. But in reality : $E>W$ and the excess is the aspirants pool
 $A$ .
 
-θ(t) falls (automation intensifies) ↓ ↓ R_1 grows ρ rises (Tier 1
-displaced) (surplus concentrates) ↓ ↓ λ·R_1 feeds A μ(ρ/w)·N feeds A ↓ ↓
-└──────────┬──────────┘ ↓ A grows rapidly ↓ A \> W — R_2 emerges
+θ(t) falls (automation intensifies)
+
+        ↓                    ↓
+        
+
+R_1 grows ρ rises
+
+(Tier 1 displaced) (surplus concentrates)
+
+        ↓                    ↓
+        
+
+λ·R_1 feeds A μ(ρ/w)·N feeds A
+
+        ↓                    ↓
+        
+        └──────────┬──────────┘
+        
+                   ↓
+                   
+              A grows rapidly
+              
+                   ↓
+                   
+              A > W — R_2 emerges
