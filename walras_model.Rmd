@@ -402,11 +402,3 @@ The market clears perfectly when : $E=W$  — every elite aspirants hold a posit
   </div>
 
 </div>
-        
-                   ↓
-                   
-              A grows rapidly
-              
-                   ↓
-                   
-              A > W — R_2 emerges
