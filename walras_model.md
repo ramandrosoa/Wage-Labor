@@ -482,3 +482,29 @@ This creates a double acceleration of elite overproduction. Both
 channels (upward mobility from commoners and cascade from Tier 1) are
 driven by the same underlying cause — a falling automation coefficient
 $\theta(t)$ .
+
+We have noticed :
+
+$$
+\theta(t) \downarrow \implies \rho \uparrow
+$$
+
+When automation intensifies ($\theta(t)$ falls), the firms substitute
+capital for labor — the labor share of the output falls, and the surplus
+accruing to capital owners and elites rises. Automation simultaneously
+decreases wages and concentrates surplus.
+
+From the production function : $Y(t) = \rho(t) + w \cdot L$ , the
+surplus is given by :
+
+$$
+\rho(t) = Y(t) - w \cdot L
+$$
+
+- $Y(t)$ : the total output
+
+- $w \cdot L$ : the labor share
+
+Thus, as $\theta(t)$ falls : $w \cdot L$ drops, as workers are displaced
+and wages compress. $Y(t)$ may rise — automation increases productivity.
+Therefore $\rho(t)$ rises .
