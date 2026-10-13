@@ -446,3 +446,13 @@ Term 3 — $\gamma \cdot W$ : placement into positions.
 - $\tau$ : lag between the displacement and the credentials acquisition.
 
 - $\gamma$ : rate at which aspirants successfully fill positions.
+
+- **The Walrasian failure for positional goods**
+
+The market clears perfectly when : $E=W$ — every elite aspirants hold a
+position. But in reality : $E>W$ and the excess is the aspirants pool
+$A$ .
+
+θ(t) falls (automation intensifies) ↓ ↓ R_1 grows ρ rises (Tier 1
+displaced) (surplus concentrates) ↓ ↓ λ·R_1 feeds A μ(ρ/w)·N feeds A ↓ ↓
+└──────────┬──────────┘ ↓ A grows rapidly ↓ A \> W — R_2 emerges
