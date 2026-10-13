@@ -414,11 +414,11 @@ of the standard reserve army for their own purposes.
 Two distinct groups feed the aspirants pool :
 
 - **wealthy commoners driven by opportunity :** surplus is available,
-  credentials are affordable.
+  credentials are affordable (upward mobility from commoners).
 
 - **workers driven by necessity :** automation has displaced them and
   facing a lack of alternative employment, credentials become a survival
-  strategy.
+  strategy (cascade from Tier 1)
 
 Thus, the aspirants growth is modeled by :
 
@@ -470,10 +470,15 @@ market is trying to solve an impossible problem : fitting an infinite
 number of aspirants into a finite and rigide number of elite spots.
 Consequently, market clearing is structurally impossible
 
-- $\theta(t)$ **as an unified variable that links both tiers**
+- $\theta(t)$ **as an unifying variable that links both tiers**
 
 ``` r
 knitr::include_graphics("wage_lab_files/figure-gfm/cascade.png")
 ```
 
 <img src="wage_lab_files/figure-gfm/cascade.png" width="100%" />
+
+This creates a double acceleration of elite overproduction. Both
+channels (upward mobility from commoners and cascade from Tier 1) are
+driven by the same underlying cause — a falling automation coefficient
+$\theta(t)$ .

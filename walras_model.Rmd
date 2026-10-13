@@ -320,9 +320,9 @@ Elite overproduction occurs when $R_2 > 0$ , creating an elite reserve army of a
 
 Two distinct groups feed the aspirants pool : 
 
--   **wealthy commoners driven by opportunity :** surplus is available, credentials are affordable. 
+-   **wealthy commoners driven by opportunity :** surplus is available, credentials are affordable (upward mobility from commoners).
 
--   **workers driven by necessity :** automation has displaced them and facing a lack of alternative employment, credentials become a survival strategy. 
+-   **workers driven by necessity :** automation has displaced them and facing a lack of alternative employment, credentials become a survival strategy  (cascade from Tier 1)
 
 Thus, the aspirants growth is modeled by : 
 
@@ -361,8 +361,15 @@ $$
 
 Where $r$ is the return to elite status — higher return yields to more aspirants. But $W$ is fixed, so the equation has no solution because the market is trying to solve an impossible problem : fitting an infinite number of aspirants into a finite and rigide number of elite spots. Consequently, market clearing is structurally impossible
 
--  $\theta(t)$ **as an unified variable that links both tiers**
+-  $\theta(t)$ **as an unifying variable that links both tiers**
 
 ```{r dag, out.width="100%"}
 knitr::include_graphics("wage_lab_files/figure-gfm/cascade.png")
 ```
+
+This creates a double acceleration of elite overproduction. Both channels (upward mobility from commoners and cascade from Tier 1) are driven by the same underlying cause — a falling automation coefficient $\theta(t)$ .
+
+
+
+
+
