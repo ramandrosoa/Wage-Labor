@@ -452,8 +452,28 @@ Term 3 — $\gamma \cdot W$ : placement into positions.
 The market clears perfectly when : $E=W$ — every elite aspirants hold a
 position. But in reality : $E>W$ and the excess is the aspirants pool
 $A$ . In Tier 1, the Walrasian failure requires
-$\theta(t) < theta^{\ast}$ — The automation coefficient falling below a
+$\theta(t) < \theta^{\ast}$ — The automation coefficient falling below a
 threshold. But for Tier 2, there is no price mechanism that can adjust
 to clear the market. For positional goods, the relevant price is the
 status itself — which is by definition relative and cannot adjust to
 clear the market.
+
+Formally, the general equilibrium would solve :
+
+$$
+A(r) = W
+$$
+
+Where $r$ is the return to elite status — higher return yields to more
+aspirants. But $W$ is fixed, so the equation has no solution because the
+market is trying to solve an impossible problem : fitting an infinite
+number of aspirants into a finite and rigide number of elite spots.
+Consequently, market clearing is structurally impossible
+
+- $\theta(t)$ **as an unified variable that links both tiers**
+
+``` r
+knitr::include_graphics("wage_lab_files/figure-gfm/cascade.png")
+```
+
+<img src="wage_lab_files/figure-gfm/cascade.png" width="100%" />
