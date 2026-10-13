@@ -348,30 +348,9 @@ Term 3 — $\gamma \cdot W$ : placement into positions.
 
 -   $\gamma$ : rate at which aspirants successfully fill positions.
 
--   **The Walrasian failure for positional goods**
+**The Walrasian failure for positional goods**
 
 The market clears perfectly when : $E=W$  — every elite aspirants hold a position. But in reality : $E>W$ and the excess is the aspirants pool $A$ .
 
-θ(t) falls (automation intensifies)
+In Tier 1, the Walrasian failure requires $\theta(t) < theta^{\ast}$  — The automation coefficient falling below a threshold. But for Tier 2, there is no price mechanism that can adjust to clear the market. For positional goods, the relevant price is the status itself  — which is by definition relative and cannot adjust to clear the market. 
 
-        ↓                    ↓
-        
-R_1 grows              ρ rises
-
-(Tier 1 displaced)     (surplus concentrates)
-
-        ↓                    ↓
-        
-λ·R_1 feeds A         μ(ρ/w)·N feeds A
-
-        ↓                    ↓
-        
-        └──────────┬──────────┘
-        
-                   ↓
-                   
-              A grows rapidly
-              
-                   ↓
-                   
-              A > W — R_2 emerges
