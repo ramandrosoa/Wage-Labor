@@ -388,3 +388,36 @@ $$
 -   $w \cdot L$ : the labor share
 
 Thus, as $\theta(t)$ falls : $w \cdot L$ drops, as workers are displaced and wages compress. $Y(t)$ may rise — automation increases productivity. Therefore $\rho(t)$ rises .
+
+The relation between the surplus and the automation coefficient can be identified by taking the derivative of $\rho$ with respect to $\theta$.
+
+By substituting the Cobb-Douglas : $Y(t) = A(t) \cdot K^{\alpha} \cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}$, the wage condition $w = MPL$ and $L = L_n + \theta(t) \cdot L_a$we obtain : 
+
+$$
+\rho(t) = [A(t) \cdot K^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}] - [(1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}} \cdot (L_n + \theta(t) \cdot L_a) ]
+$$
+
+$$
+\rho(t) = [A(t) \cdot K^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}] - [(1- \alpha)\cdot \theta(t)\cdot(A(t) \cdot K^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha})]
+$$
+
+$$
+\rho(t) = [A(t) \cdot K^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}] [1 - ((1 - \alpha) \cdot \theta(t))]
+$$
+
+$$
+\rho(t) = Y(t) [1-((1-\alpha) \cdot \theta(t))]
+$$
+
+
+
+
+
+
+
+
+
+
+
+
+
