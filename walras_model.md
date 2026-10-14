@@ -513,7 +513,7 @@ The relation between the surplus and the automation coefficient can be
 identified by taking the derivative of $\rho$ with respect to $\theta$.
 
 By substituting the Cobb-Douglas :
-$Y(t) = A(t) \cdot K^{\alpha} \cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}$,
+$Y = A(t) \cdot K^{\alpha} \cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}$,
 the wage condition $w = MPL$ and $L = L_n + \theta(t) \cdot L_a$we
 obtain :
 
@@ -522,13 +522,26 @@ $$
 $$
 
 $$
-\rho(t) = [A(t) \cdot K^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}] - [(1- \alpha)\cdot \theta(t)\cdot(A(t) \cdot K^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha})]
-$$
-
-$$
 \rho(t) = [A(t) \cdot K^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}] [1 - ((1 - \alpha) \cdot \theta(t))]
 $$
 
 $$
-\rho(t) = Y(t) [1-((1-\alpha) \cdot \theta(t))]
+\rho(t) = Y [1-((1-\alpha) \cdot \theta(t))]
 $$
+
+$$
+\rho(t) = Y - [Y \cdot (1-\alpha) \cdot \theta(t)]
+$$
+
+$$
+\frac{\partial{\rho}}{\partial{\theta}} = - Y(1-\alpha) < 0
+$$
+
+-\> $\frac{\partial{\rho}}{\partial{\theta}}$ is negative. A falling
+automation coefficient simultanuously :
+
+- creates $R_1$ (Tier 1 friction)
+
+- raises $\rho$, accelerating both the upward mobility from commoners
+  and the cascade from Tier 1 feeding the aspirants pool (Tier 2
+  friction)
