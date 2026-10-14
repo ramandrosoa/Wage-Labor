@@ -538,7 +538,7 @@ $$
 $$
 
 -\> $\frac{\partial{\rho}}{\partial{\theta}}$ is negative. A falling
-automation coefficient simultanuously :
+automation coefficient simultaneously :
 
 - creates $R_1$ (Tier 1 friction)
 
