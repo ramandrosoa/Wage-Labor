@@ -407,9 +407,11 @@ $$
 
 Elite overproduction occurs when $R_2 > 0$ , creating an elite reserve
 army of aspirants $A$ , who expect elite status. Historically, the rapid
-growth of this group is politically volatile. As Turchin notes, these
-“counter-elites” often spark revolutions by weaponizing the grievances
-of the standard reserve army for their own purposes.
+growth of this group is a volatile political trigger. As Turchin (2009)
+argues : “the dominant role in internal warfare appears to be played by
+elite overproduction leading to intraelite competition, fragmentation,
+and conflict, and the rise of counterelites who mobilize popular masses
+in their struggle against existing order.”
 
 Two distinct groups feed the aspirants pool :
 
