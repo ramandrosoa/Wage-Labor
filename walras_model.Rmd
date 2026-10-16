@@ -361,7 +361,7 @@ $$
 
 Where $r$ is the return to elite status — higher return yields to more aspirants. But $W$ is fixed, so the equation has no solution because the market is trying to solve an impossible problem : fitting an infinite number of aspirants into a finite and rigide number of elite spots. Consequently, market clearing is structurally impossible
 
--  $\theta(t)$ **as an unifying variable that links both tiers**
+####  The automation coefficient as an unifying variable that links both tiers
 
 ```{r dag, out.width="100%"}
 knitr::include_graphics("wage_lab_files/figure-gfm/cascade.png")
@@ -391,7 +391,7 @@ Thus, as $\theta(t)$ falls : $w \cdot L$ drops, as workers are displaced and wag
 
 The relation between the surplus and the automation coefficient can be identified by taking the derivative of $\rho$ with respect to $\theta$.
 
-By substituting the Cobb-Douglas : $Y = A(t) \cdot K^{\alpha} \cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}$, the wage condition $w = MPL$ and $L = L_n + \theta(t) \cdot L_a$we obtain : 
+By substituting the Cobb-Douglas : $Y = A(t) \cdot K^{\alpha} \cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}$, the wage condition $w = MPL$ and $L = L_n + \theta(t) \cdot L_a$ ,we obtain : 
 
 $$
 \rho(t) = [A(t) \cdot K^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}] - [(1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}} \cdot (L_n + \theta(t) \cdot L_a) ]

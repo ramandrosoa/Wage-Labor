@@ -470,7 +470,7 @@ market is trying to solve an impossible problem : fitting an infinite
 number of aspirants into a finite and rigide number of elite spots.
 Consequently, market clearing is structurally impossible
 
-- $\theta(t)$ **as an unifying variable that links both tiers**
+#### The automation coefficient as an unifying variable that links both tiers
 
 ``` r
 knitr::include_graphics("wage_lab_files/figure-gfm/cascade.png")
@@ -514,7 +514,7 @@ identified by taking the derivative of $\rho$ with respect to $\theta$.
 
 By substituting the Cobb-Douglas :
 $Y = A(t) \cdot K^{\alpha} \cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}$,
-the wage condition $w = MPL$ and $L = L_n + \theta(t) \cdot L_a$we
+the wage condition $w = MPL$ and $L = L_n + \theta(t) \cdot L_a$ ,we
 obtain :
 
 $$
