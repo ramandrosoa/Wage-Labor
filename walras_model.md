@@ -1,7 +1,7 @@
 Walrasian Labor Market - Notes
 ================
 
-Walrasian Equilibrium : $L^s(w)=L^d(w)=L$
+Walrasian Equilibrium : $L^s(w)=L^d(w)$
 
 The market clears when the quantity of labor demanded by the firm
 exactly equals to the quantity of labor supplied by the workers at a
@@ -539,8 +539,8 @@ $$
 \frac{\partial{\rho}}{\partial{\theta}} = - Y(1-\alpha) < 0
 $$
 
--\> $\frac{\partial{\rho}}{\partial{\theta}}$ is negative. A falling
-automation coefficient simultaneously :
+-\> $\frac{\partial{\rho}}{\partial{\theta}}$ is negative. Thus, a
+falling automation coefficient simultaneously :
 
 - creates $R_1$ (Tier 1 friction)
 
@@ -561,3 +561,7 @@ Tier 2 accelerates when :
 $$
 \frac{dA}{dt} > \frac{dW}{dt} \iff \mu \cdot (\frac{\rho(\theta)}{w(\theta)}) + \lambda \cdot R_1(\theta) - \gamma\cdot W
 $$
+
+When the $\theta$ falls (automation intensifies), the upward mobility
+channel and the cascade channel simultaneously accelerates — together
+overwhelming the slow growth of the available positions.
