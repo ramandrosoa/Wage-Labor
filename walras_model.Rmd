@@ -420,8 +420,19 @@ $$
 
 -   raises $\rho$, accelerating both the upward mobility from commoners and the cascade from Tier 1 feeding the aspirants pool (Tier 2 friction)
 
+**The unified breakdown**
 
+Tier 1 breaks down when : 
 
+$$
+\theta(t) < \theta^{\ast} = \frac{\bar{w}_{min}}{(1-\alpha)\cdot (Y/L)} 
+$$
+
+Tier 2 accelerates when : 
+
+$$
+\frac{dA}{dt} > \frac{dW}{dt} \iff \mu \cdot (\frac{\rho(\theta)}{w(\theta)}) + \lambda \cdot R_1(\theta) - \gamma\cdot W
+$$
 
 
 
