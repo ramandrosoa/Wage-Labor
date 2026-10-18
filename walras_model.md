@@ -159,7 +159,10 @@ $$
 \frac{\partial L^d_a}{\partial w} = \frac{-1}{\alpha} \cdot \frac{1}{\theta(t)} \cdot Y^{\frac{1}{\alpha}}  \cdot w^{\frac{-1-\alpha}{\alpha}} < 0
 $$
 
--\> $\frac{\partial L^d_a}{\partial w}$ is indeed negative.
+-\> $\frac{\partial L^d_a}{\partial w}$ is indeed negative, confirming
+that higher wages raise the cost of employing automatable labor. As
+wages increase, firms are incentivized to substitute these workers with
+automation technologies.
 
 This Tier 1 friction is the excess labor supply, given as :
 
@@ -562,6 +565,6 @@ $$
 \frac{dA}{dt} > \frac{dW}{dt} \iff \mu \cdot (\frac{\rho(\theta)}{w(\theta)}) + \lambda \cdot R_1(\theta) - \gamma\cdot W
 $$
 
-When the $\theta$ falls (automation intensifies), the upward mobility
-channel and the cascade channel simultaneously accelerates — together
+When $\theta$ falls (automation intensifies), the upward mobility
+channel and the cascade channel simultaneously accelerate — together
 overwhelming the slow growth of the available positions.
