@@ -584,3 +584,4 @@ With
 $L^s_a(\bar{w}_{min}, t) = L^s_a(\bar{w}_{min}) \cdot \frac{N(t)}{N(t_0)}$.
 $\frac{N(t)}{N(t_0)}$ is a population scaling factor : as the population
 grows over time, the pool of available workers expands proportionally.
+$t_0$ is a reference time at which we normalize the population.
