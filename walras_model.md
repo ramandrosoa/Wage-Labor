@@ -569,7 +569,7 @@ When $\theta$ falls (automation intensifies), the upward mobility
 channel and the cascade channel simultaneously accelerate — together
 overwhelming the slow growth of the available positions.
 
-#### Four-phase structure for the reserve armies: expansion, stagflation,crisis, depression
+#### Four-phase structure for the reserve armies: expansion, stagflation, crisis, depression
 
 **Tier 1 :**
 
@@ -581,7 +581,10 @@ L^s_a(\bar{w}_{min}, t) - L^d_a(\bar{w}_{min},\theta(t)) & \text{if } \theta(t)<
 $$
 
 With
-$L^s_a(\bar{w}_{min}, t) = L^s_a(\bar{w}_{min}) \cdot \frac{N(t)}{N(t_0)}$.
+$L^s_a(\bar{w}_{min}, t) = L^s_a(\bar{w}_{min}) \cdot \frac{N(t)}{N(t_0)}$
+.
+
 $\frac{N(t)}{N(t_0)}$ is a population scaling factor : as the population
 grows over time, the pool of available workers expands proportionally.
-$t_0$ is a reference time at which we normalize the population.
+$t_0$ is the normalization reference. Population growth follows the
+secular-cycle phases — expansion, stagflation, crisis, and depression.
