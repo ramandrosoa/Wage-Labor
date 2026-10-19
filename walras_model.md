@@ -176,7 +176,7 @@ $$
 
 - $L^d_a(w, \theta(t))$ : automatable labor demand
 
-Walrasian model requires $R_1(t)$ = 0, but when automation falls
+Walrasian model requires $R_1(t) = 0$, but when automation falls
 $\theta(t)$ faster than wage $w$, the excess labor supply persists. —
 The desired wage $w_1$ at which the workers are willing to work does not
 match the wage $w_2$ at which the firms are willing to hire .
@@ -568,3 +568,19 @@ $$
 When $\theta$ falls (automation intensifies), the upward mobility
 channel and the cascade channel simultaneously accelerate — together
 overwhelming the slow growth of the available positions.
+
+#### Four-phase structure for the reserve armies: expansion, stagflation,crisis, depression
+
+**Tier 1 :**
+
+$$
+R_1(t) = \begin{cases}
+0 & \text{if } \theta(t)> \theta^\ast (t) \\
+L^s_a(\bar{w}_{min}, t) - L^d_a(\bar{w}_{min},\theta(t)) & \text{if } \theta(t)< \theta^\ast (t)
+\end{cases}
+$$
+
+With
+$L^s_a(\bar{w}_{min}, t) = L^s_a(\bar{w}_{min}) \cdot \frac{N(t)}{N(t_0)}$.
+$\frac{N(t)}{N(t_0)}$ is a population scaling factor : as the population
+grows over time, the pool of available workers expands proportionally.
