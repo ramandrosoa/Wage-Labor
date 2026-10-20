@@ -589,14 +589,10 @@ grows over time, the pool of available workers expands proportionally.
 $t_0$ is the normalization reference. Population growth follows the
 secular-cycle phases :
 
-- expansion : $N$ grows — good harvest, low conflict, rising wages
-
-- stagflation : $N$ continues growing but overshoot the carrying
-  capacity
-
-- crisis : $N$ falls — civil war, famine, disease, elevated mortality
-
-- depression : $N$ recovers slowly from its trough
+- Expansion: $N$ grows — good harvest, low conflict, rising wages
+- Stagflation: $N$ continues growing but overshoot the carrying capacity
+- Crisis: $N$ falls — civil war, famine, disease, elevated mortality
+- Depression: $N$ recovers slowly from its trough
 
 To model the population growth, we use a logistic growth with carrying
 capacity :
@@ -606,10 +602,8 @@ $$
 $$
 
 - $r_N$ : natural population growth rate
-
 - $K$ : carrying capacity (maximum sustainable population given
   agricultural/economic productivity)
-
 - $d(t)$ : excess mortality rate — this what changes across the phases
 
 Separating excess mortality from natural population growth exposes the
@@ -618,9 +612,9 @@ population; but once carrying capacity is breached, the two
 decouple—population falls while mortality keeps climbing, driven by
 warfare, famine, and institutional collapse:
 
-- Expansion: d(t) ≈ 0 — normal mortality only
-- Stagflation: d(t) small — slightly elevated (famine, disease begin)
-- Crisis: d(t) large — war, famine, epidemic mortality
-- Depression: d(t) → 0 — mortality returns to normal
+- Expansion: $d(t)$ ≈ 0 — normal mortality only
+- Stagflation: $d(t)$ small — slightly elevated (famine, disease begin)
+- Crisis: $d(t)$ large — war, famine, epidemic mortality
+- Depression: $d(t)$ → 0 — mortality returns to normal
 
 Thus, the phase dynamics come from $d(t)$ .
