@@ -611,3 +611,16 @@ $$
   agricultural/economic productivity)
 
 - $d(t)$ : excess mortality rate — this what changes across the phases
+
+Separating excess mortality from natural population growth exposes the
+secular-cycle phases. As a general rule, mortality rises alongside
+population; but once carrying capacity is breached, the two
+decouple—population falls while mortality keeps climbing, driven by
+warfare, famine, and institutional collapse:
+
+- Expansion: d(t) ≈ 0 — normal mortality only
+- Stagflation: d(t) small — slightly elevated (famine, disease begin)
+- Crisis: d(t) large — war, famine, epidemic mortality
+- Depression: d(t) → 0 — mortality returns to normal
+
+Thus, the phase dynamics come from $d(t)$ .
