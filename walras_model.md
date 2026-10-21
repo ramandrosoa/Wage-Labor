@@ -638,8 +638,11 @@ $$
 d_N(t) = d_{N,base} + (d_{N,stag} \cdot 1[\phi(t) = stag]) + (d_{N,crisis} \cdot 1[\phi(t) = crisis]) 
 $$
 
-**Tier 2 :**
+$\phi(t)$ is a phase signal that modulates the equation according to the
+current regime: the corresponding indicator $1[\phi(t) = \cdot]$ equals
+1 when $\phi(t)$ matches that phase and 0 otherwise.
 
-$$
-R_2(t) = max[(A(t) - W), 0]
-$$
+When the system is in stagflation, the indicator function
+$1[\phi(t) = stag])$ activates, contributing to $d_{N,stag}$. During
+crisis, $1[\phi(t) = crisis]$ takes over, raising the excess mortality
+by $d_{N, crisis}$ .
