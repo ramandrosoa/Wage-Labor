@@ -587,24 +587,19 @@ $L^s_a(\bar{w}_{min}, t) = L^s_a(\bar{w}_{min}) \cdot \frac{N(t)}{N(t_0)}$
 $\frac{N(t)}{N(t_0)}$ is a population scaling factor : as the population
 grows over time, the pool of available workers expands proportionally.
 $t_0$ is the normalization reference. Population growth follows the
-secular-cycle phases :
-
-- Expansion: $N$ grows — good harvest, low conflict, rising wages
-- Stagflation: $N$ continues growing but overshoot the carrying capacity
-- Crisis: $N$ falls — civil war, famine, disease, elevated mortality
-- Depression: $N$ recovers slowly from its trough
+secular-cycle phases — expansion, stagflation, crisis, depression.
 
 To model the population growth, we use a logistic growth with carrying
 capacity :
 
 $$
-\frac{dN}{dt} = r_N \cdot N \cdot (\frac{N}{K}) - d(t) \cdot N
+\frac{dN}{dt} = r_N \cdot N \cdot (\frac{N}{K}) - d_N(t) \cdot N
 $$
 
 - $r_N$ : natural population growth rate
 - $K$ : carrying capacity (maximum sustainable population given
   agricultural/economic productivity)
-- $d(t)$ : excess mortality rate — this what changes across the phases
+- $d_N(t)$ : excess mortality rate for the general population
 
 Separating excess mortality from natural population growth exposes the
 secular-cycle phases. As a general rule, mortality rises alongside
@@ -612,9 +607,39 @@ population; but once carrying capacity is breached, the two
 decouple—population falls while mortality keeps climbing, driven by
 warfare, famine, and institutional collapse:
 
-- Expansion: $d(t)$ ≈ 0 — normal mortality only
-- Stagflation: $d(t)$ small — slightly elevated (famine, disease begin)
-- Crisis: $d(t)$ large — war, famine, epidemic mortality
-- Depression: $d(t)$ → 0 — mortality returns to normal
+- Expansion: $d_N(t)$ ≈ 0 — normal mortality only
+- Stagflation: $d_N(t)$ small — slightly elevated (famine, disease
+  begin)
+- Crisis: $d_N(t)$ large — war, famine, epidemic mortality
+- Depression: $d_N(t)$ → 0 — mortality returns to normal
 
-Thus, the phase dynamics come from $d(t)$ .
+Thus, the phase dynamics come from $d_N(t)$ . We assume that excess
+mortality begins during stagflation and peaks dramatically during the
+transition into the crisis phase. Throughout stagflation, the population
+continues to grow until it reaches its ceiling. At this point, available
+resources are no longer sufficient for subsistence. Although population
+density remains high, foodstuff prices rise steadily. Inflation affects
+both the general population and the elites; however, the former suffer
+from malnutrition, famine, and disease, while the latter still manage to
+preserve their standard of living. This asymmetry stems from the
+pressure elites exert on the proletariat by depressing wages or raising
+land rents. Driven by these conditions, elites increasingly vie for
+higher positions, fueling intense intra-elite competition. Historically,
+conflicts among the elites serve as the trigger for the next phase —
+crisis — during which the mortality rate continues its upward trajectory
+until reaching its highest point.
+
+**Excess mortality rate and the phase indicator**
+
+We introduce a phase indicator $\phi(t)$ to distinguish between the
+excess mortality rate during stagflation and that during crisis.
+
+$$
+d_N(t) = d_{N,base} + (d_{N,stag} \cdot 1[\phi(t) = stag]) + (d_{N,crisis} \cdot 1[\phi(t) = crisis]) 
+$$
+
+**Tier 2 :**
+
+$$
+R_2(t) = max[(A(t) - W), 0]
+$$
