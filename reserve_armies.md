@@ -10,8 +10,11 @@ L^s_a(\bar{w}_{min}, t) - L^d_a(\bar{w}_{min},\theta(t)) & \text{if } \theta(t)<
 \end{cases}
 $$
 
-With $L^s_a(\bar{w}_{min}, t)$ =
-$L^s_a(\bar{w}_{min}) \cdot \frac{N(t)}{N(t_0)}$
+With labor supply :
+
+$$
+L^s_a(\bar{w}_{min}, t) = L^s_a(\bar{w}_{min}) \cdot \frac{N(t)}{N(t_0)}
+$$
 
 $\frac{N(t)}{N(t_0)}$ is a population scaling factor : as the population
 grows over time, the pool of available workers expands proportionally.
