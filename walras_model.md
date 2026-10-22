@@ -428,7 +428,7 @@ Two distinct groups feed the aspirants pool :
 Thus, the aspirants growth is modeled by :
 
 $$
-\frac{dA(t)}{d(t)} = [\mu \cdot (\frac{\rho}{w}) \cdot N] + [\lambda  \cdot R_1(t-\tau)] - \gamma \cdot W
+\frac{dA}{dt} = [\mu \cdot (\frac{\rho}{w}) \cdot N] + [\lambda  \cdot R_1(t-\tau)] - \gamma \cdot W
 $$
 
 This is the cascade equation, which describes the flow of the reserve

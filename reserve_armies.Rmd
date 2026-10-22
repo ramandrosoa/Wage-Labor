@@ -6,7 +6,7 @@ output:
     toc_depth: 2
 ---
 
-#### Tier 1 : standard reserve armies   
+#### Tier 1 : the standard reserve armies   
 
 $$
 R_1(t) = \begin{cases}
@@ -76,4 +76,19 @@ $$
 g_{1,floor} = \frac{\theta(1) - \theta(n)}{\theta(1)}
 $$
 
-This formula captures the proportional decline in the automation coefficient over the cycle. The more automation intensifies ( $\theta$ falls ) , the higher the floor for the next cycle.
+This formula captures the proportional decline in the automation coefficient $\theta$ over the cycle. The more automation intensifies ( $\theta$ falls ) , the higher the floor for the next cycle.
+
+#### Tier 2 : the elite reserve armies
+
+$$
+R_2 = max(A(t)- W(t), 0)
+$$
+
+$$
+\frac{dA(t)}{d(t)} = [\mu \cdot (\frac{\rho}{w}) \cdot N] + [\lambda  \cdot R_1(t-\tau)] - \gamma \cdot W
+$$
+
+
+
+
+
