@@ -10,9 +10,8 @@ L^s_a(\bar{w}_{min}, t) - L^d_a(\bar{w}_{min},\theta(t)) & \text{if } \theta(t)<
 \end{cases}
 $$
 
-With
-$L^s_a(\bar{w}_{min}, t) = L^s_a(\bar{w}_{min}) \cdot \frac{N(t)}{N(t_0)}$
-.
+With $L^s_a(\bar{w}_{min}, t)$ =
+$L^s_a(\bar{w}_{min}) \cdot \frac{N(t)}{N(t_0)}$
 
 $\frac{N(t)}{N(t_0)}$ is a population scaling factor : as the population
 grows over time, the pool of available workers expands proportionally.
@@ -44,20 +43,21 @@ warfare, famine, and institutional collapse:
 - Depression: $d_N(t)$ → 0 — mortality returns to normal
 
 Thus, the phase dynamics come from $d_N(t)$ . We assume that excess
-mortality begins during stagflation and peaks dramatically during the
-transition into the crisis phase. Throughout stagflation, the population
-continues to grow until it reaches its ceiling. At this point, available
-resources are no longer sufficient for subsistence. Although population
-density remains high, foodstuff prices rise steadily. Inflation affects
-both the general population and the elites; however, the former suffer
-from malnutrition, famine, and disease, while the latter still manage to
-preserve their standard of living. This asymmetry stems from the
-pressure elites exert on the proletariat by depressing wages or raising
-land rents. Driven by these conditions, elites increasingly vie for
-higher positions, fueling intense intra-elite competition. Historically,
-conflicts among the elites serve as the trigger for the next phase —
-crisis — during which the mortality rate continues its upward trajectory
-until reaching its highest point.
+mortality of the general population begins during stagflation and peaks
+dramatically during the transition into the crisis phase. Throughout
+stagflation, the population continues to grow until it reaches its
+ceiling. At this point, available resources are no longer sufficient for
+subsistence. Although population density remains high, foodstuff prices
+rise steadily. Inflation affects both the general population and the
+elites; however, the former suffer from malnutrition, famine, and
+disease, while the latter still manage to preserve their standard of
+living. This asymmetry stems from the pressure elites exert on the
+proletariat by depressing wages or raising land rents. Driven by these
+conditions, elites increasingly vie for higher positions, fueling
+intense intra-elite competition. Historically, conflicts among the
+elites serve as the trigger for the next phase — crisis — during which
+the mortality rate continues its upward trajectory until reaching its
+highest point.
 
 **Excess mortality rate and the phase indicator**
 
@@ -73,6 +73,22 @@ current regime: the corresponding indicator $1[\phi(t) = \cdot]$ equals
 1 when $\phi(t)$ matches that phase and 0 otherwise.
 
 When the system is in stagflation, the indicator function
-$1[\phi(t) = stag])$ activates, contributing to $d_{N,stag}$. During
+$1[\phi(t) = stag]$ activates, contributing to $d_{N,stag}$. During
 crisis, $1[\phi(t) = crisis]$ takes over, raising the excess mortality
 by $d_{N, crisis}$ .
+
+**The floor condition**
+
+Because the secular accumulation mechanism prevents any cycle from fully
+resetting, each successive cycle should start from a baseline $R_1$
+higher than that of the previous one.
+
+$$
+R_{1,floor}^{n+1} = R_{1,floor}^{n} \cdot (1 + g_{floor}) 
+$$
+
+We add a floor condition to ensure that the reserve army at cycle $n+1$
+is no smaller than that at cycle $n$ . $R_{1,floor}$ denotes the minimum
+reserve army that persists even after the most severe purge. Each crisis
+removes part of the reserve army, yet it does not erase the conditions
+that produce it.
