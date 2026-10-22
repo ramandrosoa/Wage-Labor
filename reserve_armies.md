@@ -111,4 +111,12 @@ parameter $g_{1,floor}$ .
 
 $g_{1,floor}$ is secular growth rate that reflects the accumulation of
 technological displacement. It measures how much structural change each
-cycle leaves behind.
+cycle leaves behind. For $t = 1, ... , n$ :
+
+$$
+g_{1,floor} = \frac{\theta(1) - \theta(n)}{\theta(1)}
+$$
+
+This formula captures the proportional decline in the automation
+coefficient over the cycle. The more automation intensifies ( $\theta$
+falls ) , the higher the floor for the next cycle.

@@ -70,6 +70,10 @@ $$
 
 **Each crisis removes part of the reserve army, yet it does not erase the conditions that produce it**. After depression, the economy enters a new expansion but it starts from a slightly more unequal, slightly more automated baseline than the previous expansion. The more automation penetrates during a cycle, the more workers remain permanently displaced after recovery (their skills have grown obsolete, they are too old to retrain, and the sectors that shed them never fully recover). Thus, automation intensity governs the severity of each cycle, captured by the parameter $g_{1,floor}$ . 
 
-$g_{1,floor}$ is secular growth rate that reflects the accumulation of technological displacement. It measures how much structural change each cycle leaves behind. 
+$g_{1,floor}$ is secular growth rate that reflects the accumulation of technological displacement. It measures how much structural change each cycle leaves behind. For $t = 1, ... , n$ :
 
+$$
+g_{1,floor} = \frac{\theta(1) - \theta(n)}{\theta(1)}
+$$
 
+This formula captures the proportional decline in the automation coefficient over the cycle. The more automation intensifies ( $\theta$ falls ) , the higher the floor for the next cycle.
