@@ -84,11 +84,20 @@ $$
 R_2 = max(A(t)- W(t), 0)
 $$
 
+Historically, purges have disproportionately targeted aspirants and counter-elites rather than position-holding elites. We therefore assign differential purge rates: a lower $d_{E}$ for the latter and a higher $d_A$ for the former. 
+
+The aspirants and established elites growth are respectively : 
+
 $$
-\frac{dA(t)}{d(t)} = [\mu \cdot (\frac{\rho}{w}) \cdot N] + [\lambda  \cdot R_1(t-\tau)] - \gamma \cdot W
+\frac{dA}{dt} = [\mu \cdot (\frac{\rho}{w}) \cdot N] + [\lambda  \cdot R_1(t-\tau)] - \gamma \cdot W - d_A(t) \cdot A
 $$
 
+$$
+\frac{dE}{dt} = r_e \cdot E \cdot \frac{\rho}{w} - d_E(t) \cdot E + \gamma \cdot W
+$$
 
-
+-   $d_A(t)$ : the aspirants purge term. 
+-   $d_E(t)$ : the position-holders purge term. 
+-   $\gamma \cdot W$ : the placement into positions. It represents the aspirants successfully placed into available positions.
 
 

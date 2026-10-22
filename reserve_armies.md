@@ -1,7 +1,7 @@
 Four-phase structure for the reserve armies - Notes
 ================
 
-#### Tier 1 : standard reserve armies
+#### Tier 1 : the standard reserve armies
 
 $$
 R_1(t) = \begin{cases}
@@ -118,5 +118,31 @@ g_{1,floor} = \frac{\theta(1) - \theta(n)}{\theta(1)}
 $$
 
 This formula captures the proportional decline in the automation
-coefficient over the cycle. The more automation intensifies ( $\theta$
-falls ) , the higher the floor for the next cycle.
+coefficient $\theta$ over the cycle. The more automation intensifies (
+$\theta$ falls ) , the higher the floor for the next cycle.
+
+#### Tier 2 : the elite reserve armies
+
+$$
+R_2 = max(A(t)- W(t), 0)
+$$
+
+Historically, purges have disproportionately targeted aspirants and
+counter-elites rather than position-holding elites. We therefore assign
+differential purge rates: a lower $d_{E}$ for the latter and a higher
+$d_A$ for the former.
+
+The aspirants and established elites growth are respectively :
+
+$$
+\frac{dA}{dt} = [\mu \cdot (\frac{\rho}{w}) \cdot N] + [\lambda  \cdot R_1(t-\tau)] - \gamma \cdot W - d_A(t) \cdot A
+$$
+
+$$
+\frac{dE}{dt} = r_e \cdot E \cdot \frac{\rho}{w} - d_E(t) \cdot E + \gamma \cdot W
+$$
+
+- $d_A(t)$ : the aspirants purge term.
+- $d_E(t)$ : the position-holders purge term.
+- $\gamma \cdot W$ : the placement into positions. It represents the
+  aspirants successfully placed into available positions.
