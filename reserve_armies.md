@@ -84,14 +84,31 @@ by $d_{N, crisis}$ .
 
 Because the secular accumulation mechanism prevents any cycle from fully
 resetting, each successive cycle should start from a baseline $R_1$
-higher than that of the previous one.
+higher than that of the previous one. To ensure $R_1$ never resets to 0
+:
 
 $$
-R_{1,floor}^{n+1} = R_{1,floor}^{n} \cdot (1 + g_{floor}) 
+R_1^{n}(t) \geq R_{1,floor}^{n}
 $$
 
-We add a floor condition to ensure that the reserve army at cycle $n+1$
-is no smaller than that at cycle $n$ . $R_{1,floor}$ denotes the minimum
-reserve army that persists even after the most severe purge. Each crisis
-removes part of the reserve army, yet it does not erase the conditions
-that produce it.
+And we add a floor condition to ensure that the reserve army at cycle
+$n+1$ is no smaller than that at cycle $n$ . $R_{1,floor}$ denotes the
+minimum reserve army that persists even after the most severe purge.
+
+$$
+R_{1,floor}^{n+1} = R_{1,floor}^{n} \cdot (1 + g_{1,floor}) 
+$$
+
+**Each crisis removes part of the reserve army, yet it does not erase
+the conditions that produce it**. After depression, the economy enters a
+new expansion but it starts from a slightly more unequal, slightly more
+automated baseline than the previous expansion. The more automation
+penetrates during a cycle, the more workers remain permanently displaced
+after recovery (their skills have grown obsolete, they are too old to
+retrain, and the sectors that shed them never fully recover). Thus,
+automation intensity governs the severity of each cycle, captured by the
+parameter $g_{1,floor}$ .
+
+$g_{1,floor}$ is secular growth rate that reflects the accumulation of
+technological displacement. It measures how much structural change each
+cycle leaves behind.
