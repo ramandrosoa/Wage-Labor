@@ -100,4 +100,24 @@ $$
 -   $d_E(t)$ : the position-holders purge term. 
 -   $\gamma \cdot W$ : the placement into positions. It represents the aspirants successfully placed into available positions.
 
+**Purge rate and the phase indicator**
+
+$$
+d_A(t) = d_{A,base} + (d_{A,crisis} \cdot 1[\phi = crisis]) + (d_{A,depr} \cdot 1[\phi = depr])
+$$
+
+$$
+d_E(t) = d_{E,base} + (d_{E,crisis} \cdot 1[\phi = crisis]) + (d_{E,depr} \cdot 1[\phi = depr])
+$$
+
+**The floor condition**
+
+For $t = 1, ..., n$ 
+
+$$
+g_{2,floor} = \frac{max_tA(t) - A(1)}{max_tA(t)}
+$$
+
+After the depression, $A(n)$ is artificially low and it does not reflect the structural change the cycle produced. The peak of $A$ during the cycle is what matters — it tells how large the aspirants pool actually grew before being purged.
+
 
