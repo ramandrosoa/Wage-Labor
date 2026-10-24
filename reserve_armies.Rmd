@@ -26,7 +26,7 @@ $\frac{N(t)}{N(t_0)}$ is a population scaling factor : as the population grows o
 To model the population growth, we use a logistic growth with carrying capacity : 
 
 $$
-\frac{dN}{dt} = r_N \cdot N \cdot (\frac{N}{K}) - d_N(t) \cdot N
+\frac{dN}{dt} = r_N \cdot N \cdot \frac{N}{K} - d_N(t) \cdot N
 $$
 
 -   $r_N$ : natural population growth rate
@@ -62,13 +62,13 @@ $$
 R_1^{n}(t) \geq R_{1,floor}^{n}
 $$
 
-And we add a floor condition to ensure that the reserve army at cycle $n+1$ is no smaller than that at cycle $n$ . $R_{1,floor}$ denotes the minimum reserve army that persists even after the most severe purge.
+$R_{1,floor}$ denotes the minimum reserve army that persists even after the most severe purge. And we add a floor condition to ensure that the reserve army at cycle $n+1$ is no smaller than that at cycle $n$ . 
 
 $$
 R_{1,floor}^{n+1} = R_{1,floor}^{n} \cdot (1 + g_{1,floor}) 
 $$
 
-**Each crisis removes part of the reserve army, yet it does not erase the conditions that produce it**. After depression, the economy enters a new expansion but it starts from a slightly more unequal, slightly more automated baseline than the previous expansion. The more automation penetrates during a cycle, the more workers remain permanently displaced after recovery (their skills have grown obsolete, they are too old to retrain, and the sectors that shed them never fully recover). Thus, automation intensity governs the severity of each cycle, captured by the parameter $g_{1,floor}$ . 
+**Each crisis removes part of the reserve army, yet it does not erase the conditions that produce it**. After depression, the economy enters a new expansion but it starts from a slightly more automated baseline than the previous expansion. The more automation penetrates during a cycle, the more workers remain permanently displaced after recovery (their skills have grown obsolete, they are too old to retrain, and the sectors that shed them never fully recover). Thus, automation intensity governs the severity of each cycle, captured by the parameter $g_{1,floor}$ . 
 
 $g_{1,floor}$ is secular growth rate that reflects the accumulation of technological displacement. It measures how much structural change each cycle leaves behind. For $t = 1, ... , n$ :
 
@@ -100,7 +100,7 @@ $$
 -   $d_E(t)$ : the position-holders purge term. 
 -   $\gamma \cdot W$ : the placement into positions. It represents the aspirants successfully placed into available positions.
 
-**Purge rate and the phase indicator**
+**Differential purge rates and the phase indicator**
 
 $$
 d_A(t) = d_{A,base} + (d_{A,crisis} \cdot 1[\phi = crisis]) + (d_{A,depr} \cdot 1[\phi = depr])
@@ -118,6 +118,6 @@ $$
 g_{2,floor} = \frac{max_tA(t) - A(1)}{max_tA(t)}
 $$
 
-After the depression, $A(n)$ is artificially low and it does not reflect the structural change the cycle produced. The peak of $A$ during the cycle is what matters — it tells how large the aspirants pool actually grew before being purged.
+$g_{2,floor}$ captures the peak aspirant accumulation. The peak of $A$ during the cycle is what matters — it tells how large the aspirants pool actually grew before being purged. After the depression, $A(n)$ is artificially low and it does not reflect the structural change the cycle produced. A large floor indicates that a high number of aspirants sought elite positions during the cycle. The more aspirants a cycle produces, the more credential infrastructure, educational pathways, and social expectations of elite status persist after the purge. This leaves behind a structural residue that is transferred to the next cycle. Thus, the floor condition ensures that no two cycles are alike — each cycle starts from a slightly more elite-reproducing baseline than its predecessor. 
 
 
