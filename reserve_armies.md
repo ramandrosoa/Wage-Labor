@@ -54,13 +54,10 @@ subsistence. Although population density remains high, foodstuff prices
 rise steadily. Inflation affects both the general population and the
 elites; however, the former suffer from malnutrition, famine, and
 disease, while the latter still manage to preserve their standard of
-living. This asymmetry stems from the pressure elites exert on the
-proletariat by depressing wages or raising land rents. Driven by these
-conditions, elites increasingly vie for higher positions, fueling
-intense intra-elite competition. Historically, conflicts among the
-elites serve as the trigger for the next phase — crisis — during which
-the mortality rate continues its upward trajectory until reaching its
-highest point.
+living. They multiplied to the point of overproduction, fueling intense
+intra-elite competition. Historically, conflicts among the elites serve
+as the trigger for the next phase — crisis — during which the mortality
+rate continues its upward trajectory until reaching its highest point.
 
 **Excess mortality rate and the phase indicator**
 
@@ -79,6 +76,14 @@ When the system is in stagflation, the indicator function
 $1[\phi(t) = stag]$ activates, contributing to $d_{N,stag}$. During
 crisis, $1[\phi(t) = crisis]$ takes over, raising the excess mortality
 by $d_{N, crisis}$ .
+
+So the phase indicator modulates mortality, which modulates population,
+which modulates labor supply, which modulates the reserve army $R_1$ —
+the chain is:
+
+$$
+\phi(t) \implies d_N(t) \implies N(t) \implies L^s_a(t) \implies R_1(t)
+$$
 
 **The floor condition**
 
@@ -126,11 +131,6 @@ $$
 R_2 = max(A(t)- W(t), 0)
 $$
 
-Historically, purges have disproportionately targeted aspirants and
-counter-elites rather than position-holding elites. We therefore assign
-differential purge rates: a lower $d_{E}$ for the latter and a higher
-$d_A$ for the former.
-
 The aspirants and established elites growth are respectively :
 
 $$
@@ -138,7 +138,7 @@ $$
 $$
 
 $$
-\frac{dE}{dt} = r_e \cdot E \cdot \frac{\rho}{w} - d_E(t) \cdot E + \gamma \cdot W
+\frac{dE}{dt} = r_e \cdot E \cdot \frac{\rho}{w} + \gamma \cdot W - d_E(t) \cdot E
 $$
 
 - $d_A(t)$ : the aspirants purge term.
@@ -147,6 +147,27 @@ $$
   aspirants successfully placed into available positions.
 
 **Differential purge rates and the phase indicator**
+
+During stagflation, a **wealth pump** begins to funnel resources away
+from commoners: a growing population creates labor oversupply while
+resources grow scarce. The upper class profits from this squeeze by
+depressing wages and raising prices. While the general population
+suffers immiseration, the elites siphon off the surplus, multiply, and
+thereby generate elite overproduction. The elite population, however, is
+also bound by a carrying capacity defined by the number of available
+positions, which grows only very slowly. The crisis does not erupt so
+long as elite cohesion holds, but the competition for these positions
+sparked by overproduction becomes the breaking point of that cohesion —
+the elite splits into ruling factions and counter-elites, and the
+conflicts begin. Violence, lawlessness, and economic collapse during the
+crisis phase violently prune the upper class, which contracts in both
+numbers and wealth. Systemic exhaustion from the crisis then purges the
+remaining elites through passive economic and demographic elimination
+during the depression phase. Without the wealth pump, they can no longer
+sustain their former standard of living. The failed elites undergo rapid
+downward mobility and may perish from starvation and disease. After the
+purge, the elite population shrinks to a manageable level, resetting the
+secular cycle for a new expansion.
 
 $$
 d_A(t) = d_{A,base} + (d_{A,crisis} \cdot 1[\phi = crisis]) + (d_{A,depr} \cdot 1[\phi = depr])
