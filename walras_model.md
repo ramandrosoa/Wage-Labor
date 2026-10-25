@@ -143,20 +143,22 @@ $$
 - **Verifying the slope condition**
   $\frac{\partial L^d_a}{\partial w} < 0$
 
+With :
+
 $$
-Y = (1-\alpha) \cdot \theta(t) \cdot A(t) \cdot K^{\alpha}
+M = (1-\alpha) \cdot \theta(t) \cdot A(t) \cdot K^{\alpha}
 $$
 
 $$
-L^d_a = \frac{1}{\theta(t)} [\frac{Y}{w}]^{1/\alpha}
+L^d_a = \frac{1}{\theta(t)} \cdot [(\frac{M}{w})^{1/\alpha} - L_n]
 $$
 
 $$
-L^d_a = \frac{1}{\theta(t)} \cdot Y^{1/\alpha} \cdot w^{-1/\alpha}
+L^d_a = \frac{1}{\theta(t)} \cdot [(M^{1/\alpha} \cdot w^{-1/\alpha}) - L_n]
 $$
 
 $$
-\frac{\partial L^d_a}{\partial w} = \frac{-1}{\alpha} \cdot \frac{1}{\theta(t)} \cdot Y^{\frac{1}{\alpha}}  \cdot w^{\frac{-1-\alpha}{\alpha}} < 0
+\frac{\partial L^d_a}{\partial w} = \frac{-1}{\alpha} \cdot \frac{1}{\theta(t)} \cdot M^{1/\alpha}  \cdot w^{(-1-\alpha)/\alpha} < 0
 $$
 
 -\> $\frac{\partial L^d_a}{\partial w}$ is indeed negative, confirming
@@ -192,18 +194,20 @@ floor** $\bar{w}$
 - **How** $\theta$ **affects the labor demand — Sign of**
   $\frac{\partial L^d_a}{\theta}$
 
+With :
+
 $$
 P = \frac{(1-\alpha) \cdot A(t) \cdot K^{\alpha}}{w}
 $$
 
 $$
-L^d_a = \frac{1}{\theta(t)} \cdot P\cdot\theta(t)^{1/\alpha} - L_n
+L^d_a = \frac{1}{\theta(t)} \cdot P^{1/\alpha}\cdot\theta(t)^{1/\alpha} - L_n
 $$ $$
-L^d_a  = \theta(t)^{\frac {1-\alpha}{\alpha}} \cdot P^{1/\alpha} - L_n
+L^d_a  =   P^{1/\alpha} \cdot \theta(t)^{(1-\alpha)/\alpha} - L_n
 $$
 
 $$
-\frac{\partial L^d_a}{\partial \theta} = [(\frac {1-\alpha}{\alpha})\cdot P^{1/\alpha}\cdot \theta]^{1/\alpha} > 0
+\frac{\partial L^d_a}{\partial \theta} = \frac {1-\alpha}{\alpha}\cdot P^{1/\alpha}\cdot \theta^{(1-2\alpha)/\alpha} > 0
 $$
 
 -\> $\frac{\partial L^d_a}{\partial \theta}$ is positive. When
@@ -226,10 +230,11 @@ is more valuable than consumption wage buys. But crucially, there is a
 subsistence constraint — consumption can not fall below some minimum
 $\bar{c}$ .
 
-Friction occurs when minimum wage workers are willing to accept is lower
-than what the firms accept to pay. The maximum wage the firms are
-willing to pay is the Marginal Product of Labor. If the maximum demand
-wage is below the minimum supply wage, no transaction is possible.
+Friction occurs when minimum wage workers are willing to accept is
+greater than what the firms accept to pay. The maximum wage the firms
+are willing to pay is the Marginal Product of Labor. If the maximum
+demand wage is below the minimum supply wage, no transaction is
+possible.
 
 The friction condition is : $MPL(\theta(t), L_a)$ \< $\bar{w}_{min}$ for
 all $L_a > 0$
