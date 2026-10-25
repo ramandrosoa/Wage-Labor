@@ -104,7 +104,7 @@ $$
 - $L$ : Labor
 
 - $\alpha$ and $1 - \alpha$ : Distribution of the income between the
-  capital and the Labor. Typically $\alpha = 0.3$ and $1-\alpha = 0.7$
+  capital and the labor. Typically $\alpha = 0.3$ and $1-\alpha = 0.7$
 
 For this project, the labor is splitted to automatable labor $L_a$ and
 non-automatable labor $L_n$. $L_a$ is composed by the workers who
@@ -210,14 +210,15 @@ $$
 \frac{\partial L^d_a}{\partial \theta} = \frac {1-\alpha}{\alpha}\cdot P^{1/\alpha}\cdot \theta^{(1-2\alpha)/\alpha} > 0
 $$
 
--\> $\frac{\partial L^d_a}{\partial \theta}$ is positive. When
-$\theta(t)$ falls, the labor demand $L^d_a$ falls. Intuitively, as
-automatable workers become less productive relative to machine ($\theta$
-falls), firms want fewer of them at any given wage.
+-\> $\frac{\partial L^d_a}{\partial \theta}$ is positive. When $\theta$
+falls, the labor demand $L^d_a$ falls. Intuitively, as automatable
+workers become less productive relative to machine (automation
+intensifies and $\theta$ falls), firms want fewer of them at any given
+wage.
 
-With the wage stickiness and the swift technological progess,
-$\theta(t)$ falls faster than the market-clearing wage $w$ . This yields
-to a decreasing labor demand and a persistent excess of labor supply.
+With the wage stickiness and the swift technological progress, $\theta$
+falls faster than the market-clearing wage $w$ . This yields to a
+decreasing labor demand and a persistent excess of labor supply.
 
 - **Equilibrium : MRS and MPL cross at wage** $w$ :
 
@@ -329,7 +330,7 @@ $\Delta W \approx 0$
 The elite growth is given by :
 
 $$
-\frac{dE}{dt} = r_e \cdot E \cdot (\frac{\rho}{w})
+\frac{dE}{dt} = r_e \cdot E \cdot \frac{\rho}{w}
 $$
 
 - $r_e$ : the intrinsic growth rate of the elite class
@@ -547,8 +548,8 @@ $$
 \frac{\partial{\rho}}{\partial{\theta}} = - Y(1-\alpha) < 0
 $$
 
--\> $\frac{\partial{\rho}}{\partial{\theta}}$ is negative. Thus, a
-falling automation coefficient simultaneously :
+-\> With $1-\alpha = 0.7$ , $\frac{\partial{\rho}}{\partial{\theta}}$ is
+negative. Thus, a falling automation coefficient simultaneously :
 
 - creates $R_1$ (Tier 1 friction)
 
