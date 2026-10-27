@@ -108,7 +108,7 @@ $$
 Y = A(t) \cdot K^{\alpha} \cdot \tilde{L}^{(1 - \alpha)} 
 $$
 
-with $\tilde{L}$ = $L_n + \theta(t) \cdot L_a$ . $\theta(t)$ is an automation coefficient — how productive automatable workers are relative to machines. When $\theta(t)$ falls, automation intensifies. 
+with $\tilde{L}$ = $L_n + \theta(t) \cdot L_a$ . $\theta(t)$ is an automation coefficient, defined on [0,1]. When $\theta(t)$ falls, automation intensifies. 
 
 To determine $MPL$ , we take the derivative of $Y$ with respect to $L_a$ . Using the chain rule : 
 
