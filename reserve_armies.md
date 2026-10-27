@@ -196,3 +196,30 @@ expectations of elite status persist after the purge. This leaves behind
 a structural residue that is transferred to the next cycle. Thus, the
 floor condition ensures that no two cycles are alike — each cycle starts
 from a slightly more elite-reproducing baseline than its predecessor.
+
+#### Do the purges clear the labor market?
+
+In a Walrasian world, the reserve armies cannot mathematically exist.
+Yet our natural evolution toward progress is precisely what feeds the
+exclusion machine — the very apparatus that continuously expands the
+reserve armies. Progress, for instance, drives automation that displaces
+workers, while the accessibility of symbolic pathways (university
+degrees, political influence) to the upper class yields elite
+overproduction. Within a secular cycle, the trajectory of the reserve
+army does not remain constant: when purges begin, it tends to decline.
+The primary target of these purges, however, is the counter-elite —
+those who spark conflicts and mobilize the masses against the existing
+order. Thus, purges remove a part of the reserve army but do not fully
+reset the cycle after the depression: the system, governed by the
+established elites, remains. This persistence stems not only from
+technological progress and the credential pathways built up during the
+previous cycle, but also from the position-holding elites left intact.
+At the start of a new cycle, the decline of the population nearly
+balances the market, as labor supply is low. The exhaustion from the
+prolonged period of crisis and depression, followed by an expansion in
+which the population’s well-being improves, might lead one to conclude
+that the system does not fail and that equilibrium is attainable. But
+this prosperity is the product of a statistical anomaly rather than of
+an efficient system. Thus, expansion leads once more to overpopulation,
+and the next phases follow in sequence — expansion, crisis, depression —
+as the reserve armies re-emerge.
