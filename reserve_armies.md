@@ -219,5 +219,20 @@ well-being improves, might lead one to conclude that the system does not
 fail and that equilibrium is attainable. But this prosperity is the
 product of a statistical anomaly rather than of an efficient system.
 Thus, expansion leads once more to overpopulation, and the next phases
-follow in sequence — expansion, crisis, depression — as the reserve
+follow in sequence — stagflation, crisis, depression — as the reserve
 armies re-emerge.
+
+#### The purges as a regulation mechanism
+
+The purges do not clear the market; they function instead as a
+biological regulatory mechanism that perpetuates the secular cycle. Marx
+conceived of crises as the terminal contradiction of capitalism — the
+inevitable outcome of structural pressures. Yet the challenge they pose
+to the status quo yields no reformed system. Instead, the system purges
+whenever the working class and the upper class expand to the point of
+labor oversupply and elite overproduction. The resulting “great reset”
+of both populations temporarily improves living conditions during the
+early phase of expansion. In this way, the system continually renews its
+own legitimacy: a few elite aspirants secure positions, and the system
+appears meritocratic; some workers find employment, and it appears
+responsive; wages rise, and it appears self-correcting.
