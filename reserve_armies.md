@@ -211,18 +211,22 @@ Thus, purges remove a part of the reserve army but do not fully reset
 the cycle after the depression: the system, always governed by the
 elites, remains. This persistence stems not only from technological
 progress and the credential pathways built up during the previous cycle,
-but also from the winning faction of the elites. At the start of a new
-cycle, the decline of the population nearly balances the market, as
-labor supply is low. The exhaustion from the prolonged period of crisis
-and depression, followed by an expansion in which the population’s
-well-being improves, might lead one to conclude that the system does not
-fail and that equilibrium is attainable. But this prosperity is the
-product of a statistical anomaly rather than of an efficient system.
+but also by the consolidation of the winning elite faction. Indeed,
+Boyer (2015) underscores that the very stability of such a political
+coalition endogenously triggers the transition from expansion to crisis,
+affecting both the economic and political orders. Crucially, because the
+crisis is a direct consequence of a stable ruling class rather than an
+external failure, the structural integrity of the “same” system remains
+uncontested when the crisis peaks. Exhausted by a prolonged period of
+crisis and depression, the population is easily pacified by the
+subsequent expansion and its attendant material improvements; this
+transition leads to the false conclusion that the system does not fail.
+In reality, the illusion of an attainable equilibrium merely masks how
+the purge during the crisis and depression phases operates as a systemic
+reset, recalibrating the machinery of elite domination for a new cycle.
 Thus, expansion leads once more to overpopulation, and the next phases
 follow in sequence — stagflation, crisis, depression — as the reserve
 armies re-emerge.
-
-#### The purges as a regulation mechanism
 
 The purges do not clear the market; they function instead as a
 biological regulatory mechanism that perpetuates the secular cycle. Marx
@@ -235,4 +239,8 @@ of both populations temporarily improves living conditions during the
 early phase of expansion. In this way, the system continually renews its
 own legitimacy: a few elite aspirants secure positions, and the system
 appears meritocratic; some workers find employment, and it appears
-responsive; wages rise, and it appears self-correcting.
+responsive; wages rise, and it appears self-correcting. As Lordon
+(1997;1999) suggested, this illustrates the symbolic representation
+required by the hegemonic bloc (a coalition of different social strata
+unified under the leadership of the dominant class), to secure the
+consent of the subaltern classes without coercion.
