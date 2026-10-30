@@ -85,6 +85,20 @@ $$
 \phi(t) \implies d_N(t) \implies N(t) \implies L^s_a(t) \implies R_1(t)
 $$
 
+**What triggers each phase transition**
+
+The four phases follow a fixed cyclic order. Each phase is constructed
+sequentially, conditional on the realization of its predecessor, and
+accounts for the evolution of the population $N(t)$ elative to the
+carrying capacity $K$ over the course of the cycle. Formally, for a
+phase $\phi_j$ to be active at time $t$ , the preceding phase
+$\phi_{j-1}$ must have been active at $t-n_j$ where $n_j > 0$ is the
+phase-specific transition lag :
+
+$$
+\phi(t) = \phi_j \implies \phi(t-n_j) = \phi_{j-1}\ ,j  \ mod \ 4
+$$
+
 **The floor condition**
 
 Because the secular accumulation mechanism prevents any cycle from fully
@@ -212,11 +226,11 @@ the cycle after the depression: the system, always governed by the
 elites, remains. This persistence stems not only from technological
 progress and the credential pathways built up during the previous cycle,
 but also by the consolidation of the winning elite faction. Indeed,
-Boyer (2015) underscores that the very stability of such a political
-coalition endogenously triggers the transition from expansion to crisis,
-affecting both the economic and political orders. Crucially, because the
-crisis is a direct consequence of a stable ruling class rather than an
-external failure, the structural integrity of the “same” system remains
+Boyer (2015) underscores that the very stability of such a coalition
+endogenously triggers the transition from growth to crisis, affecting
+both the economic and political orders. Crucially, because the crisis is
+a direct consequence of a stable ruling class rather than an external
+failure, the structural integrity of the “same” system remains
 uncontested when the crisis peaks. Exhausted by a prolonged period of
 crisis and depression, the population is easily pacified by the
 subsequent expansion and its attendant material improvements; this
@@ -232,12 +246,13 @@ The purges do not clear the market; they function instead as a
 biological regulatory mechanism that perpetuates the secular cycle. Marx
 conceived of crises as the terminal contradiction of capitalism — the
 inevitable outcome of structural pressures. Yet the challenge they pose
-to the status quo yields no reformed system. Instead, the system purges
-whenever the working class and the upper class expand to the point of
-labor oversupply and elite overproduction. The resulting “great reset”
-of both populations temporarily improves living conditions during the
-early phase of expansion. In this way, the system continually renews its
-own legitimacy: a few elite aspirants secure positions, and the system
+to the status quo yields no reformed system, and capitalism does not
+resolve its contradictions. Instead, it purges whenever the working
+class and the upper class expand to the point of labor oversupply and
+elite overproduction. The resulting “great reset” of both populations
+temporarily improves living conditions during the early phase of
+expansion. In this way, the system continually renews its own
+legitimacy: a few elite aspirants secure positions, and the system
 appears meritocratic; some workers find employment, and it appears
 responsive; wages rise, and it appears self-correcting. As Lordon
 (1997;1999) suggested, this illustrates the symbolic representation
