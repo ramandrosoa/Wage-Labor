@@ -89,7 +89,7 @@ $$
 
 The four phases follow a fixed cyclic order. Each phase is constructed
 sequentially, conditional on the realization of its predecessor, and
-accounts for the evolution of the population $N(t)$ elative to the
+accounts for the evolution of the population $N(t)$ relative to the
 carrying capacity $K$ over the course of the cycle. Formally, for a
 phase $\phi_j$ to be active at time $t$ , the preceding phase
 $\phi_{j-1}$ must have been active at $t-n_j$ where $n_j > 0$ is the
@@ -98,6 +98,24 @@ phase-specific transition lag :
 $$
 \phi(t) = \phi_j \implies \phi(t-n_j) = \phi_{j-1}\ ,j  \ mod \ 4
 $$
+
+- Expansion $\phi(t-n_0)$ = depression : the population grows toward the
+  ceiling $K$ , with $N(t) < K$ .
+- Stagflation $\phi(t-n_1)$ = expansion : growth decelerates as the
+  population approaches the ceiling $N(t) \approx K$ , then plateaus,
+  and begins to turn downward, so that by the end of the phase , $N(t)$
+  is declining from $K$ .
+- Crisis $\phi(t-n_2)$ = stagflation : having peaked at or near $K$ ,
+  the population declines throughout this phase.
+- Depression $\phi(t-n_3)$ = crisis : population growth is approximately
+  0 and $N(t) < K$ , establishing the condition from which the next
+  expansion can originate.
+
+A transition from phase $\phi_j$ to phase $\phi_{j+1}$ is triggered only
+when the entry conditions of $\phi_{j+1}$ are jointly satisfied : the
+predecessor $\phi_j$ must have been realized at the appropriate lag
+$n_{j+1}$ and the corresponding state of $N(t)$ relative to $K$ must
+hold.
 
 **The floor condition**
 
