@@ -85,7 +85,7 @@ $$
 \phi(t) \implies d_N(t) \implies N(t) \implies L^s_a(t) \implies R_1(t)
 $$
 
-**What triggers each phase transition**
+**Phase transition**
 
 The four phases follow a fixed cyclic order. Each phase is constructed
 sequentially, conditional on the realization of its predecessor, and
@@ -118,7 +118,17 @@ $$
 - $n_{\phi(t)}$ : minimum dwell time for phase $\phi(t)$ to transition
   to phase $\phi(t) + 1$
 - $C_{\phi(t)}(N(t), K)$ : state of the population $N$ relative to its
-  ceiling $K$
+  ceiling $K$ during the phase $\phi(t)$
+
+A phase therefore lasts for at least $n_j$ and lasts longer whenever its
+exit condition is not yet satisfied. The conditions are checked again at
+each following decades. $\phi(t+1)$ is determined from the state of the
+population $C_{\phi(t)}(N(t), K)$ from the previous decade, and the
+population $N(t+1)$ of the corresponding decade is generated using the
+excess mortality rate $d_{\phi(t+1)}$ , based on the active phase at
+decade $t+1$ .
+
+**The exit conditions**
 
 **The floor condition**
 
