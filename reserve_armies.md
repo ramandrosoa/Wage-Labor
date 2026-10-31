@@ -90,32 +90,35 @@ $$
 The four phases follow a fixed cyclic order. Each phase is constructed
 sequentially, conditional on the realization of its predecessor, and
 accounts for the evolution of the population $N(t)$ relative to the
-carrying capacity $K$ over the course of the cycle. Formally, for a
-phase $\phi_j$ to be active at time $t$ , the preceding phase
-$\phi_{j-1}$ must have been active at $t-n_j$ where $n_j > 0$ is the
-phase-specific transition lag :
+carrying capacity $K$ over the course of the cycle. Let
+$\phi(t) \in {0,1,2,3}$ denote the active phase at time $t$ , with the
+index taken modulo 4. The phase indicator is a state machine rather than
+a function recomputed at each step. It carries two state variables : the
+current phase $\phi(t)$ and a counter $c(t)$ giving the number of
+decades spent in the current phase since entry. Each phase $j$ has a
+minimum dwell time $n_j > 0$ . While $c(t)<n_j$ , the exit conditions
+are not evaluated and the system remains in phase $j$ . Once
+$c(t) \geq n_j$ , the exit conditions of phase $j$ are checked at every
+decade. The system then transitions as follows :
 
 $$
-\phi(t) = \phi_j \implies \phi(t-n_j) = \phi_{j-1}\ ,j  \ mod \ 4
+\phi(t+1) = \begin{cases}
+\phi(t) + 1 \ mod \ 4 & \text{if} \ c(t)>n_{\phi(t)} \ \text{and} \ C_{\phi(t)}(N(t), K) \\
+\phi(t) & \text{otherwise}
+\end{cases}
 $$
 
-- Expansion $\phi(t-n_0)$ = depression : the population grows toward the
-  ceiling $K$ , with $N(t) < K$ .
-- Stagflation $\phi(t-n_1)$ = expansion : growth decelerates as the
-  population approaches the ceiling $N(t) \approx K$ , then plateaus,
-  and begins to turn downward, so that by the end of the phase , $N(t)$
-  is declining from $K$ .
-- Crisis $\phi(t-n_2)$ = stagflation : having peaked at or near $K$ ,
-  the population declines throughout this phase.
-- Depression $\phi(t-n_3)$ = crisis : population growth is approximately
-  0 and $N(t) < K$ , establishing the condition from which the next
-  expansion can originate.
+$$
+c(t+1) = \begin{cases}
+0 & \text{if transition occurs} \\
+c(t) + 1 & \text{otherwise}
+\end{cases}
+$$
 
-A transition from phase $\phi_j$ to phase $\phi_{j+1}$ is triggered only
-when the entry conditions of $\phi_{j+1}$ are jointly satisfied : the
-predecessor $\phi_j$ must have been realized at the appropriate lag
-$n_{j+1}$ and the corresponding state of $N(t)$ relative to $K$ must
-hold.
+- $n_{\phi(t)}$ : minimum dwell time for phase $\phi(t)$ to transition
+  to phase $\phi(t) + 1$
+- $C_{\phi(t)}(N(t), K)$ : state of the population $N$ relative to its
+  ceiling $K$
 
 **The floor condition**
 
