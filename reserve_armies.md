@@ -134,13 +134,26 @@ $$
 
 **The exit conditions**
 
-- expansion → stagflation $C_0$
+- expansion → stagflation $(C_0)$
 
-$N(t) < K$ , $\Delta N(t) > 0$ , $\Delta N(t) \leq \Delta N(t+1)$ . That
-is, the population is still growing below the ceiling.
+The following joint conditions are evaluated at decade $t$ , and the
+exit happens when all of them hold together.
+
+$$
+N(t) < K ,\\
+\Delta N(t) > 0 , \\
+\Delta N(t) \leq \Delta N(t-1) 
+$$
 
 - stagflation → crisis
 - crisis → depression
+
+$$
+N(t) < K , \\
+\Delta N(t) \leq 0 , \\
+\Delta N(t) \geq \Delta N(t-1)
+$$
+
 - depression → expansion (new cycle)
 
 **The floor condition**
