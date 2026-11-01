@@ -62,10 +62,12 @@ rate continues its upward trajectory until reaching its highest point.
 **Excess mortality rate and the phase indicator**
 
 We introduce a phase indicator $\phi(t)$ to distinguish between the
-excess mortality rate during stagflation and that during crisis.
+excess mortality rate during stagflation and that during crisis. Let
+$\phi(t) \in {0,1,2,3}$ denote the active phase at time $t$ , with the
+index taken modulo 4.
 
 $$
-d_N(t) = d_{N,base} + (d_{N,stag} \cdot 1[\phi(t) = stag]) + (d_{N,crisis} \cdot 1[\phi(t) = crisis]) 
+d_N(t) = d_{N,base} + (d_{N,stag} \cdot 1[\phi(t) = 1]) + (d_{N,crisis} \cdot 1[\phi(t) = 2]) 
 $$
 
 $\phi(t)$ is a phase signal that modulates the equation according to the
@@ -73,9 +75,9 @@ current regime: the corresponding indicator $1[\phi(t) = \cdot]$ equals
 1 when $\phi(t)$ matches that phase and 0 otherwise.
 
 When the system is in stagflation, the indicator function
-$1[\phi(t) = stag]$ activates, contributing to $d_{N,stag}$. During
-crisis, $1[\phi(t) = crisis]$ takes over, raising the excess mortality
-by $d_{N, crisis}$ .
+$1[\phi(t) = 1]$ activates, contributing to $d_{N,stag}$. During crisis,
+$1[\phi(t) = 2]$ takes over, raising the excess mortality by
+$d_{N, crisis}$ .
 
 So the phase indicator modulates mortality, which modulates population,
 which modulates labor supply, which modulates the reserve army $R_1$ —
@@ -90,16 +92,15 @@ $$
 The four phases follow a fixed cyclic order. Each phase is constructed
 sequentially, conditional on the realization of its predecessor, and
 accounts for the evolution of the population $N(t)$ relative to the
-carrying capacity $K$ over the course of the cycle. Let
-$\phi(t) \in {0,1,2,3}$ denote the active phase at time $t$ , with the
-index taken modulo 4. The phase indicator is a state machine rather than
-a function recomputed at each step. It carries two state variables : the
-current phase $\phi(t)$ and a counter $c(t)$ giving the number of
-decades spent in the current phase since entry. Each phase $j$ has a
-minimum dwell time $n_j > 0$ . While $c(t)<n_j$ , the exit conditions
-are not evaluated and the system remains in phase $j$ . Once
-$c(t) \geq n_j$ , the exit conditions of phase $j$ are checked at every
-decade. The system then transitions as follows :
+carrying capacity $K$ over the course of the cycle. The phase indicator
+is a state machine rather than a function recomputed at each step. It
+carries two state variables : the current phase $\phi(t)$ and a counter
+$c(t)$ giving the number of decades spent in the current phase since
+entry. Each phase $j$ has a minimum dwell time $n_j > 0$ . While
+$c(t)<n_j$ , the exit conditions are not evaluated and the system
+remains in phase $j$ . Once $c(t) \geq n_j$ , the exit conditions of
+phase $j$ are checked at every decade. The system then transitions as
+follows :
 
 $$
 \phi(t+1) = \begin{cases}
@@ -118,17 +119,29 @@ $$
 - $n_{\phi(t)}$ : minimum dwell time for phase $\phi(t)$ to transition
   to phase $\phi(t) + 1$
 - $C_{\phi(t)}(N(t), K)$ : state of the population $N$ relative to its
-  ceiling $K$ during the phase $\phi(t)$
+  ceiling $K$ — the exit condition of the phase $j$ at decade $t$
 
 A phase therefore lasts for at least $n_j$ and lasts longer whenever its
 exit condition is not yet satisfied. The conditions are checked again at
-each following decades. $\phi(t+1)$ is determined from the state of the
-population $C_{\phi(t)}(N(t), K)$ from the previous decade, and the
-population $N(t+1)$ of the corresponding decade is generated using the
-excess mortality rate $d_{\phi(t+1)}$ , based on the active phase at
-decade $t+1$ .
+each following decades. The phase indicator $\phi(t+1)$ is determined
+from $N(t)$ from the previous decade, and the population $N(t+1)$ of the
+corresponding decade is generated using the excess mortality rate
+$d_{\phi(t+1)}$ , based on the active phase at decade $t+1$ .
+
+$$
+N(t) \implies \phi(t+1) \implies d_N(t+1) \implies N(t+1)
+$$
 
 **The exit conditions**
+
+- expansion → stagflation $C_0$
+
+$N(t) < K$ , $\Delta N(t) > 0$ , $\Delta N(t) \leq \Delta N(t+1)$ . That
+is, the population is still growing below the ceiling.
+
+- stagflation → crisis
+- crisis → depression
+- depression → expansion (new cycle)
 
 **The floor condition**
 
@@ -215,11 +228,11 @@ purge, the elite population shrinks to a manageable level, resetting the
 secular cycle for a new expansion.
 
 $$
-d_A(t) = d_{A,base} + (d_{A,crisis} \cdot 1[\phi = crisis]) + (d_{A,depr} \cdot 1[\phi = depr])
+d_A(t) = d_{A,base} + (d_{A,crisis} \cdot 1[\phi (t)= 2]) + (d_{A,depr} \cdot 1[\phi(t) = 3])
 $$
 
 $$
-d_E(t) = d_{E,base} + (d_{E,crisis} \cdot 1[\phi = crisis]) + (d_{E,depr} \cdot 1[\phi = depr])
+d_E(t) = d_{E,base} + (d_{E,crisis} \cdot 1[\phi(t) = 2]) + (d_{E,depr} \cdot 1[\phi(t) = 3])
 $$
 
 **The floor condition**
