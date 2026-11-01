@@ -253,25 +253,24 @@ degrees, political influence) to the upper class yields elite
 overproduction. Within a secular cycle, the trajectory of the reserve
 army does not remain constant: when purges begin, it tends to decline.
 Thus, purges remove a part of the reserve army but do not fully reset
-the cycle after the depression: the system, always governed by the
-elites, remains. This persistence stems not only from technological
-progress and the credential pathways built up during the previous cycle,
-but also by the consolidation of the winning elite faction. Indeed,
-Boyer (2015) underscores that the very stability of such a coalition
-endogenously triggers the transition from growth to crisis, affecting
-both the economic and political orders. Crucially, because the crisis is
-a direct consequence of a stable ruling class rather than an external
-failure, the structural integrity of the “same” system remains
-uncontested when the crisis peaks. Exhausted by a prolonged period of
-crisis and depression, the population is easily pacified by the
-subsequent expansion and its attendant material improvements; this
-transition leads to the false conclusion that the system does not fail.
-In reality, the illusion of an attainable equilibrium merely masks how
-the purge during the crisis and depression phases operates as a systemic
-reset, recalibrating the machinery of elite domination for a new cycle.
-Thus, expansion leads once more to overpopulation, and the next phases
-follow in sequence — stagflation, crisis, depression — as the reserve
-armies re-emerge.
+the cycle after the depression: the system remains. This persistence
+stems not only from technological progress and the credential pathways
+built up during the previous cycle, but also by the consolidation of the
+winning elite faction. Indeed, Boyer (2015) underscores that the very
+stability of such a coalition endogenously triggers the transition from
+growth to crisis, affecting both the economic and political orders.
+Crucially, because the crisis is a direct consequence of a stable ruling
+class rather than an external failure, the structural integrity of the
+“same” system remains uncontested when the crisis peaks. Exhausted by a
+prolonged period of crisis and depression, the population is easily
+pacified by the subsequent expansion and its attendant material
+improvements; this transition leads to the false conclusion that the
+system has finally achieved stability. In reality, the illusion of an
+attainable equilibrium merely masks how the purge during the crisis and
+depression phases operates as a systemic reset, recalibrating the
+machinery of elite domination for a new cycle. Thus, expansion leads
+once more to overpopulation, and the next phases follow in sequence —
+stagflation, crisis, depression — as the reserve armies re-emerge.
 
 The purges do not clear the market; they function instead as a
 biological regulatory mechanism that perpetuates the secular cycle. Marx
