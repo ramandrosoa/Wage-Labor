@@ -63,11 +63,11 @@ rate continues its upward trajectory until reaching its highest point.
 
 We introduce a phase indicator $\phi(t)$ to distinguish between the
 excess mortality rate during stagflation and that during crisis. Let
-$\phi(t) \in {0,1,2,3}$ denote the active phase at time $t$ , with the
+$\phi(t) \in \{0,1,2,3\}$ denote the active phase at time $t$ , with the
 index taken modulo 4.
 
 $$
-d_N(t) = d_{N,base} + (d_{N,stag} \cdot 1[\phi(t) = 1]) + (d_{N,crisis} \cdot 1[\phi(t) = 2]) 
+d_N(t) = d_{N,base} + (d_{N,stag} \cdot \mathbb{1}[\phi(t) = 1]) + (d_{N,crisis} \cdot \mathbb{1}[\phi(t) = 2]) 
 $$
 
 $\phi(t)$ is a phase signal that modulates the equation according to the
@@ -136,32 +136,32 @@ $$
 
 - expansion → stagflation $(C_0)$
 
-The following conditions are evaluated and the exit happens when all of
-them hold together.
-
-*Entry trigger:* an ascending convex $N$ curve which captures the
-initial growth of the population during early expansion.
+Let $v(t) \in \{0,1\}$ a state variable that activates whether
+“convexity has been observed” :
 
 $$
-\ N(t) < K , \ \Delta^2 N(t) > 0 , \ \Delta N(t) > 0
+v(t) =  \max (v(t-1) \ , \mathbb{1}[\Delta^2 N(t-1) > \epsilon \cdot K \ \text{and} \ \Delta^2 N(t) > \epsilon \cdot K])
 $$
 
-*Exit condition:* an ascending concave $N$ curve which captures the
-deceleration of the growth when the population approaches the carrying
-capacity
+$N$ is stochastic , to avoid setting the latch from noise, we define a
+small tolerance term $\epsilon$ scaled by $K$ to keep it comparable
+across the simulation.
+
+The following exit conditions $C_0$ are checked when $c(t) \geq n_0:$
 
 $$
-\ N(t) < K , \ \Delta^2 N(t) \leq 0 , \ \Delta N(t) > 0
+v(t) = 1 \ , \Delta^2 N(t-1) <  -\epsilon \cdot K \ \text{and} \ \Delta^2 N(t) < -\epsilon \cdot K  \ , \Delta N(t) > 0, N(t) < K
 $$
 
-- stagflation → crisis
+The population has accelerated in the early expansion (
+$\Delta^2 N(t) > \epsilon \cdot K$ ) . Later, it starts decelerating but
+still growing below the ceiling ( $\Delta^2 N(t) < -\epsilon \cdot K$ )
+. For robustness against noise, we transition to the next phase when two
+consecutive decades exhibit concavity.
+
+- stagflation → crisis $(C_1)$
+
 - crisis → depression
-
-$$
-N(t) < K , \\
-\Delta N(t) \leq 0 , \\
-\Delta^2 N(t) \geq 0
-$$
 
 - depression → expansion (new cycle)
 
@@ -250,11 +250,11 @@ purge, the elite population shrinks to a manageable level, resetting the
 secular cycle for a new expansion.
 
 $$
-d_A(t) = d_{A,base} + (d_{A,crisis} \cdot 1[\phi (t)= 2]) + (d_{A,depr} \cdot 1[\phi(t) = 3])
+d_A(t) = d_{A,base} + (d_{A,crisis} \cdot \mathbb{1}[\phi (t)= 2]) + (d_{A,depr} \cdot \mathbb{1}[\phi(t) = 3])
 $$
 
 $$
-d_E(t) = d_{E,base} + (d_{E,crisis} \cdot 1[\phi(t) = 2]) + (d_{E,depr} \cdot 1[\phi(t) = 3])
+d_E(t) = d_{E,base} + (d_{E,crisis} \cdot \mathbb{1}[\phi(t) = 2]) + (d_{E,depr} \cdot \mathbb{1}[\phi(t) = 3])
 $$
 
 **The floor condition**
