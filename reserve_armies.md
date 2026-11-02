@@ -140,7 +140,7 @@ Let $v(t) \in \{0,1\}$ a state variable that activates whether
 “convexity has been observed” :
 
 $$
-v(t) =  \max (v(t-1) \ , \mathbb{1}[\Delta^2 N(t-1) > \epsilon \cdot K \ \text{and} \ \Delta^2 N(t) > \epsilon \cdot K])
+v(t) =  \max \Big(v(t-1) \ , \mathbb{1}\big[\Delta^2 N(t-1) > \epsilon \cdot K \ \text{and} \ \Delta^2 N(t) > \epsilon \cdot K\big]\Big)
 $$
 
 $N$ is stochastic , to avoid setting the latch from noise, we define a
@@ -160,6 +160,18 @@ still growing below the ceiling ( $\Delta^2 N(t) < -\epsilon \cdot K$ )
 consecutive decades exhibit concavity.
 
 - stagflation → crisis $(C_1)$
+
+Plateau :
+
+$$
+v(t) = \max \Big(v(t-1) , \mathbb{1}\big[|\Delta N(t-1)| < \epsilon \cdot K \ \text{and} \ |\Delta N(t)| < \epsilon \cdot K \ \ \text{and} \ N(t) \geq (1-\delta)K\big] \Big)
+$$
+
+The following exit conditions $C_1$ are checked when $c(t) \geq n_1:$
+
+$$
+v(t) = 1 \ , \ \Delta N(t) < -\epsilon \cdot K \ , \ N(t) \geq (1-\delta)K
+$$
 
 - crisis → depression
 
