@@ -136,13 +136,22 @@ $$
 
 - expansion → stagflation $(C_0)$
 
-The following joint conditions are evaluated at decade $t$ , and the
-exit happens when all of them hold together.
+The following conditions are evaluated and the exit happens when all of
+them hold together.
+
+*Entry trigger:* an ascending convex $N$ curve which captures the
+initial growth of the population during early expansion.
 
 $$
-N(t) < K ,\\
-\Delta N(t) > 0 , \\
-\Delta N(t) \leq \Delta N(t-1) 
+\ N(t) < K , \ \Delta^2 N(t) > 0 , \ \Delta N(t) > 0
+$$
+
+*Exit condition:* an ascending concave $N$ curve which captures the
+deceleration of the growth when the population approaches the carrying
+capacity
+
+$$
+\ N(t) < K , \ \Delta^2 N(t) \leq 0 , \ \Delta N(t) > 0
 $$
 
 - stagflation → crisis
@@ -151,7 +160,7 @@ $$
 $$
 N(t) < K , \\
 \Delta N(t) \leq 0 , \\
-\Delta N(t) \geq \Delta N(t-1)
+\Delta^2 N(t) \geq 0
 $$
 
 - depression → expansion (new cycle)
