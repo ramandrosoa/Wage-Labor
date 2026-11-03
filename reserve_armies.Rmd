@@ -26,7 +26,7 @@ $\frac{N(t)}{N(t_0)}$ is a population scaling factor : as the population grows o
 To model the population growth, we use a logistic growth with carrying capacity : 
 
 $$
-\frac{dN}{dt} = r_N \cdot N \cdot (1-\frac{ N}{K}) - d_N(t) \cdot N
+\frac{dN}{dt} = r_N \cdot N (1-\frac{ N}{K}) - d_N(t) \cdot N
 $$
 
 -   $r_N$ : natural population growth rate
@@ -111,16 +111,24 @@ The population has accelerated in the early expansion ( $\Delta^2 N(t) > \epsilo
 
 -   stagflation → crisis $(C_1)$
 
-Plateau : 
+The state variable $v(t)$ activates when "plateau has been observed" :
 
 $$
 v(t) = \max \Big(v(t-1) , \mathbb{1}\big[|\Delta N(t-1)| < \epsilon \cdot K \ \text{and} \ |\Delta N(t)| < \epsilon \cdot K \ \ \text{and} \ N(t) \geq (1-\delta)K\big] \Big)
 $$
 
+$d_{stag}$ is a function of the reserve army. The more it grows, the higher the excess mortality rate. $d_{stag}$ activates throughout stagflation but the population exhibits obvious decline when $r_N (1- \frac{N}{K} ) < d_N$ 
+
+$$
+d_{stag}(t) = \kappa \cdot \frac{R_1(t-1)}{N(t-1)}
+$$
+
+$\kappa$ is a new parameter to calibrate. 
+
 The following exit conditions $C_1$ are checked when $c(t) \geq n_1:$
 
 $$
-v(t) = 1 \ , \ \Delta N(t) < -\epsilon \cdot K \ , \ N(t) \geq (1-\delta)K
+v(t) = 1 \ , \ \Delta N(t-1) < -\epsilon \cdot K \ , \ \Delta N(t) < -\epsilon \cdot K \ , \ N(t) \geq (1-\delta)K
 $$
 
 -   crisis → depression
