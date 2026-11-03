@@ -25,7 +25,7 @@ To model the population growth, we use a logistic growth with carrying
 capacity :
 
 $$
-\frac{dN}{dt} = r_N \cdot N \cdot \frac{1- N}{K} - d_N(t) \cdot N
+\frac{dN}{dt} = r_N \cdot N \cdot (1-\frac{ N}{K}) - d_N(t) \cdot N
 $$
 
 - $r_N$ : natural population growth rate
