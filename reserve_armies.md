@@ -25,7 +25,7 @@ To model the population growth, we use a logistic growth with carrying
 capacity :
 
 $$
-\frac{dN}{dt} = r_N \cdot N \cdot \frac{N}{K} - d_N(t) \cdot N
+\frac{dN}{dt} = r_N \cdot N \cdot \frac{1- N}{K} - d_N(t) \cdot N
 $$
 
 - $r_N$ : natural population growth rate
@@ -220,7 +220,7 @@ $\theta$ falls ) , the higher the floor for the next cycle.
 #### Tier 2 : the elite reserve armies
 
 $$
-R_2 = max(A(t)- W(t), 0)
+R_2 = \max \big(A(t)- W(t), 0\big)
 $$
 
 The aspirants and established elites growth are respectively :
@@ -266,7 +266,7 @@ d_A(t) = d_{A,base} + (d_{A,crisis} \cdot \mathbb{1}[\phi (t)= 2]) + (d_{A,depr}
 $$
 
 $$
-d_E(t) = d_{E,base} + (d_{E,crisis} \cdot \mathbb{1}[\phi(t) = 2]) + (d_{E,depr} \cdot \mathbb{1}[\phi(t) = 3])
+d_E(t) = d_{E,base} + \big(d_{E,crisis} \cdot \mathbb{1}[\phi(t) = 2] \big) + \big(d_{E,depr} \cdot \mathbb{1}[\phi(t) = 3] \big)
 $$
 
 **The floor condition**
