@@ -117,13 +117,13 @@ $$
 v(t) = \max \Big(v(t-1) , \mathbb{1}\big[|\Delta N(t-1)| < \epsilon \cdot K \ \text{and} \ |\Delta N(t)| < \epsilon \cdot K \ \ \text{and} \ N(t) \geq (1-\delta)K\big] \Big)
 $$
 
-$d_{stag}$ is a function of the reserve army. The more it grows, the higher the excess mortality rate. $d_{stag}$ activates throughout stagflation but the population exhibits obvious decline when $r_N (1- \frac{N}{K} ) < d_N$ 
+$d_{stag}$ is a function of the reserve army and the surplus. The more it grows, the higher the excess mortality rate. $d_{stag}$ activates throughout stagflation but the population exhibits obvious decline when $r_N (1- \frac{N}{K} ) < d_N$ 
 
 $$
-d_{stag}(t) = \kappa \cdot \frac{R_1(t-1)}{N(t-1)}
+d_{stag}(t) = \kappa_1 \cdot \frac{R_1(t-1)}{N(t-1)} + \kappa_2 \big[\ \frac{\rho(t-1) / w(t-1)}{(\rho/w)_0} -1 \big]_+ 
 $$
 
-$\kappa$ is a new parameter to calibrate. 
+$\kappa_1$ and $\kappa_2$ are new parameters to calibrate. The first term is the reserve army. The second term is the deviation of surplus-to-wage ratio from its baseline $(\rho/w)_0$ at the start of the cycle. The operator $[.]_+$ is similar to $\max(., 0)$ : only the positive part of the term inside the bracket is considered. Therefore, high wage does not generate negative mortality, as $d_{stag}$ captures the excess mortality.
 
 The following exit conditions $C_1$ are checked when $c(t) \geq n_1:$
 
