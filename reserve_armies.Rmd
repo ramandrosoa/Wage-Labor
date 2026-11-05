@@ -133,6 +133,18 @@ $$
 
 -   crisis → depression
 
+$v(t)$ activates when the population is lower than the carrying capacity
+
+$$
+v(t) = \max \Big( v(t-1) , \mathbb{1} \big[ N(t-1) < (1-\delta)K \ \text{and} \ N(t) < (1-\delta)K \big] \Big) 
+$$
+
+The following exit conditions $C_2$ are checked when $c(t) \geq n_2:$
+
+$$
+v(t) = 1 \ , \ \Delta^2 N(t-1) \geq \epsilon \cdot K \ , \ \Delta^2 N(t) \geq \epsilon \cdot K \ , \ \Delta N(t) <  \epsilon \cdot K \ , \ N(t) < (1-\delta)K
+$$
+
 
 -   depression → expansion (new cycle)
 
