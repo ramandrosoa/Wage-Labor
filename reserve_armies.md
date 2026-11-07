@@ -140,17 +140,18 @@ Let $v(t) \in \{0,1\}$ a state variable that activates whether
 “convexity has been observed” :
 
 $$
-v(t) =  \max \Big(v(t-1) \ , \mathbb{1}\big[\Delta^2 N(t-1) > \epsilon \cdot K \ \text{and} \ \Delta^2 N(t) > \epsilon \cdot K\big]\Big)
+v(t) =  \max \Big(v(t-1) \ , \mathbb{1}\big[\Delta^2 N(t-1) > \epsilon_2 \cdot K \ \text{and} \ \Delta^2 N(t) > \epsilon_2 \cdot K\big]\Big)
 $$
 
 $N$ is stochastic , to avoid setting the latch from noise, we define a
 small tolerance term $\epsilon$ scaled by $K$ to keep it comparable
-across the simulation.
+across the simulation. $\epsilon_1$ serves as band for $\Delta N$ and
+$\epsilon_2$ as a convexity threshold.
 
 The following exit conditions $C_0$ are checked when $c(t) \geq n_0:$
 
 $$
-v(t) = 1 \ , \Delta^2 N(t-1) <  -\epsilon \cdot K \ \text{and} \ \Delta^2 N(t) < -\epsilon \cdot K  \ , \Delta N(t) > \epsilon \cdot K , N(t) < (1-\delta)K
+v(t) = 1 \ , \Delta^2 N(t-1) <  -\epsilon_2 \cdot K \ \text{and} \ \Delta^2 N(t) < -\epsilon_2 \cdot K  \ , \Delta N(t) > \epsilon_1 \cdot K , N(t) < (1-\delta)K
 $$
 
 The population has accelerated in the early expansion (
@@ -164,11 +165,11 @@ consecutive decades exhibit concavity.
 The state variable $v(t)$ activates when “plateau has been observed” :
 
 $$
-v(t) = \max \Big(v(t-1) , \mathbb{1}\big[|\Delta N(t-1)| < \epsilon \cdot K \ \text{and} \ |\Delta N(t)| < \epsilon \cdot K \ \ \text{and} \ N(t) \geq (1-\delta)K\big] \Big)
+v(t) = \max \Big(v(t-1) , \mathbb{1}\big[|\Delta N(t-1)| < \epsilon_1 \cdot K \ \text{and} \ |\Delta N(t)| < \epsilon_1 \cdot K \ \ \text{and} \ N(t) \geq (1-\delta)K\big] \Big)
 $$
 
 $d_{stag}$ is a function of the reserve army and the surplus. The more
-it grows, the higher the excess mortality rate. $d_{stag}$ activates
+they grow, the higher the excess mortality rate. $d_{stag}$ activates
 throughout stagflation but the population exhibits obvious decline when
 $r_N (1- \frac{N}{K} ) < d_N$
 
@@ -177,7 +178,7 @@ d_{stag}(t) = \kappa_1 \cdot \frac{R_1(t-1)}{N(t-1)} + \kappa_2 \big[\ \frac{\rh
 $$
 
 $\kappa_1$ and $\kappa_2$ are new parameters to calibrate. The first
-term is the reserve army. The second term is the deviation of
+term is the normalized reserve army. The second term is the deviation of
 surplus-to-wage ratio from its baseline $(\rho/w)_0$ at the start of the
 cycle. The operator $[.]_+$ is similar to $\max(., 0)$ : only the
 positive part of the term inside the bracket is considered. Therefore,
@@ -187,16 +188,16 @@ the excess mortality.
 The following exit conditions $C_1$ are checked when $c(t) \geq n_1:$
 
 $$
-v(t) = 1 \ , \ \Delta N(t-1) < -\epsilon \cdot K \ , \ \Delta N(t) < -\epsilon \cdot K \ , \ N(t) \geq (1-\delta)K
+v(t) = 1 \ , \ \Delta N(t-1) < -\epsilon_1 \cdot K \ , \ \Delta N(t) < -\epsilon_1 \cdot K \ , \ N(t) \geq (1-\delta)K
 $$
 
 - crisis → depression
 
 When $N$ exit stagflation, it is already near $K$, and
-$N(t) < (1-\delta)K \ \text{and} \ N(t) < (1-\delta)K$ is quickly true
-even if the mortality is still weak. To ensure crisis ends after real
-population loss, $v(t)$ activates when the population is lower than its
-level at crisis entry. We store $N$ at crisis entry, and set when
+$(N(t-1) < (1-\delta)K \ \text{and} \ N(t) < (1-\delta)K)$ is quickly
+true even if the mortality is still weak. To ensure crisis ends after
+real population loss, $v(t)$ activates when the population is lower than
+its level at crisis entry. We store $N$ at crisis entry, and set when
 $\phi = 2$ happens.
 
 $$
@@ -206,8 +207,14 @@ $$
 The following exit conditions $C_2$ are checked when $c(t) \geq n_2:$
 
 $$
-v(t) = 1 \ , \ \Delta^2 N(t-1) > \epsilon \cdot K \ , \ \Delta^2 N(t) > \epsilon \cdot K \ , \ \Delta N(t) <  \epsilon \cdot K \ , \ N(t) < (1-\delta)K
+v(t) = 1 \ , \ \Delta^2 N(t-1) > \epsilon_2 \cdot K \ , \ \Delta^2 N(t) > \epsilon_2 \cdot K \ , \ \Delta N(t) <  \epsilon_1 \cdot K \ , \ N(t) < (1-\delta)K
 $$
+
+The population decline is decelerating as we near the depression phase.
+Formally,
+$(\Delta^2 N(t) > \epsilon_2 \cdot K \ , \ \Delta N(t) < \epsilon_1 \cdot K)$
+signals that the population is approaching a trough — the point at which
+it will reach its lowest level before stabilizing or rebounding.
 
 - depression → expansion (new cycle)
 
