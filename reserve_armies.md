@@ -150,7 +150,7 @@ across the simulation.
 The following exit conditions $C_0$ are checked when $c(t) \geq n_0:$
 
 $$
-v(t) = 1 \ , \Delta^2 N(t-1) <  -\epsilon \cdot K \ \text{and} \ \Delta^2 N(t) < -\epsilon \cdot K  \ , \Delta N(t) > 0, N(t) < K
+v(t) = 1 \ , \Delta^2 N(t-1) <  -\epsilon \cdot K \ \text{and} \ \Delta^2 N(t) < -\epsilon \cdot K  \ , \Delta N(t) > \epsilon \cdot K , N(t) < (1-\delta)K
 $$
 
 The population has accelerated in the early expansion (
@@ -192,16 +192,21 @@ $$
 
 - crisis → depression
 
-$v(t)$ activates when the population is lower than the carrying capacity
+When $N$ exit stagflation, it is already near $K$, and
+$N(t) < (1-\delta)K \ \text{and} \ N(t) < (1-\delta)K$ is quickly true
+even if the mortality is still weak. To ensure crisis ends after real
+population loss, $v(t)$ activates when the population is lower than its
+level at crisis entry. We store $N$ at crisis entry, and set when
+$\phi = 2$ happens.
 
 $$
-v(t) = \max \Big( v(t-1) , \mathbb{1} \big[ N(t-1) < (1-\delta)K \ \text{and} \ N(t) < (1-\delta)K \big] \Big) 
+v(t) = \max \Big( v(t-1) , \mathbb{1} \big[ N(t-1) < (1-\zeta)N_{entry} \ \text{and} \ N(t) < (1-\zeta)N_{entry} \big] \Big) 
 $$
 
 The following exit conditions $C_2$ are checked when $c(t) \geq n_2:$
 
 $$
-v(t) = 1 \ , \ \Delta^2 N(t-1) \geq \epsilon \cdot K \ , \ \Delta^2 N(t) \geq \epsilon \cdot K \ , \ \Delta N(t) <  \epsilon \cdot K \ , \ N(t) < (1-\delta)K
+v(t) = 1 \ , \ \Delta^2 N(t-1) > \epsilon \cdot K \ , \ \Delta^2 N(t) > \epsilon \cdot K \ , \ \Delta N(t) <  \epsilon \cdot K \ , \ N(t) < (1-\delta)K
 $$
 
 - depression → expansion (new cycle)
