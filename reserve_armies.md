@@ -216,7 +216,19 @@ $(\Delta^2 N(t) > \epsilon_2 \cdot K \ , \ \Delta N(t) < \epsilon_1 \cdot K)$
 signals that the population is approaching a trough — the point at which
 it will reach its lowest level before stabilizing or rebounding.
 
-- depression → expansion (new cycle)
+- depression → expansion $C_3$
+
+The following exit conditions $C_3$ are checked when $c(t) \geq n_3:$
+
+$$
+\Delta^2 C(t-1) > \epsilon_2 \cdot C_0 \ \text{and} \ \Delta^2 C(t) > \epsilon_2 \cdot C_0 \ , \ \Delta C(t) < \epsilon_1 \cdot C_0 \ , \ C(t) \geq C_0 
+$$
+
+$C(t)$ denotes the movement of the capital and $C_0$ , its baseline at
+the entry of a cycle. A recovery follows this decelerating decline,
+marking the exit from depression into a new cycle. Before reaching its
+trough, a capital destruction phase occurs during the crisis. Thus, this
+process formalizes the Schumpeterian creative destruction of capital.
 
 **The floor condition**
 
