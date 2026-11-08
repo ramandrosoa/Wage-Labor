@@ -298,6 +298,7 @@ any given $\theta(t)$ — The reserve army emerges sooner. When $Y/L$
 increases, the threshold is delayed and the market stays stable longer.
 Higher productivity gives more room for firms to pay workers even if the
 automation coefficient $\theta(t)$ falls as technology is improving.
+(reinstatement)
 
 We define the critical threshold:
 
