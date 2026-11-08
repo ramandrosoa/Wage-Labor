@@ -155,10 +155,11 @@ v(t) = 1 \ , \Delta^2 N(t-1) <  -\epsilon_2 \cdot K \ \text{and} \ \Delta^2 N(t)
 $$
 
 The population has accelerated in the early expansion (
-$\Delta^2 N(t) > \epsilon \cdot K$ ) . Later, it starts decelerating but
-still growing below the ceiling ( $\Delta^2 N(t) < -\epsilon \cdot K$ )
-. For robustness against noise, we transition to the next phase when two
-consecutive decades exhibit concavity.
+$\Delta^2 N(t) > \epsilon_2 \cdot K$ ) . Later, it starts decelerating
+but still growing below the ceiling (
+$\Delta^2 N(t) < -\epsilon_2 \cdot K$ ) . For robustness against noise,
+we transition to the next phase when two consecutive decades exhibit
+concavity.
 
 - stagflation → crisis $(C_1)$
 
@@ -218,10 +219,17 @@ it will reach its lowest level before stabilizing or rebounding.
 
 - depression → expansion $C_3$
 
+$N(t)$ alone is not enough to separate depression from expansion by
+level : both phases have $N$ well below $K$ . The only difference is
+that depression is flat and expansion is rising. Thus, we could have
+$\Delta N(t) > \epsilon_1 \cdot K$ . We add a state variable $C(t)$ ,
+which is not set by the phase label, to complement $N(t)$ level as exit
+conditions from depression.
+
 The following exit conditions $C_3$ are checked when $c(t) \geq n_3:$
 
 $$
-\Delta^2 C(t-1) > \epsilon_2 \cdot C_0 \ \text{and} \ \Delta^2 C(t) > \epsilon_2 \cdot C_0 \ , \ \Delta C(t) < \epsilon_1 \cdot C_0 \ , \ C(t) \geq C_0 
+v(t) = 1 \ ,\ \Delta^2 C(t-1) > \epsilon_2 \cdot C_0 \ \text{and} \ \Delta^2 C(t) > \epsilon_2 \cdot C_0 \ , \ \Delta C(t) < \epsilon_1 \cdot C_0 \ , \ C(t) \geq C_0 \ , \ \Delta N(t) > \epsilon_1 \cdot K
 $$
 
 $C(t)$ denotes the movement of the capital and $C_0$ , its baseline at
