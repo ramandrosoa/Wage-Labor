@@ -220,11 +220,15 @@ it will reach its lowest level before stabilizing or rebounding.
 - depression → expansion $C_3$
 
 $N(t)$ alone is not enough to separate depression from expansion by
-level : both phases have $N$ well below $K$ . The only difference is
-that depression is flat and expansion is rising. Thus, we could have
-$\Delta N(t) > \epsilon_1 \cdot K$ . We add a state variable $C(t)$ ,
-which is not set by the phase label, to complement $N(t)$ level as exit
-conditions from depression.
+level : both phases have $N$ well below $K$ . We add a state variable
+$C(t)$ , which is not set by the phase label, to complement $N(t)$ level
+as exit conditions from depression.
+
+$v(t)$ activates when $C(t)$ has passed its trough :
+
+$$
+v(t) = \max \Big(v(t-1), \mathbb{1}\big[C(t-1) \leq (1- \eta)C_0 \ \text{and} \ C(t) \leq (1- \eta)C_0 \big] \Big)
+$$
 
 The following exit conditions $C_3$ are checked when $c(t) \geq n_3:$
 
