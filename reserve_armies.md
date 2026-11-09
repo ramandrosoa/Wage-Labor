@@ -229,7 +229,7 @@ conditions from depression.
 The following exit conditions $C_3$ are checked when $c(t) \geq n_3:$
 
 $$
-v(t) = 1 \ ,\ \Delta^2 C(t-1) > \epsilon_2 \cdot C_0 \ \text{and} \ \Delta^2 C(t) > \epsilon_2 \cdot C_0 \ , \ \Delta C(t) < \epsilon_1 \cdot C_0 \ , \ C(t) \geq C_0 \ , \ \Delta N(t) > \epsilon_1 \cdot K
+v(t) = 1 \ ,\ \Delta C(t-1) > \epsilon_1 \cdot C_0 \ \text{and} \ \Delta C(t) > \epsilon_1 \cdot C_0 
 $$
 
 $C(t)$ denotes the movement of the capital and $C_0$ , its baseline at
