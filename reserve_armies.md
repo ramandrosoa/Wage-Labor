@@ -169,6 +169,10 @@ $$
 v(t) = \max \Big(v(t-1) , \mathbb{1}\big[|\Delta N(t-1)| < \epsilon_1 \cdot K \ \text{and} \ |\Delta N(t)| < \epsilon_1 \cdot K \ \ \text{and} \ N(t) \geq (1-\delta)K\big] \Big)
 $$
 
+$d_{stag}$ is a function of $C(t)$ . We tie $d_{stag}$ to $C(t-\beta)$ .
+$\beta$ is the lag between the first capital destruction and the excess
+mortality.
+
 The following exit conditions $C_1$ are checked when $c(t) \geq n_1:$
 
 $$
