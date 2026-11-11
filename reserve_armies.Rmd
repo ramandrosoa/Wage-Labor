@@ -48,12 +48,18 @@ We introduce a phase indicator $\phi(t)$ to distinguish between the excess morta
 Let $\phi(t) \in \{0,1,2,3\}$ denote the active phase at time $t$ , with the index taken modulo 4.
 
 $$
-d_N(t) = d_{N,base} + (d_{N,stag} \cdot \mathbb{1}[\phi(t) = 1]) + (d_{N,crisis} \cdot \mathbb{1}[\phi(t) = 2]) 
+d_N(t) = d_{N,base} + (d_{N,exp} \cdot \mathbb{1}[\phi(t) = 0]) + (d_{N,stag} \cdot \mathbb{1}[\phi(t) = 1]) + (d_{N,crisis} \cdot \mathbb{1}[\phi(t) = 2]) + (d_{N,depr} \cdot \mathbb{1}[\phi(t) = 3]) 
+$$
+
+with : 
+
+$$
+d_{N, \phi(t)} = \kappa_{\phi(t)} \big[1 - \frac{C(t-\omega)}{C_{ref}(t)} \big]_+
 $$
 
 $\phi(t)$ is a phase signal that modulates the equation according to the current regime: the corresponding indicator $1[\phi(t) = \cdot]$ equals 1 when $\phi(t)$ matches that phase and 0 otherwise. 
 
-When the system is in stagflation, the indicator function $1[\phi(t) = 1]$ activates, contributing to $d_{N,stag}$. During crisis, $1[\phi(t) = 2]$ takes over, raising the excess mortality by $d_{N, crisis}$ . 
+For instance, when the system is in stagflation, the indicator function $1[\phi(t) = 1]$ activates, contributing to $d_{N,stag}$. During crisis, $1[\phi(t) = 2]$ takes over, raising the excess mortality by $d_{N, crisis}$ . 
 
 So the phase indicator modulates mortality, which modulates population, which modulates labor supply, which modulates the reserve army $R_1$ — the chain is:
 
@@ -117,7 +123,12 @@ $$
 v(t) = \max \Big(v(t-1) , \mathbb{1}\big[|\Delta N(t-1)| < \epsilon_1 \cdot K \ \text{and} \ |\Delta N(t)| < \epsilon_1 \cdot K \ \ \text{and} \ N(t) \geq (1-\delta)K\big] \Big)
 $$
 
-$d_{stag}$ is a function of $C(t)$ . We tie $d_{stag}$ to $C(t-\beta)$ . $\beta$ is the lag between the first capital destruction and the excess mortality.
+$d_{N,stag}$ is a function of $C(t)$ . We tie $d_{stag}$ to $C(t-\omega)$ . $\omega$ is the lag between capital destruction and the excess mortality.
+
+$$
+d_{N,stag} = \kappa_s \big[1 - \frac{C(t-\omega)}{C_{ref}(t)} \big]_+
+$$
+
 
 The following exit conditions $C_1$ are checked when $c(t) \geq n_1:$
 
