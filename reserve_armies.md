@@ -70,6 +70,12 @@ $$
 d_N(t) = d_{N,base} + (d_{N,exp} \cdot \mathbb{1}[\phi(t) = 0]) + (d_{N,stag} \cdot \mathbb{1}[\phi(t) = 1]) + (d_{N,crisis} \cdot \mathbb{1}[\phi(t) = 2]) + (d_{N,depr} \cdot \mathbb{1}[\phi(t) = 3]) 
 $$
 
+or
+
+$$
+d_N(t) = d_{N,base} + d_{N, \phi(t)} 
+$$
+
 $\phi(t)$ is a phase signal that modulates the equation according to the
 current regime: the corresponding indicator $1[\phi(t) = \cdot]$ equals
 1 when $\phi(t)$ matches that phase and 0 otherwise.
@@ -121,7 +127,7 @@ follows :
 
 $$
 \phi(t+1) = \begin{cases}
-\phi(t) + 1 \ mod \ 4 & \text{if} \ c(t)>n_{\phi(t)} \ \text{and} \ C_{\phi(t)}(N(t), K) \\
+\phi(t) + 1 \ mod \ 4 & \text{if} \ c(t)>n_{\phi(t)} \ \text{and} \ S_{\phi(t)}(N(t), K) \\
 \phi(t) & \text{otherwise}
 \end{cases}
 $$
@@ -135,7 +141,7 @@ $$
 
 - $n_{\phi(t)}$ : minimum dwell time for phase $\phi(t)$ to transition
   to phase $\phi(t) + 1$
-- $C_{\phi(t)}(N(t), K)$ : state of the population $N$ relative to its
+- $S_{\phi(t)}(N(t), K)$ : state of the population $N$ relative to its
   ceiling $K$ — the exit condition of the phase $j$ at decade $t$
 
 A phase therefore lasts for at least $n_j$ and lasts longer whenever its
@@ -165,7 +171,7 @@ small tolerance term $\epsilon$ scaled by $K$ to keep it comparable
 across the simulation. $\epsilon_1$ serves as band for $\Delta N$ and
 $\epsilon_2$ as a convexity threshold.
 
-The following exit conditions $C_0$ are checked when $c(t) \geq n_0:$
+The following exit conditions $S_0$ are checked when $c(t) \geq n_0:$
 
 $$
 v(t) = 1 \ , \Delta^2 N(t-1) <  -\epsilon_2 \cdot K \ \text{and} \ \Delta^2 N(t) < -\epsilon_2 \cdot K  \ , \Delta N(t) > \epsilon_1 \cdot K , N(t) < (1-\delta)K
@@ -186,7 +192,7 @@ $$
 v(t) = \max \Big(v(t-1) , \mathbb{1}\big[|\Delta N(t-1)| < \epsilon_1 \cdot K \ \text{and} \ |\Delta N(t)| < \epsilon_1 \cdot K \ \ \text{and} \ N(t) \geq (1-\delta)K\big] \Big)
 $$
 
-The following exit conditions $C_1$ are checked when $c(t) \geq n_1:$
+The following exit conditions $S_1$ are checked when $c(t) \geq n_1:$
 
 $$
 v(t) = 1 \ , \ \Delta N(t-1) < -\epsilon_1 \cdot K \ , \ \Delta N(t) < -\epsilon_1 \cdot K \ , \ N(t) \geq (1-\delta)K
@@ -205,7 +211,7 @@ $$
 v(t) = \max \Big( v(t-1) , \mathbb{1} \big[ N(t-1) < (1-\zeta)N_{entry} \ \text{and} \ N(t) < (1-\zeta)N_{entry} \big] \Big) 
 $$
 
-The following exit conditions $C_2$ are checked when $c(t) \geq n_2:$
+The following exit conditions $S_2$ are checked when $c(t) \geq n_2:$
 
 $$
 v(t) = 1 \ , \ \Delta^2 N(t-1) > \epsilon_2 \cdot K \ , \ \Delta^2 N(t) > \epsilon_2 \cdot K \ , \ \Delta N(t) <  \epsilon_1 \cdot K \ , \ N(t) < (1-\delta)K
@@ -217,7 +223,7 @@ $(\Delta^2 N(t) > \epsilon_2 \cdot K \ , \ \Delta N(t) < \epsilon_1 \cdot K)$
 signals that the population is approaching a trough — the point at which
 it will reach its lowest level before stabilizing or rebounding.
 
-- depression → expansion $C_3$
+- depression → expansion $S_3$
 
 $N(t)$ alone is not enough to separate depression from expansion by
 level : both phases have $N$ well below $K$ . We add a state variable
@@ -324,14 +330,16 @@ during the depression phase. Without the wealth pump, they can no longer
 sustain their former standard of living. The failed elites undergo rapid
 downward mobility and may perish from starvation and disease. After the
 purge, the elite population shrinks to a manageable level, resetting the
-secular cycle for a new expansion.
+secular cycle for a new expansion. Thus, the mortality sensitivity
+$\kappa$ changes according to the population as well :
+$\kappa_{exp} < \kappa_{stag} < \kappa_{depr} < \kappa_{crisis}$ .
 
 $$
-d_A(t) = d_{A,base} + (d_{A,crisis} \cdot \mathbb{1}[\phi (t)= 2]) + (d_{A,depr} \cdot \mathbb{1}[\phi(t) = 3])
+d_A(t) = d_{A,base} + d_{A, \phi(t)} 
 $$
 
 $$
-d_E(t) = d_{E,base} + \big(d_{E,crisis} \cdot \mathbb{1}[\phi(t) = 2] \big) + \big(d_{E,depr} \cdot \mathbb{1}[\phi(t) = 3] \big)
+d_E(t) = d_{E,base} + d_{E, \phi(t)}
 $$
 
 **The floor condition**
@@ -363,7 +371,7 @@ reserve armies. Progress, for instance, drives automation that displaces
 workers, while the accessibility of symbolic pathways (university
 degrees, political influence) to the upper class yields elite
 overproduction. Within a secular cycle, the trajectory of the reserve
-army does not remain constant: when purges begin, it tends to decline i
+army does not remain constant: when purges begin, it tends to decline in
 number with the population. Thus, purges remove a part of the reserve
 army but do not fully reset the cycle after the depression: the system
 remains. This persistence stems not only from technological progress and

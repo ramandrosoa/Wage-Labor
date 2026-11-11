@@ -51,6 +51,12 @@ $$
 d_N(t) = d_{N,base} + (d_{N,exp} \cdot \mathbb{1}[\phi(t) = 0]) + (d_{N,stag} \cdot \mathbb{1}[\phi(t) = 1]) + (d_{N,crisis} \cdot \mathbb{1}[\phi(t) = 2]) + (d_{N,depr} \cdot \mathbb{1}[\phi(t) = 3]) 
 $$
 
+or 
+
+$$
+d_N(t) = d_{N,base} + d_{N, \phi(t)} 
+$$
+
 $\phi(t)$ is a phase signal that modulates the equation according to the current regime: the corresponding indicator $1[\phi(t) = \cdot]$ equals 1 when $\phi(t)$ matches that phase and 0 otherwise. 
 
 For instance, when the system is in stagflation, the indicator function $1[\phi(t) = 1]$ activates, contributing to $d_{N,stag}$. During crisis, $1[\phi(t) = 2]$ takes over, raising the excess mortality by $d_{N, crisis}$ . 
@@ -79,7 +85,7 @@ The phase indicator is a state machine rather than a function recomputed at each
 
 $$
 \phi(t+1) = \begin{cases}
-\phi(t) + 1 \ mod \ 4 & \text{if} \ c(t)>n_{\phi(t)} \ \text{and} \ C_{\phi(t)}(N(t), K) \\
+\phi(t) + 1 \ mod \ 4 & \text{if} \ c(t)>n_{\phi(t)} \ \text{and} \ S_{\phi(t)}(N(t), K) \\
 \phi(t) & \text{otherwise}
 \end{cases}
 $$
@@ -92,7 +98,7 @@ c(t) + 1 & \text{otherwise}
 $$
 
 -   $n_{\phi(t)}$ : minimum dwell time for phase $\phi(t)$ to transition to phase $\phi(t) + 1$
--   $C_{\phi(t)}(N(t), K)$ : state of the population $N$ relative to its ceiling $K$ — the exit condition of the phase $j$ at decade $t$
+-   $S_{\phi(t)}(N(t), K)$ : state of the population $N$ relative to its ceiling $K$ — the exit condition of the phase $j$ at decade $t$
 
 A phase therefore lasts for at least $n_j$ and lasts longer whenever its exit condition is not yet satisfied. The conditions are checked again at each following decades. The phase indicator $\phi(t+1)$ is determined from $N(t)$ from the previous decade, and the population $N(t+1)$ of the corresponding decade is generated using the excess mortality rate $d_{\phi(t+1)}$ , based on the active phase at decade $t+1$ .
 
@@ -112,7 +118,7 @@ $$
 
 $N$ is stochastic , to avoid setting the latch from noise, we define a small tolerance term $\epsilon$ scaled by $K$ to keep it comparable across the simulation. $\epsilon_1$ serves as band for $\Delta N$ and $\epsilon_2$ as a convexity threshold.
 
-The following exit conditions $C_0$ are checked when $c(t) \geq n_0:$
+The following exit conditions $S_0$ are checked when $c(t) \geq n_0:$
 
 $$
 v(t) = 1 \ , \Delta^2 N(t-1) <  -\epsilon_2 \cdot K \ \text{and} \ \Delta^2 N(t) < -\epsilon_2 \cdot K  \ , \Delta N(t) > \epsilon_1 \cdot K , N(t) < (1-\delta)K
@@ -128,7 +134,7 @@ $$
 v(t) = \max \Big(v(t-1) , \mathbb{1}\big[|\Delta N(t-1)| < \epsilon_1 \cdot K \ \text{and} \ |\Delta N(t)| < \epsilon_1 \cdot K \ \ \text{and} \ N(t) \geq (1-\delta)K\big] \Big)
 $$
 
-The following exit conditions $C_1$ are checked when $c(t) \geq n_1:$
+The following exit conditions $S_1$ are checked when $c(t) \geq n_1:$
 
 $$
 v(t) = 1 \ , \ \Delta N(t-1) < -\epsilon_1 \cdot K \ , \ \Delta N(t) < -\epsilon_1 \cdot K \ , \ N(t) \geq (1-\delta)K
@@ -142,7 +148,7 @@ $$
 v(t) = \max \Big( v(t-1) , \mathbb{1} \big[ N(t-1) < (1-\zeta)N_{entry} \ \text{and} \ N(t) < (1-\zeta)N_{entry} \big] \Big) 
 $$
 
-The following exit conditions $C_2$ are checked when $c(t) \geq n_2:$
+The following exit conditions $S_2$ are checked when $c(t) \geq n_2:$
 
 $$
 v(t) = 1 \ , \ \Delta^2 N(t-1) > \epsilon_2 \cdot K \ , \ \Delta^2 N(t) > \epsilon_2 \cdot K \ , \ \Delta N(t) <  \epsilon_1 \cdot K \ , \ N(t) < (1-\delta)K
@@ -150,7 +156,7 @@ $$
 
 The population decline is decelerating as we near the depression phase. Formally, $(\Delta^2 N(t) > \epsilon_2 \cdot K \ , \ \Delta N(t) <  \epsilon_1 \cdot K)$ signals that the population is approaching a trough — the point at which it will reach its lowest level before stabilizing or rebounding.
 
--   depression → expansion $C_3$
+-   depression → expansion $S_3$
 
 $N(t)$ alone is not enough to separate depression from expansion by level : both phases have $N$ well below $K$ . We add a state variable $C(t)$ , which is independent of the phase label, to complement $N(t)$ level as exit conditions from depression. 
 
@@ -214,14 +220,14 @@ $$
 
 **Differential purge rates and the phase indicator**
 
-During stagflation, a **wealth pump** begins to funnel resources away from commoners: a growing population creates labor oversupply while resources grow scarce. The upper class profits from this squeeze by depressing wages and raising prices. While the general population suffers immiseration, the elites siphon off the surplus, multiply, and thereby generate elite overproduction. The elite population, however, is also bound by a carrying capacity defined by the number of available positions, which grows only very slowly. The crisis does not erupt so long as elite cohesion holds, but the competition for these positions sparked by overproduction becomes the breaking point of that cohesion — the elite splits into ruling factions and counter-elites, and the conflicts begin. Violence, lawlessness, and economic collapse during the crisis phase violently prune the upper class, which contracts in both numbers and wealth. Systemic exhaustion from the crisis then purges the remaining elites through passive economic and demographic elimination during the depression phase. Without the wealth pump, they can no longer sustain their former standard of living. The failed elites undergo rapid downward mobility and may perish from starvation and disease. After the purge, the elite population shrinks to a manageable level, resetting the secular cycle for a new expansion.
+During stagflation, a **wealth pump** begins to funnel resources away from commoners: a growing population creates labor oversupply while resources grow scarce. The upper class profits from this squeeze by depressing wages and raising prices. While the general population suffers immiseration, the elites siphon off the surplus, multiply, and thereby generate elite overproduction. The elite population, however, is also bound by a carrying capacity defined by the number of available positions, which grows only very slowly. The crisis does not erupt so long as elite cohesion holds, but the competition for these positions sparked by overproduction becomes the breaking point of that cohesion — the elite splits into ruling factions and counter-elites, and the conflicts begin. Violence, lawlessness, and economic collapse during the crisis phase violently prune the upper class, which contracts in both numbers and wealth. Systemic exhaustion from the crisis then purges the remaining elites through passive economic and demographic elimination during the depression phase. Without the wealth pump, they can no longer sustain their former standard of living. The failed elites undergo rapid downward mobility and may perish from starvation and disease. After the purge, the elite population shrinks to a manageable level, resetting the secular cycle for a new expansion. Thus, the mortality sensitivity $\kappa$ changes according to the population as well : $\kappa_{exp} < \kappa_{stag} < \kappa_{depr} < \kappa_{crisis}$ .
 
 $$
-d_A(t) = d_{A,base} + (d_{A,crisis} \cdot \mathbb{1}[\phi (t)= 2]) + (d_{A,depr} \cdot \mathbb{1}[\phi(t) = 3])
+d_A(t) = d_{A,base} + d_{A, \phi(t)} 
 $$
 
 $$
-d_E(t) = d_{E,base} + \big(d_{E,crisis} \cdot \mathbb{1}[\phi(t) = 2] \big) + \big(d_{E,depr} \cdot \mathbb{1}[\phi(t) = 3] \big)
+d_E(t) = d_{E,base} + d_{E, \phi(t)}
 $$
 
 **The floor condition**
@@ -236,6 +242,6 @@ $g_{2,floor}$ captures the peak aspirant accumulation. The peak of $A$ during th
 
 #### Do the purges clear the labor market? 
 
-In a Walrasian world, the reserve armies cannot mathematically exist. Yet our natural evolution toward progress is precisely what feeds the exclusion machine — the very apparatus that continuously expands the reserve armies. Progress, for instance, drives automation that displaces workers, while the accessibility of symbolic pathways (university degrees, political influence) to the upper class yields elite overproduction. Within a secular cycle, the trajectory of the reserve army does not remain constant: when purges begin, it tends to decline i number with the population. Thus, purges remove a part of the reserve army but do not fully reset the cycle after the depression: the system remains. This persistence stems not only from technological progress and the credential pathways built up during the previous cycle, but also by the consolidation of the winning elite faction. Indeed, Boyer (2015) underscores that the very stability of such a coalition endogenously triggers the transition from growth to crisis, affecting both the economic and political orders. Crucially, because the crisis is a direct consequence of a stable ruling class rather than an external failure, the structural integrity of the "same" system remains uncontested when the crisis peaks. Exhausted by a prolonged period of crisis and depression, the population is easily pacified by the subsequent expansion and its attendant material improvements; this transition leads to the false conclusion that the system has finally achieved stability. In reality, the illusion of an attainable equilibrium merely masks how the purge during the crisis and depression phases operates as a systemic reset, recalibrating the machinery of elite domination for a new cycle. Thus, expansion leads once more to overpopulation, and the next phases follow in sequence — stagflation, crisis, depression — as the reserve armies re-emerge.
+In a Walrasian world, the reserve armies cannot mathematically exist. Yet our natural evolution toward progress is precisely what feeds the exclusion machine — the very apparatus that continuously expands the reserve armies. Progress, for instance, drives automation that displaces workers, while the accessibility of symbolic pathways (university degrees, political influence) to the upper class yields elite overproduction. Within a secular cycle, the trajectory of the reserve army does not remain constant: when purges begin, it tends to decline in number with the population. Thus, purges remove a part of the reserve army but do not fully reset the cycle after the depression: the system remains. This persistence stems not only from technological progress and the credential pathways built up during the previous cycle, but also by the consolidation of the winning elite faction. Indeed, Boyer (2015) underscores that the very stability of such a coalition endogenously triggers the transition from growth to crisis, affecting both the economic and political orders. Crucially, because the crisis is a direct consequence of a stable ruling class rather than an external failure, the structural integrity of the "same" system remains uncontested when the crisis peaks. Exhausted by a prolonged period of crisis and depression, the population is easily pacified by the subsequent expansion and its attendant material improvements; this transition leads to the false conclusion that the system has finally achieved stability. In reality, the illusion of an attainable equilibrium merely masks how the purge during the crisis and depression phases operates as a systemic reset, recalibrating the machinery of elite domination for a new cycle. Thus, expansion leads once more to overpopulation, and the next phases follow in sequence — stagflation, crisis, depression — as the reserve armies re-emerge.
 
 The purges do not clear the market; they function instead as a biological regulatory mechanism that perpetuates the secular cycle. Marx conceived of crises as the terminal contradiction of capitalism — the inevitable outcome of structural pressures. Yet the challenge they pose to the status quo yields no reformed system, and capitalism does not resolve its contradictions. Instead, it purges whenever the working class and the upper class expand to the point of labor oversupply and elite overproduction. The resulting "great reset" of both populations temporarily improves living conditions during the early phase of expansion. In this way, the system continually renews its own legitimacy: a few elite aspirants secure positions, and the system appears meritocratic; some workers find employment, and it appears responsive; wages rise, and it appears self-correcting. As Lordon (1997;1999) suggested, this illustrates the symbolic representation required by the hegemonic bloc (a coalition of different social strata unified under the leadership of the dominant class), to secure the consent of the subaltern classes without coercion. 
