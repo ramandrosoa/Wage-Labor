@@ -67,13 +67,11 @@ $\phi(t) \in \{0,1,2,3\}$ denote the active phase at time $t$ , with the
 index taken modulo 4.
 
 $$
-d_N(t) = d_{N,base} + (d_{N,exp} \cdot \mathbb{1}[\phi(t) = 0]) + (d_{N,stag} \cdot \mathbb{1}[\phi(t) = 1]) + (d_{N,crisis} \cdot \mathbb{1}[\phi(t) = 2]) + (d_{N,depr} \cdot \mathbb{1}[\phi(t) = 3]) 
-$$
-
-or
-
-$$
 d_N(t) = d_{N,base} + d_{N, \phi(t)} 
+$$ or
+
+$$
+d_N(t) = d_{N,base} + (d_{N,exp} \cdot \mathbb{1}[\phi(t) = 0]) + (d_{N,stag} \cdot \mathbb{1}[\phi(t) = 1]) + (d_{N,crisis} \cdot \mathbb{1}[\phi(t) = 2]) + (d_{N,depr} \cdot \mathbb{1}[\phi(t) = 3]) 
 $$
 
 $\phi(t)$ is a phase signal that modulates the equation according to the
@@ -107,8 +105,17 @@ destruction and the death it causes.
 - $\kappa_{\phi(t)}$ is a phase-dependent parameter, with
   $\kappa_{exp} < \kappa_{depr} < \kappa_{stag} < \kappa_{crisis}$ . The
   phase changes the sensitivity of mortality.
-- $C_{ref}(t)$ is the peak over all history. The shortfall is measuring
-  the loss from the highest point reached.
+- $C_{ref}(t)$ is the peak over all history. it is given by :
+
+$$
+C_{ref}(t) = max_{c(t) - window} C(s)
+$$
+
+$C_ref(t)$ never decreases. It stores the running peak : a peak can
+change multiple times during the same phase, and a peak recorded from a
+previous phase can still be a reference in the current one. Thus, the
+excess mortality is captured by the shortfall of the capital relative to
+its running maximum.
 
 **Phase transition**
 
