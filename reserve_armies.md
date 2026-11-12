@@ -36,8 +36,7 @@ $$
 Separating excess mortality from natural population growth exposes the
 secular-cycle phases. As a general rule, mortality rises alongside
 population; but once carrying capacity is breached, the two
-decouple—population falls while mortality keeps climbing, driven by
-warfare, famine, and institutional collapse:
+decouple—population falls while mortality keeps climbing :
 
 - Expansion: $d_N(t)$ ≈ 0 — normal mortality only
 - Stagflation: $d_N(t)$ small — slightly elevated (famine, disease
@@ -54,10 +53,11 @@ subsistence. Although population density remains high, foodstuff prices
 rise steadily. Inflation affects both the general population and the
 elites; however, the former suffer from malnutrition, famine, and
 disease, while the latter still manage to preserve their standard of
-living. They multiplied to the point of overproduction, fueling intense
-intra-elite competition. Historically, conflicts among the elites serve
-as the trigger for the next phase — crisis — during which the mortality
-rate continues its upward trajectory until reaching its highest point.
+living, and they multiply to the point of overproduction, fueling
+intense intra-elite competition. Historically, conflicts among the
+elites serve as the trigger for the next phase — crisis — during which
+the mortality rate continues its upward trajectory until reaching its
+highest point.
 
 **Excess mortality rate and the phase indicator**
 
@@ -68,7 +68,9 @@ index taken modulo 4.
 
 $$
 d_N(t) = d_{N,base} + d_{N, \phi(t)} 
-$$ or
+$$
+
+or
 
 $$
 d_N(t) = d_{N,base} + (d_{N,exp} \cdot \mathbb{1}[\phi(t) = 0]) + (d_{N,stag} \cdot \mathbb{1}[\phi(t) = 1]) + (d_{N,crisis} \cdot \mathbb{1}[\phi(t) = 2]) + (d_{N,depr} \cdot \mathbb{1}[\phi(t) = 3]) 
@@ -111,7 +113,7 @@ $$
 C_{ref}(t) = max_{c(t) - window} C(s)
 $$
 
-$C_ref(t)$ never decreases. It stores the running peak : a peak can
+$C_{ref}(t)$ never decreases. It stores the running peak : a peak can
 change multiple times during the same phase, and a peak recorded from a
 previous phase can still be a reference in the current one. Thus, the
 excess mortality is captured by the shortfall of the capital relative to
@@ -176,7 +178,9 @@ $$
 $N$ is stochastic , to avoid setting the latch from noise, we define a
 small tolerance term $\epsilon$ scaled by $K$ to keep it comparable
 across the simulation. $\epsilon_1$ serves as band for $\Delta N$ and
-$\epsilon_2$ as a convexity threshold.
+$\epsilon_2$ as a convexity threshold. For robustness against noise, we
+transition to the next phase when two consecutive decades exhibit
+concavity.
 
 The following exit conditions $S_0$ are checked when $c(t) \geq n_0:$
 
@@ -187,9 +191,7 @@ $$
 The population has accelerated in the early expansion (
 $\Delta^2 N(t) > \epsilon_2 \cdot K$ ) . Later, it starts decelerating
 but still growing below the ceiling (
-$\Delta^2 N(t) < -\epsilon_2 \cdot K$ ) . For robustness against noise,
-we transition to the next phase when two consecutive decades exhibit
-concavity.
+$\Delta^2 N(t) < -\epsilon_2 \cdot K$ ) .
 
 - stagflation → crisis $(C_1)$
 
@@ -204,6 +206,12 @@ The following exit conditions $S_1$ are checked when $c(t) \geq n_1:$
 $$
 v(t) = 1 \ , \ \Delta N(t-1) < -\epsilon_1 \cdot K \ , \ \Delta N(t) < -\epsilon_1 \cdot K \ , \ N(t) \geq (1-\delta)K
 $$
+
+During stagflation, population growth slows and approaches the carrying
+capacity. Resource scarcity and rising inflation deteriorate overall
+living conditions, driving the population to plateau and subsequently
+decline as mortality increases. This decline marks the entry into
+crisis, as rising mortality begins to outpace population growth.
 
 - crisis → depression
 
@@ -233,9 +241,9 @@ it will reach its lowest level before stabilizing or rebounding.
 - depression → expansion $S_3$
 
 $N(t)$ alone is not enough to separate depression from expansion by
-level : both phases have $N$ well below $K$ . We add a state variable
-$C(t)$ , which is independent of the phase label, to complement $N(t)$
-level as exit conditions from depression.
+level : both phases have $N$ well below $K$ . We therefore use the
+position of $C(t)$ relative to its baseline at the entry of a cycle as
+exit conditions from depression.
 
 $v(t)$ activates when $C(t)$ has passed its trough :
 
@@ -249,11 +257,10 @@ $$
 v(t) = 1 \ ,\ \Delta C(t-1) > \epsilon_1 \cdot C_0 \ \text{and} \ \Delta C(t) > \epsilon_1 \cdot C_0 
 $$
 
-$C_0$ is baseline of $C(t)$ at the entry of a cycle. Before reaching its
-trough, capital undergoes a rapid decline during the crisis, followed by
-a decelerating slide and a plateau; then a recovery follows, marking the
-exit from depression into a new cycle. This mechanism formalizes the
-Schumpeterian creative destruction of capital.
+Before reaching its trough, capital undergoes a rapid decline during the
+crisis, followed by a decelerating slide and a plateau; then a recovery
+follows, marking the exit from depression into a new cycle. This
+mechanism formalizes the Schumpeterian creative destruction of capital.
 
 **The floor condition**
 
