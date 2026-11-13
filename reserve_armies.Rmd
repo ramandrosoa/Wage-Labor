@@ -73,7 +73,9 @@ $$
 d_{N, \phi(t)} = \kappa_{\phi(t)} \big[1 - \frac{C(t-\omega)}{C_{ref}(t)} \big]_+
 $$
 
-$d_{N, \phi(t)}$ is tied to the capital $C(t-\omega)$ . We assume that the capital decline drives to the loss of livelihood, and subsequently the excess mortality. $\omega$ is the lag between the capital destruction and the death it causes. 
+When capital shrinks in practical terms, there is a loss of livelihood that subsequently drives excess mortality. During stagflation, the elites stop investing in productive capital. They tend to protect their existing wealth by acquiring inflation hedges or by moving their liquid capital out of the country to safer jurisdictions; they cease to allocate their money to new factories, businesses, and maintenance — **a passive capital destruction** via neglect and flight. Consequently, the existing infrastructure deteriorates and no new economic capacity is built for the growing population, while prices keep rising and real wages remain constant. Meanwhile, the commoners are forced into deadly compromises. Nutrient-dense foods give way to cheap, calorie-heavy substitutes; doctor visits are postponed even when symptoms of serious disease appear; and as rents rise with inflation, evictions follow. Each compromise quietly shortens lives. At the macro level, capital stagnation and misallocation depress labor demand, pushing wages down further, deepening poverty, and ultimately driving up excess mortality. 
+
+$d_{N, \phi(t)}$ is tied to the capital $C(t-\omega)$ . $\omega$ is the lag between the capital destruction and the death it causes. 
 
 -   $\kappa_{\phi(t)}$ is a phase-dependent parameter, with $\kappa_{exp} < \kappa_{depr} < \kappa_{stag} < \kappa_{crisis}$ . The phase changes the sensitivity of mortality. 
 -   $C_{ref}(t)$ is the peak over all history. it is given by : 
