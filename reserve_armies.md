@@ -93,11 +93,28 @@ $$
 \phi(t) \implies d_N(t) \implies N(t) \implies L^s_a(t) \implies R_1(t)
 $$
 
+The excess mortality is tied to the capital $C(t-\omega)$ . $\omega$ is
+the lag between the capital destruction and the death it causes.
 $d_{N, \phi(t)}$ is given by :
 
 $$
 d_{N, \phi(t)} = \kappa_{\phi(t)} \big[1 - \frac{C(t-\omega)}{C_{ref}(t)} \big]_+
 $$
+
+- $\kappa_{\phi(t)}$ is a phase-dependent parameter, with
+  $\kappa_{exp} < \kappa_{depr} < \kappa_{stag} < \kappa_{crisis}$ . The
+  phase changes the sensitivity of mortality.
+- $C_{ref}(t)$ is the peak over all history. it is given by :
+
+$$
+C_{ref}(t) = max_{c(t) - window} C(s)
+$$
+
+$C_{ref}(t)$ never decreases. It stores the running peak : a peak can
+change multiple times during the same phase, and a peak recorded from a
+previous phase can still be a reference in the current one. Thus, the
+excess mortality is captured by the shortfall of the capital relative to
+its running maximum.
 
 When capital shrinks in practical terms, there is a loss of livelihood
 that subsequently drives excess mortality. During stagflation, the
@@ -115,24 +132,26 @@ disease appear; and as rents rise with inflation, evictions follow. Each
 compromise quietly shortens lives. At the macro level, capital
 stagnation and misallocation depress labor demand, pushing wages down
 further, deepening poverty, and ultimately driving up excess mortality.
-
-$d_{N, \phi(t)}$ is tied to the capital $C(t-\omega)$ . $\omega$ is the
-lag between the capital destruction and the death it causes.
-
-- $\kappa_{\phi(t)}$ is a phase-dependent parameter, with
-  $\kappa_{exp} < \kappa_{depr} < \kappa_{stag} < \kappa_{crisis}$ . The
-  phase changes the sensitivity of mortality.
-- $C_{ref}(t)$ is the peak over all history. it is given by :
-
-$$
-C_{ref}(t) = max_{c(t) - window} C(s)
-$$
-
-$C_{ref}(t)$ never decreases. It stores the running peak : a peak can
-change multiple times during the same phase, and a peak recorded from a
-previous phase can still be a reference in the current one. Thus, the
-excess mortality is captured by the shortfall of the capital relative to
-its running maximum.
+During crisis, capital declines due to existing conflicts. The resulting
+inequality from stagflation ignites widespread despair and anger among
+the working class, while the frustration of aspirant elites fuels the
+rise of instability. Then, counter-elites rally the masses for the
+purpose of capturing and redistributing the wealth and power of the
+elites; **active and physical capital destruction** can be an
+alternative to weaken them. Moreover, capital declines through
+operational paralysis and institutional collapse; with the loss of
+customer traffic, small businesses close, with market unpredictability,
+large enterprises halt their operations, as taxes dry up, municipal
+services break down, and hospitals may be forced to close due to supply
+scarcity. That leads to a sudden loss of daily income for workers and
+the failure of essential distribution. On top of that, these conflicts
+can be followed by violence. However, it is rarely the aspirants’ first
+choice, because they turn to violence only when peaceful and
+institutional paths to power are completely blocked. Thus, violence is
+the final escalation after years of failed reform, once the aspirants
+realize that they cannot win inside the system. That crucially
+accelerates mortality from a slow climb into a sudden demographic
+collapse.
 
 **Phase transition**
 
