@@ -220,7 +220,7 @@ With the wage stickiness and the swift technological progress, $\theta$
 falls faster than the market-clearing wage $w$ . This yields to a
 decreasing labor demand and a persistent excess of labor supply.
 
-- **Equilibrium : MRS and MPL cross at wage** $w$ :
+- **Equilibrium :**
 
 The Marginal Rate of Substitution represents the workers’optimization.
 They choose how many hours to work by balancing the benefit of working —
@@ -253,7 +253,7 @@ very low. At a subsistence level, each additional unit of consumption is
 extremely valuable. Thus, $U'_{consumption}$ at $\bar{c}$ is a large
 denominator which makes $\bar{w}_{min}$ low.
 
-**Under what condition on** $\theta(t)$ **does MPL and MRS curves can no
+**Under what condition on** $\theta(t)$ **MPL and MRS curves can no
 longer intersect ?**
 
 Given the friction condition $MPL(\theta(t), L_a)$ \< $\bar{w_{min}}$ ,

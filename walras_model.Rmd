@@ -187,7 +187,7 @@ $$
 
 With the wage stickiness and the swift technological progress, $\theta$ falls faster than the market-clearing wage $w$ . This yields to a decreasing labor demand and a persistent excess of labor supply.
 
--   **Equilibrium : MRS and MPL cross at wage** $w$ : 
+-   **Equilibrium :** 
 
 The Marginal Rate of Substitution represents the workers'optimization. They choose how many hours to work by balancing the benefit of working — earning wage to buy consumption goods, the cost of working — giving up leisure time. Then, higher wage makes working more attractive than leisure. Workers have reservation wage : below this wage, leisure time is more valuable than consumption wage buys. But crucially, there is a subsistence constraint — consumption can not fall below some minimum $\bar{c}$ . 
 
@@ -203,7 +203,7 @@ $$
 
 At wage $\bar{w}_{min}$ , workers can purchase $\bar{c}$ goods. When the workers have more leisure time than working time, the consumption is very low. At a subsistence level, each additional unit of consumption is extremely valuable. Thus, $U'_{consumption}$ at $\bar{c}$  is a large denominator which makes $\bar{w}_{min}$ low.
 
-**Under what condition on** $\theta(t)$ **does MPL and MRS curves can no longer intersect ?**
+**Under what condition on** $\theta(t)$ **MPL and MRS curves can no longer intersect ?**
 
 Given the friction condition $MPL(\theta(t), L_a)$ < $\bar{w_{min}}$ , we get : 
 
