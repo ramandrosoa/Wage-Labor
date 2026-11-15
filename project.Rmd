@@ -1,0 +1,57 @@
+---
+title: "Simulations"
+output: 
+  github_document:
+    toc: true
+    toc_depth: 2
+---
+
+```{r}
+set.seed(1)
+T <- 400; K <- 100
+
+# parameters
+s    <- 0.30   # share of output reinvested
+dep  <- 0.03   # depreciation
+rN   <- 0.25   # population growth rate
+dbase <- 0.02  # baseline mortality
+kappa <- 1.2   # mortality response to capital loss
+om   <- 2      # lag for measuring capital loss
+mu   <- 0.04   # aspirant growth from surplus
+aeps <- 0.02   # aspirant natural decay
+W    <- 6      # number of elite positions
+thr  <- 0.6    # collapse trigger: (A - W)/W > thr
+f    <- 0.4    # share of capital destroyed in a purge
+g    <- 0.5    # share of aspirants removed in a purge
+
+N <- C <- A <- hit <- numeric(T)
+N[1] <- 40; C[1] <- 40; A[1] <- 2
+
+for (t in 2:T) {
+  Y   <- C[t-1]^0.5 * N[t-1]^0.5          # output
+  rho <- s * Y                             # surplus
+
+  C[t] <- C[t-1] + rho - dep * C[t-1]                  # capital accumulates
+  A[t] <- A[t-1] + mu * rho * (N[t-1] / K) - aeps * A[t-1]  # aspirants grow
+
+  if ((A[t] - W) / W > thr) {              # elite-conflict trigger -> purge
+    C[t]  <- C[t] * (1 - f)
+    A[t]  <- A[t] * (1 - g)
+    hit[t] <- 1
+  }
+
+  loss <- max(1 - C[t] / C[max(t - om, 1)], 0)   # recent capital loss
+  d    <- min(dbase + kappa * loss, 0.9)         # mortality
+  N[t] <- max(N[t-1] + rN * N[t-1] * (1 - N[t-1] / K) - d * N[t-1], 1)
+}
+
+ev <- which(hit == 1)
+print(ev); print(diff(ev))                 # collapse times and cycle length
+
+par(mfrow = c(3, 1), mar = c(3, 4, 2, 1))
+plot(N, type = "l", main = "Population N"); abline(v = ev, col = "grey80")
+plot(C, type = "l", main = "Capital C");    abline(v = ev, col = "grey80")
+plot(A, type = "l", main = "Aspirants A")
+abline(h = W * (1 + thr), col = "red", lty = 2); abline(v = ev, col = "grey80")
+```
+
