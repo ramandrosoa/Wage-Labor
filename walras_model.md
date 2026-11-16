@@ -94,14 +94,14 @@ $MPL$ is a derivative of the following Production function
 (Cobb-Douglas) :
 
 $$
-Y = A(t) \cdot K^{\alpha} \cdot L^{(1 - \alpha)}
+Y = A(t) \cdot C^{\alpha} \cdot L^{(1 - \alpha)}
 $$
 
 - $A$ : Time varying technology parameter
 
-- $K$ : Capital
+- $C$ : Capital
 
-- $L$ : Labor
+- $L$ : Labor demand
 
 - $\alpha$ and $1 - \alpha$ : Distribution of the income between the
   capital and the labor. Typically $\alpha = 0.3$ and $1-\alpha = 0.7$
@@ -114,7 +114,7 @@ compete automation — creativity, judgment, social interaction, complex
 problem solving. So the production function become :
 
 $$
-Y = A(t) \cdot K^{\alpha} \cdot \tilde{L}^{(1 - \alpha)} 
+Y = A(t) \cdot C^{\alpha} \cdot \tilde{L}^{(1 - \alpha)} 
 $$
 
 with $\tilde{L}$ = $L_n + \theta(t) \cdot L_a$ . $\theta(t)$ is an
@@ -126,18 +126,18 @@ To determine $MPL$ , we take the derivative of $Y$ with respect to $L_a$
 
 $$MPL = \frac{\partial Y}{\partial L_a} = \frac{\partial Y}{\partial \tilde{L} } \cdot \frac{\partial \tilde{L}}{\partial L_a }$$
 
-$$\frac{\partial Y}{\partial \tilde{L} } = (1- \alpha) A(t) \cdot K^{\alpha} \cdot \tilde{L}^{- \alpha}$$
+$$\frac{\partial Y}{\partial \tilde{L} } = (1- \alpha) A(t) \cdot C^{\alpha} \cdot \tilde{L}^{- \alpha}$$
 
 $$\frac{\partial {\tilde{L}}}{\partial L_a } = \theta (t)$$
 
-$$MPL = w = (1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}}$$
+$$MPL = w = (1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot C^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}}$$
 
 Automation reduces the demand of automatable labor $L^d_a$ . To get
 $L^d_a$ , we solve the equation above for $L_a$ as a function of the
 wage $w$ :
 
 $$
-L^d_a = \frac{1}{\theta(t)} [(\frac{(1-\alpha) \cdot \theta(t)\cdot A(t) \cdot K^{\alpha}}{w})^{1/\alpha} - L_n]
+L^d_a = \frac{1}{\theta(t)} [(\frac{(1-\alpha) \cdot \theta(t)\cdot A(t) \cdot C^{\alpha}}{w})^{1/\alpha} - L^d_n]
 $$
 
 - **Verifying the slope condition**
@@ -146,7 +146,7 @@ $$
 With :
 
 $$
-M = (1-\alpha) \cdot \theta(t) \cdot A(t) \cdot K^{\alpha}
+M = (1-\alpha) \cdot \theta(t) \cdot A(t) \cdot C^{\alpha}
 $$
 
 $$
@@ -154,7 +154,7 @@ L^d_a = \frac{1}{\theta(t)} \cdot [(\frac{M}{w})^{1/\alpha} - L_n]
 $$
 
 $$
-L^d_a = \frac{1}{\theta(t)} \cdot [(M^{1/\alpha} \cdot w^{-1/\alpha}) - L_n]
+L^d_a = \frac{1}{\theta(t)} \cdot [(M^{1/\alpha} \cdot w^{-1/\alpha}) - L^d_n]
 $$
 
 $$
@@ -197,7 +197,7 @@ floor** $\bar{w}$
 With :
 
 $$
-P = \frac{(1-\alpha) \cdot A(t) \cdot K^{\alpha}}{w}
+P = \frac{(1-\alpha) \cdot A(t) \cdot C^{\alpha}}{w}
 $$
 
 $$
@@ -260,14 +260,14 @@ Given the friction condition $MPL(\theta(t), L_a)$ \< $\bar{w_{min}}$ ,
 we get :
 
 $$
-(1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}} < \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}}
+(1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot C^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}} < \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}}
 $$
 
 $$
-\theta(t) < \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}} \cdot \frac{(L_n + \theta(t) \cdot L_a)^{\alpha}}{(1- \alpha)\cdot A(t) \cdot K^{\alpha}}
+\theta(t) < \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}} \cdot \frac{(L_n + \theta(t) \cdot L_a)^{\alpha}}{(1- \alpha)\cdot A(t) \cdot C^{\alpha}}
 $$
 
-With : $Y = A(t) \cdot K^{\alpha} \cdot L^{(1- \alpha)}$ and
+With : $Y = A(t) \cdot C^{\alpha} \cdot L^{(1- \alpha)}$ and
 $L = L_n + \theta(t) \cdot L_a$
 
 $$
@@ -525,16 +525,16 @@ The relation between the surplus and the automation coefficient can be
 identified by taking the derivative of $\rho$ with respect to $\theta$.
 
 By substituting the Cobb-Douglas :
-$Y = A(t) \cdot K^{\alpha} \cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}$,
+$Y = A(t) \cdot C^{\alpha} \cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}$,
 the wage condition $w = MPL$ and $L = L_n + \theta(t) \cdot L_a$ ,we
 obtain :
 
 $$
-\rho(t) = [A(t) \cdot K^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}] - [(1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}} \cdot (L_n + \theta(t) \cdot L_a) ]
+\rho(t) = [A(t) \cdot C^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}] - [(1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot C^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}} \cdot (L_n + \theta(t) \cdot L_a) ]
 $$
 
 $$
-\rho(t) = [A(t) \cdot K^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}] [1 - ((1 - \alpha) \cdot \theta(t))]
+\rho(t) = [A(t) \cdot C^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}] [1 - ((1 - \alpha) \cdot \theta(t))]
 $$
 
 $$

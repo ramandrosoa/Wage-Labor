@@ -91,12 +91,12 @@ By introducing this friction to the $MPL$ , the wage will be expressed with a ti
 $MPL$ is a derivative of the following Production function (Cobb-Douglas) : 
 
 $$
-Y = A(t) \cdot K^{\alpha} \cdot L^{(1 - \alpha)}
+Y = A(t) \cdot C^{\alpha} \cdot L^{(1 - \alpha)}
 $$
 
 - $A$ : Time varying technology parameter
 
-- $K$ : Capital
+- $C$ : Capital
 
 - $L$ : Labor demand
 
@@ -105,7 +105,7 @@ $$
 For this project, the labor is splitted to automatable labor $L_a$ and non-automatable labor $L_n$. $L_a$ is composed by the workers who perform routine, codifiable tasks that machines can replace, while $L_n$ represents the workers who perform tasks that complement rather than compete automation — creativity, judgment, social interaction, complex problem solving. So the production function become : 
 
 $$
-Y = A(t) \cdot K^{\alpha} \cdot \tilde{L}^{(1 - \alpha)} 
+Y = A(t) \cdot C^{\alpha} \cdot \tilde{L}^{(1 - \alpha)} 
 $$
 
 with $\tilde{L}$ = $L_n + \theta(t) \cdot L_a$ . $\theta(t)$ is an automation coefficient, defined on [0,1]. When $\theta(t)$ falls, automation intensifies. 
@@ -114,16 +114,16 @@ To determine $MPL$ , we take the derivative of $Y$ with respect to $L_a$ . Using
 
 $$MPL = \frac{\partial Y}{\partial L_a} = \frac{\partial Y}{\partial \tilde{L} } \cdot \frac{\partial \tilde{L}}{\partial L_a }$$
 
-$$\frac{\partial Y}{\partial \tilde{L} } = (1- \alpha) A(t) \cdot K^{\alpha} \cdot \tilde{L}^{- \alpha}$$
+$$\frac{\partial Y}{\partial \tilde{L} } = (1- \alpha) A(t) \cdot C^{\alpha} \cdot \tilde{L}^{- \alpha}$$
 
 $$\frac{\partial {\tilde{L}}}{\partial L_a } = \theta (t)$$
 
-$$MPL = w = (1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}}$$
+$$MPL = w = (1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot C^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}}$$
 
 Automation reduces the demand of automatable labor $L^d_a$ . To get $L^d_a$ , we solve the equation above for $L_a$ as a function of the wage $w$ :
 
 $$
-L^d_a = \frac{1}{\theta(t)} [(\frac{(1-\alpha) \cdot \theta(t)\cdot A(t) \cdot K^{\alpha}}{w})^{1/\alpha} - L^d_n]
+L^d_a = \frac{1}{\theta(t)} [(\frac{(1-\alpha) \cdot \theta(t)\cdot A(t) \cdot C^{\alpha}}{w})^{1/\alpha} - L^d_n]
 $$
 
 -   **Verifying the slope condition** $\frac{\partial L^d_a}{\partial w} < 0$ 
@@ -131,7 +131,7 @@ $$
 With : 
 
 $$
-M = (1-\alpha) \cdot \theta(t) \cdot A(t) \cdot K^{\alpha}
+M = (1-\alpha) \cdot \theta(t) \cdot A(t) \cdot C^{\alpha}
 $$
 
 $$
@@ -139,7 +139,7 @@ L^d_a = \frac{1}{\theta(t)} \cdot [(\frac{M}{w})^{1/\alpha} - L_n]
 $$
 
 $$
-L^d_a = \frac{1}{\theta(t)} \cdot [(M^{1/\alpha} \cdot w^{-1/\alpha}) - L_n]
+L^d_a = \frac{1}{\theta(t)} \cdot [(M^{1/\alpha} \cdot w^{-1/\alpha}) - L^d_n]
 $$
 
 $$
@@ -169,7 +169,7 @@ When automation arrives, a part of the works can be done by machines. Thus, $w_2
 With : 
 
 $$
-P = \frac{(1-\alpha) \cdot A(t) \cdot K^{\alpha}}{w}
+P = \frac{(1-\alpha) \cdot A(t) \cdot C^{\alpha}}{w}
 $$
 
 $$
@@ -208,14 +208,14 @@ At wage $\bar{w}_{min}$ , workers can purchase $\bar{c}$ goods. When the workers
 Given the friction condition $MPL(\theta(t), L_a)$ < $\bar{w_{min}}$ , we get : 
 
 $$
-(1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}} < \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}}
+(1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot C^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}} < \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}}
 $$
 
 $$
-\theta(t) < \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}} \cdot \frac{(L_n + \theta(t) \cdot L_a)^{\alpha}}{(1- \alpha)\cdot A(t) \cdot K^{\alpha}}
+\theta(t) < \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}} \cdot \frac{(L_n + \theta(t) \cdot L_a)^{\alpha}}{(1- \alpha)\cdot A(t) \cdot C^{\alpha}}
 $$
 
-With : $Y = A(t) \cdot K^{\alpha} \cdot L^{(1- \alpha)}$ and $L = L_n + \theta(t) \cdot L_a$
+With : $Y = A(t) \cdot C^{\alpha} \cdot L^{(1- \alpha)}$ and $L = L_n + \theta(t) \cdot L_a$
 
 $$
 \theta(t) < \frac{U'_{leisure}}{U'_{consumption} |_{c = \bar{c}}} \cdot \frac{L^{\alpha}\cdot L^{1-\alpha}}{(1-\alpha)\cdot Y}
@@ -395,15 +395,15 @@ Thus, as $\theta(t)$ falls : $w \cdot L$ drops, as workers are displaced and wag
 
 The relation between the surplus and the automation coefficient can be identified by taking the derivative of $\rho$ with respect to $\theta$.
 
-By substituting the Cobb-Douglas : $Y = A(t) \cdot K^{\alpha} \cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}$, the wage condition $w = MPL$ and $L = L_n + \theta(t) \cdot L_a$ ,we obtain : 
+By substituting the Cobb-Douglas : $Y = A(t) \cdot C^{\alpha} \cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}$, the wage condition $w = MPL$ and $L = L_n + \theta(t) \cdot L_a$ ,we obtain : 
 
 $$
-\rho(t) = [A(t) \cdot K^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}] - [(1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}} \cdot (L_n + \theta(t) \cdot L_a) ]
+\rho(t) = [A(t) \cdot C^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}] - [(1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot C^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}} \cdot (L_n + \theta(t) \cdot L_a) ]
 $$
 
 
 $$
-\rho(t) = [A(t) \cdot K^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}] [1 - ((1 - \alpha) \cdot \theta(t))]
+\rho(t) = [A(t) \cdot C^{\alpha}\cdot (L_n + \theta(t) \cdot L_a)^{1-\alpha}] [1 - ((1 - \alpha) \cdot \theta(t))]
 $$
 
 $$

@@ -16,7 +16,8 @@ $$
 L^s_a(\bar{w}_{min}, t)  = \psi \cdot N(t-\nu)
 $$
 
-- $\psi$ : the share of the population that is Tier 1 labor
+- $\psi$ : the share of the population that is Tier 1 labor at the wage
+  floor.
 - $\nu$ : lag between birth and labor-market entry, taken as roughly
   20–25 years. Individuals who enter the labor market at time $t$ were
   born approximately two decades earlier, so $\nu$ falls in the 2–3
