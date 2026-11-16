@@ -6,6 +6,18 @@ output:
     toc_depth: 2
 ---
 
+```{r setup, include=FALSE }
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(sandwich)
+library(lmtest)
+library(patchwork)
+library(MASS)
+library(brms)
+```
+
+
 ```{r}
 set.seed(1)
 T <- 400; K <- 100

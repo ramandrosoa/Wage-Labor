@@ -13,13 +13,17 @@ $$
 With labor supply :
 
 $$
-L^s_a(\bar{w}_{min}, t) = L^s_a(\bar{w}_{min}) \cdot \frac{N(t)}{N(t_0)}
+L^s_a(\bar{w}_{min}, t)  = \psi \cdot N(t-\nu)
 $$
 
-$\frac{N(t)}{N(t_0)}$ is a population scaling factor : as the population
-grows over time, the pool of available workers expands proportionally.
-$t_0$ is the normalization reference. Population trajectory follows the
-secular-cycle phases — expansion, stagflation, crisis, depression.
+- $\psi$ : the share of the population that is Tier 1 labor
+- $\nu$ : lag between birth and labor-market entry, taken as roughly
+  20–25 years. Individuals who enter the labor market at time $t$ were
+  born approximately two decades earlier, so $\nu$ falls in the 2–3
+  decade range.
+
+Population trajectory follows the secular-cycle phases — expansion,
+stagflation, crisis, depression.
 
 To model the population growth, we use a logistic growth with carrying
 capacity :
@@ -126,7 +130,7 @@ passive capital destruction** via neglect and flight. Consequently, the
 existing infrastructure deteriorates and no new economic capacity is
 built for the growing population, while prices keep rising and real
 wages remain constant. Meanwhile, the commoners are forced into deadly
-compromises. Nutrient-dense foods give way to cheap, calorie-heavy
+compromises : nutrient-dense foods give way to cheap, calorie-heavy
 substitutes; doctor visits are postponed even when symptoms of serious
 disease appear; and as rents rise with inflation, evictions follow. Each
 compromise quietly shortens lives. At the macro level, capital

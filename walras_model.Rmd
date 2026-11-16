@@ -98,7 +98,7 @@ $$
 
 - $K$ : Capital
 
-- $L$ : Labor
+- $L$ : Labor demand
 
 - $\alpha$ and $1 - \alpha$ : Distribution of the income between the capital and the labor. Typically $\alpha = 0.3$ and $1-\alpha = 0.7$ 
 
@@ -123,7 +123,7 @@ $$MPL = w = (1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot K^{\alpha}}{(L_n +
 Automation reduces the demand of automatable labor $L^d_a$ . To get $L^d_a$ , we solve the equation above for $L_a$ as a function of the wage $w$ :
 
 $$
-L^d_a = \frac{1}{\theta(t)} [(\frac{(1-\alpha) \cdot \theta(t)\cdot A(t) \cdot K^{\alpha}}{w})^{1/\alpha} - L_n]
+L^d_a = \frac{1}{\theta(t)} [(\frac{(1-\alpha) \cdot \theta(t)\cdot A(t) \cdot K^{\alpha}}{w})^{1/\alpha} - L^d_n]
 $$
 
 -   **Verifying the slope condition** $\frac{\partial L^d_a}{\partial w} < 0$ 
