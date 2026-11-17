@@ -19,12 +19,24 @@ library(brms)
 
 
 $$
-L^d_a (1) = \frac{1}{\theta(1)} [(\frac{(1-\alpha) \cdot \theta(1)\cdot A(1) \cdot C^{\alpha}}{w(1)})^{1/\alpha} - L^d_n]
+L^d_a (t) = \frac{1}{\theta(t)} [(\frac{(1-\alpha) \cdot \theta(t)\cdot A(t) \cdot C^{\alpha}}{w(t)})^{1/\alpha} - L^d_n]
 $$
 
 With $L^d_n = a_1 \cdot \tilde{L}$ , $L^d_a = a_2 \cdot \tilde{L}$ and  total labor demand $\tilde{L} = L^d_n + L^d_a$ , hence, $L^d_n = \frac{a_1}{a_2} \cdot L^d_a$ and $\tilde{L} = L^d_a /a_2$
 
-${\bar{w}_{min}} \neq w(1) $ ; both exists at $t=1$ . 
+$$
+L^s(w, t)  = \psi(w) \cdot N(t-\nu)
+$$
+
+To find $w$ , we solve :
+
+$$
+L^s(w, t) = L^d(w,\theta(t))
+$$
+
+$$
+\psi(w) = \frac{\bar{\psi}_{max}}{1+e^{-k(w-w_0)}}
+$$
 
 
 ```{r}
