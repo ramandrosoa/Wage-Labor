@@ -19,16 +19,13 @@ library(brms)
 
 
 $$
-L^d_a (1) = \frac{1}{\theta(1)} [(\frac{(1-\alpha) \cdot \theta(1)\cdot A(1) \cdot C^{\alpha}}{\bar{w}_{min}})^{1/\alpha} - (\frac{a_1}{a_2})L^d_a]
+L^d_a (1) = \frac{1}{\theta(1)} [(\frac{(1-\alpha) \cdot \theta(1)\cdot A(1) \cdot C^{\alpha}}{w(1)})^{1/\alpha} - L^d_n]
 $$
 
-With $L^d_n = (\frac{a_1}{a_2})L^d_a$ and total labor demand $\tilde{L} = L^d_n + L^d_a$ , hence, $\tilde{L} (1) = L^d_a (1)/a_2$
+With $L^d_n = a_1 \cdot \tilde{L}$ , $L^d_a = a_2 \cdot \tilde{L}$ and  total labor demand $\tilde{L} = L^d_n + L^d_a$ , hence, $L^d_n = \frac{a_1}{a_2} \cdot L^d_a$ and $\tilde{L} = L^d_a /a_2$
 
 ${\bar{w}_{min}} \neq w(1) $ ; both exists at $t=1$ . 
 
-$$
-w(1) = (1-\alpha) \theta(1) \cdot \frac{A(1) \cdot C(1)^\alpha}{\tilde{L} (1)}
-$$
 
 ```{r}
 set.seed(1)
