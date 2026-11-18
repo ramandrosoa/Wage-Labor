@@ -23,35 +23,8 @@ $$
 L^d_a (t) = \frac{1}{\theta(t)} \Big[ \big(\frac{(1-\alpha) \cdot \theta(t)\cdot Z(t) \cdot C^{\alpha}}{w(t)} \big)^{1/\alpha} - L^d_n \Big]
 $$
 
-With $L^d_n = a_1 \cdot \tilde{L}$ , $L^d_a = a_2 \cdot \tilde{L}$ and $L^d = L^d_n + L^d_a$ . Hence, the total labor demand equals to : 
 
-$$
-L^d(t) = \Big[\frac{(1-\alpha) \cdot \theta(t)\cdot Z(t) \cdot C^{\alpha}}{w(t)} \Big]^{1/\alpha} \cdot \Big[ \frac{1}{a_1 + \theta(t) \cdot a_2} \Big]
-$$
 
-**Labor supply**
-
-$$
-L^s(w, t)  = \psi(w) \cdot N(t-\nu)
-$$
-
-To find $w$ , we solve :
-
-$$
-L^s(w, t) = L^d(w,C(t-1) , \theta(t))
-$$
-
-With : 
-
-$$
-\psi(w) = \frac{\bar{\psi}_{max}}{1+e^{-k(w-w_0)}}
-$$
-
--   $\bar{\psi}_{max}$ : maximum share of the population that supplies labor
--   $w_0$ : median reservation wage
--   $k$ : controls how widely the reservation wages are spread
-
-A large $k$ implies a narrow wage range, and as $w$ reaches $w_0$ rapidly, the labor supply grows fast as well. A small $k$ indicates a wide wage range, and some people are willing to accept low wage while others need a lot. If the population is close to subsistence, $k$ is large and $w_0$ is close to $\bar{w}_{min}$ .
 
 
 

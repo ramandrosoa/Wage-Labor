@@ -114,21 +114,20 @@ compete automation — creativity, judgment, social interaction, complex
 problem solving. So the production function become :
 
 $$
-Y = A(t) \cdot C^{\alpha} \cdot \tilde{L}^{(1 - \alpha)} 
+Y = A(t) \cdot C^{\alpha} \cdot  [L^d_n + \theta(t) \cdot L^d_a]^{(1 - \alpha)} 
 $$
 
-with $\tilde{L}$ = $L_n + \theta(t) \cdot L_a$ . $\theta(t)$ is an
-automation coefficient, defined on \[0,1\]. When $\theta(t)$ falls,
-automation intensifies.
+$\theta(t)$ is an automation coefficient, defined on \[0,1\]. When
+$\theta(t)$ falls, automation intensifies.
 
 To determine $MPL$ , we take the derivative of $Y$ with respect to $L_a$
 . Using the chain rule :
 
-$$MPL = \frac{\partial Y}{\partial L_a} = \frac{\partial Y}{\partial \tilde{L} } \cdot \frac{\partial \tilde{L}}{\partial L_a }$$
+$$MPL = \frac{\partial Y}{\partial L_a} = \frac{\partial Y}{\partial \tilde{L} } \cdot \frac{\partial  L^d}{\partial L_a }$$
 
-$$\frac{\partial Y}{\partial \tilde{L} } = (1- \alpha) A(t) \cdot C^{\alpha} \cdot \tilde{L}^{- \alpha}$$
+$$\frac{\partial Y}{\partial \tilde{L} } = (1- \alpha) A(t) \cdot C^{\alpha} \cdot  L^{d(- \alpha)}$$
 
-$$\frac{\partial {\tilde{L}}}{\partial L_a } = \theta (t)$$
+$$\frac{\partial {L^d}}{\partial L_a } = \theta (t)$$
 
 $$MPL = w = (1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot C^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}}$$
 
@@ -137,7 +136,14 @@ $L^d_a$ , we solve the equation above for $L_a$ as a function of the
 wage $w$ :
 
 $$
-L^d_a = \frac{1}{\theta(t)} [(\frac{(1-\alpha) \cdot \theta(t)\cdot A(t) \cdot C^{\alpha}}{w})^{1/\alpha} - L^d_n]
+L^d_a = \frac{1}{\theta(t)} \Big[ \big(\frac{(1-\alpha) \cdot \theta(t)\cdot A(t) \cdot C^{\alpha}}{w} \big)^{1/\alpha} - L^d_n \Big]
+$$
+
+With $L^d_n = a_1 \cdot L^d$ , $L^d_a = a_2 \cdot L^d$ and
+$L^d = L^d_n + L^d_a$ . Hence, the total labor demand equals to :
+
+$$
+L^d(t) = \Big[\frac{(1-\alpha) \cdot \theta(t)\cdot Z(t) \cdot C^{\alpha}}{w(t)} \Big]^{1/\alpha} \cdot \Big[ \frac{1}{a_1 + \theta(t) \cdot a_2} \Big]
 $$
 
 - **Verifying the slope condition**
@@ -150,11 +156,11 @@ M = (1-\alpha) \cdot \theta(t) \cdot A(t) \cdot C^{\alpha}
 $$
 
 $$
-L^d_a = \frac{1}{\theta(t)} \cdot [(\frac{M}{w})^{1/\alpha} - L_n]
+L^d_a = \frac{1}{\theta(t)} \cdot \Big[ \big(\frac{M}{w} \big)^{1/\alpha} - L^d_n \Big]
 $$
 
 $$
-L^d_a = \frac{1}{\theta(t)} \cdot [(M^{1/\alpha} \cdot w^{-1/\alpha}) - L^d_n]
+L^d_a = \frac{1}{\theta(t)} \cdot \Big[ \big(M^{1/\alpha} \cdot w^{-1/\alpha} \big) - L^d_n \Big]
 $$
 
 $$
@@ -219,6 +225,37 @@ wage.
 With the wage stickiness and the swift technological progress, $\theta$
 falls faster than the market-clearing wage $w$ . This yields to a
 decreasing labor demand and a persistent excess of labor supply.
+
+**Labor supply**
+
+$$
+L^s(w, t)  = \psi(w) \cdot N(t-\nu)
+$$
+
+- $\psi({w})$ : the share of the population that is Tier 1 labor at the
+  wage $w$
+- $\nu$ : lag between birth and labor-market entry, taken as roughly
+  20–25 years. Individuals who enter the labor market at time $t$ were
+  born approximately two decades earlier, so $\nu$ falls in the 2–3
+  decade range.
+
+$\psi({w})$ defined on \[0, $\bar{\psi}_{max}$ \] , is a logistic
+function that rises with $w$ and flattens at high wages.
+
+$$
+\psi(w) = \frac{\bar{\psi}_{max}}{1+e^{-k(w-w_0)}}
+$$
+
+- $\bar{\psi}_{max}$ : maximum share of the population that supplies
+  labor
+- $w_0$ : median reservation wage
+- $k$ : controls how widely the reservation wages are spread
+
+A large $k$ implies a narrow wage range, and as $w$ reaches $w_0$
+rapidly, the labor supply grows fast as well. A small $k$ indicates a
+wide wage range, and some people are willing to accept low wage while
+others need a lot. If the population is close to subsistence, $k$ is
+large and $w_0$ is close to $\bar{w}_{min}$ .
 
 - **Equilibrium :**
 
@@ -311,7 +348,7 @@ This gives us a clean equation when $R_1$ activates :
 $$
 R_1(t) = \begin{cases}
 0 & \text{if } \theta(t)> \theta^\ast (t) \\
-L^s_a(\bar{w}_{min}) - L^d_a(\bar{w}_{min},\theta(t)) & \text{if } \theta(t)< \theta^\ast (t)
+L^s(\bar{w}_{min}) - L^d(\bar{w}_{min},\theta(t)) & \text{if } \theta(t)< \theta^\ast (t)
 \end{cases}
 $$
 
