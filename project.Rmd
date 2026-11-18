@@ -17,16 +17,6 @@ library(MASS)
 library(brms)
 ```
 
-**Labor demand**
-
-$$
-L^d_a (t) = \frac{1}{\theta(t)} \Big[ \big(\frac{(1-\alpha) \cdot \theta(t)\cdot Z(t) \cdot C^{\alpha}}{w(t)} \big)^{1/\alpha} - L^d_n \Big]
-$$
-
-
-
-
-
 
 ```{r}
 set.seed(1)
@@ -46,13 +36,60 @@ thr  <- 0.6    # collapse trigger: (A - W)/W > thr
 f    <- 0.4    # share of capital destroyed in a purge
 g    <- 0.5    # share of aspirants removed in a purge
 
-N <- C <- A <- hit <- numeric(T)
-N[1] <- 40; C[1] <- 40; A[1] <- 2
+a1 <- 0.5      # share of non-automatable labor 
+a2 <- 0.5      # share of automatable labor
+alpha <- 0.3   # share of the capital in the income
+w0 <- 15
+k <- 0.5
+w_max <- 100
+nu <- 20
 
+N <- C <- A <- w <- theta <- Z <- hit <- numeric(T) # initialization
+N[1] <- 40
+C[1] <- 40
+A[1] <- 2
+w[1] <- 10
+theta[1] <- 0.8
+Z[1] <- 10
+
+```
+
+
+```{r}
+share_tier1 <- function(w, w0, k, w_max) {
+  
+  share <- numeric(T)
+  for (t in 1:T) {
+    share[t] <- w_max / ( 1 + exp(-k*(w[t] - w0)) )
+  }
+  share
+}
+```
+
+```{r}
+func_labor_demand <- function(alpha, theta, Z, C, w) {
+  
+  Ld <- ld1 <- ld2 <- hit <- numeric(T)
+  
+  for (t in 1:T) {
+    ld1[t] <- (((1-alpha)*theta[t]*Z[t]*C[t]^alpha)/w[1])^(1/alpha)
+    ld2[t] <- 1/(a1+theta[t]*a2)
+    Ld[t] <- ld1[t] * ld2[t]
+  }
+  Ld
+}
+```
+
+
+```{r}
 for (t in 2:T) {
-  Y   <- C[t-1]^0.5 * N[t-1]^0.5          # output
-  rho <- s * Y                             # surplus
 
+  Y   <- C[t-1]^0.5 * N[t-1]^0.5          # output
+  #Y <- Z[t-1] * C[t-1]^alpha * Ld[t-1]^(1-alpha)
+  
+  rho <- s * Y                             # surplus
+  #rho <- Y + w*Ld
+  
   C[t] <- C[t-1] + rho - dep * C[t-1]                  # capital accumulates
   A[t] <- A[t-1] + mu * rho * (N[t-1] / K) - aeps * A[t-1]  # aspirants grow
 

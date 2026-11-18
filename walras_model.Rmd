@@ -86,15 +86,15 @@ Automation causes labor displacement that forces job-to-job transitions, and sin
 
 Automation is a capital-substitute for labor : firms choose to demand less labor because the machines can do the job. So automation affects the labor demand. 
 
-By introducing this friction to the $MPL$ , the wage will be expressed with a time varying technology parameter $A(t)$ .
+By introducing this friction to the $MPL$ , the wage will be expressed with a time varying technology parameter $Z(t)$ .
 
 $MPL$ is a derivative of the following Production function (Cobb-Douglas) : 
 
 $$
-Y = A(t) \cdot C^{\alpha} \cdot L^{(1 - \alpha)}
+Y = Z(t) \cdot C^{\alpha} \cdot L^{(1 - \alpha)}
 $$
 
-- $A$ : Time varying technology parameter
+- $Z$ : Time varying technology parameter
 
 - $C$ : Capital
 
@@ -105,7 +105,7 @@ $$
 For this project, the labor is splitted to automatable labor $L_a$ and non-automatable labor $L_n$. $L_a$ is composed by the workers who perform routine, codifiable tasks that machines can replace, while $L_n$ represents the workers who perform tasks that complement rather than compete automation — creativity, judgment, social interaction, complex problem solving. So the production function become : 
 
 $$
-Y = A(t) \cdot C^{\alpha} \cdot  [L^d_n + \theta(t) \cdot L^d_a]^{(1 - \alpha)} 
+Y = Z(t) \cdot C^{\alpha} \cdot  [L^d_n + \theta(t) \cdot L^d_a]^{(1 - \alpha)} 
 $$
 
 $\theta(t)$ is an automation coefficient, defined on [0,1]. When $\theta(t)$ falls, automation intensifies. 
@@ -114,16 +114,16 @@ To determine $MPL$ , we take the derivative of $Y$ with respect to $L_a$ . Using
 
 $$MPL = \frac{\partial Y}{\partial L_a} = \frac{\partial Y}{\partial \tilde{L} } \cdot \frac{\partial  L^d}{\partial L_a }$$
 
-$$\frac{\partial Y}{\partial \tilde{L} } = (1- \alpha) A(t) \cdot C^{\alpha} \cdot  L^{d(- \alpha)}$$
+$$\frac{\partial Y}{\partial \tilde{L} } = (1- \alpha) Z(t) \cdot C^{\alpha} \cdot  L^{d(- \alpha)}$$
 
 $$\frac{\partial {L^d}}{\partial L_a } = \theta (t)$$
 
-$$MPL = w = (1- \alpha)\cdot \theta(t)\cdot \frac {A(t) \cdot C^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}}$$
+$$MPL = w = (1- \alpha)\cdot \theta(t)\cdot \frac {Z(t) \cdot C^{\alpha}}{(L_n + \theta(t) \cdot L_a)^{\alpha}}$$
 
 Automation reduces the demand of automatable labor $L^d_a$ . To get $L^d_a$ , we solve the equation above for $L_a$ as a function of the wage $w$ :
 
 $$
-L^d_a = \frac{1}{\theta(t)} \Big[ \big(\frac{(1-\alpha) \cdot \theta(t)\cdot A(t) \cdot C^{\alpha}}{w} \big)^{1/\alpha} - L^d_n \Big]
+L^d_a = \frac{1}{\theta(t)} \Big[ \big(\frac{(1-\alpha) \cdot \theta(t)\cdot Z(t) \cdot C^{\alpha}}{w} \big)^{1/\alpha} - L^d_n \Big]
 $$
 
 With $L^d_n = a_1 \cdot L^d$ , $L^d_a = a_2 \cdot  L^d$ and $L^d = L^d_n + L^d_a$ . Hence, the total labor demand equals to : 
