@@ -20,7 +20,7 @@ library(brms)
 
 ```{r}
 set.seed(1)
-T <- 400; K <- 100
+T_len <- 400; K <- 100
 
 # parameters
 s    <- 0.30   # share of output reinvested
@@ -41,14 +41,14 @@ a2 <- 0.5      # share of automatable labor
 alpha <- 0.3   # share of the capital in the income
 w0 <- 15
 k <- 0.5
-w_max <- 100
+psi_max <- 100
 nu <- 20
+w_min <- 5
 
-N <- C <- A <- w <- theta <- Z <- hit <- numeric(T) # initialization
+N <- C <- A <- w <- theta <- Z <- hit <- rep(NA, T_len) # initialization
 N[1] <- 40
 C[1] <- 40
 A[1] <- 2
-w[1] <- 10
 theta[1] <- 0.8
 Z[1] <- 10
 
@@ -56,27 +56,30 @@ Z[1] <- 10
 
 
 ```{r}
-share_tier1 <- function(w, w0, k, w_max) {
-  
-  share <- numeric(T)
-  for (t in 1:T) {
-    share[t] <- w_max / ( 1 + exp(-k*(w[t] - w0)) )
-  }
-  share
+func_labor_supply <- function(w, w0, k, psi_max, N, nu) {
+  share <- psi_max / ( 1 + exp(-k*(w - w0)) )
+  Ls <- share * N
 }
+
+func_labor_demand <- function(alpha, theta, Z, C, w) {
+  ld1 <- (((1-alpha)*theta*Z*C^alpha)/w)^(1/alpha)
+  ld2 <- 1/(a1+theta*a2)
+  Ld <- ld1 * ld2
+}
+
 ```
 
 ```{r}
-func_labor_demand <- function(alpha, theta, Z, C, w) {
-  
-  Ld <- ld1 <- ld2 <- hit <- numeric(T)
-  
-  for (t in 1:T) {
-    ld1[t] <- (((1-alpha)*theta[t]*Z[t]*C[t]^alpha)/w[1])^(1/alpha)
-    ld2[t] <- 1/(a1+theta[t]*a2)
-    Ld[t] <- ld1[t] * ld2[t]
-  }
-  Ld
+solve_w <- function(w, w0, k, psi_max, N, nu, alpha, theta, Z, C) {
+  func_labor_demand(alpha, theta, Z, C, w) - func_labor_supply(w, w0, k, psi_max, N, nu)
+}
+
+w_sol <- w <- rep(NA, T_len)
+for (t in (nu+2):T_len){
+  N_lag <- N[t-nu] ; C_prev <- C[t-1] ; theta1 <- theta[t] ; Z1 <- Z[t] 
+  w_sol[t] <- uniroot(solve_w, lower = .05, upper = 20, 
+               w0 = w0, k = k, psi_max = psi_max, N = N_lag, nu = nu, alpha = alpha, theta = theta1, Z = Z1, C = C_prev)$root
+  w[t] <- max(w_sol[t] , w_min) # after floor
 }
 ```
 
