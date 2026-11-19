@@ -22,45 +22,21 @@ library(brms)
 set.seed(1)
 T_len <- 400; K <- 100
 
-# parameters
-s    <- 0.30   # share of output reinvested
-dep  <- 0.03   # depreciation
-rN   <- 0.25   # population growth rate
-dbase <- 0.02  # baseline mortality
-kappa <- 1.2   # mortality response to capital loss
-om   <- 2      # lag for measuring capital loss
-mu   <- 0.04   # aspirant growth from surplus
-aeps <- 0.02   # aspirant natural decay
-W    <- 6      # number of elite positions
-thr  <- 0.6    # collapse trigger: (A - W)/W > thr
-f    <- 0.4    # share of capital destroyed in a purge
-g    <- 0.5    # share of aspirants removed in a purge
-
-a1 <- 0.5      # share of non-automatable labor 
-a2 <- 0.5      # share of automatable labor
-alpha <- 0.3   # share of the capital in the income
+a1 <- 0.4      
+a2 <- 0.6      
+alpha <- 0.3  
 w0 <- 15
 k <- 0.5
-psi_max <- 100
+psi_max <- 0.8
 nu <- 20
 w_min <- 5
 
-N <- C <- A <- w <- theta <- Z <- hit <- rep(NA, T_len) # initialization
-N[1] <- 40
-C[1] <- 40
-A[1] <- 2
-theta[1] <- 0.8
-Z[1] <- 10
-
-```
-
-```{r}
 N_test <- seq(40, by = 2, length.out = T_len)   # population 
 C_test <- seq(30, by = 3, length.out = T_len)   # capital 
-theta_test <- seq(1, by = 0.5, length.out = T_len)   # automation
-Z_test <- seq(1, by = 0.5, length.out = T_len)      # time varying technology parameter
-```
+theta_test <- seq(1, 0.3, length.out = T_len)   # automation (declining)
+Z_test <- seq(1, by = 0.3, length.out = T_len)      # time varying technology parameter (increasing)
 
+```
 
 ```{r}
 func_labor_supply <- function(w, w0, k, psi_max, N) {
@@ -84,44 +60,13 @@ solve_w <- function(w, w0, k, psi_max, N, nu, alpha, theta, Z, C) {
 w_sol <- w <- rep(NA, T_len)
 for (t in (nu+2):T_len){
   N_lag <- N_test[t-nu] ; C_prev <- C_test[t-1] ; theta1 <- theta_test[t] ; Z1 <- Z_test[t] 
-  w_sol[t] <- uniroot(solve_w, lower = w_min, upper = 1000, 
+  w_sol[t] <- uniroot(solve_w, lower = 0.1, upper = 100, 
                w0 = w0, k = k, psi_max = psi_max, N = N_lag, nu = nu, alpha = alpha, theta = theta1, Z = Z1, C = C_prev)$root
   w[t] <- max(w_sol[t] , w_min) # after floor
 }
-data.frame(t = 1:T_len, w_sol, w)
+data.frame(t = nu:T_len, w_sol[nu:T_len], w[nu:T_len])
 ```
 
+In the real model, C and N will cycle, so the wage won’t keep rising.
 
-```{r}
-for (t in 2:T) {
-
-  Y   <- C[t-1]^0.5 * N[t-1]^0.5          # output
-  #Y <- Z[t-1] * C[t-1]^alpha * Ld[t-1]^(1-alpha)
-  
-  rho <- s * Y                             # surplus
-  #rho <- Y + w*Ld
-  
-  C[t] <- C[t-1] + rho - dep * C[t-1]                  # capital accumulates
-  A[t] <- A[t-1] + mu * rho * (N[t-1] / K) - aeps * A[t-1]  # aspirants grow
-
-  if ((A[t] - W) / W > thr) {              # elite-conflict trigger -> purge
-    C[t]  <- C[t] * (1 - f)
-    A[t]  <- A[t] * (1 - g)
-    hit[t] <- 1
-  }
-
-  loss <- max(1 - C[t] / C[max(t - om, 1)], 0)   # recent capital loss
-  d    <- min(dbase + kappa * loss, 0.9)         # mortality
-  N[t] <- max(N[t-1] + rN * N[t-1] * (1 - N[t-1] / K) - d * N[t-1], 1)
-}
-
-ev <- which(hit == 1)
-print(ev); print(diff(ev))                 # collapse times and cycle length
-
-par(mfrow = c(3, 1), mar = c(3, 4, 2, 1))
-plot(N, type = "l", main = "Population N"); abline(v = ev, col = "grey80")
-plot(C, type = "l", main = "Capital C");    abline(v = ev, col = "grey80")
-plot(A, type = "l", main = "Aspirants A")
-abline(h = W * (1 + thr), col = "red", lty = 2); abline(v = ev, col = "grey80")
-```
 
