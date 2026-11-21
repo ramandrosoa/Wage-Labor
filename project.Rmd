@@ -69,6 +69,7 @@ N <- C <- A <- w <- w_sol <- R1 <- rep(NA, T_len)
 N[1:t0] <- 40
 C[t0] <- 30
 A[t0] <- 5
+R1[1:t0] <- 0
 
 # exogenous path, should be filled before the loop
 theta <- seq(1, 0.3, length.out = T_len)   # automation (declining)
@@ -84,10 +85,10 @@ for (t in (t0+1):T_len) {
   N_prev <- N_test[t-1] # for population update
   C_prev <- C[t-1]
   A_prev <- A[t-1]
-  theta_t <- theta_test[t]
+  theta_t <- theta[t]
   Z_t <- Z[t]
   
-  w_sol[t] <- uniroot(solve_w, lower = w_min , upper = 100, 
+  w_sol[t] <- uniroot(solve_w, lower = w_min , upper = 200, 
                       w0 = w0, k = k, psi_max = psi_max, N_lag = N_lag,
                       nu = nu, alpha = alpha, theta = theta_t, Z = Z_t, C_prev = C_prev)$root
   w[t] <- max(w_sol[t], w_min)
@@ -105,6 +106,7 @@ for (t in (t0+1):T_len) {
 }
 
 ```
+
 
 
 
