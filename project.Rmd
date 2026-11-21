@@ -55,9 +55,15 @@ func_labor_demand <- function(alpha, theta, Z, C_prev, w) {
   ld1 * ld2
 }
 
-solve_w <- function(w, w0, k, psi_max, N_lag, nu, alpha, theta, Z, C_prev) {
+solver <- function(w, w0, k, psi_max, N_lag, nu, alpha, theta, Z, C_prev) {
   func_labor_demand(alpha, theta, Z, C_prev, w) - func_labor_supply(w, w0, k, psi_max, N_lag)
 }
+
+```
+
+```{r}
+# supply - demand at minimum wage
+func_labor_supply(w, w0, k, psi_max, N_lag) - func_labor_demand(alpha, theta, Z, C_prev, w_min)
 
 ```
 
