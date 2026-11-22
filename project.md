@@ -68,7 +68,7 @@ for (t in (t0+1):T_len) {
   theta_t <- theta[t]
   Z_t <- Z[t]
   
-  w_sol[t] <- uniroot(solver, lower = w_min , upper = 1000, 
+  w_sol[t] <- uniroot(solver, lower = 1 , upper = 1000, 
                       w0 = w0, k = k, psi_max = psi_max, N_lag = N_lag,
                       nu = nu, alpha = alpha, theta = theta_t, Z = Z_t, C_prev = C_prev)$root
   w[t] <- max(w_sol[t], w_min)
@@ -80,14 +80,18 @@ for (t in (t0+1):T_len) {
   Y <- Z_t*C_prev^(alpha)*Ld^(1-alpha) # output
   rho <- Y-w[t]*Ld # surplus
   
-  period <- 10
+  period <- 25
   dep_t <- dep*1.05^(t/period)
+  t_rho <- 0.2*0.6^(t/period)
   
   C[t] <- C_prev +.2*rho - dep*C_prev + eps
-  A[t] <-  max(0, A_prev + mu*(rho/w[t]) + lambda*(R1[t-tau]) - gamma*W)
+  if (C[t]>10*C[t0]) {
+    C[t] <- C_prev + .2*rho - dep_t*C_prev + eps
+  }
   
+  A[t] <-  max(0, A_prev + mu*(rho/w[t]) + lambda*(R1[t-tau]) - gamma*W)
   if (A[t]>W) {
-    C[t] <- C_prev + .02*rho - dep_t*C_prev + eps
+    C[t] <- C_prev + t_rho*rho - dep_t*C_prev + eps
   }
   
 }
@@ -98,10 +102,23 @@ summary(C) ; summary(w) ; summary(A)
 ```
 
     ##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.      NA's 
-    ##     2.256   177.814   205.208  4250.664  5994.875 25972.569        20
+    ##    -0.003    16.576   494.085  2571.152  4072.103 13304.818        20
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-    ##   6.884  17.193  18.023  30.125  44.848  76.819      21
+    ##    5.00   11.72   19.86   26.35   40.30   62.85      21
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-    ##     0.0     0.0     0.0   900.2   987.9  6383.3      20
+    ##     0.0     0.0     0.0   117.0   247.5   456.2      20
+
+``` r
+par(mfrow = c(1,3))
+plot(C, type = "l")
+plot(A, type = "l")
+plot(w, type = "l")
+```
+
+![](project_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+``` r
+par(mfrow = c(1,1))
+```
