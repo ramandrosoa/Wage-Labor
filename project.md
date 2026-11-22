@@ -14,10 +14,10 @@ psi_max <- 0.8
 nu <- 20
 t0 <- nu + 1
 w_min <- 5
-W <- 30
+W <- 200
 gamma <- 0.2
 tau <- 5
-lambda <- 0.25
+lambda <- 0.05
 mu <- 0.1
 dep <- 0.3 # capital depreciation
 eps <- rnorm(1, mean = 0, sd = .02)
@@ -50,7 +50,7 @@ N <- C <- A <- w <- w_sol <- R1 <- rep(NA, T_len)
 # initial condition
 N[1:t0] <- 40
 C[t0] <- 30
-A[t0] <- 5
+A[t0] <- 100
 R1[1:t0] <- 0
 
 # exogenous path, should be filled before the loop
@@ -59,8 +59,6 @@ Z <- seq(1, by = 0.2, length.out = T_len)      # time varying technology paramet
 ```
 
 ``` r
-declining <- FALSE
-
 for (t in (t0+1):T_len) {
   
   N_lag <- N_test[t-nu] # labor supply input
@@ -85,31 +83,25 @@ for (t in (t0+1):T_len) {
   period <- 10
   dep_t <- dep*1.05^(t/period)
   
+  C[t] <- C_prev +.2*rho - dep*C_prev + eps
+  A[t] <-  max(0, A_prev + mu*(rho/w[t]) + lambda*(R1[t-tau]) - gamma*W)
   
-  C[t] <- C_prev +.2*rho - dep*C_prev + eps ;
-  if (C[t] > 10*C[t0]) {
-    declining <- TRUE
+  if (A[t]>W) {
     C[t] <- C_prev + .02*rho - dep_t*C_prev + eps
   }
-  
-  A[t] <-  A_prev + mu*(rho/w[t]) + lambda*(R1[t-tau]) - gamma*W
   
 }
 ```
 
 ``` r
-data.frame(w[T_len], R1[T_len], C[T_len])
+summary(C) ; summary(w) ; summary(A)
 ```
 
-    ##   w.T_len. R1.T_len. C.T_len.
-    ## 1 15.79859         0 173.2569
-
-``` r
-summary(C) ; summary(w)
-```
+    ##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.      NA's 
+    ##     2.256   177.814   205.208  4250.664  5994.875 25972.569        20
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-    ##   2.256  73.996 151.797 136.461 196.343 295.736      20
+    ##   6.884  17.193  18.023  30.125  44.848  76.819      21
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-    ##   6.884  14.643  16.257  15.475  17.546  19.152      21
+    ##     0.0     0.0     0.0   900.2   987.9  6383.3      20
