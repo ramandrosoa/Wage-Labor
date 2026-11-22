@@ -19,7 +19,7 @@ gamma <- 0.2
 tau <- 5
 lambda <- 0.25
 mu <- 0.1
-dep <- 0.5 # capital depreciation
+dep <- 0.3 # capital depreciation
 eps <- rnorm(1, mean = 0, sd = .02)
 sigm <- 0.6
 
@@ -59,6 +59,8 @@ Z <- seq(1, by = 0.2, length.out = T_len)      # time varying technology paramet
 ```
 
 ``` r
+declining <- FALSE
+
 for (t in (t0+1):T_len) {
   
   N_lag <- N_test[t-nu] # labor supply input
@@ -68,7 +70,7 @@ for (t in (t0+1):T_len) {
   theta_t <- theta[t]
   Z_t <- Z[t]
   
-  w_sol[t] <- uniroot(solver, lower = w_min , upper = 200, 
+  w_sol[t] <- uniroot(solver, lower = w_min , upper = 1000, 
                       w0 = w0, k = k, psi_max = psi_max, N_lag = N_lag,
                       nu = nu, alpha = alpha, theta = theta_t, Z = Z_t, C_prev = C_prev)$root
   w[t] <- max(w_sol[t], w_min)
@@ -81,8 +83,15 @@ for (t in (t0+1):T_len) {
   rho <- Y-w[t]*Ld # surplus
   
   period <- 10
-  dep_t <- dep*.5^(t/period)
-  C[t] <- C_prev +.02*rho - dep_t*C_prev + eps 
+  dep_t <- dep*1.05^(t/period)
+  
+  
+  C[t] <- C_prev +.2*rho - dep*C_prev + eps ;
+  if (C[t] > 10*C[t0]) {
+    declining <- TRUE
+    C[t] <- C_prev + .02*rho - dep_t*C_prev + eps
+  }
+  
   A[t] <-  A_prev + mu*(rho/w[t]) + lambda*(R1[t-tau]) - gamma*W
   
 }
@@ -92,5 +101,15 @@ for (t in (t0+1):T_len) {
 data.frame(w[T_len], R1[T_len], C[T_len])
 ```
 
-    ##   w.T_len.    R1.T_len. C.T_len.
-    ## 1 145.4094 3.638705e-05 482514.6
+    ##   w.T_len. R1.T_len. C.T_len.
+    ## 1 15.79859         0 173.2569
+
+``` r
+summary(C) ; summary(w)
+```
+
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+    ##   2.256  73.996 151.797 136.461 196.343 295.736      20
+
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+    ##   6.884  14.643  16.257  15.475  17.546  19.152      21
