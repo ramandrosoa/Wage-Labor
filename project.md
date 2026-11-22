@@ -13,7 +13,7 @@ k <- 0.5
 psi_max <- 0.8
 nu <- 20
 t0 <- nu + 1
-w_min <- 1
+w_min <- 5
 W <- 30
 gamma <- 0.2
 tau <- 5
@@ -21,6 +21,7 @@ lambda <- 0.25
 mu <- 0.1
 dep <- 0.5 # capital depreciation
 eps <- rnorm(1, mean = 0, sd = .02)
+sigm <- 0.6
 
 N_test <- seq(40, by = 2, length.out = T_len)  
 C_test <- seq(30, by = 3, length.out = T_len)   
@@ -79,7 +80,9 @@ for (t in (t0+1):T_len) {
   Y <- Z_t*C_prev^(alpha)*Ld^(1-alpha) # output
   rho <- Y-w[t]*Ld # surplus
   
-  C[t] <- C_prev + .2*rho - dep*C_prev + eps
+  period <- 10
+  dep_t <- dep*.5^(t/period)
+  C[t] <- C_prev +.02*rho - dep_t*C_prev + eps 
   A[t] <-  A_prev + mu*(rho/w[t]) + lambda*(R1[t-tau]) - gamma*W
   
 }
@@ -90,4 +93,4 @@ data.frame(w[T_len], R1[T_len], C[T_len])
 ```
 
     ##   w.T_len.    R1.T_len. C.T_len.
-    ## 1 77.88784 3.317682e-07  60030.7
+    ## 1 145.4094 3.638705e-05 482514.6
