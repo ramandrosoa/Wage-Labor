@@ -37,6 +37,7 @@ tau <- 5
 lambda <- 0.25
 mu <- 0.1
 dep <- 0.5 # capital depreciation
+eps <- rnorm(1, mean = 0, sd = .02)
 
 N_test <- seq(40, by = 2, length.out = T_len)  
 C_test <- seq(30, by = 3, length.out = T_len)   
@@ -58,12 +59,6 @@ func_labor_demand <- function(alpha, theta, Z, C_prev, w) {
 solver <- function(w, w0, k, psi_max, N_lag, nu, alpha, theta, Z, C_prev) {
   func_labor_demand(alpha, theta, Z, C_prev, w) - func_labor_supply(w, w0, k, psi_max, N_lag)
 }
-
-```
-
-```{r}
-# supply - demand at minimum wage
-func_labor_supply(w, w0, k, psi_max, N_lag) - func_labor_demand(alpha, theta, Z, C_prev, w_min)
 
 ```
 
@@ -94,7 +89,7 @@ for (t in (t0+1):T_len) {
   theta_t <- theta[t]
   Z_t <- Z[t]
   
-  w_sol[t] <- uniroot(solve_w, lower = w_min , upper = 200, 
+  w_sol[t] <- uniroot(solver, lower = w_min , upper = 200, 
                       w0 = w0, k = k, psi_max = psi_max, N_lag = N_lag,
                       nu = nu, alpha = alpha, theta = theta_t, Z = Z_t, C_prev = C_prev)$root
   w[t] <- max(w_sol[t], w_min)
@@ -106,17 +101,17 @@ for (t in (t0+1):T_len) {
   Y <- Z_t*C_prev^(alpha)*Ld^(1-alpha) # output
   rho <- Y-w[t]*Ld # surplus
   
-  C[t] <- C_prev + .2*rho - dep*C_prev
+  C[t] <- C_prev + .2*rho - dep*C_prev + eps
   A[t] <-  A_prev + mu*(rho/w[t]) + lambda*(R1[t-tau]) - gamma*W
   
 }
 
 ```
 
+
 ```{r}
 data.frame(w[T_len], R1[T_len], C[T_len])
 ```
-
 
 
 
