@@ -47,8 +47,8 @@ d_Nbase <- 0.1
 N_test <- seq(40, by = 2, length.out = T_len)  
 #C_test <- seq(30, by = 3, length.out = T_len)   
 
-phi <- unique(c(0, 1, 2, 3)) # phase indicator
-v <- unique(c(0, 1)) # latch
+phi <- cnt <- v <- rep(NA, T_len)
+phi[1] <- 0;  cnt[1] <- 1;  v[1] <- 0 # phase indicator (expansion = 0), counter, latch
 ```
 
 ```{r}
@@ -69,22 +69,40 @@ solver <- function(w, w0, k, psi_max, N_lag, nu, alpha, theta, Z, C_prev) {
 
 ```
 
+
 ```{r}
-latch_exp <- function(N, v) {
+exit_exp <- function(N, v, cnt, phi) {
   
+  p <- phi[t-1]
+  n_min <- 30
+  S0 <- unique(c(0, 1))
   c0 <- unique(c(0, 1))
   for (t in (t0+1):T_len) {
+    
+    cnt[t] <- cnt[t-1] + 1 # counter increases
     
     second_der1 <- (N[t-1]-N[t-2]) - (N[t-2]-N[t-3])
     second_der2 <- (N[t]-N[t-1]) - (N[t-1]-N[t-2])
     if (second_der1 > 0 || second_der2 > 0) {
       c0 <- 1
     }
-    v[t] <- max(v[t-1], c0)
+    v[t] <- max(v[t-1], c0) # convexity has been observed if v(t) = 1
+    
+    if (v[t]==1 || second_der1 < 0 || second_der2 < 0 || N[t]<K || (N[t]-N[t-1]) > 0) {
+      S0 <- 1
+    }
+    
+    if (S0 == 1 || cnt[t]>=n_min){
+      phi[t] <- (p+1) %% 4
+      cnt[t] <- 1
+      v[t] <- 0
+    } else {
+        phi[t] <- p
+        cnt[t] <- cnt[t+1]
+        v[t] <- v[t] }
   }
 }
 ```
-
 
 ```{r}
 N <- C <- A <- w <- w_sol <- R1 <- rep(NA, T_len)
