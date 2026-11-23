@@ -30,6 +30,7 @@ N_test <- seq(40, by = 2, length.out = T_len)
 #C_test <- seq(30, by = 3, length.out = T_len)   
 
 phi <- unique(c(0, 1, 2, 3)) # phase indicator
+v <- unique(c(0, 1)) # latch
 ```
 
 ``` r
@@ -46,6 +47,22 @@ func_labor_demand <- function(alpha, theta, Z, C_prev, w) {
 
 solver <- function(w, w0, k, psi_max, N_lag, nu, alpha, theta, Z, C_prev) {
   func_labor_demand(alpha, theta, Z, C_prev, w) - func_labor_supply(w, w0, k, psi_max, N_lag)
+}
+```
+
+``` r
+latch_exp <- function(N, v) {
+  
+  c0 <- unique(c(0, 1))
+  for (t in (t0+1):T_len) {
+    
+    second_der1 <- (N[t-1]-N[t-2]) - (N[t-2]-N[t-3])
+    second_der2 <- (N[t]-N[t-1]) - (N[t-1]-N[t-2])
+    if (second_der1 > 0 || second_der2 > 0) {
+      c0 <- 1
+    }
+    v[t] <- max(v[t-1], c0)
+  }
 }
 ```
 
@@ -124,7 +141,7 @@ plot(A, type = "l")
 plot(w, type = "l")
 ```
 
-![](project_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](project_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1,1))
