@@ -22,9 +22,14 @@ mu <- 0.1
 dep <- 0.3 # capital depreciation
 eps <- rnorm(1, mean = 0, sd = .02)
 sigm <- 0.6
+rn <- 0.3
+K <- 100000
+d_Nbase <- 0.1
 
 N_test <- seq(40, by = 2, length.out = T_len)  
-C_test <- seq(30, by = 3, length.out = T_len)   
+#C_test <- seq(30, by = 3, length.out = T_len)   
+
+phi <- unique(c(0, 1, 2, 3)) # phase indicator
 ```
 
 ``` r
@@ -68,7 +73,7 @@ for (t in (t0+1):T_len) {
   theta_t <- theta[t]
   Z_t <- Z[t]
   
-  w_sol[t] <- uniroot(solver, lower = 1 , upper = 1000, 
+  w_sol[t] <- uniroot(solver, lower = w_min , upper = 1000, 
                       w0 = w0, k = k, psi_max = psi_max, N_lag = N_lag,
                       nu = nu, alpha = alpha, theta = theta_t, Z = Z_t, C_prev = C_prev)$root
   w[t] <- max(w_sol[t], w_min)
@@ -86,13 +91,15 @@ for (t in (t0+1):T_len) {
   
   C[t] <- C_prev +.2*rho - dep*C_prev + eps
   if (C[t]>10*C[t0]) {
-    C[t] <- C_prev + .2*rho - dep_t*C_prev + eps
+    C[t] <- C_prev + eps
   }
   
   A[t] <-  max(0, A_prev + mu*(rho/w[t]) + lambda*(R1[t-tau]) - gamma*W)
   if (A[t]>W) {
     C[t] <- C_prev + t_rho*rho - dep_t*C_prev + eps
   }
+  
+  #N[t] <- N_prev + rn*(N_prev/K) - dn*N_prev
   
 }
 ```
@@ -101,14 +108,14 @@ for (t in (t0+1):T_len) {
 summary(C) ; summary(w) ; summary(A)
 ```
 
-    ##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.      NA's 
-    ##    -0.003    16.576   494.085  2571.152  4072.103 13304.818        20
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+    ##   2.256  48.133 141.986 163.059 293.536 294.723      20
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-    ##    5.00   11.72   19.86   26.35   40.30   62.85      21
+    ##   6.884  13.992  14.721  15.617  19.110  20.393      21
 
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-    ##     0.0     0.0     0.0   117.0   247.5   456.2      20
+    ##    0.00    0.00    0.00   25.89   17.91  212.93      20
 
 ``` r
 par(mfrow = c(1,3))
