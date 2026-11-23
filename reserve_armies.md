@@ -6,24 +6,11 @@ Four-phase structure for the reserve armies - Notes
 $$
 R_1(t) = \begin{cases}
 0 & \text{if } \theta(t)> \theta^\ast (t) \\
-L^s_a(\bar{w}_{min}, t) - L^d_a(\bar{w}_{min},\theta(t)) & \text{if } \theta(t)< \theta^\ast (t)
+L^s(\bar{w}_{min}, t) - L^d(\bar{w}_{min},\theta(t)) & \text{if } \theta(t)< \theta^\ast (t)
 \end{cases}
 $$
 
-With labor supply :
-
-$$
-L^s_a(\bar{w}_{min}, t)  = \psi \cdot N(t-\nu)
-$$
-
-- $\psi$ : the share of the population that is Tier 1 labor at the wage
-  floor.
-- $\nu$ : lag between birth and labor-market entry, taken as roughly
-  20–25 years. Individuals who enter the labor market at time $t$ were
-  born approximately two decades earlier, so $\nu$ falls in the 2–3
-  decade range.
-
-Population trajectory follows the secular-cycle phases — expansion,
+Population trajectory follows the secular-cycle phases : expansion,
 stagflation, crisis, depression.
 
 To model the population growth, we use a logistic growth with carrying
@@ -81,9 +68,9 @@ $$
 d_N(t) = d_{N,base} + (d_{N,exp} \cdot \mathbb{1}[\phi(t) = 0]) + (d_{N,stag} \cdot \mathbb{1}[\phi(t) = 1]) + (d_{N,crisis} \cdot \mathbb{1}[\phi(t) = 2]) + (d_{N,depr} \cdot \mathbb{1}[\phi(t) = 3]) 
 $$
 
-$\phi(t)$ is a phase signal that modulates the equation according to the
-current regime: the corresponding indicator $1[\phi(t) = \cdot]$ equals
-1 when $\phi(t)$ matches that phase and 0 otherwise.
+$\phi(t)$ modulates the equation according to the current regime: the
+corresponding indicator $1[\phi(t) = \cdot]$ equals 1 when $\phi(t)$
+matches that phase and 0 otherwise.
 
 For instance, when the system is in stagflation, the indicator function
 $1[\phi(t) = 1]$ activates, contributing to $d_{N,stag}$. During crisis,
@@ -91,15 +78,14 @@ $1[\phi(t) = 2]$ takes over, raising the excess mortality by
 $d_{N, crisis}$ .
 
 So the phase indicator modulates mortality, which modulates population,
-which modulates labor supply, which modulates the reserve army $R_1$ —
-the chain is:
+which modulates labor supply, which modulates the reserve army $R_1$ .
+The chain is:
 
 $$
 \phi(t) \implies d_N(t) \implies N(t) \implies L^s_a(t) \implies R_1(t)
 $$
 
-The excess mortality is tied to the capital $C(t-\omega)$ . $\omega$ is
-the lag between the capital destruction and the death it causes.
+The excess mortality is tied to the capital $C(t-\omega)$ .
 $d_{N, \phi(t)}$ is given by :
 
 $$
@@ -109,7 +95,9 @@ $$
 - $\kappa_{\phi(t)}$ is a phase-dependent parameter, with
   $\kappa_{exp} < \kappa_{depr} < \kappa_{stag} < \kappa_{crisis}$ . The
   phase changes the sensitivity of mortality.
-- $C_{ref}(t)$ is the peak over all history. it is given by :
+- $\omega$ is the lag between the capital destruction and the death it
+  causes.
+- $C_{ref}(t)$ is the peak over all history, it is given by :
 
 $$
 C_{ref}(t) = max_{c(t) - window} C(s)
@@ -130,28 +118,28 @@ allocate their money to new factories, businesses, and maintenance — **a
 passive capital destruction** via neglect and flight. Consequently, the
 existing infrastructure deteriorates and no new economic capacity is
 built for the growing population, while prices keep rising and real
-wages remain constant. Meanwhile, the commoners are forced into deadly
-compromises : nutrient-dense foods give way to cheap, calorie-heavy
-substitutes; doctor visits are postponed even when symptoms of serious
-disease appear; and as rents rise with inflation, evictions follow. Each
-compromise quietly shortens lives. At the macro level, capital
-stagnation and misallocation depress labor demand, pushing wages down
-further, deepening poverty, and ultimately driving up excess mortality.
-During crisis, capital declines due to existing conflicts. The resulting
+wages remain constant. Simultaneously, the commoners are forced into
+deadly compromises : nutrient-dense foods give way to cheap,
+calorie-heavy substitutes; doctor visits are postponed even when
+symptoms of serious disease appear; and as rents rise with inflation,
+evictions follow. At the macro level, capital stagnation and
+misallocation depress labor demand, pushing wages down further,
+deepening poverty, and ultimately driving up excess mortality. During
+crisis, capital declines due to existing conflicts. The resulting
 inequality from stagflation ignites widespread despair and anger among
 the working class, while the frustration of aspirant elites fuels the
 rise of instability. Then, counter-elites rally the masses for the
 purpose of capturing and redistributing the wealth and power of the
-elites; **active and physical capital destruction** can be an
-alternative to weaken them. Moreover, capital declines through
-operational paralysis and institutional collapse; with the loss of
+established elites; **active and physical capital destruction** can be
+an alternative to weaken them. Moreover, capital declines through
+operational paralysis and institutional collapse: with the loss of
 customer traffic, small businesses close, with market unpredictability,
 large enterprises halt their operations, as taxes dry up, municipal
 services break down, and hospitals may be forced to close due to supply
 scarcity. That leads to a sudden loss of daily income for workers and
 the failure of essential distribution. On top of that, these conflicts
 can be followed by violence. However, it is rarely the aspirants’ first
-choice, because they turn to violence only when peaceful and
+choice because they turn to violence only when peaceful and
 institutional paths to power are completely blocked. Thus, violence is
 the final escalation after years of failed reform, once the aspirants
 realize that they cannot win inside the system. That crucially
@@ -205,7 +193,7 @@ $$
 
 **The exit conditions**
 
-- expansion → stagflation $(C_0)$
+- expansion → stagflation $(S_0)$
 
 Let $v(t) \in \{0,1\}$ a state variable that activates whether
 “convexity has been observed” :
@@ -232,7 +220,7 @@ $\Delta^2 N(t) > \epsilon_2 \cdot K$ ) . Later, it starts decelerating
 but still growing below the ceiling (
 $\Delta^2 N(t) < -\epsilon_2 \cdot K$ ) .
 
-- stagflation → crisis $(C_1)$
+- stagflation → crisis $(S_1)$
 
 The state variable $v(t)$ activates when “plateau has been observed” :
 
@@ -252,7 +240,7 @@ living conditions, driving the population to plateau and subsequently
 decline as mortality increases. This decline marks the entry into
 crisis, as rising mortality begins to outpace population growth.
 
-- crisis → depression
+- crisis → depression $(S_2)$
 
 When $N$ exit stagflation, it is already near $K$, and
 $(N(t-1) < (1-\delta)K \ \text{and} \ N(t) < (1-\delta)K)$ is quickly
@@ -277,7 +265,7 @@ $(\Delta^2 N(t) > \epsilon_2 \cdot K \ , \ \Delta N(t) < \epsilon_1 \cdot K)$
 signals that the population is approaching a trough — the point at which
 it will reach its lowest level before stabilizing or rebounding.
 
-- depression → expansion $S_3$
+- depression → expansion $(S_3)$
 
 $N(t)$ alone is not enough to separate depression from expansion by
 level : both phases have $N$ well below $K$ . We therefore use the
@@ -366,7 +354,7 @@ $$
 
 During stagflation, a **wealth pump** begins to funnel resources away
 from commoners: a growing population creates labor oversupply while
-resources grow scarce. The upper class profits from this squeeze by
+resources grow scarce, and the upper class profits from this squeeze by
 depressing wages and raising prices. While the general population
 suffers immiseration, the elites siphon off the surplus, multiply, and
 thereby generate elite overproduction. The elite population, however, is
@@ -434,27 +422,27 @@ underscores that the very stability of such a coalition endogenously
 triggers the transition from growth to crisis, affecting both the
 economic and political orders. Crucially, because the crisis is a direct
 consequence of a stable ruling class rather than an external failure,
-the structural integrity of the “same” system remains uncontested when
-the crisis peaks. Exhausted by a prolonged period of crisis and
-depression, the population is easily pacified by the subsequent
-expansion and its attendant material improvements; this transition leads
-to the false conclusion that the system has finally achieved stability.
-In reality, the illusion of an attainable equilibrium merely masks how
-the purge during the crisis and depression phases operates as a systemic
-reset, recalibrating the machinery of elite domination for a new cycle.
-Thus, expansion leads once more to overpopulation, and the next phases
-follow in sequence — stagflation, crisis, depression — as the reserve
-armies re-emerge. The purges do not clear the market; they function
-instead as a biological regulatory mechanism that perpetuates the
-secular cycle. Marx conceived of crises as the terminal contradiction of
-capitalism — the inevitable outcome of structural pressures. Yet the
-challenge they pose to the status quo yields no reformed system, and
-capitalism does not resolve its contradictions. Instead, it purges
-whenever the working class and the upper class expand to the point of
-labor oversupply and elite overproduction. The resulting “great reset”
-of both populations temporarily improves living conditions during the
-early phase of expansion. In this way, the system continually renews its
-own legitimacy: a few elite aspirants secure positions, and the system
+the structural integrity of the same system remains uncontested when the
+crisis peaks. Exhausted by a prolonged period of crisis and depression,
+the population is easily pacified by the subsequent expansion and its
+attendant material improvements; this transition leads to the false
+conclusion that the system has finally achieved stability. In reality,
+the illusion of an attainable equilibrium merely masks how the purge
+during the crisis and depression phases operates as an inherent
+calibration of the system. Thus, expansion leads once more to
+overpopulation, and the next phases follow in sequence — stagflation,
+crisis, depression — as the reserve armies re-emerge. The purges do not
+clear the market; they function instead as a biological regulatory
+mechanism that perpetuates the secular cycle. Marx conceived of crises
+as the terminal contradiction of capitalism — the inevitable outcome of
+structural pressures. Yet the challenge they pose to the status quo
+yields no reformed system, and capitalism does not resolve its
+contradictions. Instead, it purges whenever the working class and the
+upper class expand to the point of labor oversupply and elite
+overproduction. The resulting great reset of both populations
+temporarily improves living conditions during the early phase of
+expansion. In this way, the system continually renews its own
+legitimacy: a few elite aspirants secure positions, and the system
 appears meritocratic; some workers find employment, and it appears
 responsive; wages rise, and it appears self-correcting. As Lordon
 (1997;1999) suggested, this illustrates the symbolic representation

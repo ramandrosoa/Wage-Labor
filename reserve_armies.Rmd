@@ -110,7 +110,7 @@ $$
 
 **The exit conditions**
 
--   expansion → stagflation $(C_0)$
+-   expansion → stagflation $(S_0)$
 
 Let $v(t) \in \{0,1\}$ a state variable that activates whether "convexity has been observed" : 
 
@@ -128,7 +128,7 @@ $$
 
 The population has accelerated in the early expansion ( $\Delta^2 N(t) > \epsilon_2 \cdot K$ ) . Later, it starts decelerating but still growing below the ceiling ( $\Delta^2 N(t) < -\epsilon_2 \cdot K$ ) .
 
--   stagflation → crisis $(C_1)$
+-   stagflation → crisis $(S_1)$
 
 The state variable $v(t)$ activates when "plateau has been observed" :
 
@@ -144,7 +144,7 @@ $$
 
 During stagflation, population growth slows and approaches the carrying capacity. Resource scarcity and rising inflation deteriorate overall living conditions, driving the population to plateau and subsequently decline as mortality increases. This decline marks the entry into crisis, as rising mortality begins to outpace population growth.
 
--   crisis → depression
+-   crisis → depression $(S_2)$
 
 When $N$ exit stagflation, it is already near $K$, and $(N(t-1) < (1-\delta)K \ \text{and} \ N(t) < (1-\delta)K)$ is quickly true even if the mortality is still weak. To ensure crisis ends after real population loss, $v(t)$ activates when the population is lower than its level at crisis entry. We store $N$ at crisis entry, and set when $\phi = 2$ happens. 
 
@@ -160,7 +160,7 @@ $$
 
 The population decline is decelerating as we near the depression phase. Formally, $(\Delta^2 N(t) > \epsilon_2 \cdot K \ , \ \Delta N(t) <  \epsilon_1 \cdot K)$ signals that the population is approaching a trough — the point at which it will reach its lowest level before stabilizing or rebounding.
 
--   depression → expansion $S_3$
+-   depression → expansion $(S_3)$
 
 $N(t)$ alone is not enough to separate depression from expansion by level : both phases have $N$ well below $K$ . We therefore use the position of $C(t)$ relative to its baseline at the entry of a cycle as exit conditions from depression. 
 
