@@ -87,6 +87,43 @@ exit_exp <- function(N, v, cnt, phi) {
 ```
 
 ``` r
+exit_stag <- function(N, v, cnt, phi) {
+  
+  p <- phi[t-1]
+  n_min <- 20
+  S1 <- unique(c(0, 1))
+  c1 <- unique(c(0, 1))
+  
+  for (t in match(1, phi):T_len) {
+    
+    cnt[t] <- cnt[t-1]+1
+    d1 <- diff(N)
+    
+    first_der1 <- c(NA, d1)
+    first_der2 <- c(NA, NA, d1[-length(1)])
+    if (abs(first_der1) < -eps1*K || abs(first_der2) < -eps1*K || N[t] >= (1-delta)*K) {
+      c1 <- 1
+    }
+    v[t] <- max(v[t-1], c1)
+    
+    if (v[t]==1 || first_der1 < -eps1*K || first_der2 < -eps1*K || N[t] >= (1-delta)*K ) {
+      S1 <- 1
+    }
+    
+    if (S1 ==1 || cnt[t]>=n_min) {
+      phi[t] <- (p+1) %% 4
+      cnt[t] <- 1
+      v[t] <- 0
+    } else {
+        phi[t] <- p
+        cnt[t] <- cnt[t+1]
+        v[t] <- v[t]
+    }
+  }
+}
+```
+
+``` r
 N <- C <- A <- w <- w_sol <- R1 <- rep(NA, T_len)
 
 # initial condition
@@ -161,7 +198,7 @@ plot(A, type = "l")
 plot(w, type = "l")
 ```
 
-![](project_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](project_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1,1))
