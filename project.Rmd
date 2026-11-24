@@ -69,6 +69,28 @@ solver <- function(w, w0, k, psi_max, N_lag, nu, alpha, theta, Z, C_prev) {
 
 ```
 
+```{r}
+exit <- function(S, n_min, cnt, v, phi, n) {
+  
+  p <- phi[t-1]
+  
+  for (t in n:T_len) {
+    
+    if (S == 1 || cnt[t]>=n_min){
+      phi[t] <- (p+1) %% 4
+      cnt[t] <- 1
+      v[t] <- 0
+    } else {
+        phi[t] <- p
+        cnt[t] <- cnt[t+1]
+        v[t] <- v[t]
+        }    
+  }
+}
+
+```
+
+
 
 ```{r}
 exit_exp <- function(N, v, cnt, phi) {

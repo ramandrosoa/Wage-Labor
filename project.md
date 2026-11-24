@@ -51,6 +51,26 @@ solver <- function(w, w0, k, psi_max, N_lag, nu, alpha, theta, Z, C_prev) {
 ```
 
 ``` r
+exit <- function(S, n_min, cnt, v, phi, n) {
+  
+  p <- phi[t-1]
+  
+  for (t in n:T_len) {
+    
+    if (S == 1 || cnt[t]>=n_min){
+      phi[t] <- (p+1) %% 4
+      cnt[t] <- 1
+      v[t] <- 0
+    } else {
+        phi[t] <- p
+        cnt[t] <- cnt[t+1]
+        v[t] <- v[t]
+        }    
+  }
+}
+```
+
+``` r
 exit_exp <- function(N, v, cnt, phi) {
   
   p <- phi[t-1]
@@ -198,7 +218,7 @@ plot(A, type = "l")
 plot(w, type = "l")
 ```
 
-![](project_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](project_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1,1))
