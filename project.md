@@ -60,9 +60,10 @@ exit_exp <- function(N, v, cnt, phi) {
   for (t in (t0+1):T_len) {
     
     cnt[t] <- cnt[t-1] + 1 # counter increases
+    d2 <- diff(N, differences  = 2)
     
-    second_der1 <- (N[t-1]-N[t-2]) - (N[t-2]-N[t-3])
-    second_der2 <- (N[t]-N[t-1]) - (N[t-1]-N[t-2])
+    second_der1 <- c(NA, NA, d2) # (N[t] - N[t-1]) - (N[t-1] - N[t-2]) at index t
+    second_der2 <- c(NA, NA, NA, d2[-length(2)]) # (N[t-1] - N[t-2]) - (N[t-2] - N[t-3]) at index t
     if (second_der1 > 0 || second_der2 > 0) {
       c0 <- 1
     }
@@ -79,7 +80,8 @@ exit_exp <- function(N, v, cnt, phi) {
     } else {
         phi[t] <- p
         cnt[t] <- cnt[t+1]
-        v[t] <- v[t] }
+        v[t] <- v[t]
+        }
   }
 }
 ```
