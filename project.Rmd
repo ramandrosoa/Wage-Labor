@@ -99,6 +99,7 @@ exit_exp <- function(N, v, cnt, phi) {
   n_min <- 30
   S0 <- unique(c(0, 1))
   c0 <- unique(c(0, 1))
+  n <- t0+1
   for (t in (t0+1):T_len) {
     
     cnt[t] <- cnt[t-1] + 1 # counter increases
@@ -115,15 +116,7 @@ exit_exp <- function(N, v, cnt, phi) {
       S0 <- 1
     }
     
-    if (S0 == 1 || cnt[t]>=n_min){
-      phi[t] <- (p+1) %% 4
-      cnt[t] <- 1
-      v[t] <- 0
-    } else {
-        phi[t] <- p
-        cnt[t] <- cnt[t+1]
-        v[t] <- v[t]
-        }
+    exit(S0, n_min, cnt, v, phi, n)
   }
 }
 ```
