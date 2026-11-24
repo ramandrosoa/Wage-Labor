@@ -75,10 +75,10 @@ exit_exp <- function(N, v, cnt, phi) {
   
   p <- phi[t-1]
   n_min <- 30
-  S0 <- unique(c(0, 1))
-  c0 <- unique(c(0, 1))
-  n <- t0+1
-  for (t in (t0+1):T_len) {
+  S0 <- 0
+  c0 <- 0
+  n0 <- t0+1
+  for (t in n0:T_len) {
     
     cnt[t] <- cnt[t-1] + 1 # counter increases
     d2 <- diff(N, differences  = 2)
@@ -94,7 +94,7 @@ exit_exp <- function(N, v, cnt, phi) {
       S0 <- 1
     }
     
-    exit(S0, n_min, cnt, v, phi, n)
+    exit(S0, n_min, cnt, v, phi, n0)
   }
 }
 ```
@@ -104,10 +104,11 @@ exit_stag <- function(N, v, cnt, phi) {
   
   p <- phi[t-1]
   n_min <- 20
-  S1 <- unique(c(0, 1))
-  c1 <- unique(c(0, 1))
+  S1 <- 0
+  c1 <- 0
+  n1 <- match(1, phi)
   
-  for (t in match(1, phi):T_len) {
+  for (t in n:T_len) {
     
     cnt[t] <- cnt[t-1]+1
     d1 <- diff(N)
@@ -123,15 +124,7 @@ exit_stag <- function(N, v, cnt, phi) {
       S1 <- 1
     }
     
-    if (S1 ==1 || cnt[t]>=n_min) {
-      phi[t] <- (p+1) %% 4
-      cnt[t] <- 1
-      v[t] <- 0
-    } else {
-        phi[t] <- p
-        cnt[t] <- cnt[t+1]
-        v[t] <- v[t]
-    }
+    exit(S1, n_min, cnt, v, phi, n1)
   }
 }
 ```
