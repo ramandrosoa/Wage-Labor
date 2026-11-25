@@ -25,6 +25,9 @@ sigm <- 0.6
 rn <- 0.3
 K <- 100000
 d_Nbase <- 0.1
+zeta <- 0.01
+eps1 <- 0.01
+eps2 <- 0.01
 
 N_test <- seq(40, by = 2, length.out = T_len)  
 #C_test <- seq(30, by = 3, length.out = T_len)   
@@ -85,12 +88,12 @@ exit_exp <- function(N, v, cnt, phi) {
     
     second_der1 <- c(NA, NA, d2) # (N[t] - N[t-1]) - (N[t-1] - N[t-2]) at index t
     second_der2 <- c(NA, NA, NA, d2[-length(2)]) # (N[t-1] - N[t-2]) - (N[t-2] - N[t-3]) at index t
-    if (second_der1 > 0 || second_der2 > 0) {
+    if (second_der1 > eps2*K || second_der2 > eps2*K) {
       c0 <- 1
     }
     v[t] <- max(v[t-1], c0) # convexity has been observed if v(t) = 1
     
-    if (v[t]==1 || second_der1 < 0 || second_der2 < 0 || N[t]<K || (N[t]-N[t-1]) > 0) {
+    if (v[t]==1 || second_der1 < eps2*K || second_der2 < eps2*K || N[t]<K || (N[t]-N[t-1]) > eps1*K) {
       S0 <- 1
     }
     
@@ -125,6 +128,32 @@ exit_stag <- function(N, v, cnt, phi) {
     }
     
     exit(S1, n_min, cnt, v, phi, n1)
+  }
+}
+```
+
+``` r
+exit_crisis <- function(N, v, cnt, phi) {
+  
+  p <- phi[t-1]
+  n_min <- 15
+  S2 <- 0
+  c2 <- 0
+  n2 <- match(2, phi)
+  for (t in n2:Tlen) {
+    
+    second_der1 <- c(NA, NA, d2) # (N[t] - N[t-1]) - (N[t-1] - N[t-2]) at index t
+    second_der2 <- c(NA, NA, NA, d2[-length(2)]) # (N[t-1] - N[t-2]) - (N[t-2] - N[t-3]) at index t
+    if ( N[t-1] < (1-zeta)*N[n2] || N[t] < (1-zeta)*N[n2] ) {
+      c2 <- 1
+    }
+    v[t] <- max(v[t-1], c2)
+    
+    if ( v[t]==1 || second_der1 < eps2*K || second_der2 < eps2*K || N[t] < (1-delta)*K ) {
+      S2 <- 1
+    }
+    
+    exit(S2, n_min, cnt, v, phi, n2)
   }
 }
 ```
@@ -204,7 +233,7 @@ plot(A, type = "l")
 plot(w, type = "l")
 ```
 
-![](project_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](project_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1,1))
