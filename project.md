@@ -56,10 +56,8 @@ solver <- function(w, w0, k, psi_max, N_lag, nu, alpha, theta, Z, C_prev) {
 ``` r
 exit <- function(S, n_min, cnt, v, phi, n) {
   
-  p <- phi[t-1]
-  
   for (t in n:T_len) {
-    
+    p <- phi[t-1]   
     if (S == 1 || cnt[t]>=n_min){
       phi[t] <- (p+1) %% 4
       cnt[t] <- 1
@@ -75,14 +73,14 @@ exit <- function(S, n_min, cnt, v, phi, n) {
 
 ``` r
 exit_exp <- function(N, v, cnt, phi) {
-  
-  p <- phi[t-1]
+
   n_min <- 30
   S0 <- 0
   c0 <- 0
   n0 <- t0+1
   for (t in n0:T_len) {
     
+    p <- phi[t-1]
     cnt[t] <- cnt[t-1] + 1 # counter increases
     d2 <- diff(N, differences  = 2)
     
@@ -105,7 +103,7 @@ exit_exp <- function(N, v, cnt, phi) {
 ``` r
 exit_stag <- function(N, v, cnt, phi) {
   
-  p <- phi[t-1]
+
   n_min <- 20
   S1 <- 0
   c1 <- 0
@@ -113,6 +111,7 @@ exit_stag <- function(N, v, cnt, phi) {
   
   for (t in n:T_len) {
     
+    p <- phi[t-1]
     cnt[t] <- cnt[t-1]+1
     d1 <- diff(N)
     
@@ -134,14 +133,14 @@ exit_stag <- function(N, v, cnt, phi) {
 
 ``` r
 exit_crisis <- function(N, v, cnt, phi) {
-  
-  p <- phi[t-1]
+
   n_min <- 15
   S2 <- 0
   c2 <- 0
   n2 <- match(2, phi)
   for (t in n2:Tlen) {
     
+    p <- phi[t-1]
     second_der1 <- c(NA, NA, d2) # (N[t] - N[t-1]) - (N[t-1] - N[t-2]) at index t
     second_der2 <- c(NA, NA, NA, d2[-length(2)]) # (N[t-1] - N[t-2]) - (N[t-2] - N[t-3]) at index t
     if ( N[t-1] < (1-zeta)*N[n2] || N[t] < (1-zeta)*N[n2] ) {
