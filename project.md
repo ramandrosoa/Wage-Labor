@@ -72,7 +72,7 @@ exit <- function(S, n_min, cnt, v, phi, n) {
 ```
 
 ``` r
-exit_exp <- function(N, v, cnt, phi) {
+exit_exp <- function(N, v, cnt, phi, eps1, eps2) {
 
   n_min <- 30
   S0 <- 0
@@ -101,7 +101,7 @@ exit_exp <- function(N, v, cnt, phi) {
 ```
 
 ``` r
-exit_stag <- function(N, v, cnt, phi) {
+exit_stag <- function(N, v, cnt, phi, eps1, eps2) {
   
 
   n_min <- 20
@@ -131,7 +131,7 @@ exit_stag <- function(N, v, cnt, phi) {
 ```
 
 ``` r
-exit_crisis <- function(N, v, cnt, phi) {
+exit_crisis <- function(N, v, cnt, phi, eps1, eps2) {
 
   n_min <- 15
   S2 <- 0
