@@ -77,7 +77,7 @@ exit <- function(S, n_min, cnt, v, phi, n) {
   
   for (t in n:T_len) {
     p <- phi[t-1]   
-    if (S == 1 || cnt[t]>=n_min){
+    if (S == 1 && cnt[t]>=n_min){
       phi[t] <- (p+1) %% 4
       cnt[t] <- 1
       v[t] <- 0
@@ -108,12 +108,12 @@ exit_exp <- function(N, v, cnt, phi) {
     
     second_der1 <- c(NA, NA, d2) # (N[t] - N[t-1]) - (N[t-1] - N[t-2]) at index t
     second_der2 <- c(NA, NA, NA, d2[-length(2)]) # (N[t-1] - N[t-2]) - (N[t-2] - N[t-3]) at index t
-    if (second_der1 > eps2*K || second_der2 > eps2*K) {
+    if (second_der1 > eps2*K && second_der2 > eps2*K) {
       c0 <- 1
     }
     v[t] <- max(v[t-1], c0) # convexity has been observed if v(t) = 1
     
-    if (v[t]==1 || second_der1 < -eps2*K || second_der2 < -eps2*K || N[t]<K || (N[t]-N[t-1]) > eps1*K) {
+    if (v[t]==1 && second_der1 < -eps2*K && second_der2 < -eps2*K && N[t]<K && (N[t]-N[t-1]) > eps1*K) {
       S0 <- 1
     }
     
@@ -139,12 +139,12 @@ exit_stag <- function(N, v, cnt, phi) {
     
     first_der1 <- c(NA, d1)
     first_der2 <- c(NA, NA, d1[-length(1)])
-    if (abs(first_der1) < -eps1*K || abs(first_der2) < -eps1*K || N[t] >= (1-delta)*K) {
+    if (abs(first_der1) < -eps1*K && abs(first_der2) < -eps1*K && N[t] >= (1-delta)*K) {
       c1 <- 1
     }
     v[t] <- max(v[t-1], c1)
     
-    if (v[t]==1 || first_der1 < -eps1*K || first_der2 < -eps1*K || N[t] >= (1-delta)*K ) {
+    if (v[t]==1 && first_der1 < -eps1*K && first_der2 < -eps1*K && N[t] >= (1-delta)*K ) {
       S1 <- 1
     }
     
@@ -165,12 +165,12 @@ exit_crisis <- function(N, v, cnt, phi) {
     p <- phi[t-1]
     second_der1 <- c(NA, NA, d2) # (N[t] - N[t-1]) - (N[t-1] - N[t-2]) at index t
     second_der2 <- c(NA, NA, NA, d2[-length(2)]) # (N[t-1] - N[t-2]) - (N[t-2] - N[t-3]) at index t
-    if ( N[t-1] < (1-zeta)*N[n2] || N[t] < (1-zeta)*N[n2] ) {
+    if ( N[t-1] < (1-zeta)*N[n2] && N[t] < (1-zeta)*N[n2] ) {
       c2 <- 1
     }
     v[t] <- max(v[t-1], c2)
     
-    if ( v[t]==1 || second_der1 < eps2*K || second_der2 < eps2*K || N[t] < (1-delta)*K ) {
+    if ( v[t]==1 && second_der1 < eps2*K && second_der2 < eps2*K && N[t] < (1-delta)*K ) {
       S2 <- 1
     }
     
