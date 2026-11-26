@@ -113,7 +113,7 @@ exit_exp <- function(N, v, cnt, phi) {
     }
     v[t] <- max(v[t-1], c0) # convexity has been observed if v(t) = 1
     
-    if (v[t]==1 || second_der1 < eps2*K || second_der2 < eps2*K || N[t]<K || (N[t]-N[t-1]) > eps1*K) {
+    if (v[t]==1 || second_der1 < -eps2*K || second_der2 < -eps2*K || N[t]<K || (N[t]-N[t-1]) > eps1*K) {
       S0 <- 1
     }
     
